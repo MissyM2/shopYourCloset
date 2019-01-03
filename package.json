@@ -1,0 +1,33 @@
+{
+  "name": "shopthecloset",
+  "version": "1.0.0",
+  "description": "An app that encourages you to maintain the ideal wardrobe at all times.",
+  "main": "config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.1",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MissyM2/shopYourCloset.git"
+  },
+  "author": "Missy Maloney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MissyM2/shopYourCloset/issues"
+  },
+  "homepage": "https://github.com/MissyM2/shopYourCloset#readme"
+}
