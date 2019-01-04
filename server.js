@@ -10,10 +10,18 @@ mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require('./config');
 
+const idealclosetRouter = require('./routers/idealcloset-router');
+
 app.use(express.static('public'));
 app.use(morgan('common'));
 app.use(express.json());
 
+// enable use of routers
+app.use('/api/idealcloset/', idealclosetRouter);
+
+app.use('*', (req, res) => {
+    return res.status(404).json({ message: 'URL not found.'});
+});
 
 let server;
 
