@@ -23,27 +23,30 @@
 
 </head>
 <body>
-  <div id="wrapper">
+  <div class="flexbox-container">
 
-  <header role="banner">
-        <div class="row">
-          <h1 class="tagline">Maintain a complete wardrobe... always.</h1>
-        </div>
-        <div class="definition">
-            Review your closet below on the left and compare it to the ideal closet on the right.  Look at the suggestions for your closet.
-        </div>
-  </header>
+        <header role="banner">
+                <div class="row">
+                <h1 class="tagline">Maintain a complete wardrobe... always.</h1>
+                </div>
+                <div class="definition">
+                    Review your closet below on the left and compare it to the ideal closet on the right.  Look at the suggestions for your closet.
+                </div>
+        </header>
 
-  <main role="main">
-      <div class="row">Hello World!  This is where your closet info will go!</div>  
-  </main>
+        <main role="main">
+                <div class="row">
+                        <div class="column mycloset"></div>
+                        <div class="column idealcloset"></div>
+                </div>
+        </main>
 
-    <footer role="content-info">
-      Footer goes here
-    </footer>
+        <footer role="content-info">
+            <div class="row">Footer goes here</div>
+        </footer>
      
   </div>
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="index.js"></script>      
+    <script src="client.js"></script>      
 </body>
 </html>
