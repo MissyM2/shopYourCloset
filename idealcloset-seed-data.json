@@ -1,0 +1,3 @@
+{"_id": {"$oid": "5c2f580dfb6fc02c41a5aef8"},"season": "YR - Year Round","appareltype": "pants","size": "6","color": "dark blue","shortdesc": "dark wash denim","longdesc": "trouser or bootcut"}
+{"_id": {"$oid": "5c2f585cfb6fc02c41a5af24"},"season": "YR - Year Round","appareltype": "pants","size": "6","color": "dark blue","shortdesc": "dark wash denim","longdesc": "skinny or boyfriend"}
+{"_id": {"$oid": "5c2f588ffb6fc02c41a5af35"},"season": "S/S - Spring/Summer","appareltype": "pants","size": "6","color": "dark blue","shortdesc": "dress pant","longdesc": "neutral ankle pant"}

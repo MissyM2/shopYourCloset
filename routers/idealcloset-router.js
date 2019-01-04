@@ -10,7 +10,7 @@ const {Idealcloset} = require('../models/closetModels');
 const router = express.Router();
 
 //  GET route handler for /idealcloset
-router.get('/', (req, res) => {
+router.get('/idealcloset', (req, res) => {
     Idealcloset
         .find()
         .sort( { season: 1})
