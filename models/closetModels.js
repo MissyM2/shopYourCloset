@@ -6,25 +6,6 @@ mongoose.Promise = global.Promise;
 
 //  declare schemas
 
-const idealclosetSchema = mongoose.Schema({
-    season:[seasonSchema],
-    appareltype: [appareltypeSchema],
-    shortdesc: [shortdescSchema],
-    longdesc: { type: String},
-    adddate: { type: Date, required: true}
-
-});
-
-const myclosetSchema = mongoose.Schema({
-    season: [seasonSchema],
-    appareltype: [appareltypeSchema],
-    size: [sizeSchema],
-    color: {type:String},
-    shortdesc: [shortdescSchema],
-    longdesc: {type:String},
-    adddate: 1470009976609
-});
-
 const seasonSchema = mongoose.Schema({
     season: { type: String, required:true}
 });
@@ -39,6 +20,24 @@ const sizeSchema = mongoose.Schema({
 
 const shortdescSchema = mongoose.Schema({
     shortdesc: {type: String, required:true}
+});
+
+const idealclosetSchema = mongoose.Schema({
+    season:[seasonSchema],
+    appareltype: [appareltypeSchema],
+    shortdesc: [shortdescSchema],
+    longdesc: { type: String},
+    adddate: {type: Date}
+});
+
+const myclosetSchema = mongoose.Schema({
+    season: [seasonSchema],
+    appareltype: [appareltypeSchema],
+    size: [sizeSchema],
+    color: {type:String},
+    shortdesc: [shortdescSchema],
+    longdesc: {type:String},
+    adddate: {type: Date}
 });
 
 // serialize methods to control data that is shown to the client
