@@ -17,7 +17,7 @@ app.use(morgan('common'));
 app.use(express.json());
 
 // enable use of routers
-app.use('/idealcloset', idealclosetRouter);
+app.use('/', idealclosetRouter);
 
 app.use('*', (req, res) => {
     return res.status(404).json({ message: 'URL not found.'});

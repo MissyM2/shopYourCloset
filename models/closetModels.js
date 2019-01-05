@@ -6,36 +6,20 @@ mongoose.Promise = global.Promise;
 
 //  declare schemas
 
-const seasonSchema = mongoose.Schema({
-    season: { type: String, required:true}
-});
-
-const appareltypeSchema = mongoose.Schema({
-    appareltype: { type: String, required:true}
-});
-
-const sizeSchema = mongoose.Schema({
-    size: {type:String}
-});
-
-const shortdescSchema = mongoose.Schema({
-    shortdesc: {type: String, required:true}
-});
-
 const idealclosetSchema = mongoose.Schema({
-    season:[seasonSchema],
-    appareltype: [appareltypeSchema],
-    shortdesc: [shortdescSchema],
+    season:{type: String, required: true},
+    appareltype: {type: String, required: true},
+    shortdesc: {type: String, required: true},
     longdesc: { type: String},
     adddate: {type: Date}
 });
 
 const myclosetSchema = mongoose.Schema({
-    season: [seasonSchema],
-    appareltype: [appareltypeSchema],
-    size: [sizeSchema],
+    season: {type: String, required: true},
+    appareltype: {type: String, required: true},
+    shortdesc: {type: String, required: true},
+    size: {type: String},
     color: {type:String},
-    shortdesc: [shortdescSchema],
     longdesc: {type:String},
     adddate: {type: Date}
 });
