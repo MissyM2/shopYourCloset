@@ -56,12 +56,9 @@ router.post('/idealcloset', jsonParser, (req, res) => {
             appareltype:  req.body.appareltype,
             shortdesc:  req.body.shortdesc
         })
-        .then(item => res.status(201).json({
-            id: item.id,
-            season: item.season,
-            appareltype:item.appareltype,
-            shortdesc: itemshortdesc
-        }))
+        .then(item => {
+            res.status(201).json(item.serialize());
+        })
         .catch(err => {
             console.error(err);
             res.status(500).json({ error: 'something went wrong'});
