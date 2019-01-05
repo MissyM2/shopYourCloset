@@ -42,20 +42,30 @@ router.post('/idealcloset', jsonParser, (req, res) => {
 
     // ensure `season`, `appareltype` and `shortdesc` are in the request body
     const requiredFields = ['season', 'appareltype', 'shortdesc'];
-    for (let i=0; i<requiredFields.length; i++) {
-        const field = requiredFields[i];
+    requiredFields.forEach(field => {
         if(!(field in req.body)) {
             const message = `Missing \`${field}\` in the request body`;
             console.error(message);
             return res.status(400).send(message); 
         }
-    }
-    const item = Idealcloset.create(
-        req.body.season,
-        req.body.appareltype,
-        req.body.shortdesc
-    );
-    res.status(201).json(item);
+    });
+
+    Idealcloset
+        .create({
+            season: req.body.season,
+            appareltype:  req.body.appareltype,
+            shortdesc:  req.body.shortdesc
+        })
+        .then(item => res.status(201).json({
+            id: item.id,
+            season: item.season,
+            appareltype:item.appareltype,
+            shortdesc: itemshortdesc
+        }))
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'something went wrong'});
+        });
 });
 /*
 // PUT route handler for /idealcloset
