@@ -13,7 +13,8 @@ const idealclosetSchema = mongoose.Schema({
     shortdesc: {type: String, required: true},
     longdesc: { type: String},
     adddate: {type: Date}
-});
+},
+{collection: 'idealcloset'});
 
 const myclosetSchema = mongoose.Schema({
     season: {type: String, required: true},
@@ -23,7 +24,8 @@ const myclosetSchema = mongoose.Schema({
     color: {type:String},
     longdesc: {type:String},
     adddate: {type: Date}
-});
+},
+{collection: 'mycloset'});
 
 // serialize methods to control data that is shown to the client
 myclosetSchema.methods.serialize = function() {
