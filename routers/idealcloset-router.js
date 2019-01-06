@@ -79,7 +79,7 @@ router.put('/idealcloset/:id', jsonParser, (req, res) => {
     }
 
     const toUpdate = {};
-    const updateableFields = ['season', 'appareltype', 'shortdesc', 'size', 'color', 'longdesc'];
+    const updateableFields = ['season', 'appareltype', 'color','shortdesc', 'longdesc'];
     
     updateableFields.forEach(field => {
         if (field in req.body) {
