@@ -13,8 +13,7 @@ const idealclosetSchema = mongoose.Schema({
     shortdesc: {type: String, required: true},
     longdesc: { type: String},
     adddate: {type: Date}
-},
-{collection: 'idealcloset'});
+});
 
 const myclosetSchema = mongoose.Schema({
     season: {type: String, required: true},
@@ -24,8 +23,7 @@ const myclosetSchema = mongoose.Schema({
     color: {type:String},
     longdesc: {type:String},
     adddate: {type: Date}
-},
-{collection: 'mycloset'});
+});
 
 // serialize methods to control data that is shown to the client
 myclosetSchema.methods.serialize = function() {
@@ -53,7 +51,9 @@ idealclosetSchema.methods.serialize = function() {
 };
 
 //  create the models
-const Idealcloset =  mongoose.model('Idealcloset', idealclosetSchema);
-const Mycloset = mongoose.model('Mycloset', myclosetSchema);
+var idealclosetCollectionName = 'idealcloset';
+const Idealcloset =  mongoose.model('Idealcloset', idealclosetSchema, idealclosetCollectionName);
+var myclosetCollectionName = 'mycloset';
+const Mycloset = mongoose.model('Mycloset', myclosetSchema, myclosetCollectionName);
 
 module.exports = { Idealcloset, Mycloset};
