@@ -53,8 +53,8 @@ router.post('/idealcloset', jsonParser, (req, res) => {
     Idealcloset
         .create({
             season: req.body.season,
-            color: req.body.color,
             appareltype:  req.body.appareltype,
+            color: req.body.color,
             shortdesc:  req.body.shortdesc,
             longdesc: req.body.longdesc,
             adddate: req.body.adddate

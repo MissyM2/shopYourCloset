@@ -30,8 +30,8 @@ myclosetSchema.methods.serialize = function() {
     return {
         _id: this.id,
         season: this.season,
-        color: this.color,
         appareltype: this.appareltype,
+        color: this.color,
         shortdesc: this.shortdesc,
         size: this.size,
         longdesc: this.longdesc
@@ -42,8 +42,8 @@ idealclosetSchema.methods.serialize = function() {
     return {
         _id: this.id,
         season: this.season,
-        color: this.color,
         appareltype: this.appareltype,
+        color: this.color,
         shortdesc: this.shortdesc,
         longdesc: this.longdesc,
         adddate: this.adddate
