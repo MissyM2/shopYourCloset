@@ -44,7 +44,7 @@ idealclosetSchema.methods.serialize = function() {
         appareltype: this.appareltype,
         shortdesc: this.shortdesc,
         longdesc: this.longdesc,
-        adddate: {type: Date}
+        adddate: this.adddate
     }
 };
 
