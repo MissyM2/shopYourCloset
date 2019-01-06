@@ -9,6 +9,7 @@ mongoose.Promise = global.Promise;
 const idealclosetSchema = mongoose.Schema({
     season:{type: String, required: true},
     appareltype: {type: String, required: true},
+    color: {type:String},
     shortdesc: {type: String, required: true},
     longdesc: { type: String},
     adddate: {type: Date}
@@ -29,10 +30,10 @@ myclosetSchema.methods.serialize = function() {
     return {
         _id: this.id,
         season: this.season,
-        appareltype: this.appareltype,
-        size: this.size,
         color: this.color,
+        appareltype: this.appareltype,
         shortdesc: this.shortdesc,
+        size: this.size,
         longdesc: this.longdesc
     }
 };
@@ -41,6 +42,7 @@ idealclosetSchema.methods.serialize = function() {
     return {
         _id: this.id,
         season: this.season,
+        color: this.color,
         appareltype: this.appareltype,
         shortdesc: this.shortdesc,
         longdesc: this.longdesc,

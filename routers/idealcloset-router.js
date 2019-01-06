@@ -40,8 +40,8 @@ router.get('/idealcloset/:id', (req, res) => {
 // POST route handler for /idealcloset
 router.post('/idealcloset', jsonParser, (req, res) => {
 
-    // ensure `season`, `appareltype` and `shortdesc` are in the request body
-    const requiredFields = ['season', 'appareltype', 'shortdesc', 'longdesc', 'adddate'];
+    // ensure `season`, `color`, appareltype`, `shortdesc`, `longdesc` and `adddate` are in the request body
+    const requiredFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc', 'adddate'];
     requiredFields.forEach(field => {
         if(!(field in req.body)) {
             const message = `Missing \`${field}\` in the request body`;
@@ -53,6 +53,7 @@ router.post('/idealcloset', jsonParser, (req, res) => {
     Idealcloset
         .create({
             season: req.body.season,
+            color: req.body.color,
             appareltype:  req.body.appareltype,
             shortdesc:  req.body.shortdesc,
             longdesc: req.body.longdesc,
@@ -66,7 +67,7 @@ router.post('/idealcloset', jsonParser, (req, res) => {
             res.status(500).json({ error: 'something went wrong'});
         });
 });
-/*
+
 // PUT route handler for /idealcloset
 router.put('/idealcloset/:id', jsonParser, (req, res) => {
     if(!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -92,7 +93,7 @@ router.put('/idealcloset/:id', jsonParser, (req, res) => {
         .then(item => res.status(204).end())
         .catch(err => res.status(500).json({message: 'Internal server error - updating mycloset item'}));
 });
-
+/*
 //  DELETE router handler for /idealcloset item
 router.delete('/idealcloset/:id', (req, res) => {
     Idealcloset.delete(req.params.id);
