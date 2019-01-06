@@ -43,7 +43,8 @@ idealclosetSchema.methods.serialize = function() {
         season: this.season,
         appareltype: this.appareltype,
         shortdesc: this.shortdesc,
-        longdesc: this.longdesc
+        longdesc: this.longdesc,
+        adddate: {type: Date}
     }
 };
 
