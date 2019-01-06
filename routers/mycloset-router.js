@@ -58,7 +58,7 @@ router.post('/mycloset', jsonParser, (req, res) => {
 
 //  PUT route handler for /mycloset
 router.put('/mycloset/:id', jsonParser, (req, res) => {
-    
+    const requiredFields = ['season']
 })
 
 module.exports = router;

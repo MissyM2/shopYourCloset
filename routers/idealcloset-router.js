@@ -41,7 +41,7 @@ router.get('/idealcloset/:id', (req, res) => {
 router.post('/idealcloset', jsonParser, (req, res) => {
 
     // ensure `season`, `appareltype` and `shortdesc` are in the request body
-    const requiredFields = ['season', 'appareltype', 'shortdesc'];
+    const requiredFields = ['season', 'appareltype', 'shortdesc', 'longdesc'];
     requiredFields.forEach(field => {
         if(!(field in req.body)) {
             const message = `Missing \`${field}\` in the request body`;
@@ -54,7 +54,8 @@ router.post('/idealcloset', jsonParser, (req, res) => {
         .create({
             season: req.body.season,
             appareltype:  req.body.appareltype,
-            shortdesc:  req.body.shortdesc
+            shortdesc:  req.body.shortdesc,
+            longdesc: req.body.longdesc
         })
         .then(item => {
             res.status(201).json(item.serialize());
