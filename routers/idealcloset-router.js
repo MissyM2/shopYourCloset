@@ -100,9 +100,9 @@ router.put('/idealcloset/:id', jsonParser, (req, res) => {
 
 //  DELETE router handler for /idealcloset item
 router.delete('/idealcloset/:id', (req, res) => {
-    Idealcloset.delete(req.params.id);
-    console.log(`Deleted idealcloset item \`${req.params.id}\``);
-    res.status(204).end();
+    Idealcloset.findByIdAndRemove(req.params.id)
+    .then(item => res.status(204).end())
+    .catch(err => res.status(500).json({ message: "Server Error on Delete"}));
 });
 
 module.exports = router;
