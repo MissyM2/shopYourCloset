@@ -12,7 +12,7 @@ const {Idealcloset} = require('../models/closetModels');
 
 
 //  GET route handler for /idealcloset
-router.get('/idealcloset', (req, res) => {
+router.get('/', (req, res) => {
     Idealcloset
         .find()
         .sort( { season: 1})
@@ -26,7 +26,7 @@ router.get('/idealcloset', (req, res) => {
 });
 
 // GET route handler for an individual item in /idealcloset
-router.get('/idealcloset/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     Idealcloset
         .findById(req.params.id)
         .then(item => res.json(item.serialize()))
@@ -38,7 +38,7 @@ router.get('/idealcloset/:id', (req, res) => {
 
 
 // POST route handler for /idealcloset
-router.post('/idealcloset', jsonParser, (req, res) => {
+router.post('/', jsonParser, (req, res) => {
 
     // ensure `season`, `color`, appareltype`, `shortdesc`, `longdesc` and `adddate` are in the request body
     const requiredFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc'];
@@ -68,7 +68,7 @@ router.post('/idealcloset', jsonParser, (req, res) => {
 });
 
 // PUT route handler for /idealcloset
-router.put('/idealcloset/:id', jsonParser, (req, res) => {
+router.put('/:id', jsonParser, (req, res) => {
     const requiredFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc', 'adddate'];
     for (let i=0; i<requiredFields.length; i++) {
         const field = requiredFields[i];
@@ -94,8 +94,7 @@ router.put('/idealcloset/:id', jsonParser, (req, res) => {
          toUpdate[field] = req.body[field];
     }
   });
-  console.log(toUpdate);
-
+ 
   Idealcloset
     // all key/value pairs in toUpdate will be updated -- that's what `$set` does
     .findByIdAndUpdate(req.params.id, { $set: toUpdate })
@@ -107,7 +106,7 @@ router.put('/idealcloset/:id', jsonParser, (req, res) => {
 });
 
 //  DELETE router handler for /idealcloset item
-router.delete('/idealcloset/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     Idealcloset
     .findByIdAndRemove(req.params.id)
     .then(item => res.status(204).end())

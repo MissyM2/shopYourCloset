@@ -8,7 +8,7 @@ const jsonParser = bodyParser.json();
 const {Mycloset} = require('../models/closetModels');
 
 //  GET route handler for /mycloset
-router.get('/mycloset', (req, res) => {
+router.get('/', (req, res) => {
     Mycloset
         .find()
         .sort( { season: 1})
@@ -22,7 +22,7 @@ router.get('/mycloset', (req, res) => {
 });
 
 //  GET route handler for selected item in /mycloset
-router.get('/mycloset/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     Mycloset
         .findById(req.params.id)
         .then(item => res.json(item.serialize()))
@@ -31,12 +31,16 @@ router.get('/mycloset/:id', (req, res) => {
             res.status(500).json({message: "there is something wrong with the GET by ID for mycloset"});   
         });
 });
+console.log('should run on startup');
+
 
 //  POST route handler for /mycloset
-router.post('/mycloset', jsonParser, (req, res) => {
+router.post('/', jsonParser, (req, res) => {
+    console.log(req.body);
 
     //ensure `season`, `appareltype` and `shortdesc` are in the request body
-    const requiredFields = ['season', 'color', 'appareltype', 'shortdesc'];
+    const requiredFields = ['season', 'appareltype', 'color',  'shortdesc', 'adddate'];
+    console.log(requiredFields);
     requiredFields.forEach(field => {
         if(!(field in req.body)) {
             const message = `Missing \`${field}\` in the request body`;
@@ -50,7 +54,7 @@ console.log('made it to before the create');
             season: req.body.season,
             appareltype: req.body.appareltype,
             color:  req.body.color,
-            shortdesc:  req.body,shortdesc,
+            shortdesc:  req.body.shortdesc,
             size:  req.body.size, 
         })
         .then(item => {
@@ -63,9 +67,54 @@ console.log('made it to before the create');
         });
 });
 
-//  PUT route handler for /mycloset
-router.put('/mycloset/:id', jsonParser, (req, res) => {
-    const requiredFields = ['season']
+
+// PUT route handler for /mycloset
+router.put('/:id', jsonParser, (req, res) => {
+    const requiredFields = ['id'];
+    for (let i=0; i<requiredFields.length; i++) {
+        const field = requiredFields[i];
+        if (!(field in req.body)) {
+          const message = `Missing \`${field}\` in request body`;
+          console.error(message);
+          return res.status(400).send(message);
+        }
+      }
+
+    if (req.params.id !== req.body.id) {
+        const message = `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`;
+        console.error(message);
+        return res.status(400).send(message);
+    }
+    
+    console.log(`Updating my closet item \`${req.params.id}\``);
+    const toUpdate = {};
+    const updateableFields = ['season', 'color', 'appareltype', 'shortdesc', 'size', 'adddate'];
+
+    updateableFields.forEach(field => {
+        if (field in req.body) {
+         toUpdate[field] = req.body[field];
+    }
+  });
+
+  Mycloset
+  // all key/value pairs in toUpdate will be updated -- that's what `$set` does
+  .findByIdAndUpdate(req.params.id, { $set: toUpdate })
+  .then(item => {
+    console.log(item);
+    res.status(200).send(toUpdate + ` has been updated`);
 })
+  .catch(err => res.status(500).json({ message: "Internal server error" }));
+});
+
+//  DELETE router handler for /idealcloset item
+router.delete('/:id', (req, res) => {
+    Mycloset
+    .findByIdAndRemove(req.params.id)
+    //.then(item => res.status(204).end())
+    .then(item => res.status(200).json({ message: "Item has been deleted"}))
+    .catch(err => res.status(500).json({ message: "Server Error on Delete"}));
+});
+
+
 
 module.exports = router;
