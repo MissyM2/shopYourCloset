@@ -56,8 +56,7 @@ router.post('/idealcloset', jsonParser, (req, res) => {
             appareltype:  req.body.appareltype,
             color: req.body.color,
             shortdesc:  req.body.shortdesc,
-            longdesc: req.body.longdesc,
-            adddate: req.body.adddate
+            longdesc: req.body.longdesc
         })
         .then(item => {
             res.status(201).json(item.serialize());
@@ -87,20 +86,30 @@ router.put('/idealcloset/:id', jsonParser, (req, res) => {
     }
     
     console.log(`Updating ideal closet item \`${req.params.id}\``);
-    Idealcloset.update({
-        id: req.params.id,
-        season: req.body.season,
-        color: req.body.color,
-        appareltype: req.body.appareltype,
-        shortdesc:  req.body.shortdesc,
-        longdesc: req.body.longdesc
-    });
-    res.status(204).end();
+    const toUpdate = {};
+    const updateableFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc', 'adddate'];
+
+    updateableFields.forEach(field => {
+        if (field in req.body) {
+         toUpdate[field] = req.body[field];
+    }
+  });
+  console.log(toUpdate);
+
+  Idealcloset
+    // all key/value pairs in toUpdate will be updated -- that's what `$set` does
+    .findByIdAndUpdate(req.params.id, { $set: toUpdate })
+    .then(item => {
+        console.log (`item has been updated`);
+        res.status(204).json(item.serialize())
+    })
+    .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
 //  DELETE router handler for /idealcloset item
 router.delete('/idealcloset/:id', (req, res) => {
-    Idealcloset.findByIdAndRemove(req.params.id)
+    Idealcloset
+    .findByIdAndRemove(req.params.id)
     .then(item => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Server Error on Delete"}));
 });

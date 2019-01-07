@@ -36,24 +36,31 @@ router.get('/mycloset/:id', (req, res) => {
 router.post('/mycloset', jsonParser, (req, res) => {
 
     //ensure `season`, `appareltype` and `shortdesc` are in the request body
-    const requiredFields = ['season', 'appareltype', 'shortdesc'];
-    for (let i=0; i<requiredFields.length; i++) {
-        const field = requiredFields[i];
+    const requiredFields = ['season', 'color', 'appareltype', 'shortdesc'];
+    requiredFields.forEach(field => {
         if(!(field in req.body)) {
             const message = `Missing \`${field}\` in the request body`;
             console.error(message);
             return res.status(400).send(message);
         }
-    }
-    const item = Mycloset.create(
-        req.body.season,
-        req.body.appareltype,
-        req.body,shortdesc,
-        req.body.longdesc,
-        req.body.size,
-        req.body.color
-    );
-    res.status(204).end();
+    });
+console.log('made it to before the create');
+    Mycloset
+        .create({
+            season: req.body.season,
+            appareltype: req.body.appareltype,
+            color:  req.body.color,
+            shortdesc:  req.body,shortdesc,
+            size:  req.body.size, 
+        })
+        .then(item => {
+            console.log(item);
+            res.status(201).json(item.serialize());
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'something went wrong with posting to mycloset'});
+        });
 });
 
 //  PUT route handler for /mycloset

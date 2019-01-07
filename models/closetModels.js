@@ -17,10 +17,10 @@ const idealclosetSchema = mongoose.Schema({
 
 const myclosetSchema = mongoose.Schema({
     season: {type: String, required: true},
+    color: {type:String},
     appareltype: {type: String, required: true},
     shortdesc: {type: String, required: true},
     size: {type: String},
-    color: {type:String},
     longdesc: {type:String},
     adddate: {type: Date}
 });
@@ -34,7 +34,8 @@ myclosetSchema.methods.serialize = function() {
         color: this.color,
         shortdesc: this.shortdesc,
         size: this.size,
-        longdesc: this.longdesc
+        longdesc: this.longdesc,
+        adddate: this.adddate
     }
 };
 
