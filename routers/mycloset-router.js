@@ -7,7 +7,7 @@ const jsonParser = bodyParser.json();
 // import modules
 const {Mycloset} = require('../models/closetModels');
 
-//  GET route handler for /mycloset
+//  GET route handler for /mycloset test
 router.get('/', (req, res) => {
     Mycloset
         .find()
