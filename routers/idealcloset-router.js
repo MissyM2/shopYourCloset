@@ -41,7 +41,7 @@ router.get('/idealcloset/:id', (req, res) => {
 router.post('/idealcloset', jsonParser, (req, res) => {
 
     // ensure `season`, `color`, appareltype`, `shortdesc`, `longdesc` and `adddate` are in the request body
-    const requiredFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc', 'adddate'];
+    const requiredFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc'];
     requiredFields.forEach(field => {
         if(!(field in req.body)) {
             const message = `Missing \`${field}\` in the request body`;
