@@ -16,6 +16,7 @@ p {
 
 .row {
     display:flex;
+    flex-direction: row;
 }
 .column {
     flex:50%;
@@ -26,6 +27,24 @@ p {
     background-color: #AABEEE;
     color: #322E3D; 
 }
+
+.mycl-resultcell {
+    display:flex;
+    flex-direction: row;
+    margin-bottom: 8px;
+}
+.mycl-resultbody {
+    flex: 2 0 0;
+}
+
+.mycl-editbuttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex: 1 0 0;
+}
+
 
 .idealcloset {
     background-color: #7E93CE;

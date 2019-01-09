@@ -39,7 +39,7 @@ router.post('/', jsonParser, (req, res) => {
     console.log(req.body);
 
     //ensure `season`, `appareltype` and `shortdesc` are in the request body
-    const requiredFields = ['season', 'appareltype', 'color',  'shortdesc', 'adddate'];
+    const requiredFields = ['season', 'appareltype', 'color',  'shortdesc'];
     console.log(requiredFields);
     requiredFields.forEach(field => {
         if(!(field in req.body)) {
@@ -101,7 +101,7 @@ router.put('/:id', jsonParser, (req, res) => {
   .findByIdAndUpdate(req.params.id, { $set: toUpdate })
   .then(item => {
     console.log(item);
-    res.status(200).send(toUpdate + ` has been updated`);
+    res.status(200).send(item);
 })
   .catch(err => res.status(500).json({ message: "Internal server error" }));
 });

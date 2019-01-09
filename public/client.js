@@ -1,5 +1,8 @@
 // this is mock data, but when we create our API
 // we'll have it return data that looks like this
+
+
+// create fetches..  fetch sends back an array..  loop through array and put it on the screen
 var MOCK_MYCLOSET_ITEMS = {
 	"myclosetItems": [
         {
@@ -183,7 +186,7 @@ function displayIdealclosetItems(data) {
     $('.idealcloset').append(
         '<br><h3>Ideal Wardrobe Items</h2><br>' +
         '<hr><br>');
-    
+    console.log(data.idealclosetItems);
     for (index in data.idealclosetItems) {
         
 	   $('.idealcloset').append(
