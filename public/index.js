@@ -24,7 +24,7 @@ const getMycloset = function getMyclosetData() {
         })
         .then(data =>{
         //console.log(data);
-        displayMycloset(data);
+        renderMycloset(data);
         })
         .catch(function(err) {
         // Error :(
@@ -32,7 +32,7 @@ const getMycloset = function getMyclosetData() {
 }
 
 // POST fetch request for My Closet
-const postMycloset = function postMyClosetData() {
+const addItemToMycloset = function postMyClosetData() {
 
     fetch('/mycloset', {
         method: 'post',
@@ -42,34 +42,58 @@ const postMycloset = function postMyClosetData() {
         },
         body: JSON.stringify({
             "season": "Always in Season",
-            "appareltype": "top",
-            "color": "green",
+            "appareltype": "bottom",
+            "color": "BLACK",
             "shortdesc": "short-sleeved t-shirt"
             })
         })
-        .then(res=>res.json())
-        .then(res => console.log(res)
-    );
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            };
+            throw new Error(response.text);
+            })
+        .then(responseJson => {
+            console.log('Success: ', JSON.stringify(responseJson));
+            $('.mycloset').empty();
+            getMycloset();
+        })
+        .catch(error => {
+            console.error('Error: ', error)
+        });
 }
 
-const updateMycloset = function updateMyClosetData() {
+//  PUT fetch request for My Closet
+function updateMyClosetItemData(myclosetitemId) {
 
-    fetch('/mycloset', {
+    fetch('/mycloset/' + myclosetitemId, {
         method: 'put',
         headers: {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            "id": "5c33c3465e0f5d71eee9dba5",
+            "id": "5c35fe4521b5fc0f585e849c",
             "color": "purple"
             })
         })
-        .then(res=>res.json())
-        .then(res => console.log(res)
-    );
+        .then(response =>  {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error(response.text);
+        })
+        .then(responseJson => {
+            console.log('Success: ', JSON.stringify(responseJson));
+            $('.mycloset').empty();
+            getMycloset();
+        })
+        .catch(error => {
+            console.error('Error: ', error)
+        });
 }
 
+// DELETE fetch request for My Closet
 function deleteMyClosetItemData(myclosetitemId) {
     console.log('/mycloset/' + myclosetitemId);
     fetch('/mycloset/' + myclosetitemId , {
@@ -105,7 +129,9 @@ function getRecentMyclosetItems(callbackFn) {
 // this function stays the same when we connect
 // to real API later
 
-const displayMycloset = function displayMyclosetData(data) {
+
+// 
+const renderMycloset = function renderMyclosetData(data) {
     $('.mycloset').append(
         `<div class="mycl-title"><br><h3><p>My Closet Items</p></h2>` +
         `<div class="mycl-itemcount"></div>` +
@@ -130,13 +156,14 @@ const displayMycloset = function displayMyclosetData(data) {
         shortdesc1 = data.items[i].shortdesc;
         size1 = data.items[i].size;
         
-        myclosetHtml += `<div class="mycl-resultcell"><div class="mycl-resultbody">` +
-            `<p class="mycl-id">id: ${id1}</p>` +
-            `<p>season: ${season1}</p>` +
-            `<p>type of clothing: ${appareltype1}</p>` +
-            `<p>color: ${color1}</p>` +
-            `<p>short description :${shortdesc1}</p>` +
-            `<p>size :${shortdesc1}</p></div><br><div class="mycl-editbuttons"><button class="mycl-updatebtn" data-id="${id1}">update</button>` +
+        myclosetHtml += `<div class="mycl-resultcell ${id1}class"><div class="mycl-resultbody">` +
+            `<div class="itemrow mycl-id"><div class="item itemlabel">id: </div><div class="item itembody">${id1}</div></div>` +
+            `<div class="itemrow mycl-season"><div class="item itemlabel">season: </div><div class="item itembody">${season1}</div></div>` +
+            `<div class="itemrow mycl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody">${appareltype1}</div></div>` +
+            `<div class="itemrow mycl-color"><div class="item itemlabel">color: </div><div class="item itembody">${color1}</div></div>` +
+            `<div class="itemrow mycl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody">${shortdesc1}</div></div>` +
+            `<div class="itemrow mycl-size"><div class="item itemlabel">size: </div><div class="item itembody">${size1}</div></div></div><br>` +
+            `<div class="mycl-editbuttons"><button class="mycl-updatebtn" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-size="${size1}">update</button>` +
             `<button class="mycl-deletebtn" data-id="${id1}">delete</button></div></div>`; 
     });
     myclosetHtml += `</div>`;
@@ -145,14 +172,15 @@ const displayMycloset = function displayMyclosetData(data) {
 	$('.mycloset').append(myclosetHtml);
 }
 
-// listeners
-/*
+
+
+// LISTENERS
+
 // listener for add new
 $(document).on('click','.mycl-addbutton', (function(event){
     event.preventDefault();
-    newsNext(userSelectedSearchTerm);
+    addItemToMycloset();
 }));
-*/
 
 // listener for delete
 $(document).on('click', '.mycl-deletebtn', (function(e){
@@ -161,17 +189,39 @@ $(document).on('click', '.mycl-deletebtn', (function(e){
     console.log(id);
     e.preventDefault();
     deleteMyClosetItemData(id);
+}));
 
-    //if the down-angle icon is visible, then go get the data and display
-  }));
-
-  // listener for update
+// listener for update
 $(document).on('click', '.mycl-updatebtn', (function(e){
     console.log('.mycl-updatebtn has been clicked');
-    let id = $(this).attr('data-id');
+    const id = $(this).attr('data-id');
+    const season=$(this).attr('data-season');
+    const appareltype=$(this).attr('data-appareltype');
+    const color = $(this).attr('data-color');
+    const shortdesc = $(this).attr('data-shortdesc');
+    const size = $(this).attr('data-size');
+    console.log(season);
+    const updateFieldSeason = 
     console.log(id);
+    console.log('.' + id + 'class');
     e.preventDefault();
-    //if the down-angle icon is visible, then go get the data and display
+// change mycloset cell to an updateable format
+    const updateForm = `<div class="mycl-resultcell ${id}class"><div class="mycl-resultbody">` +
+        `<form action="/action_page.php">` +
+            `<div class="itemrow mycl-id"><div class="item itemlabel">id: </div><div class="item itembody">${id}</div></div>` +
+            `<div class="itemrow mycl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input type="text" name="season" value="${season}"></div></div>` +
+            `<div class="itemrow mycl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input type="text" name="appareltype" value="${appareltype}"></div></div>` +
+            `<div class="itemrow mycl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input type="text" name="color" value="${color}"></div></div>` +
+            `<div class="itemrow mycl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input type="text" name="shortdesc" value="${shortdesc}"></div></div>` +
+            `<div class="itemrow mycl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input type="text" name="size" value="${size}"></div></div></div><br></div><br>` +
+            `<div class="mycl-editbuttons"><button class="mycl-updatebtn" data-id="${id1}">update</button></div>` +
+        `</form> </div>`;
+    $('.' + id + 'class').replaceWith(updateForm);
+
+
+
+
+ //   updateMyClosetItemData(id);
   }));
 
 
