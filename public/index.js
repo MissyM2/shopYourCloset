@@ -64,18 +64,15 @@ const addItemToMycloset = function postMyClosetData() {
 }
 
 //  PUT fetch request for My Closet
-function updateMyClosetItemData(myclosetitemId) {
-
+function updateMyClosetItemData(myclosetitemId, data) {
+    console.log(data);
     fetch('/mycloset/' + myclosetitemId, {
         method: 'put',
         headers: {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            "id": "5c35fe4521b5fc0f585e849c",
-            "color": "purple"
-            })
+        body: JSON.stringify(data)
         })
         .then(response =>  {
             if (response.ok) {
@@ -163,7 +160,7 @@ const renderMycloset = function renderMyclosetData(data) {
             `<div class="itemrow mycl-color"><div class="item itemlabel">color: </div><div class="item itembody">${color1}</div></div>` +
             `<div class="itemrow mycl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody">${shortdesc1}</div></div>` +
             `<div class="itemrow mycl-size"><div class="item itemlabel">size: </div><div class="item itembody">${size1}</div></div></div><br>` +
-            `<div class="mycl-editbuttons"><button class="mycl-updatebtn" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-size="${size1}">update</button>` +
+            `<div class="mycl-editbuttons"><button class="mycl-updatebtn1" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-size="${size1}">update</button>` +
             `<button class="mycl-deletebtn" data-id="${id1}">delete</button></div></div>`; 
     });
     myclosetHtml += `</div>`;
@@ -192,7 +189,7 @@ $(document).on('click', '.mycl-deletebtn', (function(e){
 }));
 
 // listener for update
-$(document).on('click', '.mycl-updatebtn', (function(e){
+$(document).on('click', '.mycl-updatebtn1', (function(e){
     console.log('.mycl-updatebtn has been clicked');
     const id = $(this).attr('data-id');
     const season=$(this).attr('data-season');
@@ -201,56 +198,66 @@ $(document).on('click', '.mycl-updatebtn', (function(e){
     const shortdesc = $(this).attr('data-shortdesc');
     const size = $(this).attr('data-size');
     console.log(season);
-    const updateFieldSeason = 
     console.log(id);
     console.log('.' + id + 'class');
     e.preventDefault();
-// change mycloset cell to an updateable format
+
+    // change mycloset cell to an updateable format
     
-const updateFormHeader = `<div class="mycl-resultcell ${id}class"><div class="mycl-resultbody"><form action="/action_page.php">`;
-const updateFormBody = 
-    `<div class="mycl-resultbody">`+
-        `<div class="itemrow mycl-id"><div class="item itemlabel">id: </div><div class="item itembody">${id}</div></div>` +
-        `<div class="itemrow mycl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input type="text" name="season" value="${season}"></div></div>` +
-        `<div class="itemrow mycl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input type="text" name="appareltype" value="${appareltype}"></div></div>` +
-        `<div class="itemrow mycl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input type="text" name="color" value="${color}"></div></div>` +
-        `<div class="itemrow mycl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input type="text" name="shortdesc" value="${shortdesc}"></div></div>` +
-        `<div class="itemrow mycl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input type="text" name="size" value="${size}"></div></div>`;
+    const updateFormBody = 
+        `<div class="mycl-resultcell ${id}class"><div class="mycl-resultbody"><form action="/action_page.php">` +
+        `<div class="mycl-resultbody">`+
+            `<div class="itemrow mycl-id"><div class="item itemlabel">id: </div><div class="item itembody"><div id="js-itemid" data-value="${id}">${id}</div></div></div>` +
+            `<div class="itemrow mycl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input id="js-searchseason" type="text" name="season" value="${season}"></div></div>` +
+            `<div class="itemrow mycl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input id="js-searchappareltype" type="text" name="appareltype" value="${appareltype}"></div></div>` +
+            `<div class="itemrow mycl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input id="js-searchcolor" type="text" name="color" value="${color}"></div></div>` +
+            `<div class="itemrow mycl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input id="js-searchshortdesc" type="text" name="shortdesc" value="${shortdesc}"></div></div>` +
+            `<div class="itemrow mycl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input id="js-searchsize" type="text" name="size" value="${size}"></div></div>`;
     
-    const updateEditButton = `<div class="mycl-editbuttons"><button class="mycl-updatebtn" data-id="${id}" data-season="${season}" data-appareltype="${appareltype}" data-color="${color}" data-shortdesc="${shortdesc}" data-size="${size}">update</button>`;
-    const updateFormFooter = `</div></div></form>`;
+    const updateEditButtons = `<div class="mycl-editbuttons">` +
+        `<button class="mycl-updatebtn2" data-id="${id}" data-season="${season}" data-appareltype="${appareltype}" data-color="${color}" data-shortdesc="${shortdesc}" data-size="${size}">update</button>` +
+        `<button class="mycl-cancelbtn">cancel</button>` +
+        `</div></div></form>`;
 
+    $('.' + id + 'class').replaceWith(updateFormBody );
+    $('.' + id + 'class').append(updateEditButtons);
 
-/*
-const updateForm = `<div class="mycl-resultcell ${id}class"><div class="mycl-resultbody">` +
-        `<form action="/action_page.php">` +
-            `<div class="itemrow mycl-id"><div class="item itemlabel">id: </div><div class="item itembody">${id}</div></div>` +
-            `<div class="itemrow mycl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input type="text" name="season" value="${season}"></div></div>` +
-            `<div class="itemrow mycl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input type="text" name="appareltype" value="${appareltype}"></div></div>` +
-            `<div class="itemrow mycl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input type="text" name="color" value="${color}"></div></div>` +
-            `<div class="itemrow mycl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input type="text" name="shortdesc" value="${shortdesc}"></div></div>` +
-            `<div class="itemrow mycl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input type="text" name="size" value="${size}"></div></div></div><br></div><br>` +
-            `<div class="mycl-editbuttons"><button class="mycl-updatebtn" data-id="${id1}">update</button></div>` +
-        `</form> </div>`;
-
-*/
-    $('.' + id + 'class').replaceWith(updateFormHeader + updateFormBody );
-    $('.' + id + 'class').append(updateEditButton + updateFormFooter);
-
-    //$('.' + id + 'class').closest("mycl-resultbody").replaceWith(updateFormBody);
-    //$('.' + id + 'class').append(updateFormFooter);
-
-console.log(updateFormHeader + updateFormBody + updateFormFooter);
-
- //   updateMyClosetItemData(id);
   }));
+
+  // listener for update
+$(document).on('click', '.mycl-updatebtn2', (function(e){
+    e.preventDefault();
+    console.log('update is listening ');
+    const updateId = $('#js-itemid').text();
+    console.log('id is ' + updateId);
+    const updateSeason = $('#js-searchseason').val();
+    console.log('season is ' + updateSeason);
+    const updateAppareltype = $('#js-searchappareltype').val();
+    console.log('appareltype is ' + updateAppareltype);
+    const updateColor = $('#js-searchcolor').val();
+    console.log('color is ' + updateColor);
+    const updateShortdesc = $('#js-searchshortdesc').val();
+    console.log('shortdesc is ' + updateShortdesc);
+    const updateSize = $('#js-searchsize').val();
+    console.log('size is ' + updateSize);
+
+    // create object and send to update function
+    updatedMyClosetItem = {
+        id: updateId,
+        season: updateSeason,
+        appareltype: updateAppareltype,
+        color: updateColor,
+        shortdesc: updateShortdesc,
+        size: updateSize
+    }
+    console.log(updatedMyClosetItem);
+    updateMyClosetItemData(updateId, updatedMyClosetItem);
+
+}));
 
 
 
 //  on page load do this
 $(function() {
     getMycloset();
-    //postMycloset();
-    //updateMycloset();
-    //getAndDisplayIdealclosetItems();
-})
+});
