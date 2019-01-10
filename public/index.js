@@ -206,7 +206,23 @@ $(document).on('click', '.mycl-updatebtn', (function(e){
     console.log('.' + id + 'class');
     e.preventDefault();
 // change mycloset cell to an updateable format
-    const updateForm = `<div class="mycl-resultcell ${id}class"><div class="mycl-resultbody">` +
+    
+const updateFormHeader = `<div class="mycl-resultcell ${id}class"><div class="mycl-resultbody"><form action="/action_page.php">`;
+const updateFormBody = 
+    `<div class="mycl-resultbody">`+
+        `<div class="itemrow mycl-id"><div class="item itemlabel">id: </div><div class="item itembody">${id}</div></div>` +
+        `<div class="itemrow mycl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input type="text" name="season" value="${season}"></div></div>` +
+        `<div class="itemrow mycl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input type="text" name="appareltype" value="${appareltype}"></div></div>` +
+        `<div class="itemrow mycl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input type="text" name="color" value="${color}"></div></div>` +
+        `<div class="itemrow mycl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input type="text" name="shortdesc" value="${shortdesc}"></div></div>` +
+        `<div class="itemrow mycl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input type="text" name="size" value="${size}"></div></div>`;
+    
+    const updateEditButton = `<div class="mycl-editbuttons"><button class="mycl-updatebtn" data-id="${id}" data-season="${season}" data-appareltype="${appareltype}" data-color="${color}" data-shortdesc="${shortdesc}" data-size="${size}">update</button>`;
+    const updateFormFooter = `</div></div></form>`;
+
+
+/*
+const updateForm = `<div class="mycl-resultcell ${id}class"><div class="mycl-resultbody">` +
         `<form action="/action_page.php">` +
             `<div class="itemrow mycl-id"><div class="item itemlabel">id: </div><div class="item itembody">${id}</div></div>` +
             `<div class="itemrow mycl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input type="text" name="season" value="${season}"></div></div>` +
@@ -216,10 +232,15 @@ $(document).on('click', '.mycl-updatebtn', (function(e){
             `<div class="itemrow mycl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input type="text" name="size" value="${size}"></div></div></div><br></div><br>` +
             `<div class="mycl-editbuttons"><button class="mycl-updatebtn" data-id="${id1}">update</button></div>` +
         `</form> </div>`;
-    $('.' + id + 'class').replaceWith(updateForm);
 
+*/
+    $('.' + id + 'class').replaceWith(updateFormHeader + updateFormBody );
+    $('.' + id + 'class').append(updateEditButton + updateFormFooter);
 
+    //$('.' + id + 'class').closest("mycl-resultbody").replaceWith(updateFormBody);
+    //$('.' + id + 'class').append(updateFormFooter);
 
+console.log(updateFormHeader + updateFormBody + updateFormFooter);
 
  //   updateMyClosetItemData(id);
   }));
