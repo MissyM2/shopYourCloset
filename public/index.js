@@ -1,5 +1,3 @@
-// this is mock data, but when we create our API
-// we'll have it return data that looks like this
 
 
 // create fetches..  fetch sends back an array..  loop through array and put it on the screen
@@ -7,12 +5,6 @@
 //var moment = require('moment')
 //pm.globals.set("timestamp", moment().format("MM/DD/YYYY"))
 
-// this function's name and argument can stay the
-// same after we have a live API, but its internal
-// implementation will change. Instead of using a
-// timeout function that returns mock data, it will
-// use jQuery's AJAX functionality to make a call
-// to the server and then run the callbackFn
 
 //  GET fetch request for My Closet
 const getMycloset = function getMyclosetData() {
@@ -39,6 +31,7 @@ const addItemToMycloset = function postMyClosetData() {
         headers: {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
+            //'Authorization': 'Bearer token'
         },
         body: JSON.stringify({
             "season": "Always in Season",
@@ -170,8 +163,35 @@ const renderMycloset = function renderMyclosetData(data) {
 }
 
 
+$(document).ready(function() {
 
-// LISTENERS
+    $('#page-login').hide();
+    $('#page-register').hide();
+    $('.section-mycloset').hide();
+    $('.section-login').show();
+   
+
+    $('#btn-login').click(function() {
+        $('#page-register').hide();
+        $('.section-mycloset').hide();
+        $('.section-login').hide();
+        $('#page-login').show();
+    })
+
+    $('#register-link').click(function() {
+        $('#page-login').hide();
+        $('.section-mycloset').hide();
+        $('.section-login').hide();
+        $('#page-register').show();
+    })
+
+    $('#btn-register').click(function() {
+        $('#page-login').hide();
+        $('.section-mycloset').hide();
+        $('.section-login').hide();
+        $('#page-register').show();
+    })
+});
 
 // listener for add new
 $(document).on('click','.mycl-addbutton', (function(event){

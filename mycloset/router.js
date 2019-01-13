@@ -8,7 +8,7 @@ const jsonParser = bodyParser.json();
 const {Mycloset} = require('../models/closetModels');
 
 //  GET route handler for /mycloset test
-router.get('/', (req, res) => {
+router.get('/', jwtAuth, (req, res) => {
     Mycloset
         .find()
         .sort( { season: 1})
@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 });
 
 //  GET route handler for selected item in /mycloset
-router.get('/:id', (req, res) => {
+router.get('/:id', jwtAuth,(req, res) => {
     Mycloset
         .findById(req.params.id)
         .then(item => res.json(item.serialize()))

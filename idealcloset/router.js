@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 // import modules
-const {Idealcloset} = require('../models/closetModels');
+const {Idealcloset} = require('../mycloset/models');
 
 
 //  GET route handler for /idealcloset

@@ -7,44 +7,99 @@
   <meta name="author" content="Missy Maloney">
   <meta name="description" content="Maintain a complete wardrobe.">
   <meta name="keywords" content="books, Thinkful">
-
-  
-  <!-- Responsive viewport tag, tells small screens that it's responsive-->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Normalize.css, a cross-browser reset file -->
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
-  
-  <!-- Google Font-->
   <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
-  
-  <!-- Stylesheets-->
-  <link rel="stylesheet" href="index.css">
+  <!-- <script src="https://use.fontawesome.com/5cc30cf6d4.js"></script> -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/grid.css">
+  <link rel="shortcut icon" href="images/dress.png">
 
 </head>
 <body>
   <div class="flexbox-container">
 
         <header role="banner">
-                <div class="row">
-                <h1 class="tagline">Maintain a complete wardrobe... always.</h1>
-                </div>
-                <div class="definition">
-                    Review your closet below on the left and compare it to the ideal closet on the right.  Look at the suggestions for your closet.
+                <div class="row topnav">
+                    <h2 class="col-9">shopYourCloset</h2>
+                    <a href="index.html" class="col-3 logout" style="display:none">Logout</a>
                 </div>
         </header>
 
         <main role="main">
+            <section class = "section-login">
+                <h2>Love clothes and love to be organized?</h2>
+                <p>Keep track of your wardrobe!</p>
+                <button type="submit" id="btn-login">Log In</button>
+                <button type="submit" id="btn-register">Register</button>
+            </section>
+            <section class="row section-options">
+                <div class="col-4">
+                    <i class="fas fa-tshirt"></i>
+                    <p>Add your clothing items</p>
+                </div>
+                <div class="col-4">
+                    <i class="fas fa-door-open"></i>
+                    <p>View your closet</p>
+                </div>
+                <div class="col-4">
+                    <i class="fas fa-atom"></i>
+                    <p>Analyze your wardrobe</p>
+                </div>
+            </section>
+
+            <section class="section-mycloset">
                 <div class="row">
                         <div class="column">
                             <div class="mycloset"></div>
                         </div>
                         <div class="column idealcloset"></div>
                 </div>
+            </section>
+
+            <section class="row" id="page-login">
+                <h2>Log In</h2>
+                <form id="loginform">
+                    <label for="GET-username">Username:</label>
+                    <input type="text" name="GET-username" id="GET-username" placeholder="myname@gmail.com" required>
+                    <label for="GET-password">Password:</label>
+                    <input type="password" name="GET-password" id="GET-password" placeholder="password" required>
+                    <button type="submit" id="sign-in">Sign In</button>
+                    <p>Not a registered user?  <a href="#" id="register-link">Sign up</a> now!</p>
+                    <p class="demo">For demo:  <br>username: tester <br>password: testertester</p>
+                </form>
+            </section>
+
+            <section class="row" id="page-register">
+                <h2>Register</h2>
+                <form id="registerForm">
+                    <label for="firstName" required>First Name: </label>
+                    <input type="text" name="firstName" id="firstName" placeholder="First Name">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" name="lastName" id="lastName" placeholder="Last Name">
+                    <label for="POST-username">Select username:</label>
+                    <input type="text" name="POST-username" id="POST-username" placeholder="myname@gmail.com" required>
+                    <label for="POST-password">Enter password: <span id="errorTenChar"></span></label>
+                    <input type="password" name="POST-password" id="POST password" placeholder="password" required>
+                    <label for="retype-password">Retype password:  <span id="errorMatchPass"></span></label>
+                    <input type="password" name="retype-password" id="retype-password" placeholder="password" required>
+                    <button type="submit" id="sign-up">Sign me up!</button>
+                </form>
+            </section>
+
+            <section class="row home" style="display:none">
+                <h2>Hello <span id="showName"></span>, look what is in your closet today!</h2>
+            </section>
+
         </main>
 
         <footer role="content-info">
-            <div class="row">Footer goes here</div>
+            <div class="row">
+                <p>&copy Missy Maloney</p>
+                <p>Favicon made by <a href="http://www.freepik.com/">Freepik</a> from <a href="www.flaticon.com">www.flaticon.com</a></p>
+        </div>
         </footer>
      
   </div>

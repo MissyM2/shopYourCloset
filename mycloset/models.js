@@ -5,16 +5,6 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 //  declare schemas
-
-const idealclosetSchema = mongoose.Schema({
-    season:{type: String, required: true},
-    appareltype: {type: String, required: true},
-    color: {type:String},
-    shortdesc: {type: String, required: true},
-    longdesc: { type: String},
-    adddate: {type: Date}
-});
-
 const myclosetSchema = mongoose.Schema({
     season: {type: String, required: true},
     color: {type:String},
@@ -39,22 +29,8 @@ myclosetSchema.methods.serialize = function() {
     }
 };
 
-idealclosetSchema.methods.serialize = function() {
-    return {
-        _id: this.id,
-        season: this.season,
-        appareltype: this.appareltype,
-        color: this.color,
-        shortdesc: this.shortdesc,
-        longdesc: this.longdesc,
-        adddate: this.adddate
-    }
-};
-
 //  create the models
-var idealclosetCollectionName = 'idealcloset';
-const Idealcloset =  mongoose.model('Idealcloset', idealclosetSchema, idealclosetCollectionName);
 var myclosetCollectionName = 'mycloset';
 const Mycloset = mongoose.model('Mycloset', myclosetSchema, myclosetCollectionName);
 
-module.exports = { Idealcloset, Mycloset};
+module.exports = {Mycloset};

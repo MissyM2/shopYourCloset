@@ -3,8 +3,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const passport = require('passport');
 
-const app = express();
+const { router: usersRouter } = require('./users');
+const { router: authorRouter, localStrategy, jwtStrategy } = require('./auth');
 
 mongoose.Promise = global.Promise;
 
@@ -13,9 +15,28 @@ const { PORT, DATABASE_URL } = require('./config');
 const idealclosetRouter = require('./routers/idealcloset-router');
 const myclosetRouter = require('./routers/mycloset-router');
 
+const app = express();
+
+// location of css, images, html static files
 app.use(express.static('public'));
+
+// logging
 app.use(morgan('common'));
+
 app.use(express.json());
+
+// CORS
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Methods'), 'GET, POST, PUT, PATCH, DELETE';
+    if (req.method === 'OPTIONS') {
+        return res.send(204);
+    }
+    next();
+});
+
+const jwtAuth = passport.authenticate('jwt', {session: false});
 
 // enable use of routers
 app.use('/idealcloset', idealclosetRouter);
