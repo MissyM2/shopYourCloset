@@ -1,11 +1,14 @@
 const express = require('express');
-const router = express.Router();
+
+const = require('../config');
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const passport = require('passport');
+const router = express.Router();
 
 // import modules
-const {Mycloset} = require('../models/closetModels');
+const {Mycloset} = require('./models');
 
 //  GET route handler for /mycloset test
 router.get('/', jwtAuth, (req, res) => {

@@ -2,8 +2,6 @@
 
 const mongoose = require('mongoose');
 
-mongoose.Promise = global.Promise;
-
 //  declare schemas
 const myclosetSchema = mongoose.Schema({
     season: {type: String, required: true},

@@ -2,8 +2,6 @@
 
 const mongoose = require('mongoose');
 
-mongoose.Promise = global.Promise;
-
 //  declare schemas
 const idealclosetSchema = mongoose.Schema({
     season:{type: String, required: true},
@@ -13,7 +11,6 @@ const idealclosetSchema = mongoose.Schema({
     longdesc: { type: String},
     adddate: {type: Date}
 });
-
 
 // serialize methods to control data that is shown to the client
 myclosetSchema.methods.serialize = function() {

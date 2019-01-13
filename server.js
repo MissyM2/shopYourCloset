@@ -1,19 +1,20 @@
 'use strict'
 
+const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
 
-const { router: usersRouter } = require('./users');
-const { router: authorRouter, localStrategy, jwtStrategy } = require('./auth');
+// add consts for routers
+const {router: authRouter, localStrategy, jwtStrategy} = require('./auth');
+const {router: usersRouter } = require('./users');
+const {router: idealclosetRouter} = require('./idealcloset');
+const {router: myclosetRouter} = require('./mycloset');
 
-mongoose.Promise = global.Promise;
+// why don't i need this? mongoose.Promise = global.Promise;
 
-const { PORT, DATABASE_URL } = require('./config');
-
-const idealclosetRouter = require('./routers/idealcloset-router');
-const myclosetRouter = require('./routers/mycloset-router');
+const {PORT, DATABASE_URL } = require('./config');
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(express.static('public'));
 // logging
 app.use(morgan('common'));
 
-app.use(express.json());
+//app.use(express.json());
 
 // CORS
 app.use(function (req, res, next) {
@@ -38,9 +39,38 @@ app.use(function (req, res, next) {
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 
+// in order to use the local auth strategy, I am registering it here in server.js
+app.use(passport.initialize());
+
+// in order to use local auth strategy in a route, initalize Passport
+// and register the strategy in server.js
+passport.use(localStrategy);
+// to register our JWT strategy with Passport, use the passport.use method
+passport.use(jwtStrategy);
+
 // enable use of routers
-app.use('/idealcloset', idealclosetRouter);
-app.use('/mycloset', myclosetRouter);
+app.use('/users/', usersRouter);
+app.use('/auth/', authRouter);
+app.use('/idealcloset/', idealclosetRouter);
+app.use('/mycloset/', myclosetRouter);
+
+// use this to protect the /api/auth/login endpoint defined
+// in /auth/router.js
+
+// use this JWT strategy to protect endpoints:
+// TEST ROUTE
+app.get(
+    '/protected',
+    // use passport.authenticate middleware to protect the endpoint,
+    // passing JWT as the argument instead of the basic AUTH strategy:
+
+    passport.authenticate('jwt', {session: false}), (req, res) => {
+        return res.json({
+            data: 'time to manage your closet'
+        });
+    }
+);
+
 
 app.use('*', (req, res) => {
     return res.status(404).json({ message: 'URL not found.'});
@@ -54,16 +84,17 @@ function runServer(databaseUrl, port = PORT) {
             if(err) {
                 return reject(err);
             }
-            server = app.listen(port, () => {
-                console.log(`Your app is listening on port ${port}`);
-                resolve();
-            })
-            .on('error', err => {
-                mongoose.disconnect();
-                reject(err);
+            server = app
+                .listen(port, () => {
+                    console.log(`Your app is listening on port ${port}`);
+                    resolve();
+                })
+                .on('error', err => {
+                    mongoose.disconnect();
+                    reject(err);
+                });
             });
         });
-    });
 }
 
 function closeServer() {
