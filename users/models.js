@@ -19,16 +19,16 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    firstName: {type: String, default: ''},
-    lastName: {type: String, default: ''}
+    firstname: {type: String, default: ''},
+    lastname: {type: String, default: ''}
 });
 
 // serialize methods to control data that is shown to the client
 UserSchema.methods.serialize = function() {
     return {
         username: this.username || '',
-        firstName: this.firstName || '',
-        lastName: this.lastName || ''
+        firstname: this.firstname || '',
+        lastname: this.lastname || ''
     };
 };
 

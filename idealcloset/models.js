@@ -13,7 +13,7 @@ const idealclosetSchema = mongoose.Schema({
 });
 
 // serialize methods to control data that is shown to the client
-myclosetSchema.methods.serialize = function() {
+idealclosetSchema.methods.serialize = function() {
     return {
         _id: this.id,
         season: this.season,

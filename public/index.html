@@ -29,28 +29,54 @@
         </header>
 
         <main role="main">
-            <section class = "section-login">
+            <section role="region" class = "section-login" aria-live="assertive">
                 <h2>Love clothes and love to be organized?</h2>
                 <p>Keep track of your wardrobe!</p>
-                <button type="submit" id="btn-login">Log In</button>
-                <button type="submit" id="btn-register">Register</button>
+                <div class="square-reg">
+                        <div class="msgs-reg"></div>
+                        <form id="form-registration" class="js-form-registration">
+                             <div id="form-reg">
+                                    <p>Register</p>
+                                <div id="f-name" class="form-elements"><label class="input-label">First Name:</label><input type="text" class="form-input" name="new-firstname" id="firstname" placeholder="First Name"></div>
+                                <div id="l-name" class="form-elements"><label class="input-label">Last Name</label><input type="text" class="form-input"name="new-lastname" id="lastname" placeholder="Last Name"></div>
+                                <div id="u-name" class="form-elements"><label class="input-label">Choose username:</label><input type="text" class="form-input"name="new-username" id="new-username" class="js-new-username" placeholder="myname@gmail.com" required></div>                           
+                                <div id="p-word" class="form-elements"><label class="input-label">Enter password:</label><input type="password" class="form-input"name="new-password" id="new-password" class="js-new-password" placeholder="password" required></div>
+                                <div id="confirm-p-word" class="form-elements"><label class="input-label">Retype password:</label><input type="password" class="form-input"name="confirm-password" id="confirm-password" class="js-confirm-password" placeholder="password" required></div>
+                                <div id="btn-sign-me-up" class="form-elements form-element-button"><button type="submit" id="btn-register" value="Sign me up!">Sign me up!</button></div>
+                                <div id="btn-login" class="form-elements form-elements-button"><p>Already registered?</p></label><button type="submit" id="btn-login" class="form-input-button">Log In</button></div>
+                            </div>
+                        </form>
+                        <form id="form-login" class="js-form-registration" style="display:none">
+                            <div id="form-login">
+                                <p>Log In</p>
+                                <div class="form-elements"><label for="GET-username">Username:</label><input type="text" name="GET-username" id="GET-username" class="form-input" placeholder="myname@gmail.com" required></div>
+                                <div class="form-elements"><label for="GET-password">Password:</label><input type="password" name="GET-password" id="GET-password" class="form-element-button" placeholder="password" required></div>
+                                <div class="form-elements form-element-button"><button type="submit" id="btn-signin">Sign In</button></div>
+                                <p class="demo">For demo:  <br>username: tester <br>password: testertester</p>
+                            </div>
+                        </form>
+                </div>
+                
             </section>
-            <section class="row section-options">
-                <div class="col-4">
-                    <i class="fas fa-tshirt"></i>
-                    <p>Add your clothing items</p>
-                </div>
-                <div class="col-4">
-                    <i class="fas fa-door-open"></i>
-                    <p>View your closet</p>
-                </div>
-                <div class="col-4">
-                    <i class="fas fa-atom"></i>
-                    <p>Analyze your wardrobe</p>
+
+            <section role="region" class="row section-options" aria-live="assertive">
+                <div class="square-options">
+                    <div class="col-4">
+                        <i class="fas fa-tshirt"></i>
+                        <p>Add your clothing items</p>
+                    </div>
+                    <div class="col-4">
+                        <i class="fas fa-door-open"></i>
+                        <p>View your closet</p>
+                    </div>
+                    <div class="col-4">
+                        <i class="fas fa-atom"></i>
+                        <p>Analyze your wardrobe</p>
+                    </div>
                 </div>
             </section>
 
-            <section class="section-mycloset">
+            <section role="region" class="section-mycloset" aria-live="assertive">
                 <div class="row">
                         <div class="column">
                             <div class="mycloset"></div>
@@ -59,39 +85,58 @@
                 </div>
             </section>
 
-            <section class="row" id="page-login">
-                <h2>Log In</h2>
-                <form id="loginform">
-                    <label for="GET-username">Username:</label>
-                    <input type="text" name="GET-username" id="GET-username" placeholder="myname@gmail.com" required>
-                    <label for="GET-password">Password:</label>
-                    <input type="password" name="GET-password" id="GET-password" placeholder="password" required>
-                    <button type="submit" id="sign-in">Sign In</button>
-                    <p>Not a registered user?  <a href="#" id="register-link">Sign up</a> now!</p>
-                    <p class="demo">For demo:  <br>username: tester <br>password: testertester</p>
-                </form>
+            <section role="region" class="row" id="page-login" aria-live="assertive">
+                
             </section>
 
-            <section class="row" id="page-register">
+            <section role="region" class="row" id="page-register" aria-live="assertive">
                 <h2>Register</h2>
-                <form id="registerForm">
-                    <label for="firstName" required>First Name: </label>
-                    <input type="text" name="firstName" id="firstName" placeholder="First Name">
+                <form id="form-registration" class="js-form-registration">
+                    <div id="error-registration" class="error-msgs"></div>
+                    <div id="user-created" class="error-msgs"></div>
+                    <label for="firstname" required>First Name: </label>
+                    <input type="text" name="new-firstname" id="firstname" placeholder="First Name">
+                    
                     <label for="lastName">Last Name:</label>
-                    <input type="text" name="lastName" id="lastName" placeholder="Last Name">
-                    <label for="POST-username">Select username:</label>
-                    <input type="text" name="POST-username" id="POST-username" placeholder="myname@gmail.com" required>
-                    <label for="POST-password">Enter password: <span id="errorTenChar"></span></label>
-                    <input type="password" name="POST-password" id="POST password" placeholder="password" required>
-                    <label for="retype-password">Retype password:  <span id="errorMatchPass"></span></label>
-                    <input type="password" name="retype-password" id="retype-password" placeholder="password" required>
-                    <button type="submit" id="sign-up">Sign me up!</button>
+                    <input type="text" name="new-lastname" id="lastname" placeholder="Last Name">
+                    
+                    <label for="new-username">Select username:</label>
+                    <input type="text" name="new-username" id="new-username" class="js-new-username" placeholder="myname@gmail.com" required>
+                    
+                    <label for="new-password">Enter password: <span id="errorTenChar"></span></label>
+                    <input type="password" name="new-password" id="new-password" class="js-new-password" placeholder="password" required>
+                    
+                    <label for="confirm-password">Retype password:  <span id="errorMatchPass"></span></label>
+                    <input type="password" name="confirm-password" id="confirm-password" class="js-confirm-password" placeholder="password" required>
+                    <input type="button" id="btn-sign-up" value="Sign me up!"></button>
                 </form>
             </section>
 
-            <section class="row home" style="display:none">
-                <h2>Hello <span id="showName"></span>, look what is in your closet today!</h2>
+            <section role="region" class="row home" style="display:none" aria-live="assertive">
+                <h2>Hello <span id="showname"></span>, look what is in your closet today!</h2>
             </section>
+
+            <section role="region" class="row myclosetDetails" style="display:none" aria-live="assertive">
+                    <div class="col-6 myclosetColumn">
+                        <h2>Garden</h2>
+                        <button type="submit" id="add-plant" class="homePageButtons">Add a plant</button>
+                        <button type="submit" id="cancel-add-plant" class="homePageButtons" style="display:none">Cancel</button>
+        
+                        <form id="addPlantSection" style="display:none" class="row">
+                            <h3>What do you want to add?</h3>
+                            <label for="addPlantName">Plant:</label>
+                            <input type="text" name="addPlantName" id="addPlantName" placeholder="Tomato" required>
+                            <label for="addStartDate">Start Date:</label>
+                            <input type="text" name="addStartDate" id="addStartDate" placeholder="mm/dd/yyyy" required>
+                            <label for="addHarvestDate">Harvest Date:</label>
+                            <input type="text" name="addHarvestDate" id="addHarvestDate" placeholder="mm/dd/yyyy">
+                            <label for="addComments">Comments:</label>
+                            <input type="text" name="addComments" id="addComments" placeholder="Full Sun">
+                            <button type="submit" id="addPlantInfo" class="homePageButtons">Add it!</button>
+                        </form>
+        
+                        <div class="plantListSection"></div>
+                    </div>
 
         </main>
 

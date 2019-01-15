@@ -1,18 +1,25 @@
-'user strict'
+'use strict';
 
-// import dependencies
 const express = require('express');
-const router = express.Router();
+const config = require('../config');
+const passport = require('passport');
 
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 const jsonParser = bodyParser.json();
 
-// import modules
-const {Idealcloset} = require('../mycloset/models');
+const router = express.Router();
 
+
+const {Idealcloset} = require('./models');
+
+// declare JWT strategy middleware
+const jwtAuth = passport.authenticate('jwt', { session: false });
+router.use(bodyParser.json());
 
 //  GET route handler for /idealcloset
-router.get('/', (req, res) => {
+// * find all items in ideal closet, sort by season and send JSON response
+router.get('/', jwtAuth, (req, res) => {
     Idealcloset
         .find()
         .sort( { season: 1})
@@ -25,8 +32,9 @@ router.get('/', (req, res) => {
         });
 });
 
-// GET route handler for an individual item in /idealcloset
-router.get('/:id', (req, res) => {
+// GET route handler for an individual item in /idealcloset/:id
+// * find item and send JSON response
+router.get('/:id', jwtAuth, (req, res) => {
     Idealcloset
         .findById(req.params.id)
         .then(item => res.json(item.serialize()))
@@ -38,7 +46,10 @@ router.get('/:id', (req, res) => {
 
 
 // POST route handler for /idealcloset
-router.post('/', jsonParser, (req, res) => {
+// * validate request body
+// * check if wardrobe item already exists
+// * create item and send JSON response
+router.post('/', jsonParser, jwtAuth, (req, res) => {
 
     // ensure `season`, `color`, appareltype`, `shortdesc`, `longdesc` and `adddate` are in the request body
     const requiredFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc'];
@@ -67,8 +78,10 @@ router.post('/', jsonParser, (req, res) => {
         });
 });
 
-// PUT route handler for /idealcloset
-router.put('/:id', jsonParser, (req, res) => {
+// PUT route handler for /idealcloset/:id
+// * validate request id and updateable fields
+// * update wardrobe item and send JSON response
+router.put('/:id', jsonParser, jwtAuth, (req, res) => {
     const requiredFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc', 'adddate'];
     for (let i=0; i<requiredFields.length; i++) {
         const field = requiredFields[i];
@@ -105,14 +118,15 @@ router.put('/:id', jsonParser, (req, res) => {
     .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
-//  DELETE router handler for /idealcloset item
-router.delete('/:id', (req, res) => {
+//  DELETE router handler for /idealcloset/:id
+// * delete item and send response status
+router.delete('/:id', jwtAuth, (req, res) => {
     Idealcloset
     .findByIdAndRemove(req.params.id)
     .then(item => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Server Error on Delete"}));
 });
 
-module.exports = router;
+module.exports = {router};
 
 
