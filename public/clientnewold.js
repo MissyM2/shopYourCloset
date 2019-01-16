@@ -135,37 +135,7 @@ function listenForLogin() {
 
 }
 
-function listenForRegistration() {
-    $("#btn-register").submit(function(event) {
-        event.preventDefault();
-        console.log('listenForRegistration fired');
-        /*
-        const newUsername = $("#new-username").val();
-        const newPass = $("#new-password").val();
-        const confirmPass = $("#confirm-password").val();
-        const newFirstname = $('#firstname').val();
-        const newLastname = $('#lastname').val();
-        let newUser = {newUsername, newPass};
-       
-        // test for password validation characteristics:  proper length and 2 matching passwords
-        if (newPass !== confirmPass) {
-            // add current error
-            $('.msgs-reg').empty().append(`<p class="alert">New password and confirm password do not match</p>`)
-        } else {
-            $('.js-new-username').val('');
-            
-            const signupInfo = {};
-            if (newFirstname) signupInfo.firstname = newFirstname;
-            if (newLastname) signupInfo.lastname = newLastname;
-            if (newUsername) signupInfo.username = newUsername;
-            if (newPass) signupInfo.password = newPass;
-            console.log(signupInfo);
-            //createNewUser(signupInfo);
-            
-        };
-        */
-    });
-}
+
 
          
 

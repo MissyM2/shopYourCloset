@@ -1,13 +1,70 @@
+'use strict';
+
+const user = {
+    username: null,
+    authToken: null
+};
+
+
+
+function listenForMyclosetFunctions() {
+    $("#view-closet").on("click", function(event) {
+        event.preventDefault();
+        console.log("listenForMyclosetFunctions fired");
+/*
+        //  GET fetch request for My Closet
+        const getMycloset = function getMyclosetData() {
+            fetch('/', {
+                method: 'get',
+                headers: {
+                    'Authorization': `Bearer ${user.authToken}`
+                }
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(data =>{
+                console.log(data);
+                //renderMycloset(data);
+            })
+            .catch(err => console.log(err.message));
+        }
+    });   
+*/
+});
+}
+
+
+
+  
+
+function renderOptionsScreen(User) {
+    console.log('renderOptionsScreen fired' + User);
+    $(".section-login").hide();
+    $(".topnav").append(`
+        <div class="col-4">Welcome, ${User}!</div>
+        <div class="col-4"><a href="index.html" class="col-3 logout">Logout</a></div>
+        `);
+    $(".section-options").append(`
+        <div class="col-12">
+            <button type="button" id="view-closet">View your closet</button>
+        </div>
+     `);
+    $(".section-options").show();
+}
+
 function logUserIn(data) {
     console.log('logUserIn fired');
-    fetch ('api/auth/login/', {
-        method: 'post',
+    console.log(data);
+    fetch ('/api/auth/login/', {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     })
     .then(response => {
+        console.log(response);
         if (response.ok) {
             return response.json();
         } else {
@@ -15,14 +72,17 @@ function logUserIn(data) {
         }
     })
     .then (responseJson => {
-        console.log(responseJson);
-        token = responseJson.authToken;
+        const loggedinUser = responseJson.user.username;
+        console.log('loggedinUser is ' + loggedinUser);
+        user.authToken = responseJson.authToken;
+        user.username = responseJson.user.username;
         localStorage.setItem('authToken', responseJson.token);
         localStorage.setItem('userid', responseJson.user._id);
-        console.log(token);
-        $(location).attr("href", "home.html")
+        
+        renderOptionsScreen(loggedinUser);
     })
     .catch(error => {
+        console.log(error);
         $('#login-error').empty().append(`<p class="alert">Usernamd or password is incorrect.</p>`);
     });
 }
@@ -31,9 +91,9 @@ function listenforSignin() {
     $('#btn-signin').click(function(event) {
         event.preventDefault();
         console.log('listenforSignin fired');
-        const signinName = $("#GET-username").val();
-        const signinPass = $("#GET-password").val();
-        let userSignin = {signinName, signinPass};
+        const username = $("#GET-username").val();
+        const password = $("#GET-password").val();
+        let userSignin = {username, password};
         console.log(userSignin);
         logUserIn(userSignin);
 
@@ -114,7 +174,7 @@ function createNewUser(newInfo) {
          //   $('#lastname').val('');
     .catch(error => {
         console.log('error' + error);
-        //displaySignUpError(err.location, err.message)
+        //renderSignUpError(err.location, err.message)
         //$('#msgs-reg').empty().append(`<p class="alert">Shouldn't I get this info from the backend?there was an validation error</p>`)
     });
 }
@@ -150,8 +210,8 @@ function listenforRegisterNewUser() {
     })
 }
 
-function displayRegistrationLoginForm() {
-    console.log('displayRegistrationLoginForm fired');
+function renderRegistrationLoginForm() {
+    console.log('renderRegistrationLoginForm fired');
     $('#reg-login').append(`
         <div class="msgs-reg"></div>
             <form id="form-reg" class="form-reg-login">
@@ -181,8 +241,9 @@ function displayRegistrationLoginForm() {
 
 $(document).ready(function() {
     console.log('doc is ready');
-    displayRegistrationLoginForm();
+    renderRegistrationLoginForm();
     listenforRegisterNewUser();
     listenforLoginRequest();
     listenforSignin();
+    listenForMyclosetFunctions();
 });

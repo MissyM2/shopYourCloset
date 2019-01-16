@@ -60,3 +60,11 @@ h2 {
 .error-field {
     border: 1.5px solid #EC130E;
 }
+
+.fas {
+	margin-bottom: 1rem;
+	padding: 2rem;
+	font-size: 4rem;
+	border: 1px solid #2C363F;
+	border-radius: 50%;
+}
