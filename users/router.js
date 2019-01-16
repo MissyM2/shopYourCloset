@@ -133,4 +133,12 @@ router.get('/', (req, res) => {
         .catch(err => res.status(500).json({message: 'Internal server error on get users'}));
 });
 
+router.delete('/:username', (req, res) => {
+    User
+        .findOneAndRemove({username: req.params.username})
+        //.then(item => res.status(204).end())
+        .then(item => res.status(200).json({ message: "Item has been deleted"}))
+        .catch(err => res.status(500).json({ message: "Server Error on Delete"}));
+});
+
 module.exports = {router};

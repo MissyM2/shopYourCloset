@@ -1,0 +1,389 @@
+/***** CSS RESET *****/
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    box-sizing: border-box;
+    /*  CHROME  */
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-before: 0px;
+    -webkit-padding-after: 0px;
+    -webkit-padding-start: 0px;
+    -webkit-padding-end: 0px;
+}
+
+/***** GENERAL STYLES *****/
+
+html, body {                       
+    height: 100%;
+    background-color:#D9DDD9;
+    color: #002F32;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+	display: flex;
+	flex-direction: column;
+}
+
+header {
+    padding-top: 25px;
+}
+	
+a {
+	text-decoration: none;
+	color: #890620;
+}
+
+a:hover {
+	font-weight: 600;
+}
+
+a:visited {
+	color: #890620;
+}
+
+button {
+	background-color: #FFC861;
+	/*height: 3rem;*/
+	width: 8rem;
+	margin-bottom: 1rem;
+	font-family: 'Montserrat', sans-serif;
+	text-align: center;
+	border-radius: 5px;
+}
+
+button:hover {
+	cursor: pointer;
+	background-color: #d6b540;	
+}
+
+form {
+	margin: 0 auto;
+	text-align: left;
+}
+
+input, textarea {
+	/*height: 2.5rem;*/
+	border-radius: 5px;
+	padding-left: 1rem;
+	display: block;
+	width: 100%;
+	/*margin-bottom: 1rem;
+	margin-top: 1rem;*/
+	font-family: 'Montserrat', sans-serif;
+}
+
+input::placeholder
+textarea::placeholder {
+	padding-left: 0.5rem;
+	color: #B2B5B9;
+}
+
+footer {
+	margin-top: 1rem;
+	text-align: center;	
+	padding-bottom: 1rem;
+	font-size: 0.8rem;
+}
+
+/***** INDEX *****/
+
+.content {
+	flex: 1 0 auto;
+}
+
+#loginForm p {
+	margin-top: 1rem;
+	text-align: center;
+}
+
+.section-login, .section-options {
+	text-align: center;
+}
+
+.section-login {
+	color: #002F32;
+    background-image: url("/images/login-background.png");
+	background-position: center; 
+	background-repeat: no-repeat;
+	padding-top: rem;
+    padding-bottom: 10rem;
+    border: 1px solid black;
+}
+
+.section-login h2 {
+	font-size: 1.5rem;
+	padding-bottom: 1rem;
+}
+
+.section-login p {
+	padding-bottom: 1rem;
+	padding-top:1rem;
+	color: #C84663;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.section-login button {
+	margin: 1rem;
+}
+
+.section-options {
+    display: flex;
+}
+
+.section-detail {
+	margin-top: 3rem;
+	margin-bottom: 1.5rem;
+}
+
+
+/* FLEXBOX SETTINGS */
+
+
+p {
+    font-size: 12px;
+}
+/*
+.row {
+    display:flex;
+    flex-direction: row;
+}
+*/
+.column {
+    flex:50%;
+    padding:10px;
+}
+
+.mycloset {
+    background-color: #AABEEE;
+    color: #322E3D; 
+}
+
+.mycl-resultcell {
+    display:flex;
+    flex-direction: row;
+    margin-bottom: 8px;
+}
+.mycl-resultbody {
+    flex: 2 0 0;
+    font-size: 11px;
+}
+
+.mycl-resultcell {
+    border: 1px solid black;
+}
+
+.itemrow {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid orange;
+}
+
+.item {
+    border: 1px solid red;
+}
+
+.itemlabel {
+    width: 100px;
+}
+
+.itembody {
+    width: 200px;
+}
+
+.mycl-editbuttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex: 1 0 0;
+}
+
+
+.idealcloset {
+    background-color: #7E93CE;
+    color: #322E3D; 
+
+}
+
+
+
+/*find*/
+.section-options p {
+	margin: 1rem;
+}
+
+.demo {
+	color: #828487;
+	margin-bottom: 1rem;
+}
+
+.fas {
+	margin-bottom: 1rem;
+	padding: 2rem;
+	font-size: 4rem;
+	border: 1px solid #2C363F;
+	border-radius: 50%;
+}
+
+.fa-tshirt {
+	color: #42826C;
+}
+
+.fa-door-open {
+	color: #FFC861;
+}
+
+.fa-atom {
+    color:#C84663;
+
+}
+
+
+/***** LOG-IN/REGISTER PAGE *****/
+
+#form-login, #form-register {
+	margin: 0.5rem;
+}
+
+#page-login, #page-register {
+	margin-top: 2rem;
+	text-align: center;
+	width: 60%;
+}
+
+#page-login h2 {
+	font-size: 2rem;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+
+#page-register h2 {
+	font-size: 2rem;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+
+.square-reg {
+	/*background-image: url('../images/login-background.png');*/
+	/*background-size: cover;*/
+	/*background-repeat: repeat-y;*/
+	color: #002F32;
+	/*border: 1px solid black;*/
+	margin:0 auto;
+	margin-top: 2rem;
+	max-width:80%;
+	background-color: #FFF5E4;
+	padding: 1rem;
+}
+
+.square-login {
+	color:#002F32;
+	/*border: 1px solid black;*/
+	margin: 0 auto;
+}
+
+#form-reg, #form-login {
+	margin: 0 auto;
+	/*max-width:75%;*/
+	/*border: 1px solid black;*/
+	
+
+}
+.js-form-registration p {
+	text-align: center;
+}
+.form-elements {
+	/*border: 1px solid green;*/
+	margin:0 auto;
+	padding: 5px;
+	max-width: 100%;
+	display:flex; 
+	flex-direction: row; 
+	align-items: center;
+}
+
+.form-element-button {
+	justify-content:center;
+}
+
+.input-label {
+	/*border: 1px solid red;*/
+	padding-right: 8px;
+	width: 175px;
+}
+
+.form-input {
+	max-width:250px;
+	max-height: 25px;
+	/*border:1px solid green;*/
+}
+.form-elements-button {
+	text-align: center;
+	padding-left: 25px;
+}
+.input-label-button {
+	max-width: 325px;
+	max-height: 40px;
+	border: 1px solid blue;
+	text-align: right;
+	color: red;
+}
+.form-input-button {
+	max-width: 325px;
+	max-height: 40px;
+	/*border: 1px solid blue;*/
+	
+}
+
+.square-options {
+	margin: 0 auto;
+}
+
+#sign-up,
+#sign-in {
+	margin-bottom: 1rem;
+	display: block;
+	width: 100%;
+	margin-left: 0;
+}
+
+#errorTenChar,
+#errorMatchPass {
+	color: red;
+}
+
+.msgs-reg {
+	color: #C84663;
+	text-align: center;
+}
+
+.error-field {
+    border: 1.5px solid #EC130E;
+}
+
+/***** HOME *****/
+
+.home h2 {
+	border-bottom: 1px solid #890620;
+	padding-bottom: 1rem;
+	font-weight: 200;
+}
+
+.logout {
+	margin-top: 2rem;
+	text-align: right;
+}
+
+#showName {
+	font-weight: 600;
+}
+
+
+

@@ -1,211 +1,188 @@
-// this is mock data, but when we create our API
-// we'll have it return data that looks like this
-
-
-// create fetches..  fetch sends back an array..  loop through array and put it on the screen
-var MOCK_MYCLOSET_ITEMS = {
-	"myclosetItems": [
-        {
-            "id": "11111",
-            "season": "YR - Year Round",
-            "appareltype": "pants",
-            "size": "6",
-            "color": "dark blue",
-            "shortdesc": "dark wash denim",
-            "longdesc": "trouser or bootcut",
-            "adddate": 1470009976609
+function logUserIn(data) {
+    console.log('logUserIn fired');
+    fetch ('api/auth/login/', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
         },
-        {
-            "id": "22222",
-            "season": "YR - Year Round",
-            "appareltype": "pants",
-            "size": "6",
-            "color": "dark blue",
-            "shortdesc": "dark wash denim",
-            "longdesc": "skinny or boyfriend",
-            "adddate": 1470009976609
-        },
-        {
-            "id": "33333",
-            "season": "S/S - Spring/Summer",
-            "appareltype": "pants",
-            "size": "6",
-            "color": "dark blue",
-            "shortdesc": "dress pant",
-            "longdesc": "neutral ankle pant",
-            "adddate": 1470009976609
-        },
-        {
-            "id": "444444",
-            "season": "YR - Year Round",
-            "appareltype": "pants",
-            "size": "6",
-            "color": "pink",
-            "shortdesc": "colored pants/jeans",
-            "longdesc": "color of your choice",
-            "adddate": 1470009976609
-        },
-        {
-            "id": "55555",
-            "season": "F/W - Fall/Winter",
-            "appareltype": "pants",
-            "size": "6",
-            "color": "dark blue",
-            "shortdesc": "dress pant",
-            "longdesc": "neutral wide leg trouser",
-            "adddate": 1470009976609
-        },
-        {
-            "id": "66666",
-            "season": "YR - Year Round",
-            "appareltype": "pants",
-            "size": "6",
-            "color": "black",
-            "shortdesc": "white or black denim",
-            "longdesc": "",
-            "adddate": 1470009976609
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(response.statusText);
         }
-    ]
-};
-
-var MOCK_IDEALCLOSET_ITEMS = {
-	"idealclosetItems": [
-        {
-            "id": "01111",
-            "season": "YR - Year Round",
-            "appareltype": "pants",
-            "shortdesc": "dark wash denim",
-            "longdesc": "skinny or boyfriend",
-            "adddate": 1470009976609
-        },
-        {
-            "id": "02222",
-            "season": "YR - Year Round",
-            "appareltype": "pants",
-            "shortdesc": "dark wash denim",
-            "longdesc": "trouser or bootcut",
-            "adddate": 1470009976609
-        },
-        {
-            "id": "03333",
-            "season": "YR - Year Round",
-            "appareltype": "pants",
-            "shortdesc": "colored pants/jeans",
-            "longdesc": "your choice of color",
-            "adddate": 1470009976609
-        },
-        {
-            "id": "044444",
-            "season": "YR - Year Round",
-            "appareltype": "pants",
-            "shortdesc": "colored pants/jeans",
-            "longdesc": "your choice of color",
-            "adddate": 1470009976609
-        },
-        {
-            "id": "05555",
-            "season": "YR - Year Round",
-            "appareltype": "pants",
-            "shortdesc": "white or black denim",
-            "longdesc": "",
-            "adddate": 1470009976609
-        },
-        {
-            "id": "06666",
-            "season": "S/S - Spring/Summer",
-            "appareltype": "pants",
-            "shortdesc": "dress pant",
-            "longdesc": "neutral ankle pant",
-            "adddate": 1470009976609
-        },
-        {
-            "id": "06666",
-            "season": "F/W - Fall Winter",
-            "appareltype": "pants",
-            "shortdesc": "dress pant",
-            "longdesc": "neutral wide leg trouser",
-            "adddate": 1470009976609
-        },
-    ]
-};
-
-
-
-// this function's name and argument can stay the
-// same after we have a live API, but its internal
-// implementation will change. Instead of using a
-// timeout function that returns mock data, it will
-// use jQuery's AJAX functionality to make a call
-// to the server and then run the callbackFn
-
-//  Retrieve and disply details of myCloset
-
-function getRecentMyclosetItems(callbackFn) {
-    // we use a `setTimeout` to make this asynchronous
-    // as it would be with a real AJAX call.
-	setTimeout(function(){ callbackFn(MOCK_MYCLOSET_ITEMS)}, 1);
+    })
+    .then (responseJson => {
+        console.log(responseJson);
+        token = responseJson.authToken;
+        localStorage.setItem('authToken', responseJson.token);
+        localStorage.setItem('userid', responseJson.user._id);
+        console.log(token);
+        $(location).attr("href", "home.html")
+    })
+    .catch(error => {
+        $('#login-error').empty().append(`<p class="alert">Usernamd or password is incorrect.</p>`);
+    });
 }
 
-// this function stays the same when we connect
-// to real API later
+function listenforSignin() {
+    $('#btn-signin').click(function(event) {
+        event.preventDefault();
+        console.log('listenforSignin fired');
+        const signinName = $("#GET-username").val();
+        const signinPass = $("#GET-password").val();
+        let userSignin = {signinName, signinPass};
+        console.log(userSignin);
+        logUserIn(userSignin);
 
-function displayMyclosetItems(data) {
-    $('.mycloset').append(
-        '<br><h3>My Closet Items</h2><br>' +
-        '<hr><br>');
+    });
+}
+
+function listenforLoginRequest() {
+    $('#btn-login').click(function(event) {
+        event.preventDefault();
+        console.log('listenforLoginRequest fired');
+        $('#form-reg').hide();
+        $('#form-login').show();
+    });
+}
+
+       
+       /*
+        // test for password validation characteristics:  proper length and 2 matching passwords
+        if (newPass !== confirmPass) {
+            // add current error
+            $('.msgs-reg').empty().append(`<p class="alert">New password and confirm password do not match</p>`)
+        } else {
+            $('.js-new-username').val('');
+            
+            const signupInfo = {};
+            if (newFirstname) signupInfo.firstname = newFirstname;
+            if (newLastname) signupInfo.lastname = newLastname;
+            if (newUsername) signupInfo.username = newUsername;
+            if (newPass) signupInfo.password = newPass;
+            console.log(signupInfo);
+            createNewUser(signupInfo);
+            */
     
-    for (index in data.myclosetItems) {
-        
-	   $('.mycloset').append(
-        '<p>season: ' + data.myclosetItems[index].season + '</p>' +
-        '<p>type of clothing: ' + data.myclosetItems[index].appareltype + '</p>' +
-        '<p>short description :' + data.myclosetItems[index].shortdesc + '</p>' + 
-        '<p>details :' + data.myclosetItems[index].longdesc + '</p>' + 
-        '<br>');
-    }
+
+
+function createNewUser(newInfo) {
+    console.log('createnewuser fired');
+    
+    fetch('/api/users', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(newInfo)
+    })
+    .then(response => {
+        console.log('response is ' + response);
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error(response.statusText);
+    })
+    .then(responseJson => {
+        console.log('responseJSON i' + JSON.stringify(responseJson.authToken));
+        if (responseJson.ok) return responseJson;
+        return Promise.reject(responseJson);
+    })
+    .then(responseJson => {
+        const username = responseJson.username;
+        const firstname = responseJson.firstname;
+        const lastname = responseJson.lastname;
+        const authToken = responseJson.authToken;
+        //getAndDisplayMyclosetItems(true);
+        console.log('was new user created? check postman');
+    })
+      //  console.log('did I make it to resJson?');
+       // $('#page-login').hide();
+       // $('.section-mycloset').hide();
+       // $('.section-login').show();
+       // $('#page-register').hide();
+
+      //  $('.msgs-reg').empty().append(`<p class="user-created">User created: ` +
+       //     `${username} Go ahead and login.`);
+       //     $("#new-username").val('');
+        //    $("#new-password").val('');
+        //    $("#confirm-password").val('');
+         //   $('#firstname').val('');
+         //   $('#lastname').val('');
+    .catch(error => {
+        console.log('error' + error);
+        //displaySignUpError(err.location, err.message)
+        //$('#msgs-reg').empty().append(`<p class="alert">Shouldn't I get this info from the backend?there was an validation error</p>`)
+    });
 }
 
 
-function getAndDisplayMyclosetItems() {
-	getRecentMyclosetItems(displayMyclosetItems);
+function listenforRegisterNewUser() {
+    $('#btn-register').click(function(event){
+        event.preventDefault();
+        console.log('listenforRegisterNewUser fired.');
+        const newUsername = $("#new-username").val();
+        const newPass = $("#new-password").val();
+        const confirmPass = $("#confirm-password").val();
+        const newFirstname = $('#new-firstname').val();
+        const newLastname = $('#lastname').val();
+        let newUser = {newUsername, newPass};
+       
+        // test for password validation characteristics:  proper length and 2 matching passwords
+        if (newPass !== confirmPass) {
+            // add current error
+            $('.msgs-reg').empty().append(`<p class="alert">New password and confirm password do not match</p>`)
+        } else {
+            $('.js-new-username').val('');
+            
+            const signupInfo = {};
+            if (newFirstname) signupInfo.firstname = newFirstname;
+            if (newLastname) signupInfo.lastname = newLastname;
+            if (newUsername) signupInfo.username = newUsername;
+            if (newPass) signupInfo.password = newPass;
+            console.log(signupInfo);
+            createNewUser(signupInfo);
+            
+        };
+    })
 }
 
+function displayRegistrationLoginForm() {
+    console.log('displayRegistrationLoginForm fired');
+    $('#reg-login').append(`
+        <div class="msgs-reg"></div>
+            <form id="form-reg" class="form-reg-login">
+                    <div id="div-reg">
+                        <p>Register</p>
+                    <div id="f-name" class="form-elements"><label class="input-label">First Name:</label><input type="text" class="form-input js-new-firstname" name="new-firstname" id="new-firstname" placeholder="First Name"></div>
+                    <div id="l-name" class="form-elements"><label class="input-label">Last Name</label><input type="text" class="form-input js-new-lastname"name="new-lastname" id="lastname" placeholder="Last Name"></div>
+                    <div id="u-name" class="form-elements"><label class="input-label">Choose username:</label><input type="text" class="form-input js-new-username" name="new-username" id="new-username" class="js-new-username" placeholder="myname@gmail.com" required></div>                           
+                    <div id="p-word" class="form-elements"><label class="input-label">Enter password:</label><input type="password" class="form-input js-new-password"name="new-password" id="new-password" class="js-new-password" placeholder="password" required></div>
+                    <div id="confirm-p-word" class="form-elements"><label class="input-label">Retype password:</label><input type="password" class="form-input js-confirm-password"name="confirm-password" id="confirm-password" class="js-confirm-password" placeholder="password" required></div>
+                    <div id="btn-sign-me-up" class="form-elements form-element-button"><button type="button" id="btn-register" value="Sign me up!">Sign me up!</button></div>
+                    <div id="btn-login" class="form-elements form-elements-button"><p>Already registered?</p></label><button type="button" id="btn-login" class="form-input-button">Log In</button></div>
+                </div>
+            </form>
+            <form id="form-login" class="form-reg-login" style="display:none">
+                <div id="div-login">
+                    <p>Log In</p>
+                    <div class="form-elements"><label for="GET-username">Username:</label><input type="text" name="GET-username" id="GET-username" class="form-input" placeholder="myname@gmail.com" required></div>
+                    <div class="form-elements"><label for="GET-password">Password:</label><input type="password" name="GET-password" id="GET-password" class="form-element-button" placeholder="password" required></div>
+                    <div class="form-elements form-element-button"><button type="click" id="btn-signin">Sign In</button></div>
+                    <p class="demo">For demo:  <br>username: tester <br>password: testertester</p>
+                </div>
+            </form>
+                        `);
 
-
-// Retrieve and display details of idealCloset
-function getRecentIdealclosetItems(callbackFn) {
-    // we use a `setTimeout` to make this asynchronous
-    // as it would be with a real AJAX call.
-	setTimeout(function(){ callbackFn(MOCK_IDEALCLOSET_ITEMS)}, 1);
 }
 
-// this function stays the same when we connect
-// to real API later
-
-function displayIdealclosetItems(data) {
-    $('.idealcloset').append(
-        '<br><h3>Ideal Wardrobe Items</h2><br>' +
-        '<hr><br>');
-    console.log(data.idealclosetItems);
-    for (index in data.idealclosetItems) {
-        
-	   $('.idealcloset').append(
-        '<p>season: ' + data.idealclosetItems[index].season + '</p>' +
-        '<p>type of clothing: ' + data.idealclosetItems[index].appareltype + '</p>' +
-        '<p>short description :' + data.idealclosetItems[index].shortdesc + '</p>' + 
-        '<p>details :' + data.idealclosetItems[index].longdesc + '</p>' + 
-        '<br>');
-    }
-}
-
-// this function can stay the same even when we
-// are connecting to real API
-function getAndDisplayIdealclosetItems() {
-	getRecentIdealclosetItems(displayIdealclosetItems);
-}
-
-//  on page load do this
-$(function() {
-    getAndDisplayMyclosetItems();
-    getAndDisplayIdealclosetItems();
-})
+$(document).ready(function() {
+    console.log('doc is ready');
+    displayRegistrationLoginForm();
+    listenforRegisterNewUser();
+    listenforLoginRequest();
+    listenforSignin();
+});

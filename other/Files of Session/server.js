@@ -1,45 +1,31 @@
 'use strict'
 
-// import dependencies
 require('dotenv').config();
+const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
-const cors = require('cors');
 
-// configure mongoose to use ES6 promises
-mongoose.Promise = global.Promise;
-
-//const bodyParser = require('body-parser');
-
-const {PORT, DATABASE_URL} = require('./config');
-
-// import modules
-const {router: usersRouter } = require('./users');
+// add consts for routers
+const {router: authRouter, localStrategy, jwtStrategy} = require('./auth');
+const {router: userRouter } = require('./users');
 const {router: idealclosetRouter} = require('./idealcloset');
 const {router: myclosetRouter} = require('./mycloset');
-const {router: authRouter, localStrategy, jwtStrategy} = require('./auth');
 
-//app.use(express.json());
+mongoose.Promise = global.Promise;
 
-// declare new app instance
+const {PORT, DATABASE_URL } = require('./config');
+
 const app = express();
 
-// log all requests
+// location of css, images, html static files
+app.use(express.static('public'));
+
+// logging
 app.use(morgan('common'));
 
-app.use(express.json());
-
-// enable CORS
-app.use(cors());
-
-// enable use of passport authentication strategies
-passport.use(localStrategy);
-passport.use(jwtStrategy);
-
-/*
-// enable CORS
+// CORS
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -49,32 +35,31 @@ app.use(function (req, res, next) {
     }
     next();
 });
-*/
 
-// serve static files from public folder
-app.use(express.static('public'));
+passport.use(localStrategy);
+passport.use(jwtStrategy);
 
-// public routers
-app.use('/api/users/', usersRouter);
-app.use('/api/auth/', authRouter);
+app.use('/users/', userRouter);
+app.use('/auth/', authRouter);
+app.use('/idealcloset/', idealclosetRouter);
+app.use('/mycloset/', myclosetRouter);
 
-
-// protected routers
-app.use('/api/idealcloset/', idealclosetRouter);
-app.use('/api/mycloset/', myclosetRouter);
-
-//const jwtAuth = passport.authenticate('jwt', {session: false});
+const jwtAuth = passport.authenticate('jwt', {session: false});
 
 
 
 // use this JWT strategy to protect endpoints:
-//app.get('/getUserInformation', jwtAuth, (req,res) => {
-//        return res.json({
-//            data: 'rosebud'
-//        });
-//});
+// TEST ROUTE
+app.get('/api/getUserInformation', jwtAuth, (req,res) => {
+    console.log(req.user);
+     return res.json({
+        username: req.user.username,
+        firstname : req.user.firstname,
+        lastname: req.user.lastname
+      });
+});
 
-// catch all handler if route does not exist
+
 app.use('*', (req, res) => {
     return res.status(404).json({ message: 'URL not found.'});
 });

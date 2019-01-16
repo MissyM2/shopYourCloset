@@ -427,70 +427,7 @@ function listenForSignin() {
     })
 }
 */
-function listenForLogin() {
-    $('#btn-login').click(function(event) {
-        event.preventDefault();
-        $('#page-register').hide();
-        $('.section-mycloset').hide();
-        $('.section-options').hide();
-        $('.section-login').hide();
-        $('#page-login').show();
-    })
 
-}
-        
-function listenForSignUp() {
-    $("#btn-sign-up").click(function(event) {
-        event.preventDefault();
-        console.log('listen for sign up fired');
-        const newUsername = $("#new-username").val();
-        const newPass = $("#new-password").val();
-        const confirmPass = $("#confirm-password").val();
-        const newFirstname = $('#firstname').val();
-        const newLastname = $('#lastname').val();
-        let newUser = {newUsername, newPass};
-       
-        // test for password validation characteristics:  proper length and 2 matching passwords
-        if (newPass !== confirmPass) {
-            // add current error
-            $('.js-new-password').addClass('error-field').attr('aria-invalid', true);
-            $('.js-confirm-password').addClass('error-field').attr('aria-invalid', true)
-            .after('<p class="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i> Passwords do not match.  Try again.</p>');
-        } else {
-            $('.js-new-username').val('');
-            
-            const signupInfo = {};
-            if (newFirstname) signupInfo.firstname = newFirstname;
-            if (newLastname) signupInfo.lastname = newLastname;
-            if (newUsername) signupInfo.username = newUsername;
-            if (newPass) signupInfo.password = newPass;
-            console.log(signupInfo);
-            createNewUser(signupInfo);
-            $('#page-login').hide();
-            $('.section-mycloset').hide();
-            $('.section-login').show();
-            $('#page-register').hide();
-        };
-    });
-}
-
-    function listenForRegistration() {
-        $("#btn-register").click(function(event) {
-            event.preventDefault();
-            console.log('made it past registration form')
-            $('.section-login').hide();
-            $('.section-options').hide();
-            $('.section-mycloset').hide();
-            $('#page-login').hide();
-            $('#page-register').show();
-            //reset previous errors
-            $('.js-new-username').removeClass('error-field').attr('aria-invalid', false);
-            $('.js-new-password').val('').removeClass('error-field').attr('aria-invalid', false);
-            $('.js-confirm-password').val('').removeClass('error-field').attr('aria-invalid', false);
-            $('.error-msg').remove();
-            console.log('fields should be empty');
-        });
-    }
 /*
     $('#login-redirect').click(() => {
         //reset the signup form

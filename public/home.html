@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>shopYourCloset</title>
+  <meta name="author" content="Missy Maloney">
+  <meta name="description" content="Maintain a complete wardrobe.">
+  <meta name="keywords" content="books, Thinkful">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
+  <!-- <script src="https://use.fontawesome.com/5cc30cf6d4.js"></script> -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/grid.css">
+  <link rel="shortcut icon" href="images/dress.png">
+
+</head>
+<body>
+    <div>this is home</div>
+    <div class="username"></div>
+    <body>
+        <div class="flexbox-container">
+      
+              <header role="banner">
+                      <div class="row topnav">
+                          <h2 class="col-9">shopYourCloset</h2>
+                          <a href="index.html" class="col-3 logout" style="display:none">Logout</a>
+                      </div>
+              </header>
+      
+              <main role="main">
+                  <section role="region" class="row section-options" aria-live="assertive">
+                      <div class="square-options">
+                          <div class="col-4">
+                              <i class="fas fa-tshirt"></i>
+                              <p>Add your clothing items</p>
+                          </div>
+                          <div class="col-4">
+                              <i class="fas fa-door-open"></i>
+                              <p>View your closet</p>
+                          </div>
+                          <div class="col-4">
+                              <i class="fas fa-atom"></i>
+                              <p>Analyze your wardrobe</p>
+                          </div>
+                      </div>
+                  </section>
+      
+                  <section role="region" class="section-mycloset" aria-live="assertive">
+                      <div class="row">
+                              <div class="column">
+                                  <div class="mycloset"></div>
+                              </div>
+                              <div class="column idealcloset"></div>
+                      </div>
+                  </section>
+      
+                  <section role="region" class="row" id="page-login" aria-live="assertive">
+                      
+                  </section>
+      
+      
+                  <section role="region" class="row home" style="display:none" aria-live="assertive">
+                      <h2>Hello <span id="showname"></span>, look what is in your closet today!</h2>
+                  </section>
+      
+              </main>
+      
+              <footer role="content-info">
+                  <div class="row">
+                      <p>&copy Missy Maloney</p>
+                      <p>Favicon made by <a href="http://www.freepik.com/">Freepik</a> from <a href="www.flaticon.com">www.flaticon.com</a></p>
+              </div>
+              </footer>
+           
+        </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="home.js"></script>     
+</html>

@@ -22,19 +22,16 @@ function logUserIn(data) {
     })
     .then(response => {
         if (response.ok) {
-            user = data.username;
-            $('#user-signin').append(`<p>Welcome ${user}!</p>
-            <button type="button" onclick="signOut();>Sign Out</button></br />
-            `)
             return response.json();
         } else {
             throw new Error(response.statusText);
         }
     })
     .then (responseJson => {
-        token = responseJson.authtoken;
+        token = responseJson.authToken;
         localStorage.setItem('authToken', token);
         console.log(token);
+        $(location).attr("href", "./home.html");
     })
     .catch(error => {
         $('#login-error').empty().append(`<p class="alert">Usernamd or password is incorrect.</p>`);
