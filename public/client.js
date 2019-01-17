@@ -7,51 +7,13 @@ const user = {
 
 
 
-function listenForMyclosetFunctions() {
-    $("#view-closet").on("click", function(event) {
-        event.preventDefault();
-        console.log("listenForMyclosetFunctions fired");
-/*
-        //  GET fetch request for My Closet
-        const getMycloset = function getMyclosetData() {
-            fetch('/', {
-                method: 'get',
-                headers: {
-                    'Authorization': `Bearer ${user.authToken}`
-                }
-            })
-            .then(function(response) {
-                return response.json();
-            })
-            .then(data =>{
-                console.log(data);
-                //renderMycloset(data);
-            })
-            .catch(err => console.log(err.message));
-        }
-    });   
-*/
-});
-}
+
 
 
 
   
 
-function renderOptionsScreen(User) {
-    console.log('renderOptionsScreen fired' + User);
-    $(".section-login").hide();
-    $(".topnav").append(`
-        <div class="col-4">Welcome, ${User}!</div>
-        <div class="col-4"><a href="index.html" class="col-3 logout">Logout</a></div>
-        `);
-    $(".section-options").append(`
-        <div class="col-12">
-            <button type="button" id="view-closet">View your closet</button>
-        </div>
-     `);
-    $(".section-options").show();
-}
+
 
 function logUserIn(data) {
     console.log('logUserIn fired');
@@ -87,27 +49,7 @@ function logUserIn(data) {
     });
 }
 
-function listenforSignin() {
-    $('#btn-signin').click(function(event) {
-        event.preventDefault();
-        console.log('listenforSignin fired');
-        const username = $("#GET-username").val();
-        const password = $("#GET-password").val();
-        let userSignin = {username, password};
-        console.log(userSignin);
-        logUserIn(userSignin);
 
-    });
-}
-
-function listenforLoginRequest() {
-    $('#btn-login').click(function(event) {
-        event.preventDefault();
-        console.log('listenforLoginRequest fired');
-        $('#form-reg').hide();
-        $('#form-login').show();
-    });
-}
 
        
        /*
@@ -180,6 +122,80 @@ function createNewUser(newInfo) {
 }
 
 
+
+
+function renderRegistrationLoginForm() {
+    console.log('renderRegistrationLoginForm fired');
+    $('#reg-login').append(`
+        <div class="msgs-reg"></div>
+            <form id="form-reg" class="form-reg-login">
+                    <div id="div-reg">
+                        <p>Register</p>
+                    <div id="f-name" class="form-elements"><label class="input-label">First Name:</label><input type="text" class="form-input js-new-firstname" name="new-firstname" id="new-firstname" placeholder="First Name"></div>
+                    <div id="l-name" class="form-elements"><label class="input-label">Last Name</label><input type="text" class="form-input js-new-lastname"name="new-lastname" id="lastname" placeholder="Last Name"></div>
+                    <div id="u-name" class="form-elements"><label class="input-label">Choose username:</label><input type="text" class="form-input js-new-username" name="new-username" id="new-username" class="js-new-username" placeholder="myname@gmail.com" required></div>                           
+                    <div id="p-word" class="form-elements"><label class="input-label">Enter password:</label><input type="password" class="form-input js-new-password"name="new-password" id="new-password" class="js-new-password" placeholder="password" required></div>
+                    <div id="confirm-p-word" class="form-elements"><label class="input-label">Retype password:</label><input type="password" class="form-input js-confirm-password"name="confirm-password" id="confirm-password" class="js-confirm-password" placeholder="password" required></div>
+                    <div id="btn-sign-me-up" class="form-elements form-element-button"><button type="button" id="btn-register" value="Sign me up!">Sign me up!</button></div>
+                    <div id="btn-login" class="form-elements form-elements-button"><p>Already registered?</p></label><button type="button" id="btn-login" class="form-input-button">Log In</button></div>
+                </div>
+            </form>
+            <form id="form-login" class="form-reg-login" style="display:none">
+                <div id="div-login">
+                    <p>Log In</p>
+                    <div class="form-elements"><label for="GET-username">Username:</label><input type="text" name="GET-username" id="GET-username" class="form-input" placeholder="myname@gmail.com" required></div>
+                    <div class="form-elements"><label for="GET-password">Password:</label><input type="password" name="GET-password" id="GET-password" class="form-element-button" placeholder="password" required></div>
+                    <div class="form-elements form-element-button"><button type="click" id="btn-signin">Sign In</button></div>
+                    <p class="demo">For demo:  <br>username: tester <br>password: testertester</p>
+                </div>
+            </form>
+                        `);
+
+}
+
+function renderOptionsScreen(User) {
+    console.log('renderOptionsScreen fired' + User);
+    $('.section-login').hide();
+    //$('.topnav').append(`
+    //    <div class='col-4'>Welcome, ${User}!</div>
+     //   <div class='col-4'><a href='index.html' class='col-3 logout'>Logout</a></div>
+    //    `);
+    $('.section-options').show();
+    $('.section-options').append(`
+        <button id="btn-view-mycloset">View My Closet</button>
+     `);
+    
+}
+
+// ***** LISTENERS
+
+function listenForMyclosetFunctions() {
+    $('.section-options').on('click', '#btn-view-mycloset', (function(event) {
+        event.preventDefault();
+        console.log("listenForMyclosetFunctions fired");
+/*
+        //  GET fetch request for My Closet
+        const getMycloset = function getMyclosetData() {
+            fetch('/', {
+                method: 'get',
+                headers: {
+                    'Authorization': `Bearer ${user.authToken}`
+                }
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(data =>{
+                console.log(data);
+                //renderMycloset(data);
+            })
+            .catch(err => console.log(err.message));
+        }
+    });   
+*/
+}));
+}
+
 function listenforRegisterNewUser() {
     $('#btn-register').click(function(event){
         event.preventDefault();
@@ -210,33 +226,26 @@ function listenforRegisterNewUser() {
     })
 }
 
-function renderRegistrationLoginForm() {
-    console.log('renderRegistrationLoginForm fired');
-    $('#reg-login').append(`
-        <div class="msgs-reg"></div>
-            <form id="form-reg" class="form-reg-login">
-                    <div id="div-reg">
-                        <p>Register</p>
-                    <div id="f-name" class="form-elements"><label class="input-label">First Name:</label><input type="text" class="form-input js-new-firstname" name="new-firstname" id="new-firstname" placeholder="First Name"></div>
-                    <div id="l-name" class="form-elements"><label class="input-label">Last Name</label><input type="text" class="form-input js-new-lastname"name="new-lastname" id="lastname" placeholder="Last Name"></div>
-                    <div id="u-name" class="form-elements"><label class="input-label">Choose username:</label><input type="text" class="form-input js-new-username" name="new-username" id="new-username" class="js-new-username" placeholder="myname@gmail.com" required></div>                           
-                    <div id="p-word" class="form-elements"><label class="input-label">Enter password:</label><input type="password" class="form-input js-new-password"name="new-password" id="new-password" class="js-new-password" placeholder="password" required></div>
-                    <div id="confirm-p-word" class="form-elements"><label class="input-label">Retype password:</label><input type="password" class="form-input js-confirm-password"name="confirm-password" id="confirm-password" class="js-confirm-password" placeholder="password" required></div>
-                    <div id="btn-sign-me-up" class="form-elements form-element-button"><button type="button" id="btn-register" value="Sign me up!">Sign me up!</button></div>
-                    <div id="btn-login" class="form-elements form-elements-button"><p>Already registered?</p></label><button type="button" id="btn-login" class="form-input-button">Log In</button></div>
-                </div>
-            </form>
-            <form id="form-login" class="form-reg-login" style="display:none">
-                <div id="div-login">
-                    <p>Log In</p>
-                    <div class="form-elements"><label for="GET-username">Username:</label><input type="text" name="GET-username" id="GET-username" class="form-input" placeholder="myname@gmail.com" required></div>
-                    <div class="form-elements"><label for="GET-password">Password:</label><input type="password" name="GET-password" id="GET-password" class="form-element-button" placeholder="password" required></div>
-                    <div class="form-elements form-element-button"><button type="click" id="btn-signin">Sign In</button></div>
-                    <p class="demo">For demo:  <br>username: tester <br>password: testertester</p>
-                </div>
-            </form>
-                        `);
+function listenforSignin() {
+    $('#btn-signin').click(function(event) {
+        event.preventDefault();
+        console.log('listenforSignin fired');
+        const username = $("#GET-username").val();
+        const password = $("#GET-password").val();
+        let userSignin = {username, password};
+        console.log(userSignin);
+        logUserIn(userSignin);
 
+    });
+}
+
+function listenforLoginRequest() {
+    $('#btn-login').click(function(event) {
+        event.preventDefault();
+        console.log('listenforLoginRequest fired');
+        $('#form-reg').hide();
+        $('#form-login').show();
+    });
 }
 
 $(document).ready(function() {
