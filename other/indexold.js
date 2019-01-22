@@ -228,9 +228,9 @@ $(document).on('click', '.mycl-updatebtn1', (function(e){
             `<div class="itemrow mycl-id"><div class="item itemlabel">id: </div><div class="item itembody"><div id="js-itemid" data-value="${id}">${id}</div></div></div>` +
             `<div class="itemrow mycl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input id="js-searchseason" type="text" name="season" value="${season}"></div></div>` +
             `<div class="itemrow mycl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input id="js-searchappareltype" type="text" name="appareltype" value="${appareltype}"></div></div>` +
-            `<div class="itemrow mycl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input id="js-searchcolor" type="text" name="color" value="${color}"></div></div>` +
+                        `<div class="itemrow mycl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input id="js-searchsize" type="text" name="size" value="${size}"></div></div>`;
+`<div class="itemrow mycl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input id="js-searchcolor" type="text" name="color" value="${color}"></div></div>` +
             `<div class="itemrow mycl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input id="js-searchshortdesc" type="text" name="shortdesc" value="${shortdesc}"></div></div>` +
-            `<div class="itemrow mycl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input id="js-searchsize" type="text" name="size" value="${size}"></div></div>`;
     
     const updateEditButtons = `<div class="mycl-editbuttons">` +
         `<button class="mycl-updatebtn2" data-id="${id}" data-season="${season}" data-appareltype="${appareltype}" data-color="${color}" data-shortdesc="${shortdesc}" data-size="${size}">update</button>` +
