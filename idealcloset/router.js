@@ -52,7 +52,7 @@ router.get('/:id', jwtAuth, (req, res) => {
 router.post('/', jsonParser, jwtAuth, (req, res) => {
 
     // ensure `season`, `color`, appareltype`, `shortdesc`, `longdesc` and `adddate` are in the request body
-    const requiredFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc'];
+    const requiredFields = ['season','appareltype', 'shortdesc'];
     requiredFields.forEach(field => {
         if(!(field in req.body)) {
             const message = `Missing \`${field}\` in the request body`;
@@ -67,7 +67,8 @@ router.post('/', jsonParser, jwtAuth, (req, res) => {
             appareltype:  req.body.appareltype,
             color: req.body.color,
             shortdesc:  req.body.shortdesc,
-            longdesc: req.body.longdesc
+            longdesc: req.body.longdesc,
+            size: req.body.size
         })
         .then(item => {
             res.status(201).json(item.serialize());
@@ -82,7 +83,7 @@ router.post('/', jsonParser, jwtAuth, (req, res) => {
 // * validate request id and updateable fields
 // * update wardrobe item and send JSON response
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
-    const requiredFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc', 'adddate'];
+    const requiredFields = ['id'];
     for (let i=0; i<requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -100,7 +101,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
     
     console.log(`Updating ideal closet item \`${req.params.id}\``);
     const toUpdate = {};
-    const updateableFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc', 'adddate'];
+    const updateableFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc', 'size','adddate'];
 
     updateableFields.forEach(field => {
         if (field in req.body) {
@@ -112,8 +113,8 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
     // all key/value pairs in toUpdate will be updated -- that's what `$set` does
     .findByIdAndUpdate(req.params.id, { $set: toUpdate })
     .then(item => {
-        console.log (`item has been updated`);
-        res.status(204).json(item.serialize())
+        console.log (item + `item has been updated`);
+        res.status(200).send(item);
     })
     .catch(err => res.status(500).json({ message: "Internal server error" }));
 });

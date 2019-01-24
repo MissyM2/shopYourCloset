@@ -53,7 +53,7 @@ router.post('/', jsonParser, jwtAuth, (req, res) => {
     console.log(req.body);
 
     //ensure `season`, `appareltype` and `shortdesc` are in the request body
-    const requiredFields = ['season', 'appareltype', 'color',  'shortdesc'];
+    const requiredFields = ['season', 'appareltype', 'shortdesc'];
     console.log(requiredFields);
     requiredFields.forEach(field => {
         if(!(field in req.body)) {
@@ -69,7 +69,8 @@ console.log('made it to before the create');
             appareltype: req.body.appareltype,
             color:  req.body.color,
             shortdesc:  req.body.shortdesc,
-            size:  req.body.size, 
+            longdesc: req.body.longdesc,
+            size:  req.body.size 
         })
         .then(item => {
             console.log(item);
@@ -104,7 +105,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
     
     console.log(`Updating my closet item \`${req.params.id}\``);
     const toUpdate = {};
-    const updateableFields = ['season', 'color', 'appareltype', 'shortdesc', 'size', 'adddate'];
+    const updateableFields = ['season', 'color', 'appareltype', 'shortdesc', 'longdesc', 'size', 'adddate'];
 
     updateableFields.forEach(field => {
         if (field in req.body) {
@@ -116,7 +117,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
   // all key/value pairs in toUpdate will be updated -- that's what `$set` does
   .findByIdAndUpdate(req.params.id, { $set: toUpdate })
   .then(item => {
-    console.log(item);
+    console.log(item + `item has been updated`);
     res.status(200).send(item);
 })
   .catch(err => res.status(500).json({ message: "Internal server error" }));

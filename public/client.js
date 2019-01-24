@@ -1,6 +1,29 @@
 'use strict';
 
+let closetChoice='';
 
+
+function finalAddItemToCloset() {
+    console.log('listenforFinalAddItemToCloset fired');
+    const season1=$('#js-additem-season').val();
+    const appareltype1=$('#js-additem-appareltype').val();
+    const color1=$('#js-additem-color').val();
+    const shortdesc1=$('#js-additem-shortdesc').val();
+    const longdesc1=$('#js-additem-longdesc').val();
+    const size1=$('#js-additem-size').val();
+
+    // create object and send to add function
+    const newItem= {
+        season: season1,
+        appareltype:appareltype1,
+        color: color1,
+        shortdesc:shortdesc1,
+        longdesc: longdesc1,
+        size: size1
+    };
+     console.log(newItem);
+    fetchForCreateNewItemInCloset(newItem);
+}
 // FETCH calls
 function fetchForLogUserIn(data) {
     console.log('fetchForLogUserIn fired');
@@ -28,7 +51,7 @@ function fetchForLogUserIn(data) {
     })
     .catch(error => {
         console.log(error);
-        $('#login-error').empty().append(`<p class="alert">Usernamd or password is incorrect.</p>`);
+        $('#login-error').html(`<p class="alert">Username or password is incorrect.</p>`);
     });
 }
 
@@ -52,21 +75,12 @@ function fetchForLogUserIn(data) {
             createNewUser(signupInfo);
             */
     
-function fetchForCreateNewItemInCloset(newItem, closetChoice) {
+function fetchForCreateNewItemInCloset(newItem) {
     console.log('fetchForCreateNewItemInCloset fired');
     const authToken = localStorage.getItem("authToken");
-    let fetchPath='/api/mycloset/';
-    //if (closetChoice == 'my') {
-     //   fetchPath = '/api/mycloset';
-
-    //} else if (closetChoice = 'ideal') {
-   //     fetchPath = '/api/idealcloset';
-    //} else {
-   //     console.log('error');
-   // };
-    console.log(fetchPath);
-    console.log(newItem);
-
+    console.log(closetChoice);
+    let fetchPath=`/api/${closetChoice}closet/`;
+    
     fetch(fetchPath, {
         method: 'POST',
         headers: {
@@ -83,42 +97,51 @@ function fetchForCreateNewItemInCloset(newItem, closetChoice) {
             throw new Error(response.text);
             })
         .then(responseJson => {
-            fetchCloset(closetChoice);
+            fetchCloset();
         })
         .catch(error => {
             console.log('Error: ', error)
         });
 }
 
-function fetchForUpdateClosetItemData(closetChoice, closetitemId, data) {
+function fetchForUpdateClosetItemData(closetitemId, updateObject) {
         console.log('updateItemInMycloset fired');
         const authToken = localStorage.getItem("authToken");
-        fetch(`/api/${closetChoice}closet/${closetitemId}/`, {
+        let fetchPath=`/api/${closetChoice}closet/${closetitemId}/`;
+
+        console.log(fetchPath);
+        console.log(updateObject);
+    console.log(JSON.stringify(updateObject));
+    
+        fetch(fetchPath, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json, text/plain, *',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(updateObject)
             })
             .then(response =>  {
                 if (response.ok) {
+                    console.log(response);
                     return response.json();
                 }
+                console.log(response);
                 throw new Error(response.text);
             })
             .then(responseJson => {
+                console.log('responseJson is ' + responseJson);
                 //console.log('Success: ', JSON.stringify(responseJson));
                 //$('.mycloset').empty();
-               fetchCloset(closetChoice);
+               fetchCloset();
             })
             .catch(error => {
                 console.error('Error: ', error)
             });
 }
 
-function fetchForDeleteClosetItemData(closetChoice, closetItemId) {
+function fetchForDeleteClosetItemData(closetItemId) {
     const fetchPath= `/api/${closetChoice}closet/${closetItemId}`;
     const authToken = localStorage.getItem("authToken");
     fetch(fetchPath , {
@@ -148,7 +171,7 @@ function fetchForDeleteClosetItemData(closetChoice, closetItemId) {
 function fetchForCreateNewUser(newInfo) {
     console.log('createnewuser fired');
     
-    fetch('/api/users', {
+    fetch('/api/users/', {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -197,11 +220,11 @@ function fetchForCreateNewUser(newInfo) {
 
 
 
-function fetchCloset(selected) {
+function fetchCloset() {
     console.log('fetchMycloset fired');
     const authToken = localStorage.getItem("authToken");
     //  GET fetch request for My Closet
-        fetch(`/api/${selected}closet/`, {
+        fetch(`/api/${closetChoice}closet/`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${authToken}`
@@ -215,7 +238,7 @@ function fetchCloset(selected) {
         })
         .then(data => {
            // console.log('Success: ', JSON.stringify(data));
-            renderCloset(data, selected);
+            renderCloset(data);
         })
         .catch(error => console.log(error));
 } 
@@ -224,20 +247,24 @@ function fetchCloset(selected) {
 
 function renderRegistrationLoginForm() {
     console.log('renderRegistrationLoginForm fired');
-    $('#reg-login').append(`
+    $('.reg-login').html(`
         <div class="msgs-reg"></div>
-            <form id="form-reg" class="form-reg-login">
+            <form class="form-reg-login">
                     <div id="div-reg">
-                        <p>Register</p>
-                    <div id="f-name" class="itemrow reg-fname"><div class="item reglabel">First Name:</div><div class="item itembody"><input type="text" class="form-input js-new-firstname" name="new-firstname" id="new-firstname" placeholder="First Name"></div></div>
-                    <div id="l-name" class="itemrow reg-lname"><div class="item reglabel">Last Name</div><div class="item itembody"><input type="text" class="form-input js-new-lastname"name="new-lastname" id="lastname" placeholder="Last Name"></div></div>
-                    <div id="u-name" class="itemrow reg-uname"><div class="item reglabel">Choose username:</div><div class="item itembody"><input type="text" class="form-input js-new-username" name="new-username" id="new-username" class="js-new-username" placeholder="myname@gmail.com" required></div></div>                           
-                    <div id="p-word" class="itemrow reg-pword"><div class="item reglabel">Enter password:</div><div class="item itembody"><input type="password" class="form-input js-new-password"name="new-password" id="new-password" class="js-new-password" value="password" required></div></div>
-                    <div id="confirm-p-word" class="itemrow reg-confirm-pword"><div class="item reglabel">Retype password:</div><div class="item itembody"><input type="password" class="form-input js-confirm-password"name="confirm-password" id="confirm-password" class="js-confirm-password" placeholder="password" required></div></div>
-                    <div id="btn-sign-me-up" class="reg-editbuttons">
-                        <button type="button" class="btn-register" id="btn-register" value="Sign me up!">Sign me up!</button></div>
-                       <div id="btn-login" class="form-elements form-elements-button"><p>Already registered?</p><button type="button" id="btn-login" class="form-input-button">Log In</button></div></div>
-                </div>
+                        <h3>Register</h3>
+                        <div class="regitem"><p>First Name:</p><input type="text" class="reg-input" name="new-firstname" id="new-firstname" placeholder="First Name"></div>
+                        <div class="regitem"><p>Last Name</p><input type="text" class="reg-input name="new-lastname" id="lastname" placeholder="Last Name"></div>
+                        <div class="regitem"><p>Choose username:</p><input type="text" class="reg-input" name="new-username" id="new-username" class="js-new-username" placeholder="myname@gmail.com" required></div>                           
+                        <div class="regitem"><p>Enter password:</p><div class="reg-input-container"><input type="password" class="reg-input" name="new-password" id="new-password" class="js-new-password" value="password" required><i class="far fa-eye-slash password-icon"></i></div></div>
+                        <div class="regitem"><p>Retype password:</p><div class="reg-input-container"><input type="password" class="reg-input" name="confirm-password" id="confirm-password" class="js-confirm-password" value="password" required><i class="far fa-eye-slash password-confirm-icon"></i></div></div>
+                        <div id="btn-sign-me-up" class="reg-editbuttons">
+                            <button type="button" class="btn-register" id="btn-register" value="Sign me up!">Sign me up!</button>
+                        </div>
+                       <div class="form-elements form-elements-button">
+                            <p>Already registered?</p><button type="button" id="btn-login" class="form-input-button">Log In</button>
+                        </div>
+                    </div>
+    </div>
             </form>
             <form id="form-login" class="form-reg-login" style="display:none">
                 <div id="div-login">
@@ -252,32 +279,33 @@ function renderRegistrationLoginForm() {
 
 }
 
-function renderOptionsScreen(User) {
+function renderOptionsScreen(userName) {
     $('#div-login').hide();
     $('.section-login').hide();
-    $('.topnav').append(`
-        <div class='col-4 greeting'>Welcome, ${User}!</div>
-        <div class='col-4'><button type="click" id="btn-logout">Logout</button></div>
-        `);
-    $('.options-closet').show();
-    $('.options-closet').append(`
-                <div class="col-4 buttons-options"><button id="btn-view-mycloset">View My Closet</button></div>
-                <div class="col-4 buttons-options"><button id="btn-view-idealcloset">View Ideal Closet</button></div>
-                <div class="col-4 buttons-options"><button id="btn-view-recommendations">View Recommendations</button><div>
+    $('.topnav').html(`<div class="col-4"><p class="nav nav-title">shopYourCloset</p></div>` +
+        `<div class="col-4"><p class="nav nav-greeting">Welcome, ${userName}!</p></div>` +
+        `<div class="col-4"><button type="click" id="btn-logout" class="nav nav-logout">Logout</button></div>`);
+    $('.section-options').show();
+    $('.section-options').html(`
+                <div class="col-4 buttons-options" id="btn-view-mycloset"><i class="fas fa-door-open"></i>
+                <p class="closet-functions">View your closet</p></div>
+                <div class="col-4 buttons-options" id="btn-view-idealcloset"><i class="fas fa-tshirt"></i>
+                <p class="closet-functions">View the Ideal Closet</p></div>
+                <div class="col-4 buttons-options" id="btn-view-recommendations"><i class="fas fa-atom"></i>
+                <p class="closet-functions">Analyze your wardrobe</p><div>
      `);
     
 }
 
-function renderCloset(closetItems, closet) {
+function renderCloset(closetItems) {
     console.log('renderCloset fired');
-    $('.col-closet').empty();
-    $('.col-closet').append(`
+    $('.col-closet').html(`
         <br>
-        <div class="cl-header"><h3>${closet} Closet Items</h2>
+        <div class="cl-header"><h3>${closetChoice} Closet Items</h2>
             <br>
             <div class="cl-itemcount"></div>
             <br>
-            <button class="mycl-addbutton">add new item</button>
+            <button class="${closetChoice}cl-addbutton">add new item</button>
             <hr>
             <br>
         </div>`);
@@ -289,6 +317,7 @@ function renderCloset(closetItems, closet) {
     let size1 = '';
     let season1 = '';
     let shortdesc1 = '';
+    let longdesc1 = '';
     let itemCount = 0;
 
     closetHtml= '<div id="cl-body">';
@@ -301,7 +330,7 @@ function renderCloset(closetItems, closet) {
         appareltype1 = closetItems.items[i].appareltype;
         color1 = closetItems.items[i].color;
         shortdesc1 = closetItems.items[i].shortdesc;
-        //longdesc1 = closetItems.items[i].longdesc;
+        longdesc1 = closetItems.items[i].longdesc;
         size1 = closetItems.items[i].size;
 
 
@@ -312,11 +341,12 @@ function renderCloset(closetItems, closet) {
                         `<div class="itemrow cl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody">${appareltype1}</div></div>` +
                         `<div class="itemrow cl-color"><div class="item itemlabel">color: </div><div class="item itembody">${color1}</div></div>` +
                         `<div class="itemrow cl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody">${shortdesc1}</div></div>` +
+                        `<div class="itemrow cl-longdesc"><div class="item itemlabel">long description: </div><div class="item itembody">${longdesc1}</div></div>` +
                         `<div class="itemrow cl-size"><div class="item itemlabel">size: </div><div class="item itembody">${size1}</div></div>` +
                 `</div>` +
                 `<br>` +
                 `<div class="cl-editbuttons">` +
-                    `<button class="cl-updatebtn1" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-size="${size1}">update</button>` +
+                    `<button class="cl-updatebtn1" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-longdesc="${longdesc1}" data-size="${size1}">update</button>` +
                     `<button class="cl-deletebtn" data-id="${id1}">delete</button>` +
                 `</div>` +
             `</div>`; 
@@ -325,31 +355,35 @@ function renderCloset(closetItems, closet) {
 
     closetHtml+='</div>';
 
-    $('.cl-itemcount').html(`There are ${itemCount} items in your closet.`);
+    $('.cl-itemcount').append(`There are ${itemCount} items in your closet.`);
     $('.col-closet').append(closetHtml);
 
 }
+function renderAddItemForm() {
+    // change closet cell to updateable form
+    const updateFormBody = `<div class="cl-header"><h3>Add new item to ${closetChoice} Closet</h3></div>` +
+        `<div class="cl-resultcell additem-class"><div class="cl-resultbody"><form action="/action_page.php">` +
+        `<div class="itemrow cl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input id="js-additem-season" type="text" name="season"></div></div>` +
+        `<div class="itemrow cl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input id="js-additem-appareltype" type="text" name="appareltype"></div></div>` +
+        `<div class="itemrow cl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input id="js-additem-color" type="text" name="color"></div></div>` +
+        `<div class="itemrow cl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input id="js-additem-shortdesc" type="text" name="shortdesc"></div></div>` +
+        `<div class="itemrow cl-longdesc"><div class="item itemlabel">long description: </div><div class="item itembody"><input id="js-additem-longdesc" type="text" name="longdesc"></div></div>` +
+        `<div class="itemrow cl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input id="js-additem-size" type="text" name="size"></div></div>`;
 
+       
+
+    const updateEditButtons = `<div class="cl-editbuttons">` +
+    `<button class="${closetChoice}cl-addbtn2">add</button>` +
+    `<button class="cl-cancel-additem-btn">cancel</button>` +
+    `</div></div></form>`;
+    $(`.col-closet`).html(updateFormBody);
+    $(`.col-closet`).append(updateEditButtons);
+}
 
 // ***** LISTENERS
 
-function listenForIdealclosetFunctions() {
-    $('.section-options').on('click', '#btn-view-idealcloset', (function(event) {
-        event.preventDefault();
-        console.log("listenForIdealclosetFunctions fired");
-        const selectedCloset='ideal';
-        fetchCloset(selectedCloset, selectedCloset);
-}));
-}
 
-function listenForMyclosetFunctions() {
-    $('.section-options').on('click', '#btn-view-mycloset', (function(event) {
-        event.preventDefault();
-        console.log("listenForMyclosetFunctions fired");
-        const selectedCloset="my";
-        fetchCloset(selectedCloset);    
-}));
-}
+// listeners for registration and login
 
 function listenforRegisterNewUser() {
     $('#btn-register').click(function(event){
@@ -365,7 +399,7 @@ function listenforRegisterNewUser() {
         // test for password validation characteristics:  proper length and 2 matching passwords
         if (newPass !== confirmPass) {
             // add current error
-            $('.msgs-reg').empty().append(`<p class="alert">New password and confirm password do not match</p>`)
+            $('.msgs-reg').html(`<p class="alert">New password and confirm password do not match</p>`)
         } else {
             $('.js-new-username').val('');
             
@@ -382,7 +416,7 @@ function listenforRegisterNewUser() {
 }
 
 function listenforSignin() {
-    $('#btn-signin').click(function(event) {
+    $(document).on('click', '#btn-signin', function(event) {
         event.preventDefault();
         console.log('listenforSignin fired');
         const username = $("#GET-username").val();
@@ -394,10 +428,10 @@ function listenforSignin() {
 }
 
 function listenforLoginRequest() {
-    $('#btn-login').click(function(event) {
+    $(document).on('click', '#btn-login', function(event) {
         event.preventDefault();
         console.log('listenforLoginRequest fired');
-        $('#form-reg').hide();
+        $('.form-reg-login').hide();
         $('#form-login').show();
     });
 }
@@ -414,121 +448,122 @@ function listenforLogout() {
         $('.col-closet').empty();
         $('.section-options').hide();
         $('.section-login').show();
-        $('.greeting').html('Goodbye!  Come back soon!');
+        $('.nav-greeting').html(`<p>Goodbye!  Come back soon!</p>`);
         renderRegistrationLoginForm();
     });
 }
 
-function listenforAddItemToCloset() {
+
+// listeners for closet functions
+
+function listenForIdealclosetFunctions() {
+    $('.section-options').on('click', '#btn-view-idealcloset', (function(event) {
+        event.preventDefault();
+        console.log("listenForIdealclosetFunctions fired");
+        closetChoice='ideal';
+        fetchCloset();
+}));
+}
+
+function listenForMyclosetFunctions() {
+    $('.section-options').on('click', '#btn-view-mycloset', (function(event) {
+        event.preventDefault();
+        console.log("listenForMyclosetFunctions fired");
+        closetChoice='my';
+        fetchCloset();    
+}));
+}
+function listenforAddItemToMyCloset() {
     $(document).on('click','.mycl-addbutton', (function(event){
         event.preventDefault();
-        let closetChoice = 'my';
+        closetChoice = 'my';
         console.log('listenforAddItemtoCloset fired');
-        $('.col-closet').empty();
-        $('.col-closet').append(`
-            <br>
-            <div class="cl-header"><h3>Add new item to ${closetChoice} Closet</h2>
-            </div>`);
 
-        // change closet cell to updateable form
-        const updateFormBody = 
-        `<div class="cl-resultcell additem-class"><div class="cl-resultbody"><form action="/action_page.php">` +
-            `<div class="itemrow cl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input id="js-additem-season" type="text" name="season"></div></div>` +
-            `<div class="itemrow cl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input id="js-additem-appareltype" type="text" name="appareltype"></div></div>` +
-            `<div class="itemrow cl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input id="js-additem-size" type="text" name="size"></div></div>` +
-            `<div class="itemrow cl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input id="js-additem-color" type="text" name="color"></div></div>` +
-            `<div class="itemrow cl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input id="js-additem-shortdesc" type="text" name="shortdesc"></div></div>`;
-
-        const updateEditButtons = `<div class="cl-editbuttons">` +
-        `<button class="cl-addbtn2">add</button>` +
-        `<button class="cl-cancel-additem-btn">cancel</button>` +
-        `</div></div></form>`;
-        $(`.col-closet`).append(updateFormBody);
-        $(`.col-closet`).append(updateEditButtons);
+        renderAddItemForm();
     }));
 }
 
-function listenforFinalAddItemToCloset() {
-    $(document).on('click','.cl-addbtn2', function(event) {
+function listenforAddItemToIdealCloset() {
+    $(document).on('click','.idealcl-addbutton', (function(event){
         event.preventDefault();
-        const closetChoice = 'my';
-        console.log('listenforFinalAddItemToCloset fired');
-        
-        const season1=$('#js-additem-season').val();
-        const appareltype1=$('#js-additem-appareltype').val();
-        const size1=$('#js-additem-size').val();
-        const color1=$('#js-additem-color').val();
-        const shortdesc1=$('#js-additem-shortdesc').val();
+        closetChoice = 'ideal';
+        console.log('listenforAddItemtoCloset fired');
+        renderAddItemForm();
+    }));
+}
 
-        // create object and send to add function
-        const newItem= {
-            season: season1,
-            appareltype:appareltype1,
-            size: size1,
-            color: color1,
-            shortdesc:shortdesc1
-        };
+function listenforFinalAddItemToMyCloset() {
+    $(document).on('click','.mycl-addbtn2', function(event) {
+        event.preventDefault();
+        closetChoice = 'my';
+        finalAddItemToCloset()
+    });
+}
 
-        console.log(newItem);
-
-        fetchForCreateNewItemInCloset(newItem, closetChoice);
-    })
-
+function listenforFinalAddItemToIdealCloset() {
+    $(document).on('click','.idealcl-addbtn2', function(event) {
+        event.preventDefault();
+        closetChoice = 'ideal';
+        finalAddItemToCloset()
+    });
 }
 
 function listenforUpdateItemInCloset() {
     $(document).on('click', '.cl-updatebtn1', (function(event) {
         event.preventDefault();
         console.log('listenforUpdateItemInMycloset fired');
-        let closetChoice = 'my';
         const id1=$(this).attr('data-id');
         const season1=$(this).attr('data-season');
         const appareltype1=$(this).attr('data-appareltype');
         const color1 = $(this).attr('data-color');
         const shortdesc1 = $(this).attr('data-shortdesc');
+        console.log('shsortdesc1 is ' + shortdesc1);
+        const longdesc1 = $(this).attr('data-longdesc');
+        console.log('longdesc1 is ' + longdesc1);
         const size1 = $(this).attr('data-size');
+        console.log(id1, season1, appareltype1, color1, shortdesc1, longdesc1, size1);
 
         // change closet cell to updateable form
     
-        const updateFormBody = 
-        `<div class="cl-resultcell ${id1}class"><div class="cl-resultbody"><form action="/action_page.php">` +
+        const updateFormBody = `<div class="cl-resultbody"><form id='form-update-closet'>` +
             `<div class="itemrow cl-id"><div class="item itemlabel">id: </div><div class="item itembody"><div id="js-itemid" data-value="${id1}">${id1}</div></div></div>` +
             `<div class="itemrow cl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input id="js-searchseason" type="text" name="season" value="${season1}"></div></div>` +
             `<div class="itemrow cl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input id="js-searchappareltype" type="text" name="appareltype" value="${appareltype1}"></div></div>` +
-            `<div class="itemrow cl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input id="js-searchsize" type="text" name="size" value="${size1}"></div></div>` +
             `<div class="itemrow cl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input id="js-searchcolor" type="text" name="color" value="${color1}"></div></div>` +
-            `<div class="itemrow cl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input id="js-searchshortdesc" type="text" name="shortdesc" value="${shortdesc1}"></div></div>`;
-
-        const updateEditButtons = `<div class="cl-editbuttons">` +
-        `<button class="cl-updatebtn2" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-size="${size1}">update</button>` +
-        `<button class="cl-cancelbtn">cancel</button>` +
-        `</div></div></form>`;
-        $(`.${id1}class`).replaceWith(updateFormBody);
-        $(`.${id1}class`).append(updateEditButtons);
+            `<div class="itemrow cl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input id="js-searchshortdesc" type="text" name="shortdesc" value="${shortdesc1}"></div></div>` +
+            `<div class="itemrow cl-longdesc"><div class="item itemlabel">long description: </div><div class="item itembody"><input id="js-searchlongdesc" type="text" name="longdesc" value="${longdesc1}"></div></div>` +
+            `<div class="itemrow cl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input id="js-searchsize" type="text" name="size" value="${size1}"></div></div></div>` +
+            `<div class="cl-editbuttons">` +
+            `<button class="cl-updatebtn2" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-longdesc="${longdesc1}" data-size="${size1}">update</button>` +
+            `<button class="cl-cancelbtn">cancel</button>` +
+            `</div></form>`;
+        $(`.${id1}class`).html(updateFormBody);
     }));
 }
 
-function listenforFinalUpdateItemInCloset(closet) {
-    $(document).on('click', '.cl-updatebtn2', (function(e){
-        e.preventDefault();
-        const closetChoice = closet;
+function listenforFinalUpdateItemInCloset() {
+    $(document).on('click', '.cl-updatebtn2', (function(event){
+        event.preventDefault();
+        console.log('listenforFinalUpdateItemInCloset fired');
         const updateId = $('#js-itemid').text();
         const updateSeason = $('#js-searchseason').val();
         const updateAppareltype = $('#js-searchappareltype').val();
         const updateColor = $('#js-searchcolor').val();
         const updateShortdesc = $('#js-searchshortdesc').val();
+        const updateLongdesc = $('#js-searchlongdesc').val();
         const updateSize = $('#js-searchsize').val();
     
         // create object and send to update function
-        const updatedClosetItem = {
+        const updatedClosetItemObj = {
             id: updateId,
             season: updateSeason,
             appareltype: updateAppareltype,
             color: updateColor,
             shortdesc: updateShortdesc,
+            longdesc: updateLongdesc,
             size: updateSize
         }
-        fetchForUpdateClosetItemData(closetChoice, updateId, updatedClosetItem);
+        fetchForUpdateClosetItemData(updateId, updatedClosetItemObj);
     
     }));
 }
@@ -536,23 +571,57 @@ function listenforFinalUpdateItemInCloset(closet) {
 function listenforDeleteItemInCloset() {
 $(document).on('click', '.cl-deletebtn', (function(event){
     event.preventDefault();
-    const closetChoice="my";
+    closetChoice="my";
     console.log('.cl-deletebtn has been clicked');
     let id1 = $(this).attr('data-id');
-    fetchForDeleteClosetItemData(closetChoice, id1);
+    fetchForDeleteClosetItemData(id1);
 }));
 }
 
 function listenforCancelAddItem() {
-    $(document).on('click', '#cl-cancel-additem-btn', (function(event) {
+    $(document).on('click', '.cl-cancel-additem-btn', (function(event) {
         event.preventDefault();
         console.log('listenforCancelAddItem fired.');
-        const closetChoice = 'my';
-        fetchCloset(closetChoice);
-
-
+        fetchCloset();
     }))
 }
+
+function listenforPasswordReveal() {
+    $(document).on('click', '.password-icon', (function(event) {
+        event.preventDefault();
+        console.log('listenforPasswordReveal fired');
+        if ($( "input[name='new-password']").attr('type') === 'password') {
+            console.log("found the right element password");
+            $( "input[name='new-password']").attr('type','text');
+            $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+            
+          } else {
+            $( "input[name='new-password']").attr('type','password');
+            console.log('password');
+            $(this).removeClass("fa-eye");
+            $(this).addClass("fa-eye-slash");
+          };
+    }));
+}
+
+function listenforConfirmPasswordReveal() {
+    $(document).on('click', '.password-confirm-icon', (function(event) {
+        event.preventDefault();
+        console.log('listenforPasswordReveal fired');
+        if ($( "input[name='confirm-password']").attr('type') === 'password') {
+            console.log("found the right element password");
+            $( "input[name='confirm-password']").attr('type','text');
+            $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+            
+          } else {
+            $( "input[name='confirm-password']").attr('type','password');
+            console.log('password');
+            $(this).removeClass("fa-eye");
+            $(this).addClass("fa-eye-slash");
+          };
+    }));
+}
+
 
 
 $(document).ready(function() {
@@ -564,9 +633,16 @@ $(document).ready(function() {
     listenforLogout();
     listenForMyclosetFunctions();
     listenForIdealclosetFunctions();
-    listenforAddItemToCloset();
-    listenforFinalAddItemToCloset();
+    listenforAddItemToMyCloset();
+    listenforAddItemToIdealCloset();
+    listenforCancelAddItem();
+    listenforFinalAddItemToMyCloset();
+    listenforFinalAddItemToIdealCloset()
     listenforUpdateItemInCloset();
-    listenforFinalUpdateItemInCloset('my');
-    listenforDeleteItemInCloset()
+    listenforFinalUpdateItemInCloset();
+    listenforDeleteItemInCloset();
+
+    // listener for password icon
+    listenforPasswordReveal();
+    listenforConfirmPasswordReveal();
 });

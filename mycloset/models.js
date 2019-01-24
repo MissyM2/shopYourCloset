@@ -8,8 +8,8 @@ const myclosetSchema = mongoose.Schema({
     color: {type:String},
     appareltype: {type: String, required: true},
     shortdesc: {type: String, required: true},
-    size: {type: String},
     longdesc: {type:String},
+    size: {type: String},
     adddate: {type: Date}
 });
 
@@ -21,8 +21,8 @@ myclosetSchema.methods.serialize = function() {
         appareltype: this.appareltype,
         color: this.color,
         shortdesc: this.shortdesc,
-        size: this.size,
         longdesc: this.longdesc,
+        size: this.size,
         adddate: this.adddate
     }
 };

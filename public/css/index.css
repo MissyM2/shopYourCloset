@@ -1,55 +1,173 @@
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    box-sizing: border-box;
-    /*  CHROME  */
-    -webkit-margin-before: 0px;
-    -webkit-margin-after: 0px;
-    -webkit-margin-start: 0px;
-    -webkit-margin-end: 0px;
-    -webkit-padding-before: 0px;
-    -webkit-padding-after: 0px;
-    -webkit-padding-start: 0px;
-    -webkit-padding-end: 0px;
-}
-
-/***  GENERAL STYLES ***/
-html, body {                       
-    height: 100%;
-    background-color:#D9DDD9;
-    color: #002F32;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-	display: flex;
-	flex-direction: column;
+body {
+    font-family:'Raleway', sans-serif;
+    color: #221505;
+    background-color: #FBF9EC;
 }
 
 header {
-    padding-top: 25px;
+    color: #221505;
+    background: #C98573;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+
+main {
+    margin: 0 20px;
+}
+
+h1, h2, h3 {
+    font-family: 'The Girl Next Door', cursive;
+    text-align: center;
+    color: #221505;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+
 }
 
 h2 {
-    text-align: center;
+    margin: 10px 0;
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+    margin: 5px 0 10px;
+}
+
+h4 {
+    font-size: 1.2em;
+    padding: 5px 20px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    margin: 5px -20px;
+}
+
+h5 {
+    font-size: 1.2em;
+    padding: 5px 0;
+    font-family: 'The Girl Next Door', cursive;
+}
+
+p {
+    font-size: 1em;
+    padding: 3px 0;
+}
+
+input, textarea {
+    border: 1px solid #E0D5C9;
+    background-color: #FBF9EC;
 }
 
 button {
-	background-color: #FFC861;
-	height: 2rem;
-	width: 6rem;
-	margin-bottom: 1rem;
-	font-family: 'Montserrat', sans-serif;
-	text-align: center;
-    border-radius: 5px;
-    font-size:12px;
+    margin: 0 auto;
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-family: 'The Girl Next Door', cursive;
+    border-radius: 50%;
+    border: 1px solid #221505;
+    background-color: #F2D387;
+    
+}
+
+input, textarea {
+    font-size: 0.9em;
+    font-family: 'Raleway', sans-serif;
+}
+
+input[type="date"]{
+    max-width: 150px;
+}
+
+
+input[type="submit"], input[type="button"] {
+    margin: 5px 0 10px;
+}
+
+button:hover, input[type="submit"]:hover, input[type="button"]:hover  {
+    background-color: #E0E0E0;
+}
+
+button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
+    background-color: #E0E0E0;
+}
+
+
+.section-login {
+    background-color: #A8D2CB;
+}
+
+.nav {
+    font-family: 'The Girl Next Door', cursive;
+    text-align:center;
+    border-radius: 50%;
+    background-color: #F2D387;
+    border: 1px solid #221505;
+    height: 2rem;
+    margin: 5px 20px 2px 20px;
+    padding-top:.5rem;
+    position: relative;
+}
+
+.reg-login {
+    padding-bottom: 20px;
+}
+
+.regitem {
+    text-align:left;
+}
+
+.reg-input {
+    width:100%;
+    border-right:0;
+}
+
+.reg-input-container {
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+.password-icon, .password-confirm-icon {
+    padding: 5px;
+    color: gray;
+    background-color: #FBF9EC;
+    min-width: 25px;
+    text-align: center;
+    border-top: 1px solid #E0D5C9;
+    border-right: 1px solid #E0D5C9;
+    border-bottom: 1px solid #E0D5C9;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    background-color: #FBF9EC;
+}
+
+.input-field:focus {
+    border: 2px solid dodgerblue;
+}
+
+.item {
+    font-size: 1.2em;
+    color: #002F32;
 }
 
 .form-reg-login {
     border: 1px black solid;
     margin:0 auto;
     text-align: center;
-    max-width:75%;
+    padding-left:5px;
+    padding-right:5px;
+    /*max-width:75%;*/
 
 }
 
@@ -73,26 +191,48 @@ button {
 }
 
 .fas {
-	margin-bottom: 1rem;
-	padding: 2rem;
-	font-size: 4rem;
-	border: 1px solid #2C363F;
+	margin-bottom: .5rem;
+	padding: 1rem;
+	font-size: 1.5rem;
 	border-radius: 50%;
 }
 
+.fa-door-open {
+    color: #C98573;
+    border: 1px solid #C98573;
+}
+
+.fa-tshirt {
+    color:#F2D387;
+    border: 1px solid #F2D387;
+    
+}
+
+.fa-atom {
+    color: #874D62;
+    border: 1px solid #874D62;
+}
+/*
 .flex-container {
     display: flex;
 }
-
+*/
+/*
 .options-closet {
     padding-top: 15px;
     padding-bottom: 15px;
     margin: 0 auto;
     border: 1px solid pink;
 }
+*/
+
+.closet-functions {
+    font-family: 'The Girl Next Door', cursive;
+}
 
 .buttons-options {
-    padding-left:15px;
+    float:left;
+    text-align:center;
     border: 1px solid purple;
 }
 
@@ -104,12 +244,8 @@ button {
 }
 */
 
-.topnav {
-    display:flex;
-    padding: 10px;
-    border: 1px solid black;
-}
 
+/*
 .col-4 {
     flex: 33.3%;
     padding: 10px;
@@ -119,24 +255,20 @@ button {
 .title-verbage {
     border: 1px solid black;
 }
-
+*/
 
 /***  closet styles ***/
 
-.col-6 {
-    background-color: #AABEEE;
-    color: #322E3D; 
-    flex:50%;
-    padding:10px;
-}
 
 .closet {
-    background-color: #AABEEE;
+    background-color: #A8D2CB;
     color: #322E3D; 
 }
+/*
 .cl-header {
     border: 1px solid red;
 }
+*/
 .cl-resultcell {
     display:flex;
     flex-direction: row;
@@ -153,15 +285,13 @@ button {
 
 .itemrow {
     width:100%;
-    display: flex;
-    flex-direction: row;
     border: 1px solid orange;
 }
-
+/*
 .item {
     border: 1px solid red;
 }
-
+*/
 .itemlabel {
     width: 100px;
 }
