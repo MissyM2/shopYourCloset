@@ -7,7 +7,7 @@ const {Strategy: LocalStrategy } = require('passport-local');
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 
 // import modules
-const { User } = require('../user/user-models');
+const { User } = require('../user/user.model');
 const { JWT_SECRET } = require('../config');
 
 // Passport authentication strategies are used to define how authentication middleware works.
@@ -15,7 +15,7 @@ const { JWT_SECRET } = require('../config');
 // http://www.passportjs.org/docs/configure/
 
 // the localStrategy gets used while trying to access an Endpoint using a User + Password combination
-const LocalStrategy = new LocalStrategy((username, password, passportVerify) => {
+const localStrategy = new LocalStrategy((username, password, passportVerify) => {
   let user;
   // Step 1:  Verify the username exists
   User.findOne({ username: username })

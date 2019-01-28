@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
 // Here we define a Mongoose instance methods, to learn more about them, see:  https://mongoosejs.com/docs/guide.html#methods
 
 // serialize methods to control data that is shown to the client
-UserSchema.methods.serialize = function() {
+userSchema.methods.serialize = function() {
     return {
         id: this._id,
         name: this.name,
@@ -29,14 +29,14 @@ UserSchema.methods.serialize = function() {
 // Instead, you should always "hash" it before storage. To learn more about hashing, see:
 // https://security.blogoverflow.com/2013/09/about-secure-password-hashing/
 // declare function to hash the password
-UserSchema.statics.hashPassword = function(password) {
+userSchema.statics.hashPassword = function(password) {
     return bcrypt.hash(password, 10);
 };
 
 // Since we don't ever store the user's raw password and instead store the hash,
 // we can validate it by running it into the same hashing algorithm and comparing the results.
 // declare function to encrypt user password
-UserSchema.methods.validatePassword = function(password) {
+userSchema.methods.validatePassword = function(password) {
     return bcrypt.compare(password, this.password);
 };
 
@@ -59,4 +59,4 @@ const User = mongoose.model('User', userSchema);
 
 
 
-module.exports = {User, UserJoiSchema};
+module.exports = {User, userJoiSchema};

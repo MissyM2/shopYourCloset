@@ -3,9 +3,9 @@ const express = require('express');
 const Joi = require('joi');
 
 const {HTTP_STATUS_CODES } = require('../config.js');
-const {User, UserJoiSchema} = require('./user-model');
+const {User, UserJoiSchema} = require('./user.model');
 
-const router = express.Router();
+const userRouter = express.Router();
 
 //Post to register a new user
 userRouter.post('/', (request, response) => {
@@ -91,16 +91,17 @@ userRouter.get('/:userid', (request, response) => {
 });
 
 // delete a user based on username with DELETE
-router.delete('/:username', (request, response) => {
+userRouter.delete('/:username', (request, response) => {
     //  Step 1:  Attempt to retrieve and delete a specific user using Mongoose.Model.findOneAndRemove
     User
         .findOneAndRemove(request.params.username)
          // Step 2A: Return the correct HTTP status code, with message.
         .then(user => {
-            response.status(HTTP_STATUS_CODES.NO_CONTENT).json({ message: "Item has been deleted"}))
+            response.status(HTTP_STATUS_CODES.NO_CONTENT).json({ message: "Item has been deleted"});
+        })
         .catch(error => {
             response.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json(error);
         });
 });
 
-module.exports = {router};
+module.exports = {userRouter};

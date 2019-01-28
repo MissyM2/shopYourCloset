@@ -58,7 +58,7 @@ idealitemRouter.get('/', jwtPassportMiddleware, (request, response) => {
                 items.map(item => item.serialize())
             );
         })
-        .catch(err => {
+        .catch(error => {
             // Step 2B: If an error ocurred, return an error HTTP status code and the error in JSON format.
             return response.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json(error);
         });
@@ -68,7 +68,7 @@ idealitemRouter.get('/', (request, response) => {
     // Step 1: Attempt to retrieve all notes using Mongoose.Model.find()
     Idealitem
         .find()
-        .populate('user'
+        .populate('user')
         .then(items => {
             // Step 2A: Return the correct HTTP status code, and the notes correctly formatted via serialization.
             return response.status(HTTP_STATUS_CODES.OK).json(

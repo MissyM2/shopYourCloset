@@ -43,7 +43,7 @@ myitemSchema.methods.serialize = function() {
 // To validate that data used to create a new user is valid, we will use "Joi"
 const MyitemJoiSchema = Joi.object().keys({
     user: Joi.string().optional(),
-    season: Joi.string().min(1).required();
+    season: Joi.string().min(1).required(),
     color: Joi.string().optional(),
     appareltype: Joi.string().min(1).required(),
     shortdesc: Joi.string().min(1).required(),
@@ -55,4 +55,4 @@ const MyitemJoiSchema = Joi.object().keys({
 //  create the models
 const Myitem = mongoose.model('myitem', myitemSchema);
 
-module.exports = {Myitem};
+module.exports = {Myitem, MyitemJoiSchema};

@@ -7,10 +7,10 @@ const myitemRouter = express.Router();
 
 const {HTTP_STATUS_CODES} = require('../config');
 const { jwtPassportMiddleware } = require('../auth/auth.strategy');
-const {Myitem, NodeJoiSchema} = require('./myitem.model');
+const {Myitem, MyitemJoiSchema} = require('./myitem.model');
 
 
-//  POST route handler for /mycloset
+//  POST route handler for /idealitem
 //  * validate request body
 //  * check to see if item already exists
 // *  create item in mycloset and send JSON response
@@ -24,7 +24,7 @@ myitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
         shortdesc: request.body.shortdesc,
         longdesc: request.body.longdesc,
         size: request.body.size,
-        adddate: request.body.adddate
+        adddate: Date.now()
     };
 
      // Step 1: Validate new user information is correct.

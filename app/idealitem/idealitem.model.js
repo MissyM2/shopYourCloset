@@ -1,7 +1,7 @@
 'user strict'
 
 const mongoose = require('mongoose');
-const Joi = requre('joi');
+const Joi = require('joi');
 
 // Each Mongoose schema maps to a MongoDB collection and defines the shape of the documents within that collection.
 const idealitemSchema = new mongoose.Schema({
@@ -42,7 +42,7 @@ idealitemSchema.methods.serialize = function() {
 // To validate that data used to create a new user is valid, we will use "Joi"
 const IdealitemJoiSchema = Joi.object().keys({
     user: Joi.string().optional(),
-    season: Joi.string().min(1).required();
+    season: Joi.string().min(1).required(),
     color: Joi.string().optional(),
     appareltype: Joi.string().min(1).required(),
     shortdesc: Joi.string().min(1).required(),
@@ -54,4 +54,4 @@ const IdealitemJoiSchema = Joi.object().keys({
 //  create the models
 const Idealitem =  mongoose.model('idealitem', idealitemSchema);
 
-module.exports = {Idealitem};
+module.exports = {Idealitem, IdealitemJoiSchema};
