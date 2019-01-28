@@ -62,10 +62,11 @@ p {
 input, textarea {
     border: 1px solid #E0D5C9;
     background-color: #FBF9EC;
+    padding:2px;
 }
 
 button {
-    margin: 0 auto;
+    margin: 3px auto;
     padding: 1rem;
     font-size: 1.2rem;
     font-family: 'The Girl Next Door', cursive;
@@ -97,9 +98,15 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
     background-color: #E0E0E0;
 }
 
-
+.error-field {
+    border:1px solid red;
+}
 .section-login {
     background-color: #A8D2CB;
+}
+
+.title-verbage {
+    text-align: center;
 }
 
 .nav {
@@ -118,16 +125,16 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
     padding-bottom: 20px;
 }
 
-.regitem {
+.reg-item, .login-item {
     text-align:left;
 }
 
-.reg-input {
+.reg-input, .login-input {
     width:100%;
     border-right:0;
 }
 
-.reg-input-container {
+.input-container {
     display: -ms-flexbox; /* IE10 */
     display: flex;
     width: 100%;
@@ -145,20 +152,20 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
     border-bottom: 1px solid #E0D5C9;
 }
 
+.user-icon {
+    padding:5px;
+    background-color:#874D62;
+    color: #FBF9EC;
+    border-top: 1px solid #E0D5C9;
+    border-left: 1px solid #E0D5C9;
+    border-bottom: 1px solid #E0D5C9;
+}
+
 .input-field {
     width: 100%;
     padding: 10px;
     outline: none;
     background-color: #FBF9EC;
-}
-
-.input-field:focus {
-    border: 2px solid dodgerblue;
-}
-
-.item {
-    font-size: 1.2em;
-    color: #002F32;
 }
 
 .form-reg-login {
@@ -190,10 +197,10 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
     border: 1.5px solid #EC130E;
 }
 
-.fas {
+.fa-door-open, .fa-tshirt, .fa-atom {
 	margin-bottom: .5rem;
 	padding: 1rem;
-	font-size: 1.5rem;
+	font-size: 2rem;
 	border-radius: 50%;
 }
 
@@ -209,8 +216,24 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
 }
 
 .fa-atom {
-    color: #874D62;
-    border: 1px solid #874D62;
+    color: #A8D2CB;
+    border: 1px solid #A8D2CB;
+}
+
+.fa-trash-alt, .fa-edit {
+	margin-bottom: .5rem;
+	padding: 1rem;
+	font-size: 1rem;
+	border-radius: 50%;
+}
+
+.fa-trash-alt {
+    color: #C98573;
+    border: 1px solid #C98573;
+}
+.fa-edit {
+    color: #C98573;
+    border: 1px solid #C98573;
 }
 /*
 .flex-container {
@@ -234,41 +257,33 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
     float:left;
     text-align:center;
     border: 1px solid purple;
+    padding-top: 10px;
+    padding-bottom: 5px;
 }
 
-
-/*
-.column {
-    flex:50%;
-    padding:10px;
-}
-*/
-
-
-/*
-.col-4 {
-    flex: 33.3%;
-    padding: 10px;
-    border: 1px solid red;
+.buttons-options-mini {
+    float:left;
+    text-align:center;
+    border: 1px solid purple;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    width:33.3%;
 }
 
-.title-verbage {
-    border: 1px solid black;
-}
-*/
 
 /***  closet styles ***/
 
 
-.closet {
+.col-closet {
     background-color: #A8D2CB;
     color: #322E3D; 
 }
-/*
+
 .cl-header {
-    border: 1px solid red;
+    text-align:center;
 }
-*/
+
+/*
 .cl-resultcell {
     display:flex;
     flex-direction: row;
@@ -282,18 +297,33 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
 .cl-resultcell {
     border: 1px solid black;
 }
-
+*/
 .itemrow {
     width:100%;
     border: 1px solid orange;
+    text-align:left;
 }
-/*
+
 .item {
     border: 1px solid red;
+    display:inline-block;
 }
-*/
+.cl-editbutton-row {
+    text-align:right;
+}
+
+.cl-editbuttons {
+    display:inline-block;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-top:2px;
+    margin-right:2px;
+    margin-bottom: 2px;
+    margin-left:2px;
+}
+
 .itemlabel {
-    width: 100px;
+    width: 70px;
 }
 
 .reglabel {
@@ -302,7 +332,7 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
 }
 
 .itembody {
-    width: 200px;
+    width: 250px;
 }
 
 .mycl-editbuttons {
@@ -311,4 +341,9 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
     justify-content: center;
     align-content: center;
     flex: 1 0 0;
+}
+
+.mycl-addbutton {
+    margin-top: 10px;
+
 }

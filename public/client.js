@@ -58,22 +58,7 @@ function fetchForLogUserIn(data) {
 
 
        
-       /*
-        // test for password validation characteristics:  proper length and 2 matching passwords
-        if (newPass !== confirmPass) {
-            // add current error
-            $('.msgs-reg').empty().append(`<p class="alert">New password and confirm password do not match</p>`)
-        } else {
-            $('.js-new-username').val('');
-            
-            const signupInfo = {};
-            if (newFirstname) signupInfo.firstname = newFirstname;
-            if (newLastname) signupInfo.lastname = newLastname;
-            if (newUsername) signupInfo.username = newUsername;
-            if (newPass) signupInfo.password = newPass;
-            console.log(signupInfo);
-            createNewUser(signupInfo);
-            */
+       
     
 function fetchForCreateNewItemInCloset(newItem) {
     console.log('fetchForCreateNewItemInCloset fired');
@@ -170,8 +155,10 @@ function fetchForDeleteClosetItemData(closetItemId) {
 
 function fetchForCreateNewUser(newInfo) {
     console.log('createnewuser fired');
+    const fetchPath='/api/users/';
+    console.log(newInfo);
     
-    fetch('/api/users/', {
+    fetch(fetchPath, {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -179,22 +166,20 @@ function fetchForCreateNewUser(newInfo) {
         body: JSON.stringify(newInfo)
     })
     .then(response => {
-        console.log('response is ' + response);
-        if (response.ok) {
+        console.log('response is ', response);
+        if (response.ok || response.status === 422) {
             return response.json();
         }
         throw new Error(response.statusText);
     })
     .then(responseJson => {
-        console.log('responseJSON' + JSON.stringify(responseJson.authToken));
+        console.log('responseJSON' + JSON.stringify(responseJson.username));
         if (responseJson.ok) return responseJson;
         return Promise.reject(responseJson);
     })
     .then(responseJson => {
         const username = responseJson.username;
-        const firstname = responseJson.firstname;
-        const lastname = responseJson.lastname;
-        const authToken = responseJson.authToken;
+        //const authToken = responseJson.authToken;
         //getAndDisplayMyclosetItems(true);
         console.log('was new user created? check postman');
     })
@@ -211,10 +196,10 @@ function fetchForCreateNewUser(newInfo) {
         //    $("#confirm-password").val('');
          //   $('#firstname').val('');
          //   $('#lastname').val('');
-    .catch(error => {
-        console.log('error' + error);
-        //renderSignUpError(err.location, err.message)
-        //$('#msgs-reg').empty().append(`<p class="alert">Shouldn't I get this info from the backend?there was an validation error</p>`)
+    .catch(err => {
+        console.log('error', JSON.stringify(err));
+        renderSignUpError(undefined, err.message);
+       
     });
 }
 
@@ -245,54 +230,95 @@ function fetchCloset() {
 
 //  RENDER data to screen
 
-function renderRegistrationLoginForm() {
-    console.log('renderRegistrationLoginForm fired');
+function renderRegistrationForm() {
+    console.log('renderRegistrationForm fired');
     $('.reg-login').html(`
-        <div class="msgs-reg"></div>
-            <form class="form-reg-login">
-                    <div id="div-reg">
-                        <h3>Register</h3>
-                        <div class="regitem"><p>First Name:</p><input type="text" class="reg-input" name="new-firstname" id="new-firstname" placeholder="First Name"></div>
-                        <div class="regitem"><p>Last Name</p><input type="text" class="reg-input name="new-lastname" id="lastname" placeholder="Last Name"></div>
-                        <div class="regitem"><p>Choose username:</p><input type="text" class="reg-input" name="new-username" id="new-username" class="js-new-username" placeholder="myname@gmail.com" required></div>                           
-                        <div class="regitem"><p>Enter password:</p><div class="reg-input-container"><input type="password" class="reg-input" name="new-password" id="new-password" class="js-new-password" value="password" required><i class="far fa-eye-slash password-icon"></i></div></div>
-                        <div class="regitem"><p>Retype password:</p><div class="reg-input-container"><input type="password" class="reg-input" name="confirm-password" id="confirm-password" class="js-confirm-password" value="password" required><i class="far fa-eye-slash password-confirm-icon"></i></div></div>
-                        <div id="btn-sign-me-up" class="reg-editbuttons">
-                            <button type="button" class="btn-register" id="btn-register" value="Sign me up!">Sign me up!</button>
-                        </div>
-                       <div class="form-elements form-elements-button">
-                            <p>Already registered?</p><button type="button" id="btn-login" class="form-input-button">Log In</button>
-                        </div>
+        <form class="form-reg-login">
+            <div id="div-reg">
+                <h3>Register</h3>
+                <div class="reg-item">
+                    <p>Choose username:</p>
+                    <div class="reg-input-container">
+                        <input type="text" class="reg-input" name="new-username" id="new-username" class="js-new-username" placeholder="myname@gmail.com" required>
                     </div>
-    </div>
-            </form>
-            <form id="form-login" class="form-reg-login" style="display:none">
-                <div id="div-login">
-                    <p>Log In</p>
-                    <div class="form-elements"><label for="GET-username">Username:</label><input type="text" name="GET-username" id="GET-username" class="form-input" value="chuckles" required></div>
-                    <div class="form-elements"><label for="GET-password">Password:</label><input type="password" name="GET-password" id="GET-password" class="form-element-button" value="chuck" required></div>
-                    <div class="form-elements form-element-button"><button type="click" id="btn-signin">Sign In</button></div>
-                    <p class="demo">For demo:  <br>username: chuckles <br>password: chuck</p>
+                </div>                           
+                <div class="reg-item">
+                    <p>Enter password:</p>
+                    <div class="input-container">
+                        <input type="password" class="reg-input" name="new-password" id="new-password" class="js-new-password" value="password" required>
+                        <i class="far fa-eye-slash password-icon"></i>
+                    </div>
                 </div>
-            </form>
-                        `);
+                <div class="reg-item">
+                    <p>Retype password:</p>
+                    <div class="input-container">
+                        <input type="password" class="reg-input" name="confirm-password" id="confirm-password" class="js-confirm-password" value="password" required>
+                        <i class="far fa-eye-slash password-confirm-icon"></i>
+                    </div>
+                </div>
+                <div id="btn-sign-me-up" class="reg-editbuttons">
+                    <button type="button" class="btn-register" id="btn-register" value="Sign me up!">Sign me up!</button>
+                </div>
+                <div class="form-elements form-elements-button">
+                    <p>Already registered?</p>
+                    <button type="button" id="btn-login" class="form-input-button">Log In</button>
+                </div>
+            </div>
+        </form>
+    `);
 
+}
+
+function renderLoginForm() {
+    console.log('renderLoginForm fired');
+    $('.reg-login').html(`
+        <form id="form-login" class="form-reg-login">
+            <div id="div-login">
+                <p>Log In</p>
+                <div class="login-item">
+                    <div class="input-container">
+                        <i class="fas fa-user user-icon"></i>
+                        <input type="text" name="GET-username" id="GET-username" class="login-input" value="chuckles" required>
+                    </div>
+                </div>
+                <div class="login-item">
+                    <div class="input-container">
+                        <i class="fas fa-key user-icon"></i>
+                        <input type="password" name="GET-password" id="GET-password" class="login-input" value="chuck" required>
+                        <i class="far fa-eye-slash password-icon"></i>
+                    </div>
+                </div>
+                <div class="btn-signin">
+                    <button type="click" id="btn-signin">Sign In</button>
+                </div>
+                <div class="demo-item">
+                    <p class="demo"><p>For demo:  </p><p>username: chuckles </p><p>password: chuck</p>
+            </div>
+        </form>
+    `);
 }
 
 function renderOptionsScreen(userName) {
     $('#div-login').hide();
     $('.section-login').hide();
-    $('.topnav').html(`<div class="col-4"><p class="nav nav-title">shopYourCloset</p></div>` +
-        `<div class="col-4"><p class="nav nav-greeting">Welcome, ${userName}!</p></div>` +
-        `<div class="col-4"><button type="click" id="btn-logout" class="nav nav-logout">Logout</button></div>`);
+    $('.topnav').html(`<div class="col-4">` +
+                            `<p class="nav nav-title">shopYourCloset</p>` +
+                        `</div>` +
+                        `<div class="col-4">` +
+                            `<p class="nav nav-greeting">Welcome, ${userName}!</p>` +
+                        `</div>` +
+                        `<div class="col-4 col-logout">` +
+                            `<p class="nav nav-logout">Logout</p>` +
+                        `</div>` +
+                    `</div>`);
     $('.section-options').show();
     $('.section-options').html(`
                 <div class="col-4 buttons-options" id="btn-view-mycloset"><i class="fas fa-door-open"></i>
-                <p class="closet-functions">View your closet</p></div>
+                <h5 class="closet-functions">View your closet</h5></div>
                 <div class="col-4 buttons-options" id="btn-view-idealcloset"><i class="fas fa-tshirt"></i>
-                <p class="closet-functions">View the Ideal Closet</p></div>
+                <h5 class="closet-functions">View the Ideal Closet</h5></div>
                 <div class="col-4 buttons-options" id="btn-view-recommendations"><i class="fas fa-atom"></i>
-                <p class="closet-functions">Analyze your wardrobe</p><div>
+                <h5 class="closet-functions">Analyze your wardrobe</h5><div>
      `);
     
 }
@@ -302,12 +328,9 @@ function renderCloset(closetItems) {
     $('.col-closet').html(`
         <br>
         <div class="cl-header"><h3>${closetChoice} Closet Items</h2>
-            <br>
             <div class="cl-itemcount"></div>
-            <br>
-            <button class="${closetChoice}cl-addbutton">add new item</button>
+            <div class="nav cl-editbuttons ${closetChoice}cl-addbutton">add new item</div>
             <hr>
-            <br>
         </div>`);
 
     let closetHtml = '';
@@ -336,39 +359,45 @@ function renderCloset(closetItems) {
 
 
         closetHtml += `<div class="cl-resultcell ${id1}class">` +
+                `<div class="cl-editbutton-row">` +
+                    `<div class="nav cl-editbuttons cl-updatebtn1" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-longdesc="${longdesc1}" data-size="${size1}">update</div>` +
+                    `<div class="nav cl-editbuttons cl-deletebtn" data-id="${id1}">delete</div>` +
+                `</div>` +
                 `<div class="cl-resultbody">` +
-                        `<div class="itemrow cl-season"><div class="item itemlabel">season: </div><div class="item itembody">${season1}</div></div>` +
-                        `<div class="itemrow cl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody">${appareltype1}</div></div>` +
-                        `<div class="itemrow cl-color"><div class="item itemlabel">color: </div><div class="item itembody">${color1}</div></div>` +
-                        `<div class="itemrow cl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody">${shortdesc1}</div></div>` +
-                        `<div class="itemrow cl-longdesc"><div class="item itemlabel">long description: </div><div class="item itembody">${longdesc1}</div></div>` +
-                        `<div class="itemrow cl-size"><div class="item itemlabel">size: </div><div class="item itembody">${size1}</div></div>` +
+                        `<div class="itemrow cl-season"><div class="item itemlabel"><p>season: </p></div><div class="item itembody"><p>${season1}</p></div></div>` +
+                        `<div class="itemrow cl-appareltype"><div class="item itemlabel"><p>type: </p></div><div class="item itembody"><p>${appareltype1}</p></div></div>` +
+                        `<div class="itemrow cl-color"><div class="item itemlabel"><p>color: </p></div><div class="item itembody"><p>${color1}</p></div></div>` +
+                        `<div class="itemrow cl-shortdesc"><div class="item itemlabel"><p>short: </p></div><div class="item itembody"><p>${shortdesc1}</p></div></div>` +
+                        `<div class="itemrow cl-longdesc"><div class="item itemlabel"><p>long: </p></div><div class="item itembody"><p>${longdesc1}</p></div></div>` +
+                        `<div class="itemrow cl-size"><div class="item itemlabel"><p>size: </p></div><div class="item itembody"><p>${size1}</p></div></div>` +
                 `</div>` +
                 `<br>` +
-                `<div class="cl-editbuttons">` +
-                    `<button class="cl-updatebtn1" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-longdesc="${longdesc1}" data-size="${size1}">update</button>` +
-                    `<button class="cl-deletebtn" data-id="${id1}">delete</button>` +
-                `</div>` +
             `</div>`; 
          `<br>`;
     };
 
     closetHtml+='</div>';
-
+    $('.section-options').html(`
+        <div class="col-4 buttons-options-mini" id="btn-view-mycloset">
+            <p class="closet-functions">Your Closet</p></div>
+        <div class="col-4 buttons-options-mini" id="btn-view-idealcloset">
+            <p class="closet-functions">Ideal Closet</p></div>
+        <div class="col-4 buttons-options-mini" id="btn-view-recommendations">
+            <p class="closet-functions">Analyze</p><div>`);
     $('.cl-itemcount').append(`There are ${itemCount} items in your closet.`);
     $('.col-closet').append(closetHtml);
 
 }
 function renderAddItemForm() {
     // change closet cell to updateable form
-    const updateFormBody = `<div class="cl-header"><h3>Add new item to ${closetChoice} Closet</h3></div>` +
+    const updateFormBody = `<div class="cl-header"><h5>Add new item to ${closetChoice} Closet</h5></div>` +
         `<div class="cl-resultcell additem-class"><div class="cl-resultbody"><form action="/action_page.php">` +
-        `<div class="itemrow cl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input id="js-additem-season" type="text" name="season"></div></div>` +
-        `<div class="itemrow cl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input id="js-additem-appareltype" type="text" name="appareltype"></div></div>` +
-        `<div class="itemrow cl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input id="js-additem-color" type="text" name="color"></div></div>` +
-        `<div class="itemrow cl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input id="js-additem-shortdesc" type="text" name="shortdesc"></div></div>` +
-        `<div class="itemrow cl-longdesc"><div class="item itemlabel">long description: </div><div class="item itembody"><input id="js-additem-longdesc" type="text" name="longdesc"></div></div>` +
-        `<div class="itemrow cl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input id="js-additem-size" type="text" name="size"></div></div>`;
+        `<div class="itemrow cl-season"><div class="item itemlabel"><p>season: </p></div><div class="item itembody"><input class="js-additems js-additem-season" type="text" name="season"></div></div>` +
+        `<div class="itemrow cl-appareltype"><div class="item itemlabel"><p>type of clothing: </p></div><div class="item itembody"><input id="js-additem-appareltype" type="text" name="appareltype"></div></div>` +
+        `<div class="itemrow cl-color"><div class="item itemlabel"><p>color: </p></div><div class="item itembody"><input id="js-additem-color" type="text" name="color"></div></div>` +
+        `<div class="itemrow cl-shortdesc"><div class="item itemlabel"><p>short description: </p></div><div class="item itembody"><input id="js-additem-shortdesc" type="text" name="shortdesc"></div></div>` +
+        `<div class="itemrow cl-longdesc"><div class="item itemlabel"><p>long description: </p></div><div class="item itembody"><input id="js-additem-longdesc" type="text" name="longdesc"></div></div>` +
+        `<div class="itemrow cl-size"><div class="item itemlabel"><p>size: </p></div><div class="item itembody"><input id="js-additem-size" type="text" name="size"></div></div>`;
 
        
 
@@ -379,6 +408,27 @@ function renderAddItemForm() {
     $(`.col-closet`).html(updateFormBody);
     $(`.col-closet`).append(updateEditButtons);
 }
+
+// ** render errors
+
+function renderSignUpError(errLocation, errMessage) {
+    console.log('made it to signup error');
+    //reset previous errors
+    $('.new-password').removeClass('error-field');
+    $('.confirm-password').removeClass('error-field');
+    $('.error-msg').remove();
+    if (errLocation === 'username'){
+        $('.new-username').addClass('error-field').attr('aria-invalid', false);
+    } else {
+        $('.new-password').val('').addClass('error-field').attr('aria-invalid', false);
+        $('.confirm-password').val('').addClass('error-field').attr('aria-invalid', false);
+    };
+    $('.btn-register').before(`<p class="error-msg" aria-live="assertive">
+    <i class="fas fa-exclamation-circle"></i> ${errLocation}: ${errMessage}</p>`);
+    }
+
+     //$('#msgs-reg').empty().append(`<p class="alert">Shouldn't I get this info from the backend?there was an validation error</p>`)
+
 
 // ***** LISTENERS
 
@@ -392,8 +442,6 @@ function listenforRegisterNewUser() {
         const newUsername = $("#new-username").val();
         const newPass = $("#new-password").val();
         const confirmPass = $("#confirm-password").val();
-        const newFirstname = $('#new-firstname').val();
-        const newLastname = $('#lastname').val();
         let newUser = {newUsername, newPass};
        
         // test for password validation characteristics:  proper length and 2 matching passwords
@@ -401,16 +449,12 @@ function listenforRegisterNewUser() {
             // add current error
             $('.msgs-reg').html(`<p class="alert">New password and confirm password do not match</p>`)
         } else {
-            $('.js-new-username').val('');
-            
+            $('.js-new-username').val(''); 
             const signupInfo = {};
-            if (newFirstname) signupInfo.firstname = newFirstname;
-            if (newLastname) signupInfo.lastname = newLastname;
             if (newUsername) signupInfo.username = newUsername;
             if (newPass) signupInfo.password = newPass;
             console.log(signupInfo);
             fetchForCreateNewUser(signupInfo);
-            
         };
     })
 }
@@ -431,25 +475,23 @@ function listenforLoginRequest() {
     $(document).on('click', '#btn-login', function(event) {
         event.preventDefault();
         console.log('listenforLoginRequest fired');
-        $('.form-reg-login').hide();
-        $('#form-login').show();
+        renderLoginForm();
     });
 }
 
 function listenforLogout() {
-    $(document).on('click', '#btn-logout', function(event) {
+    $(document).on('click', '.nav-logout', function(event) {
         event.preventDefault();
         console.log('listenforLogout fired');
-
         localStorage.removeItem('authToken');
         localStorage.removeItem('userid');
-        
         //return to login page
         $('.col-closet').empty();
         $('.section-options').hide();
         $('.section-login').show();
         $('.nav-greeting').html(`<p>Goodbye!  Come back soon!</p>`);
-        renderRegistrationLoginForm();
+        $('.col-logout').html('');
+        renderRegistrationForm();
     });
 }
 
@@ -604,6 +646,24 @@ function listenforPasswordReveal() {
     }));
 }
 
+function listenforLoginPasswordReveal() {
+    $(document).on('click', '.password-icon', (function(event) {
+        event.preventDefault();
+        console.log('listenforPasswordReveal fired');
+        if ($( "input[name='GET-password']").attr('type') === 'password') {
+            console.log("found the right element password");
+            $( "input[name='GET-password']").attr('type','text');
+            $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+            
+          } else {
+            $( "input[name='GET-password']").attr('type','password');
+            console.log('password');
+            $(this).removeClass("fa-eye");
+            $(this).addClass("fa-eye-slash");
+          };
+    }));
+}
+
 function listenforConfirmPasswordReveal() {
     $(document).on('click', '.password-confirm-icon', (function(event) {
         event.preventDefault();
@@ -626,7 +686,7 @@ function listenforConfirmPasswordReveal() {
 
 $(document).ready(function() {
     console.log('doc is ready');
-    renderRegistrationLoginForm();
+    renderRegistrationForm();
     listenforRegisterNewUser();
     listenforLoginRequest();
     listenforSignin();
@@ -645,4 +705,5 @@ $(document).ready(function() {
     // listener for password icon
     listenforPasswordReveal();
     listenforConfirmPasswordReveal();
+    listenforLoginPasswordReveal()
 });
