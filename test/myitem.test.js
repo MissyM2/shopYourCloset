@@ -112,6 +112,91 @@ describe('Integration tests for: /api/myitem', function() {
             });
     });
 
+    it ('Should return a specific myitem', function() {
+        let foundMyitem;
+        return Myitem.find()
+            .then(myitems => {
+                expect(myitems).to.be.a('array');
+                expect(myitems).to.have.lengthOf.at.least(1);
+                foundMyitem = myitems[0];
+
+                return chai.request(app)
+                    .get(`/api/myitem/${foundMyitem.id}`)
+                    .set('Authorization', `Bearer ${jwtToken}`);
+            })
+            .then(res => {
+                expect(res).to.have.status(HTTP_STATUS_CODES.OK);
+                expect(res).to.be.json;
+                expect(res.body).to.be.a('object');
+                expect(res.body).to.include.keys('user','season','color','appareltype','shortdesc','longdesc', 'size');
+                expect(res.body).to.deep.include({
+                    season: foundMyitem.season,
+                    color: foundMyitem.color,
+                    appareltype: foundMyitem.appareltype,
+                    shortdesc: foundMyitem.shortdesc,
+                    longdesc: foundMyitem.longdesc,
+                    size: foundMyitem.size
+                });
+            });
+    });
+/*
+    it('Should update a specific myitem', function() {
+        let myitemToUpdate;
+        const newMyitemData = createFakerMyitem();
+        return Myitem.find()
+            .then(myitems => {
+                expect(myitems).to.be.a('array');
+                expect(myitems).to.have.lengthOf.at.least(1);
+                myitemToUpdate = myitems[0];
+
+                return chai.request(app)
+                    .put(`/api/myitem/${myitemToUpdate.id}`)
+                    .set('Authorization', `Bearer ${jwtToken}`)
+                    .send(newMyitemData);
+            })
+            .then(res => {
+                console.log(res.text);
+                expect(res).to.have.status(HTTP_STATUS_CODES.NO_CONTENT);
+
+                return Myitem.findById(myitemToUpdate.id);
+            })
+            .then(myitem => {
+                expect(myitem).to.be.a('object');
+                expect(myitem).to.deep.include({
+                    id: myitemToUpdate.id,
+                    season: myitemToUpdate.season,
+                    color: myitemToUpdate.color,
+                    appareltype: myitemToUpdate.appareltype,
+                    shortdesc: myitemToUpdate.shortdesc,
+                    longdesc: myitemToUpdate.longdesc,
+                    size: myitemToUpdate.size
+                });
+            });
+    });
+
+*/
+    it ('Should delete a specific myitem', function() {
+        let myitemToDelete;
+        return Myitem.find()
+            .then(myitems => {
+                expect(myitems).to.be.a('array');
+                expect(myitems).to.have.lengthOf.at.least(1);
+                myitemToDelete = myitems[0];
+
+                return chai.request(app)
+                    .delete(`/api/myitem/${myitemToDelete.id}`)
+                    .set('Authorization', `Bearer ${jwtToken}`);
+            })
+            .then(res => {
+                expect(res).to.have.status(HTTP_STATUS_CODES.NO_CONTENT);
+
+                return Myitem.findById(myitemToDelete.id);
+            })
+            .then(myitem => {
+                expect(myitem).to.not.exist;
+            });
+    });
+
     function createFakerUser() {
         return {
             name: `${faker.name.firstName()} ${faker.name.lastName()}`,
