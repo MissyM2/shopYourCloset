@@ -44,8 +44,8 @@ function fetchForLogUserIn(data) {
     })
     .then (responseJson => {
         const loggedinUser = responseJson.user.username;
-        localStorage.setItem('authToken', responseJson.token);
-        localStorage.setItem('userid', responseJson.user._id);
+        localStorage.setItem('authToken', responseJson.jwtToken);
+        localStorage.setItem('userid', responseJson.user.id);
         
         renderOptionsScreen(loggedinUser);
     })
@@ -209,21 +209,26 @@ function fetchCloset() {
     console.log('fetchMycloset fired');
     const authToken = localStorage.getItem("authToken");
     //  GET fetch request for My Closet
-        fetch(`/api/${closetChoice}closet/`, {
+        fetch(`/api/${closetChoice}item/`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${authToken}`
             }
         })
         .then(response => {
+            console.log(response);
             if (response.ok) {
             return response.json();
         };
         throw new Error(response.text);
         })
         .then(data => {
-           // console.log('Success: ', JSON.stringify(data));
-            renderCloset(data);
+            if (data.length !== 0) {
+                console.log('Success:  ', JSON.stringify(data));
+                renderCloset(data);
+            } else {
+                console.log('sorry, no data:  add your first item');
+            };
         })
         .catch(error => console.log(error));
 } 
@@ -237,20 +242,26 @@ function renderRegistrationForm() {
             <div id="div-reg">
                 <h3>Register</h3>
                 <div class="reg-item">
-                    <p>Choose username:</p>
+                    <p>name:</p>
                     <div class="reg-input-container">
-                        <input type="text" class="reg-input" name="new-username" id="new-username" class="js-new-username" placeholder="myname@gmail.com" required>
+                        <input type="text" class="reg-input" name="new-name" id="new-name" class="js-new-name" placeholder="First Last" required>
                     </div>
-                </div>                           
+                </div> 
                 <div class="reg-item">
-                    <p>Enter password:</p>
+                    <p>email:</p>
+                    <div class="reg-input-container">
+                        <input type="text" class="reg-input" name="new-email" id="new-email" class="js-new-email" placeholder="myname@gmail.com" required>
+                    </div>
+                </div>                      
+                <div class="reg-item">
+                    <p>password:</p>
                     <div class="input-container">
                         <input type="password" class="reg-input" name="new-password" id="new-password" class="js-new-password" value="password" required>
                         <i class="far fa-eye-slash password-icon"></i>
                     </div>
                 </div>
                 <div class="reg-item">
-                    <p>Retype password:</p>
+                    <p>retype password:</p>
                     <div class="input-container">
                         <input type="password" class="reg-input" name="confirm-password" id="confirm-password" class="js-confirm-password" value="password" required>
                         <i class="far fa-eye-slash password-confirm-icon"></i>
@@ -274,17 +285,16 @@ function renderLoginForm() {
     $('.reg-login').html(`
         <form id="form-login" class="form-reg-login">
             <div id="div-login">
-                <p>Log In</p>
                 <div class="login-item">
                     <div class="input-container">
                         <i class="fas fa-user user-icon"></i>
-                        <input type="text" name="GET-username" id="GET-username" class="login-input" value="chuckles" required>
+                        <input type="text" name="GET-username" id="GET-username" class="login-input" required>
                     </div>
                 </div>
                 <div class="login-item">
                     <div class="input-container">
                         <i class="fas fa-key user-icon"></i>
-                        <input type="password" name="GET-password" id="GET-password" class="login-input" value="chuck" required>
+                        <input type="password" name="GET-password" id="GET-password" class="login-input" required>
                         <i class="far fa-eye-slash password-icon"></i>
                     </div>
                 </div>
@@ -314,9 +324,9 @@ function renderOptionsScreen(userName) {
     $('.section-options').show();
     $('.section-options').html(`
                 <div class="col-4 buttons-options" id="btn-view-mycloset"><i class="fas fa-door-open"></i>
-                <h5 class="closet-functions">View your closet</h5></div>
+                <h5 class="closet-functions">view/add to your closet</h5></div>
                 <div class="col-4 buttons-options" id="btn-view-idealcloset"><i class="fas fa-tshirt"></i>
-                <h5 class="closet-functions">View the Ideal Closet</h5></div>
+                <h5 class="closet-functions">view/add to the ideal closet</h5></div>
                 <div class="col-4 buttons-options" id="btn-view-recommendations"><i class="fas fa-atom"></i>
                 <h5 class="closet-functions">Analyze your wardrobe</h5><div>
      `);
@@ -588,9 +598,9 @@ function listenforFinalUpdateItemInCloset() {
         event.preventDefault();
         console.log('listenforFinalUpdateItemInCloset fired');
         const updateId = $('#js-itemid').text();
+        const updateColor = $('#js-searchcolor').val();
         const updateSeason = $('#js-searchseason').val();
         const updateAppareltype = $('#js-searchappareltype').val();
-        const updateColor = $('#js-searchcolor').val();
         const updateShortdesc = $('#js-searchshortdesc').val();
         const updateLongdesc = $('#js-searchlongdesc').val();
         const updateSize = $('#js-searchsize').val();
@@ -599,8 +609,8 @@ function listenforFinalUpdateItemInCloset() {
         const updatedClosetItemObj = {
             id: updateId,
             season: updateSeason,
-            appareltype: updateAppareltype,
             color: updateColor,
+            appareltype: updateAppareltype,
             shortdesc: updateShortdesc,
             longdesc: updateLongdesc,
             size: updateSize

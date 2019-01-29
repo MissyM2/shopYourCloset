@@ -22,7 +22,7 @@ idealitemSchema.methods.serialize = function() {
     if (typeof this.user.serialize === 'function') {
         user = this.user.serialize();
     } else {
-        user.this.user;
+        user=this.user;
     }
 
     return {

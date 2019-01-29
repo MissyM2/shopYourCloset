@@ -42,12 +42,13 @@ userSchema.methods.validatePassword = function(password) {
 
 // To validate that the data used to create a new user is valid, we will use "Joi", a NPM libraty that
 // allows you to create "blueprints" or "schemas" to ensure validation of key information:  https://www.npmjs.com/package/joi
-const userJoiSchema = Joi.object().keys({
+const UserJoiSchema = Joi.object().keys({
     // to learn more about string validations, see:  https://github.com/hapijs/joi/blob/v13.6.0/API.md#string---inherits-from-any
     name: Joi.string().min(1).trim().required(),
     username: Joi.string().alphanum().min(4).max(30).trim().required(),
     password: Joi.string().min(5).max(10).trim().required(),
     email: Joi.string().email().trim().required()
+  
 });
 
 // learn more about Mongoose Models and Schemas:
@@ -55,8 +56,8 @@ const userJoiSchema = Joi.object().keys({
 // https://stackoverflow.com/questions/9127174/why-does-mongoose-have-both-schemas-and-models
 
 // create model
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('user', userSchema);
 
 
 
-module.exports = {User, userJoiSchema};
+module.exports = {User, UserJoiSchema};

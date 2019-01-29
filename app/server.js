@@ -11,7 +11,7 @@ const passport = require('passport'); //npm module that handles authentication: 
 const {authRouter} = require('./auth/auth.router');
 const {localStrategy, jwtStrategy} = require('./auth/auth.strategy');
 const {userRouter} = require('./user/user.router');
-//const {idealitemRouter} = require('./idealitem/idealitem.router');
+const {idealitemRouter} = require('./idealitem/idealitem.router');
 const {myitemRouter} = require('./myitem/myitem.router');
 
 // configure mongoose to use ES6 promises
@@ -66,7 +66,7 @@ function startServer(testEnv) {
                 // Step 2B: Start Express server
                 server = app.listen(PORT, () => {
                     // Step 3A: Log success message to console and resolve promise.
-                    console.log(`Express server listening on http://localhost:${PORT}}`);
+                    console.log(`Express server listening on http://localhost:${PORT}`);
                     resolve();
                 })
                 .on('error', err => {

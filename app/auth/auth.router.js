@@ -22,12 +22,12 @@ authRouter.post('/login', localPassportMiddleware, (request, response) => {
   const jwtToken = createJwtToken(user);
   response.json({jwtToken, user});
 });
-/*
+
 // The user exchanges a valid JWT for a new one with a later expiration
 authRouter.post('/refresh', jwtPassportMiddleware, (request, response) => {
   const user = request.user;
   const jwtToken = createJwtToken(user);
   response.json({jwtToken, user});
 });
-*/
+
 module.exports = {authRouter};

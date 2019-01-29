@@ -2,17 +2,18 @@
 
 const express = require('express');
 const Joi = require('joi');
-const idealitemRouter = express.Router();
+
 const { HTTP_STATUS_CODES} = require('../config');
 const { jwtPassportMiddleware } = require('../auth/auth.strategy');
 const {Idealitem, IdealitemJoiSchema} = require('./idealitem.model');
 
+const idealitemRouter = express.Router();
 
-//  create new idealitem in closet
-// POST route handler for /idealcloset
-// * validate request body
-// * check if wardrobe item already exists
-// * create item and send JSON response
+//  POST route handler for /idealitem
+//  * validate request body
+//  * check to see if item already exists
+// *  create item in mycloset and send JSON response
+
 idealitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
     // Remember, We can access the request body payload thanks to the express.json() middleware we used in server.js
     const newIdealitem = {
@@ -34,15 +35,15 @@ idealitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
         return response.status(HTTP_STATUS_CODES.BAD_REQUEST).json({error:validation.error});
     }
     // Step 2B: Attempt to create a new idealitem using Mongoose.Model.create
-    Idealcloset
+    Idealitem
         .create(newIdealitem)
         .then(createdItem => {
             // Step 3A: Return the correct HTTP status code, and the note correctly formatted via serialization.
-            return response.status(HTTP_RESPONSE_CODES.CREATED).json(createdItem.serialize());
+            return response.status(HTTP_STATUS_CODES.CREATED).json(createdItem.serialize());
         })
         .catch(error => {
             // Step 3B: If an error ocurred, return an error HTTP status code and the error in JSON format.
-            return response.status(HTTP_RESPONSE_CODES.INTERNAL_SERVER_ERROR).json(error);
+            return response.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json(error);
         });
 });
 
@@ -85,7 +86,7 @@ idealitemRouter.get('/', (request, response) => {
 idealitemRouter.get('/:itemid', jwtPassportMiddleware, (request, response) => {
      // Step 1: Attempt to retrieve the note using Mongoose.Model.findById()
     Idealitem
-        .findById(req.params.itemid)
+        .findById(request.params.itemid)
         .population('user')
         .then(item => {
             // Step 2A: Return the correct HTTP status code, and the note correctly formatted via serialization.
@@ -99,7 +100,7 @@ idealitemRouter.get('/:itemid', jwtPassportMiddleware, (request, response) => {
 
 
 // update idealitem by id
-idealitemRouter.put('/:id', jwtPassportMiddleware, (request, response) => {
+idealitemRouter.put('/:itemid', jwtPassportMiddleware, (request, response) => {
     const idealitemUpdate = {
         season: request.body.season,
         color: request.body.color,
@@ -116,7 +117,7 @@ idealitemRouter.put('/:id', jwtPassportMiddleware, (request, response) => {
         return response.status(HTTP_STATUS_CODES.BAD_REQUEST).json({error: validation.error});
     }
     // Step 2B: Attempt to find the note, and update it using Mongoose.Model.findByIdAndUpdate()
-    Idealitem.findByIdAndUpdate(req.params.itemid,idealitemUpdate)
+    Idealitem.findByIdAndUpdate(request.params.itemid,idealitemUpdate)
         .then(() => {
            // Step 3A: Since the update was performed but no further data provided,
             return response.status(HTTP_STATUS_CODES.NO_CONTENT).end();
@@ -130,7 +131,7 @@ idealitemRouter.put('/:id', jwtPassportMiddleware, (request, response) => {
 //  remove idealitem by id
 idealitemRouter.delete('/:itemid', jwtPassportMiddleware, (request, response) => {
      // Step 1: Attempt to find the note by ID and delete it using Mongoose.Model.findByIdAndDelete()
-    Idealitem.findByIdAndRemove(req.params.itemid)
+    Idealitem.findByIdAndRemove(request.params.itemid)
         .then(() => {
             // Step 2A: Since the deletion was performed but no further data provided,
             // we just end the request with NO_CONTENT status code.=

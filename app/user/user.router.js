@@ -16,7 +16,7 @@ userRouter.post('/', (request, response) => {
         email: request.body.email,
         username: request.body.username,
         password: request.body.password
-    };
+    }
 
     // Step 1: Validate new user information is correct.
     // Here, we use the Joi NPM library for easy validation
@@ -27,7 +27,7 @@ userRouter.post('/', (request, response) => {
         // Step 2A: If validation error is found, end the request with a server error and error message.
         return response.status(HTTP_STATUS_CODES.BAD_REQUEST).json({error: validation.error});
     }
-    
+
     // Step 2B: Verify if the new user's email or username doesn't already exist in the database using Mongoose.Model.findOne() 
     return User.findOne({
         // Mongoose $or operator: https://docs.mongodb.com/manual/reference/operator/query/or/ 
@@ -41,7 +41,7 @@ userRouter.post('/', (request, response) => {
             return response.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: 'Database Error: A user with that username and/or email already exists.'});
         }
         // Step 3B:  We should NEVER store raw passwords, so instead we wait while we encrypt it into a hash.
-        return User.hashPassword(password);
+        return User.hashPassword(newUser.password);
         }).then(passwordHash => {
                 newUser.password = passwordHash;
                 // Step 4: Once password hash has replaced the raw password, we attempt to create the new user using Mongoose.Model.create()

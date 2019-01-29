@@ -6,7 +6,7 @@ const myitemRouter = express.Router();
 
 
 const {HTTP_STATUS_CODES} = require('../config');
-const { jwtPassportMiddleware } = require('../auth/auth.strategy');
+const {jwtPassportMiddleware } = require('../auth/auth.strategy');
 const {Myitem, MyitemJoiSchema} = require('./myitem.model');
 
 
@@ -22,10 +22,11 @@ myitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
         color: request.body.color,
         appareltype: request.body.appareltype,
         shortdesc: request.body.shortdesc,
-        longdesc: request.body.longdesc,
         size: request.body.size,
+        longdesc: request.body.longdesc,
         adddate: Date.now()
     };
+
 
      // Step 1: Validate new user information is correct.
     // Here, we use the Joi NPM library for easy validation
@@ -39,6 +40,8 @@ myitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
         .create(newMyitem)
         .then(createdItem => {
             // Step 3A: Return the correct HTTP status code, and the note correctly formatted via serialization.
+            console.log('created item is ' + createdItem);
+            console.log('newMyitem is ' + newMyitem);
             return response.status(HTTP_STATUS_CODES.CREATED).json(createdItem.serialize());
         })
         .catch(error => {
@@ -89,7 +92,7 @@ myitemRouter.get('/all', (request, response) => {
 myitemRouter.get('/:itemid', jwtPassportMiddleware,(request, response) => {
     // Step 1: Attempt to retrieve the note using Mongoose.Model.findById()
     Myitem
-        .findById(req.params.itemid)
+        .findById(request.params.itemid)
         .populate('user')
         .then(item => {
              // Step 2A: Return the correct HTTP status code, and the note correctly formatted via serialization.
@@ -123,7 +126,7 @@ myitemRouter.put('/:id', jwtPassportMiddleware, (request, response) => {
     // Step 2B: Attempt to find the note, and update it using Mongoose.Model.findByIdAndUpdate()
     Myitem
     // all key/value pairs in toUpdate will be updated -- that's what `$set` does
-    .findByIdAndUpdate(req.params.id, itemUpdate)
+    .findByIdAndUpdate(request.params.id, itemUpdate)
     .then(() => {
         // Step 3A: Since the update was performed but no further data provided,
             // we just end the request with NO_CONTENT status code.
@@ -139,7 +142,7 @@ myitemRouter.put('/:id', jwtPassportMiddleware, (request, response) => {
 myitemRouter.delete('/:itemid', jwtPassportMiddleware, (request, response) => {
      // Step 1: Attempt to find the note by ID and delete it using Mongoose.Model.findByIdAndDelete()
     Myitem
-        .findByIdAndRemove(req.params.itemid)
+        .findByIdAndRemove(request.params.itemid)
         .then(item => {
              // Step 2A: Since the deletion was performed but no further data provided
              return response.status(HTTP_STATUS_CODES.NO_CONTENT).end();

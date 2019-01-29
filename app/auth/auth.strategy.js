@@ -69,11 +69,11 @@ const jwtStrategy = new JwtStrategy(
 );
 
 const localPassportMiddleware = passport.authenticate('local', { session: false});
-const jwtPassportMiddleWare = passport.authenticate('jwt', { session: false });
+const jwtPassportMiddleware = passport.authenticate('jwt', { session: false });
 
 module.exports = {
   localStrategy, 
   jwtStrategy,
   localPassportMiddleware,
-  jwtPassportMiddleWare 
+  jwtPassportMiddleware 
 };
