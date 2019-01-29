@@ -11,6 +11,7 @@ const idealitemSchema = new mongoose.Schema({
     appareltype: {type: String, required: true},
     shortdesc: {type: String, required: true},
     longdesc: { type: String},
+    size: { type: String},
     adddate: {type: Date},
     updateDate: {type: Date, default: Date.now }
 });

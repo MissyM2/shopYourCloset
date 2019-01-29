@@ -81,7 +81,7 @@ describe('Integration tests for: /api/user', function() {
                 expect(res.body[0]).to.not.include.keys('password');
             });
     });
-/*
+
     it('Should return a specific user', function () {
         let foundUser;
         return chai.request(app)
@@ -92,16 +92,18 @@ describe('Integration tests for: /api/user', function() {
                 expect(res.body).to.be.a('array');
                 expect(res.body).to.have.lengthOf.at.least(1);
                 foundUser = res.body[0];
-                return chai.request(app.get(`/api/user/${foundUser.id}`));
+                //console.log('foundUser is ', foundUser);
+                return chai.request(app).get(`/api/user/${foundUser.id}`);
             })
             .then(res => {
+                //console.log(res);
                 expect(res).to.have.status(HTTP_STATUS_CODES.OK);
                 expect(res).to.be.json;
                 expect(res.body).to.be.a('object');
                 expect(res.body.id).to.equal(foundUser.id);
             });
     });
-*/
+
     it('Should create a new user', function() {
         let newUser = createFakerUser();
         return chai.request(app)

@@ -4,22 +4,22 @@ const mongoose = require('mongoose');
 const chai = require('chai');
 
 const chaiHttp = require('chai-http');
-const jsonwebtoken = require('jsonwebtoken'); // to create a fake web token
-const faker = require('faker'); // to create a fake user
+const jsonwebtoken = require('jsonwebtoken');
+const faker = require('faker');
 
 const { HTTP_STATUS_CODES, JWT_SECRET, JWT_EXPIRY } = require('../app/config');
-const { startServer, stopServer, app } = require('../app/server.js');
-// we need both User and Myitem model to test Myitem because it is protected and requires a password to access the endpoint
-const { User } = require ('../app/user/user.model');
-const { Myitem } = require('../app/myitem/myitem.model');
+const { startServer, stopServer, app} = require('../app/server.js');
+
+const { User } = require('../app/user/user.model');
+const { Idealitem } = require('../app/idealitem/idealitem.model');
 
 const expect = chai.expect;
 chai.use(chaiHttp);
 
-describe('Integration tests for: /api/myitem', function() {
+describe('Integration test for: /api/idealitem', function() {
     let testUser, jwtToken;
 
-    before(function () {
+    before(function() {
         return startServer(true);
     });
 
@@ -60,18 +60,17 @@ describe('Integration tests for: /api/myitem', function() {
                 );
 
                 const seedData = [];
-                for (let i=1; i <= 10; i++) {
-                    const newMyitem = createFakerMyitem();
-                    newMyitem.user = createdUser.id;
-                    seedData.push(newMyitem);
+                for(let i=1; i<=10; i++ ){
+                    const newIdealitem = createFakerIdealitem();
+                    newIdealitem.user = createdUser.id;
+                    seedData.push(newIdealitem);
                 }
-                return Myitem.insertMany(seedData)
+                return Idealitem.insertMany(seedData)
                     .catch(err => {
                         console.error(err);
                         throw new Error(err);
                     });
             });
-
     });
 
     afterEach(function() {
@@ -92,36 +91,37 @@ describe('Integration tests for: /api/myitem', function() {
         return stopServer();
     });
 
-    it('Should return user mycloset items', function() {
+    it('Should return user idealcloset items', function() {
         return chai.request(app)
-            .get('/api/myitem')
+            .get('/api/idealitem')
             .set('Authorization', `Bearer ${jwtToken}`)
             .then(res => {
                 expect(res).to.have.status(HTTP_STATUS_CODES.OK);
                 expect(res).to.be.json;
                 expect(res.body).to.be.a('array');
                 expect(res.body).to.have.lengthOf.at.least(1);
-                const myitem = res.body[0];
-                expect(myitem).to.include.keys('user','season','color','appareltype','shortdesc','longdesc', 'size');
-                expect(myitem.user).to.deep.include({
+                const idealitem = res.body[0];
+                expect(idealitem).to.include.keys('user','season','color','appareltype','shortdesc','longdesc', 'size');
+                expect(idealitem.user).to.deep.include({
                     id: testUser.id,
                     username: testUser.username,
                     email: testUser.email,
                     name: testUser.name
-                });  
+                });
             });
     });
 
-    it ('Should return a specific myitem', function() {
-        let foundMyitem;
-        return Myitem.find()
-            .then(myitems => {
-                expect(myitems).to.be.a('array');
-                expect(myitems).to.have.lengthOf.at.least(1);
-                foundMyitem = myitems[0];
+    it('Should return a specific idealitem', function() {
+        let foundIdealitem;
+
+        return Idealitem.find()
+            .then(idealitems => {
+                expect(idealitems).to.be.a('array');
+                expect(idealitems).to.have.lengthOf.at.least(1);
+                foundIdealitem = idealitems[0];
 
                 return chai.request(app)
-                    .get(`/api/myitem/${foundMyitem.id}`)
+                    .get(`/api/idealitem/${foundIdealitem.id}`)
                     .set('Authorization', `Bearer ${jwtToken}`);
             })
             .then(res => {
@@ -130,68 +130,71 @@ describe('Integration tests for: /api/myitem', function() {
                 expect(res.body).to.be.a('object');
                 expect(res.body).to.include.keys('user','season','color','appareltype','shortdesc','longdesc', 'size');
                 expect(res.body).to.deep.include({
-                    season: foundMyitem.season,
-                    color: foundMyitem.color,
-                    appareltype: foundMyitem.appareltype,
-                    shortdesc: foundMyitem.shortdesc,
-                    longdesc: foundMyitem.longdesc,
-                    size: foundMyitem.size
+                    season: foundIdealitem.season,
+                    color: foundIdealitem.color,
+                    appareltype: foundIdealitem.appareltype,
+                    shortdesc: foundIdealitem.shortdesc,
+                    longdesc: foundIdealitem.longdesc,
+                    size: foundIdealitem.size
                 });
             });
     });
 
-    it('Should update a specific myitem', function() {
-        let myitemToUpdate;
-        const newMyitemData = createFakerMyitem();
-        return Myitem.find()
-            .then(myitems => {
-                expect(myitems).to.be.a('array');
-                expect(myitems).to.have.lengthOf.at.least(1);
-                myitemToUpdate = myitems[0];
+    it('Should update a specific idealitem', function() {
+        let idealitemToUpdate;
+
+        const newIdealitemData = createFakerIdealitem();
+        //console.log(newIdealitemData);
+        return Idealitem.find()
+            .then(idealitems => {
+                expect(idealitems).to.be.a('array');
+                expect(idealitems).to.have.lengthOf.at.least(1);
+                idealitemToUpdate = idealitems[0];
 
                 return chai.request(app)
-                    .put(`/api/myitem/${myitemToUpdate.id}`)
+                    .put(`/api/idealitem/${idealitemToUpdate.id}`)
                     .set('Authorization', `Bearer ${jwtToken}`)
-                    .send(newMyitemData);
+                    .send(newIdealitemData);
             })
             .then(res => {
                 expect(res).to.have.status(HTTP_STATUS_CODES.NO_CONTENT);
 
-                return Myitem.findById(myitemToUpdate.id);
+                return Idealitem.findById(idealitemToUpdate.id);
             })
-            .then(myitem => {
-                expect(myitem).to.be.a('object');
-                expect(myitem).to.deep.include({
-                    season: newMyitemData.season,
-                    color: newMyitemData.color,
-                    appareltype: newMyitemData.appareltype,
-                    shortdesc: newMyitemData.shortdesc,
-                    longdesc: newMyitemData.longdesc,
-                    size: newMyitemData.size
+            .then(idealitem => {
+                //console.log('idealitem is ', idealitem);
+                //console.log('idealitemToUpdate', idealitemToUpdate);
+                expect(idealitem).to.be.a('object');
+                expect(idealitem).to.deep.include({
+                    season: newIdealitemData.season,
+                    color: newIdealitemData.color,
+                    appareltype: newIdealitemData.appareltype,
+                    shortdesc: newIdealitemData.shortdesc,
+                    longdesc: newIdealitemData.longdesc,
+                    size: newIdealitemData.size
                 });
             });
     });
 
-
-    it ('Should delete a specific myitem', function() {
-        let myitemToDelete;
-        return Myitem.find()
-            .then(myitems => {
-                expect(myitems).to.be.a('array');
-                expect(myitems).to.have.lengthOf.at.least(1);
-                myitemToDelete = myitems[0];
+    it('Should delete a specific idealitem', function() {
+        let idealitemToDelete;
+        return Idealitem.find()
+            .then(idealitems => {
+                expect(idealitems).to.be.a('array');
+                expect(idealitems).to.have.lengthOf.at.least(1);
+                idealitemToDelete = idealitems[0];
 
                 return chai.request(app)
-                    .delete(`/api/myitem/${myitemToDelete.id}`)
-                    .set('Authorization', `Bearer ${jwtToken}`);
+                    .delete(`/api/idealitem/${idealitemToDelete.id}`)
+                    .set('Authorization',`Bearer ${jwtToken}`);
             })
             .then(res => {
                 expect(res).to.have.status(HTTP_STATUS_CODES.NO_CONTENT);
 
-                return Myitem.findById(myitemToDelete.id);
+                return Idealitem.findById(idealitemToDelete.id);
             })
-            .then(myitem => {
-                expect(myitem).to.not.exist;
+            .then(idealitem => {
+                expect(idealitem).not.to.exist;
             });
     });
 
@@ -204,7 +207,7 @@ describe('Integration tests for: /api/myitem', function() {
         };
     }
 
-    function createFakerMyitem() {
+    function createFakerIdealitem() {
         return {
             season: faker.lorem.word(),
             color: faker.commerce.color(),

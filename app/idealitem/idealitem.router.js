@@ -87,7 +87,7 @@ idealitemRouter.get('/:itemid', jwtPassportMiddleware, (request, response) => {
      // Step 1: Attempt to retrieve the note using Mongoose.Model.findById()
     Idealitem
         .findById(request.params.itemid)
-        .population('user')
+        .populate('user')
         .then(item => {
             // Step 2A: Return the correct HTTP status code, and the note correctly formatted via serialization.
             return response.status(HTTP_STATUS_CODES.OK).json(item.serialize());
