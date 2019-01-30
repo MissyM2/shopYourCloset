@@ -16,8 +16,8 @@ module.exports = {
          NOT_FOUND: 404,
          INTERNAL_SERVER_ERROR: 500
      },
-     MONGO_DATABASE_URL:  process.env.DATABASE_URL || 'mongodb://localhost/shopyourcloset-localdb',
-     TEST_MONGO_DATABASE_URL:  process.env.TEST_DATABASE_URL || 'mongodb://localhost/shopyourcloset-localtestdb',
+     MONGO_DATABASE_URL:  process.env.DATABASE_URL || 'mongodb://admin:admin1@ds161225.mlab.com:61225/shopyourcloset-db',
+     TEST_MONGO_DATABASE_URL:  process.env.TEST_DATABASE_URL || 'mongodb://admin:admin1@ds257314.mlab.com:57314/shopyourcloset-testdb',
      JWT_SECRET: process.env.JWT_SECRET || 'default',
      JWT_EXPIRY: process.env.JWT_EXPIRY || '7d'
 };
