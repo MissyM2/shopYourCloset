@@ -2,3 +2,10 @@ language: node_js
 node_js: node
 services: mongodb
 
+deploy:
+  provider: heroku
+  api_key:
+    secure: zKUIDlWVb/klNzS6sWacb2urIWx6cquN7ePvN4rbnqzKsboHOGmMK7Cik9vODllaeo/0uYuxKjfBzeFyjXwwqkNW8vEEzNl/kEGWpAHop48vVhOEKlHUu/2BIJg9vTvPMeimSTBRc/RgDStes8kkLy9xob5IldcxIAuJIWcz13FDbuW0cUAPEGSZYlNBtacRUnWExFAPU54v2hu2/cGNTt05RaXk2YKMWVxZoVc3MpRpEqPlgTCT5ins9YGJYx6ZuamYuAXoQq1/DxKgeoUA91xJ3IWUnRGAEWVDlk4SieONI9RtksBWMUAG7wVz4SS2zW1L0Xo+n5HhHsN/TB10zVM+a7Nd+DRraEVE4BEge3a+gW+Ws1zmZD7txv6M8LT/Dqm24s8DmnfUWue7LNbO85Jy1sj3fJk9Lh3+/F+JXYIK6qBido1C3hN16w5MZLMjfqEFUiQ4RIUTKyE/A2gVLPQXaIiRO5egpCYGGyojGMKX6GLLyWGRESpd3uTkMFSmSfRtmH/XSfHXjjEu/IM9NgwgfLJllK9NDNDRKMZfh9RXy7Wlo6eImXfUASii8yIPEiT0MiMtF2ThjfW+tTyUufyH3kYKs6247sxAwieI2/duj7NyUkjxanLxryMHTWcfvWR+nfSFcMS9I7a+0DQE5LRK0364AEofby5ZT5pezCU=
+  app: immense-cliffs-28427
+  on:
+    repo: MissyM2/shopYourCloset
