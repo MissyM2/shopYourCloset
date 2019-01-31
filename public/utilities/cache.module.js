@@ -2,12 +2,12 @@
 
 window.CACHE_MODULE = {
     getAuthenticatedUserFromCache,
-    //saveAuthenticatedUserIntoCache,
-    //deleteAuthenticatedUserFromCache
+    saveAuthenticatedUserIntoCache,
+    deleteAuthenticatedUserFromCache
 };
 
 function getAuthenticatedUserFromCache() {
-    console.log('getAuthenticatedUserFromCache fired');
+
     const jwtToken = localStorage.getItem('jwtToken');
     const userid = localStorage.getItem('userid');
     const username = localStorage.getItem('username');
@@ -23,7 +23,6 @@ function getAuthenticatedUserFromCache() {
             email
         };
     } else {
-        console.log('there is no token in localstorage');
         return undefined;
     }
 }
@@ -36,7 +35,7 @@ function saveAuthenticatedUserIntoCache(userData) {
     localStorage.setItem('name', userData.name);
     localStorage.setItem('email', userData.email);
 }
-/*
+
 function deleteAuthenticatedUserFromCache() {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('userid');
@@ -45,4 +44,4 @@ function deleteAuthenticatedUserFromCache() {
     localStorage.removeItem('email');
 }
 
-*/
+

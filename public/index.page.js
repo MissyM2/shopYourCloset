@@ -32,7 +32,7 @@ function onPageLoad() {
 function onRegisterNewUserClick() {
     $('#btn-register').click(function(event){
         event.preventDefault();
-        console.log('onRegisterNewUserClick fired.');
+        $('#msgs-reg').html('');
         if ($('#new-password').val() != $('#confirm-password').val()) {
             console.log('password and new pass are not the same');
             // add current error
@@ -44,22 +44,19 @@ function onRegisterNewUserClick() {
                 username: $('#new-username').val(),
                 password: $("#new-password").val()
             };
-            console.log(userData);
             HTTP.fetchForCreateNewUser(userData);
         };
     });
 }
 
 function onSigninClick() {
-    console.log('onsignin clicked');
     $(document).on('click', '#btn-signin', function(event) {
         event.preventDefault();
-        console.log('onSigninClick fired');
+        $('#msgs-reg').html('');
         const userData = {
             username: $("#GET-username").val(),
             password: $("#GET-password").val()
         };
-        console.log(userData);
         HTTP.fetchForLogUserIn(userData);
     });
 }
@@ -67,28 +64,27 @@ function onSigninClick() {
 function onLoginRequestClick() {
     $(document).on('click', '#btn-login', function(event) {
         event.preventDefault();
-        console.log('onLoginRequestClick fired');
+        $('#msgs-reg').html('');
         renderLoginForm();
     });
 }
-/*
+
 function onLogoutClick() {
     $(document).on('click', '.nav-logout', function(event) {
         event.preventDefault();
         console.log('onLogoutClick fired');
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userid');
         //return to login page
         $('.col-closet').empty();
         $('.section-options').hide();
         $('.section-login').show();
         $('.nav-greeting').html(`<p>Goodbye!  Come back soon!</p>`);
         $('.col-logout').html('');
+        deleteAuthenticatedUserFromCache();
         renderRegistrationForm();
     });
 }
 
-
+/*
 // listeners for closet functions
 
 function onIdealclosetFunctionsClick() {
@@ -277,7 +273,6 @@ function onConfirmPasswordRevealClick() {
 
 */
 function updateAuthenticatedUI() {
-    console.log('updateAuthenticatedUI fired');
     const authUser = CACHE.getAuthenticatedUserFromCache();
     console.log(authUser);
     if (authUser) {
@@ -320,6 +315,7 @@ $(document).ready(function () {
     onLoginRequestClick();
     onRegisterNewUserClick();
     onSigninClick();
+    onLogoutClick();
 });
 
 

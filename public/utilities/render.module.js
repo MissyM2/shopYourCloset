@@ -10,7 +10,6 @@ window.RENDER_MODULE = {
 };
 
 function renderRegistrationForm() {
-    console.log('renderRegistrationForm fired');
     $('.reg-login').html(`
         <form class="form-reg-login">
             <div id="div-reg">
@@ -204,8 +203,9 @@ function renderAddItemForm() {
 function renderSignUpError(errLocation, errMessage) {
     console.log('made it to signup error');
     //reset previous errors
-    $('.new-password').removeClass('error-field');
-    $('.confirm-password').removeClass('error-field');
+    
+    //$('.new-password').removeClass('error-field');
+    //$('.confirm-password').removeClass('error-field');
     $('.error-msg').remove();
     if (errLocation === 'username'){
         $('.new-username').addClass('error-field').attr('aria-invalid', false);
@@ -213,8 +213,8 @@ function renderSignUpError(errLocation, errMessage) {
         $('.new-password').val('').addClass('error-field').attr('aria-invalid', false);
         $('.confirm-password').val('').addClass('error-field').attr('aria-invalid', false);
     };
-    $('.btn-register').before(`<p class="error-msg" aria-live="assertive">
-    <i class="fas fa-exclamation-circle"></i> ${errLocation}: ${errMessage}</p>`);
-    }
+    //$('.btn-register').before(`<p class="error-msg" aria-live="assertive">
+    $('#msgs-reg').html(`<p class="error-msg">${errMessage}</p>`);
 
-     //$('#msgs-reg').empty().append(`<p class="alert">Shouldn't I get this info from the backend?there was an validation error</p>`)
+    //<i class="fas fa-exclamation-circle"></i> ${errLocation}: ${errMessage}</p>`);
+    }

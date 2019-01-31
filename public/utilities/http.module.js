@@ -25,9 +25,7 @@ function fetchForCreateNewUser(userData) {
         }
         return responseJson;
     })
-    .then(responseJson => {
-        console.log('responseJson is ',responseJson);
-        
+    .then(responseJson => {     
         const userData = {
             jwtToken: responseJson.jwtToken,
             id: responseJson.id,
@@ -35,12 +33,11 @@ function fetchForCreateNewUser(userData) {
             username: responseJson.username,
             email: responseJson.email
         };
-        console.log('userData is ', userData);
         saveAuthenticatedUserIntoCache(responseJson);
         renderLoginForm();
     })
     .catch(err => {
-        console.log('error', err);
+        console.log('threw new 400 error');
         renderSignUpError(undefined, err.message);
        
     });
@@ -55,15 +52,15 @@ function fetchForLogUserIn(userData) {
         body: JSON.stringify(userData)
     })
     .then(response => {
-        console.log(response);
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error(response.statusText);
+        return response.json();
+    })
+    .then(responseJson => {
+        if (responseJson.error) {
+            throw new Error(responseJson.error);
         }
+        return responseJson;
     })
     .then (responseJson => {
-        console.log('responseJson is ', responseJson);
         const userData = {
             jwtToken: responseJson.jwtToken,
             id: responseJson.user.id,
@@ -71,18 +68,17 @@ function fetchForLogUserIn(userData) {
             username: responseJson.user.username,
             email: responseJson.user.email
         };
-        console.log('userData is ', userData);
         saveAuthenticatedUserIntoCache(userData);
         renderOptionsScreen(userData.name);
     })
     .catch(error => {
-        console.log(error);
-        $('#login-error').html(`<p class="alert">Username or password is incorrect.</p>`);
+        console.log(error.text);
+        renderSignUpError(undefined, error.message);
     });
 }
 
+
 function fetchForCreateNewItemInCloset(newItem) {
-    console.log('fetchForCreateNewItemInCloset fired');
     const authToken = localStorage.getItem("authToken");
     console.log(closetChoice);
     let fetchPath=`/api/${closetChoice}closet/`;
@@ -205,3 +201,4 @@ function fetchCloset() {
         })
         .catch(error => console.log(error));
 } 
+
