@@ -17,6 +17,7 @@ userRouter.post('/', (request, response) => {
         username: request.body.username,
         password: request.body.password
     }
+    console.log('new user is ' + newUser);
 
     // Step 1: Validate new user information is correct.
     // Here, we use the Joi NPM library for easy validation
@@ -24,6 +25,7 @@ userRouter.post('/', (request, response) => {
 
     const validation = Joi.validate(newUser, UserJoiSchema);
     if(validation.error) {
+        console.log('is there a validation error');
         // Step 2A: If validation error is found, end the request with a server error and error message.
         return response.status(HTTP_STATUS_CODES.BAD_REQUEST).json({error: validation.error});
     }

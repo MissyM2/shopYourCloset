@@ -114,8 +114,8 @@ function getAndDisplayMyclosetItems(isNewUser){
 }
 
 
-function listenForSignin() {
-    console.log('listenforsignin fired');
+function onSigninClick() {
+    console.log('onSigninClick fired');
     $('#btn-signin').click(event => {
         event.preventDefault();
         guestLogin();
@@ -143,5 +143,5 @@ function listenForLogin() {
 $(document).ready(function(){
     listenForRegistration();
     //listenForLogin();
-    //listenForSignin();
+    //onSigninClick();
   });

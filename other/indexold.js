@@ -383,15 +383,15 @@ function createNewUser(newInfo) {
     });
 }
 
-function listenForSignin() {
-    console.log('listenforsignin fired');
+function onSigninClick() {
+    console.log('onSigninClick fired');
     $('#btn-signin').click(event => {
         event.preventDefault();
         guestLogin();
     })
 }
 /*
-function listenForSignin() {
+function onSigninClick() {
     $('#btn-signin').click(function(event) {
         event.preventDefault();
         fetch('/users', {
@@ -449,5 +449,5 @@ $(document).ready(function(){
     listenForRegistration();
     listenForSignUp();
     listenForLogin();
-    listenForSignin();
+    onSigninClick();
   });

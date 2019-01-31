@@ -45,9 +45,10 @@ userSchema.methods.validatePassword = function(password) {
 const UserJoiSchema = Joi.object().keys({
     // to learn more about string validations, see:  https://github.com/hapijs/joi/blob/v13.6.0/API.md#string---inherits-from-any
     name: Joi.string().min(1).trim().required(),
+    email: Joi.string().email().trim().required(),
     username: Joi.string().alphanum().min(4).max(30).trim().required(),
-    password: Joi.string().min(5).max(10).trim().required(),
-    email: Joi.string().email().trim().required()
+    password: Joi.string().min(5).max(10).trim().required()
+    
   
 });
 
