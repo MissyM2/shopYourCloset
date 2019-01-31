@@ -46,11 +46,12 @@ userRouter.post('/', (request, response) => {
         return User.hashPassword(newUser.password);
         }).then(passwordHash => {
                 newUser.password = passwordHash;
+                console.log(newUser);
                 // Step 4: Once password hash has replaced the raw password, we attempt to create the new user using Mongoose.Model.create()
                 User.create(newUser)
-                    .then(createdUser => {
+                    .then(newUser => {
                         // Step 5A: if created successfully, return the newly created user information
-                        return response.status(HTTP_STATUS_CODES.CREATED).json(createdUser.serialize());
+                        return response.status(HTTP_STATUS_CODES.CREATED).json(newUser.serialize());
                     })
                     .catch(error => {
                         // Step 5B: if an error ocurred, respond with an error
@@ -84,6 +85,7 @@ userRouter.get('/:userid', (request, response) => {
   User.findById(request.params.userid)
     .then(user => {
         // Step 2A: Return the correct HTTP status code, and the user correctly formatted via serialization.
+        console.log('from userRouter.get ' + json(user.serialize()));
         return response.status(HTTP_STATUS_CODES.OK).json(user.serialize());
     })
     .catch(error => {

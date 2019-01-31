@@ -29,11 +29,12 @@ function getAuthenticatedUserFromCache() {
 }
 
 function saveAuthenticatedUserIntoCache(userData) {
+    if(!userData.id) throw new Error('no user id');
     localStorage.setItem('jwtToken', userData.jwtToken);
-    localStorage.setItem('userid', userData.user.id);
-    localStorage.setItem('username', userData.user.username);
-    localStorage.setItem('name', userData.user.name);
-    localStorage.setItem('email', userData.user.email);
+    localStorage.setItem('userid', userData.id);
+    localStorage.setItem('username', userData.username);
+    localStorage.setItem('name', userData.name);
+    localStorage.setItem('email', userData.email);
 }
 /*
 function deleteAuthenticatedUserFromCache() {

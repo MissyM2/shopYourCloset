@@ -9,11 +9,7 @@ window.HTTP_MODULE = {
 };
 
 function fetchForCreateNewUser(userData) {
-
-    console.log('createnewuser fired');
-    console.log(userData);
-    console.log(JSON.stringify(userData));
-    fetch('/api/user', {
+    fetch('/api/user/', {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -21,26 +17,36 @@ function fetchForCreateNewUser(userData) {
         body: JSON.stringify(userData)
     })
     .then(response => {
-        console.log('response is ', response.ok);
-        if (response.ok || response.status === 422) {
-            return response.json();
-        }
-        throw new Error(response.statusText);
+        return response.json();
     })
     .then(responseJson => {
-        console.log('responseJSON' + JSON.stringify(responseJson.username));
+        if (responseJson.error) {
+            throw new Error(responseJson.error);
+        }
+        return responseJson;
+    })
+    .then(responseJson => {
+        console.log('responseJson is ',responseJson);
+        
+        const userData = {
+            jwtToken: responseJson.jwtToken,
+            id: responseJson.id,
+            name: responseJson.name,
+            username: responseJson.username,
+            email: responseJson.email
+        };
+        console.log('userData is ', userData);
         saveAuthenticatedUserIntoCache(responseJson);
         renderLoginForm();
     })
     .catch(err => {
-        console.log('error', JSON.stringify(err));
+        console.log('error', err);
         renderSignUpError(undefined, err.message);
        
     });
 }
 
 function fetchForLogUserIn(userData) {
-    console.log('fetchForLogUserIn fired');
     fetch ('/api/auth/login/', {
         method: 'POST',
         headers: {
@@ -57,8 +63,17 @@ function fetchForLogUserIn(userData) {
         }
     })
     .then (responseJson => {
-        saveAuthenticatedUserIntoCache(responseJson);
-        renderOptionsScreen(responseJson.user.username);
+        console.log('responseJson is ', responseJson);
+        const userData = {
+            jwtToken: responseJson.jwtToken,
+            id: responseJson.user.id,
+            name: responseJson.user.name,
+            username: responseJson.user.username,
+            email: responseJson.user.email
+        };
+        console.log('userData is ', userData);
+        saveAuthenticatedUserIntoCache(userData);
+        renderOptionsScreen(userData.name);
     })
     .catch(error => {
         console.log(error);
