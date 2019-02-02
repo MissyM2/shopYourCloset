@@ -254,19 +254,14 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
 }
 
 .buttons-options {
-    float:left;
     text-align:center;
     border: 1px solid purple;
     padding-top: 10px;
     padding-bottom: 5px;
 }
 
-.buttons-options-mini {
-    float:left;
-    text-align:center;
-    border: 1px solid purple;
-    padding-top: 2px;
-    padding-bottom: 2px;
+
+.buttons-options-min {
     width:33.3%;
 }
 

@@ -38,7 +38,7 @@ function fetchForCreateNewUser(userData) {
     })
     .catch(err => {
         console.log('threw new 400 error');
-        renderSignUpError(undefined, err.message);
+        renderSignUpError(err.message);
        
     });
 }
@@ -71,24 +71,21 @@ function fetchForLogUserIn(userData) {
         saveAuthenticatedUserIntoCache(userData);
         renderOptionsScreen(userData.name);
     })
-    .catch(error => {
-        console.log(error.text);
-        renderSignUpError(undefined, error.message);
+    .catch(() => {
+        renderLoginError();
     });
 }
 
 
 function fetchForCreateNewItemInCloset(newItem) {
-    const authToken = localStorage.getItem("authToken");
+    const jwtToken = localStorage.getItem("jwtToken");
     console.log(closetChoice);
-    let fetchPath=`/api/${closetChoice}closet/`;
-    
-    fetch(fetchPath, {
+    fetch('/api/myitem/', {
         method: 'POST',
         headers: {
             'Accept': 'application/json, text/plain, *',
             'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': `Bearer ${authToken}`
+            'Authorization': `Bearer ${jwtToken}`
         },
         body: JSON.stringify(newItem)
         })
@@ -108,65 +105,68 @@ function fetchForCreateNewItemInCloset(newItem) {
 
 function fetchForUpdateClosetItemData(closetitemId, updateObject) {
         console.log('updateItemInMycloset fired');
-        const authToken = localStorage.getItem("authToken");
-        let fetchPath=`/api/${closetChoice}closet/${closetitemId}/`;
-
-        console.log(fetchPath);
-        console.log(updateObject);
-    console.log(JSON.stringify(updateObject));
-    
+        const jwtToken = localStorage.getItem('jwtToken');
+        const fetchPath=`/api/${closetChoice}item/${closetitemId}/`;
         fetch(fetchPath, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json, text/plain, *',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
+                'Authorization': `Bearer ${jwtToken}`
             },
             body: JSON.stringify(updateObject)
             })
+
             .then(response =>  {
                 if (response.ok) {
-                    console.log(response);
                     return response.json();
                 }
-                console.log(response);
-                throw new Error(response.text);
+                //throw new Error('HTTP error, status = ' + response.text, response.status);
+               
+            })
+
+            .then(responseJson => {
+                if (responseJson.error) {
+                    throw new Error(responseJson.error);
+                }
+                return responseJson;
             })
             .then(responseJson => {
-                console.log('responseJson is ' + responseJson);
-                //console.log('Success: ', JSON.stringify(responseJson));
+                console.log('responseJson is ' + JSON.stringify(responseJson));
+                console.log('Success: ', JSON.stringify(responseJson));
                 //$('.mycloset').empty();
-               fetchCloset();
+               //fetchCloset();
             })
+            
             .catch(error => {
                 console.error('Error: ', error)
             });
 }
 
-function fetchForDeleteClosetItemData(closetItemId) {
-    const fetchPath= `/api/${closetChoice}closet/${closetItemId}`;
-    const authToken = localStorage.getItem("authToken");
+function fetchForDeleteClosetItemData(selectedId) {
+    const jwtToken = localStorage.getItem("jwtToken");
+    const fetchPath= `/api/${closetChoice}item/${selectedId}`;
     fetch(fetchPath , {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json, text/plain, *',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
+            'Authorization': `Bearer ${jwtToken}`
         }
     })
     .then(response => {
         if (response.ok) {
+            console.log(response);
             return response.json();
         };
         throw new Error(response.text);
-    })
+        })
     .then(responseJson => {
-        console.log('Success:', JSON.stringify(responseJson));
-        //$('.closet').empty();
-        fetchCloset(closetChoice);
+        fetchCloset();
     })
     .catch(error => {
-        console.error('Error: ', error)
+        console.log(error.message);
+        //renderDeletionError(error.message);
     });
 }
 
@@ -176,12 +176,12 @@ function fetchForDeleteClosetItemData(closetItemId) {
 
 function fetchCloset() {
     console.log('fetchMycloset fired');
-    const authToken = localStorage.getItem("authToken");
+    const jwtToken = localStorage.getItem("jwtToken");
     //  GET fetch request for My Closet
         fetch(`/api/${closetChoice}item/`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${authToken}`
+                'Authorization': `Bearer ${jwtToken}`
             }
         })
         .then(response => {
@@ -193,10 +193,12 @@ function fetchCloset() {
         })
         .then(data => {
             if (data.length !== 0) {
-                console.log('Success:  ', JSON.stringify(data));
+                renderOptionsScreenMin();
                 renderCloset(data);
             } else {
-                console.log('sorry, no data:  add your first item');
+                renderOptionsScreenMin();
+                renderCloset();
+                //renderAddItemForm();
             };
         })
         .catch(error => console.log(error));

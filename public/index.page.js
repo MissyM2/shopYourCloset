@@ -30,20 +30,31 @@ function onPageLoad() {
 // listeners for registration and login
 
 function onRegisterNewUserClick() {
-    $('#btn-register').click(function(event){
+    $(document).on('click', '#btn-register', function(event){
         event.preventDefault();
-        $('#msgs-reg').html('');
-        if ($('#new-password').val() != $('#confirm-password').val()) {
+        $('#error-msg').remove();
+        const newName = $('#new-name').val();
+        const newEmail = $('#new-email').val();
+        const newUsername = $('#new-username').val();
+        const newPassword = $("#new-password").val();
+        const newPasswordConfirm = $("#confirm-password").val();
+        
+        if (newName === '' || newEmail === '' || newUsername === '' || newPassword === '') {
+            // add current error
+            $('#btn-register').before('<p class="error-msg" id="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i> One of your entries is blank.</p>');
+        } else if (newPassword != newPasswordConfirm) {
             console.log('password and new pass are not the same');
             // add current error
-            $('.msgs-reg').html(`<p class="alert">New password and confirm password do not match</p>`)
+            $('#btn-register').before('<p class="error-msg" id="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i> Password and Confirmation Password are not the same</p>');
+
         } else {
             const userData = {
-                name: $("#new-name").val(),
-                email: $('#new-email').val(),
-                username: $('#new-username').val(),
-                password: $("#new-password").val()
+                name: newName,
+                email: newEmail,
+                username: newUsername,
+                password: newPassword
             };
+            
             HTTP.fetchForCreateNewUser(userData);
         };
     });
@@ -52,7 +63,7 @@ function onRegisterNewUserClick() {
 function onSigninClick() {
     $(document).on('click', '#btn-signin', function(event) {
         event.preventDefault();
-        $('#msgs-reg').html('');
+        $('#error-msg').remove();
         const userData = {
             username: $("#GET-username").val(),
             password: $("#GET-password").val()
@@ -61,11 +72,11 @@ function onSigninClick() {
     });
 }
 
-function onLoginRequestClick() {
-    $(document).on('click', '#btn-login', function(event) {
+function onSignupRequestClick() {
+    $(document).on('click', '#btn-signup', function(event) {
         event.preventDefault();
-        $('#msgs-reg').html('');
-        renderLoginForm();
+        $('#error-msg').remove();
+        renderRegistrationForm();
     });
 }
 
@@ -80,7 +91,7 @@ function onLogoutClick() {
         $('.nav-greeting').html(`<p>Goodbye!  Come back soon!</p>`);
         $('.col-logout').html('');
         deleteAuthenticatedUserFromCache();
-        renderRegistrationForm();
+        RENDER.renderLoginForm();
     });
 }
 
@@ -95,15 +106,16 @@ function onIdealclosetFunctionsClick() {
         fetchCloset();
 }));
 }
-
-function onMyclosetFunctionsClick() {
+*/
+function onViewMyclosetClick() {
     $('.section-options').on('click', '#btn-view-mycloset', (function(event) {
         event.preventDefault();
         console.log("onMyclosetFunctionsClick fired");
         closetChoice='my';
-        fetchCloset();    
+        HTTP.fetchCloset();    
 }));
 }
+
 function onAddItemToMyClosetClick() {
     $(document).on('click','.mycl-addbutton', (function(event){
         event.preventDefault();
@@ -114,6 +126,7 @@ function onAddItemToMyClosetClick() {
     }));
 }
 
+/*
 function onAddItemToIdealClosetClick() {
     $(document).on('click','.idealcl-addbutton', (function(event){
         event.preventDefault();
@@ -122,7 +135,7 @@ function onAddItemToIdealClosetClick() {
         renderAddItemForm();
     }));
 }
-
+*/
 function onFinalAddItemToMyClosetClick() {
     $(document).on('click','.mycl-addbtn2', function(event) {
         event.preventDefault();
@@ -130,7 +143,7 @@ function onFinalAddItemToMyClosetClick() {
         finalAddItemToCloset()
     });
 }
-
+/*
 function onFinalAddItemToIdealClosetClick() {
     $(document).on('click','.idealcl-addbtn2', function(event) {
         event.preventDefault();
@@ -138,7 +151,7 @@ function onFinalAddItemToIdealClosetClick() {
         finalAddItemToCloset()
     });
 }
-
+*/
 function onUpdateItemInClosetClick() {
     $(document).on('click', '.cl-updatebtn1', (function(event) {
         event.preventDefault();
@@ -193,22 +206,29 @@ function onFinalUpdateItemInClosetClick() {
             shortdesc: updateShortdesc,
             longdesc: updateLongdesc,
             size: updateSize
-        }
+        };
+        console.log(updatedClosetItemObj);
         fetchForUpdateClosetItemData(updateId, updatedClosetItemObj);
     
     }));
 }
 
 function onDeleteItemInClosetClick() {
-$(document).on('click', '.cl-deletebtn', (function(event){
-    event.preventDefault();
-    closetChoice="my";
-    console.log('.cl-deletebtn has been clicked');
-    let id1 = $(this).attr('data-id');
-    fetchForDeleteClosetItemData(id1);
-}));
+    $(document).on('click', '.cl-deletebtn', (function(event){
+        event.preventDefault();
+        closetChoice="my";
+        console.log('.cl-deletebtn has been clicked');
+        const selectedId = $(this).attr('data-id');
+        // Step 2: Verify use is sure of deletion
+        //const userSaidYes = confirm('Are you sure you want to delete this item?');
+        //if (userSaidYes) {
+            // step 3:  make fetch call to delete item from closet
+            fetchForDeleteClosetItemData(selectedId);
+        //}
+    }));
 }
 
+/*
 function onCancelAddItemClick() {
     $(document).on('click', '.cl-cancel-additem-btn', (function(event) {
         event.preventDefault();
@@ -280,15 +300,15 @@ function updateAuthenticatedUI() {
         $('#nav-greeting').html(`Welcome, ${authUser.name}`);
         $('#auth-menu').removeAttr('hidden');
     } else {
-        renderRegistrationForm();
+        renderLoginForm();
         //$('#default-menu').removeAttr('hidden');
     }
 }
 
-/*
+
 function finalAddItemToCloset() {
     console.log('listenforFinalAddItemToCloset fired');
-    const season1=$('#js-additem-season').val();
+    const season1=$('#js-additem-whichseason').val();
     const appareltype1=$('#js-additem-appareltype').val();
     const color1=$('#js-additem-color').val();
     const shortdesc1=$('#js-additem-shortdesc').val();
@@ -297,7 +317,7 @@ function finalAddItemToCloset() {
 
     // create object and send to add function
     const newItem= {
-        season: season1,
+        season:season1,
         appareltype:appareltype1,
         color: color1,
         shortdesc:shortdesc1,
@@ -307,15 +327,21 @@ function finalAddItemToCloset() {
      console.log(newItem);
     fetchForCreateNewItemInCloset(newItem);
 }
-*/
+
 
 $(document).ready(function () {
     console.log('doc ready fired');
     onPageLoad();
-    onLoginRequestClick();
+    onSignupRequestClick();
     onRegisterNewUserClick();
     onSigninClick();
     onLogoutClick();
+    onViewMyclosetClick();
+    onAddItemToMyClosetClick();
+    onFinalAddItemToMyClosetClick();
+    onDeleteItemInClosetClick();
+    onUpdateItemInClosetClick();
+    onFinalUpdateItemInClosetClick();
 });
 
 

@@ -6,6 +6,7 @@ window.RENDER_MODULE = {
     renderOptionsScreen,
     renderCloset,
     renderAddItemForm,
+    renderLoginError,
     renderSignUpError
 };
 
@@ -49,10 +50,7 @@ function renderRegistrationForm() {
                 <div id="btn-sign-me-up" class="reg-editbuttons">
                     <button type="button" class="btn-register" id="btn-register" value="Sign me up!">Sign me up!</button>
                 </div>
-                <div class="form-elements form-elements-button">
-                    <p>Already registered?</p>
-                    <button type="button" id="btn-login" class="form-input-button">Log In</button>
-                </div>
+                
             </div>
         </form>
     `);
@@ -79,6 +77,10 @@ function renderLoginForm() {
                 </div>
                 <div class="btn-signin">
                     <button type="click" id="btn-signin">Sign In</button>
+                </div>
+                <div class="form-elements form-elements-button">
+                    <p>New user?</p>
+                    <button type="button" id="btn-signup" class="form-input-button">Sign Up</button>
                 </div>
                 <div class="demo-item">
                     <p class="demo"><p>For demo:  </p><p>username: chuckles </p><p>password: chuck</p>
@@ -112,6 +114,19 @@ function renderOptionsScreen(userName) {
     
 }
 
+function renderOptionsScreenMin(userName) {
+    $('#div-login').hide();
+    $('.section-login').hide();
+    $('.section-options').html(`
+                <div class="col-4 buttons-options buttons-options-min" id="btn-view-mycloset">
+                <h5 class="closet-functions button-options-min">your closet</h5></div>
+                <div class="col-4 buttons-options buttons-options-min" id="btn-view-idealcloset">
+                <h5 class="closet-functions">ideal closet</h5></div>
+                <div class="col-4 buttons-options buttons-options-min" id="btn-view-recommendations">
+                <h5 class="closet-functions">analyze </h5><div>
+     `);
+}
+
 function renderCloset(closetItems) {
     console.log('renderCloset fired');
     $('.col-closet').html(`
@@ -134,16 +149,16 @@ function renderCloset(closetItems) {
 
     closetHtml= '<div id="cl-body">';
 
-    for (let i=0; i < closetItems.items.length; i++) {
+    for (let i=0; i < closetItems.length; i++) {
         itemCount +=1;
 
-        id1 = closetItems.items[i]._id;
-        season1 = closetItems.items[i].season;
-        appareltype1 = closetItems.items[i].appareltype;
-        color1 = closetItems.items[i].color;
-        shortdesc1 = closetItems.items[i].shortdesc;
-        longdesc1 = closetItems.items[i].longdesc;
-        size1 = closetItems.items[i].size;
+        id1 = closetItems[i].id;
+        season1 = closetItems[i].season;
+        appareltype1 = closetItems[i].appareltype;
+        color1 = closetItems[i].color;
+        shortdesc1 = closetItems[i].shortdesc;
+        longdesc1 = closetItems[i].longdesc;
+        size1 = closetItems[i].size;
 
 
 
@@ -167,11 +182,11 @@ function renderCloset(closetItems) {
 
     closetHtml+='</div>';
     $('.section-options').html(`
-        <div class="col-4 buttons-options-mini" id="btn-view-mycloset">
+        <div class="col-4 buttons-options-min" id="btn-view-mycloset">
             <p class="closet-functions">Your Closet</p></div>
-        <div class="col-4 buttons-options-mini" id="btn-view-idealcloset">
+        <div class="col-4 buttons-options-min" id="btn-view-idealcloset">
             <p class="closet-functions">Ideal Closet</p></div>
-        <div class="col-4 buttons-options-mini" id="btn-view-recommendations">
+        <div class="col-4 buttons-options-min" id="btn-view-recommendations">
             <p class="closet-functions">Analyze</p><div>`);
     $('.cl-itemcount').append(`There are ${itemCount} items in your closet.`);
     $('.col-closet').append(closetHtml);
@@ -181,7 +196,7 @@ function renderAddItemForm() {
     // change closet cell to updateable form
     const updateFormBody = `<div class="cl-header"><h5>Add new item to ${closetChoice} Closet</h5></div>` +
         `<div class="cl-resultcell additem-class"><div class="cl-resultbody"><form action="/action_page.php">` +
-        `<div class="itemrow cl-season"><div class="item itemlabel"><p>season: </p></div><div class="item itembody"><input class="js-additems js-additem-season" type="text" name="season"></div></div>` +
+        `<div class="itemrow cl-whichseason"><div class="item itemlabel"><p>which season: </p></div><div class="item itembody"><input id="js-additem-whichseason" type="text" name="whichseason"></div></div>` +
         `<div class="itemrow cl-appareltype"><div class="item itemlabel"><p>type of clothing: </p></div><div class="item itembody"><input id="js-additem-appareltype" type="text" name="appareltype"></div></div>` +
         `<div class="itemrow cl-color"><div class="item itemlabel"><p>color: </p></div><div class="item itembody"><input id="js-additem-color" type="text" name="color"></div></div>` +
         `<div class="itemrow cl-shortdesc"><div class="item itemlabel"><p>short description: </p></div><div class="item itembody"><input id="js-additem-shortdesc" type="text" name="shortdesc"></div></div>` +
@@ -200,12 +215,17 @@ function renderAddItemForm() {
 
 // ** render errors
 
-function renderSignUpError(errLocation, errMessage) {
+function renderLoginError() {
+    //reset error messages
+    $('error-msg').remove();
+    $('#btn-signin').before('<p class="error-msg" id="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i> Incorrect username and/or password</p>');
+    $('#GET-username').addClass('error-field').attr('aria-invalid', false);
+    $('#GET-password').addClass('error-field').attr('aria-invalid', false);
+}
+
+function renderSignUpError(errMessage) {
     console.log('made it to signup error');
     //reset previous errors
-    
-    //$('.new-password').removeClass('error-field');
-    //$('.confirm-password').removeClass('error-field');
     $('.error-msg').remove();
     if (errLocation === 'username'){
         $('.new-username').addClass('error-field').attr('aria-invalid', false);
@@ -213,8 +233,6 @@ function renderSignUpError(errLocation, errMessage) {
         $('.new-password').val('').addClass('error-field').attr('aria-invalid', false);
         $('.confirm-password').val('').addClass('error-field').attr('aria-invalid', false);
     };
-    //$('.btn-register').before(`<p class="error-msg" aria-live="assertive">
-    $('#msgs-reg').html(`<p class="error-msg">${errMessage}</p>`);
-
-    //<i class="fas fa-exclamation-circle"></i> ${errLocation}: ${errMessage}</p>`);
-    }
+    $('#btn-register').before(`<p class="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i>${errMessage}</p>`);
+    
+}
