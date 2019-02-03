@@ -140,7 +140,7 @@ function onFinalAddItemToMyClosetClick() {
     $(document).on('click','.mycl-addbtn2', function(event) {
         event.preventDefault();
         closetChoice = 'my';
-        finalAddItemToCloset()
+        finalAddItemToCloset();
     });
 }
 /*
@@ -154,63 +154,28 @@ function onFinalAddItemToIdealClosetClick() {
 */
 function onUpdateItemInClosetClick() {
     $(document).on('click', '.cl-updatebtn1', (function(event) {
+        console.log('update form is listening');
         event.preventDefault();
-        console.log('listenforUpdateItemInMycloset fired');
-        const id1=$(this).attr('data-id');
-        const season1=$(this).attr('data-season');
-        const appareltype1=$(this).attr('data-appareltype');
-        const color1 = $(this).attr('data-color');
-        const shortdesc1 = $(this).attr('data-shortdesc');
-        console.log('shsortdesc1 is ' + shortdesc1);
-        const longdesc1 = $(this).attr('data-longdesc');
-        console.log('longdesc1 is ' + longdesc1);
-        const size1 = $(this).attr('data-size');
-        console.log(id1, season1, appareltype1, color1, shortdesc1, longdesc1, size1);
-
-        // change closet cell to updateable form
-    
-        const updateFormBody = `<div class="cl-resultbody"><form id='form-update-closet'>` +
-            `<div class="itemrow cl-id"><div class="item itemlabel">id: </div><div class="item itembody"><div id="js-itemid" data-value="${id1}">${id1}</div></div></div>` +
-            `<div class="itemrow cl-season"><div class="item itemlabel">season: </div><div class="item itembody"><input id="js-searchseason" type="text" name="season" value="${season1}"></div></div>` +
-            `<div class="itemrow cl-appareltype"><div class="item itemlabel">type of clothing: </div><div class="item itembody"><input id="js-searchappareltype" type="text" name="appareltype" value="${appareltype1}"></div></div>` +
-            `<div class="itemrow cl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input id="js-searchcolor" type="text" name="color" value="${color1}"></div></div>` +
-            `<div class="itemrow cl-shortdesc"><div class="item itemlabel">short description: </div><div class="item itembody"><input id="js-searchshortdesc" type="text" name="shortdesc" value="${shortdesc1}"></div></div>` +
-            `<div class="itemrow cl-longdesc"><div class="item itemlabel">long description: </div><div class="item itembody"><input id="js-searchlongdesc" type="text" name="longdesc" value="${longdesc1}"></div></div>` +
-            `<div class="itemrow cl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input id="js-searchsize" type="text" name="size" value="${size1}"></div></div></div>` +
-            `<div class="cl-editbuttons">` +
-            `<button class="cl-updatebtn2" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-longdesc="${longdesc1}" data-size="${size1}">update</button>` +
-            `<button class="cl-cancelbtn">cancel</button>` +
-            `</div></form>`;
-        $(`.${id1}class`).html(updateFormBody);
+        const updateObj = {
+            id: $(this).attr('data-id'),
+            season: $(this).attr('data-season'),
+            appareltype: $(this).attr('data-appareltype'),
+            color: $(this).attr('data-color'),
+            shortdesc: $(this).attr('data-shortdesc'),
+            longdesc: $(this).attr('data-longdesc'),
+            size: $(this).attr('data-size')
+        }
+        console.log(updateObj);
+        RENDER.renderUpdateForm(updateObj);
     }));
 }
 
 function onFinalUpdateItemInClosetClick() {
-    $(document).on('click', '.cl-updatebtn2', (function(event){
+    $(document).on('click', '.cl-updatebtn2', function(event){
         event.preventDefault();
-        console.log('onFinalUpdateItemInClosetClick fired');
-        const updateId = $('#js-itemid').text();
-        const updateColor = $('#js-searchcolor').val();
-        const updateSeason = $('#js-searchseason').val();
-        const updateAppareltype = $('#js-searchappareltype').val();
-        const updateShortdesc = $('#js-searchshortdesc').val();
-        const updateLongdesc = $('#js-searchlongdesc').val();
-        const updateSize = $('#js-searchsize').val();
-    
-        // create object and send to update function
-        const updatedClosetItemObj = {
-            id: updateId,
-            season: updateSeason,
-            color: updateColor,
-            appareltype: updateAppareltype,
-            shortdesc: updateShortdesc,
-            longdesc: updateLongdesc,
-            size: updateSize
-        };
-        console.log(updatedClosetItemObj);
-        fetchForUpdateClosetItemData(updateId, updatedClosetItemObj);
-    
-    }));
+        closetChoice = 'my';
+        finalUpdateItemInCloset();
+    });
 }
 
 function onDeleteItemInClosetClick() {
@@ -220,11 +185,11 @@ function onDeleteItemInClosetClick() {
         console.log('.cl-deletebtn has been clicked');
         const selectedId = $(this).attr('data-id');
         // Step 2: Verify use is sure of deletion
-        //const userSaidYes = confirm('Are you sure you want to delete this item?');
-        //if (userSaidYes) {
+        const userSaidYes = confirm('Are you sure you want to delete this item?');
+        if (userSaidYes) {
             // step 3:  make fetch call to delete item from closet
             fetchForDeleteClosetItemData(selectedId);
-        //}
+        }
     }));
 }
 
@@ -307,26 +272,35 @@ function updateAuthenticatedUI() {
 
 
 function finalAddItemToCloset() {
-    console.log('listenforFinalAddItemToCloset fired');
-    const season1=$('#js-additem-whichseason').val();
-    const appareltype1=$('#js-additem-appareltype').val();
-    const color1=$('#js-additem-color').val();
-    const shortdesc1=$('#js-additem-shortdesc').val();
-    const longdesc1=$('#js-additem-longdesc').val();
-    const size1=$('#js-additem-size').val();
 
     // create object and send to add function
     const newItem= {
-        season:season1,
-        appareltype:appareltype1,
-        color: color1,
-        shortdesc:shortdesc1,
-        longdesc: longdesc1,
-        size: size1
+        season:$('#js-additem-whichseason').val(),
+        appareltype:$('#js-additem-appareltype').val(),
+        color: $('#js-additem-color').val(),
+        shortdesc:$('#js-additem-shortdesc').val(),
+        longdesc: $('#js-additem-longdesc').val(),
+        size: $('#js-additem-size').val()
     };
      console.log(newItem);
     fetchForCreateNewItemInCloset(newItem);
 }
+
+function finalUpdateItemInCloset() {
+    const idToUpdate = $("#js-itemid").text();
+
+    // create object and send to update function
+    const updatedClosetItemObj = {
+        season: $("#js-updatecolor").val(),
+        color: $("#js-updatecolor").val(),
+        appareltype: $("#js-updateappareltype").val(),
+        shortdesc: $("#js-updateshortdesc").val(),
+        longdesc: $("#js-updatelongdesc").val(),
+        size: $("#js-updatesize").val()
+    };
+    fetchForUpdateClosetItemData(idToUpdate, updatedClosetItemObj);
+}
+
 
 
 $(document).ready(function () {

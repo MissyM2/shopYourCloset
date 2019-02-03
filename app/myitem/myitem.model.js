@@ -16,7 +16,7 @@ const myitemSchema = new mongoose.Schema({
     updateDate: {type: Date, default: Date.now }
 });
 
-// // Here we define a Mongoose instance method.  The Serialize method controls the data that is shown to the client
+// Here we define a Mongoose instance method.  The Serialize method controls the data that is shown to the client
 myitemSchema.methods.serialize = function() {
     let user;
     // We serialize the user if it's populated to avoid returning any sensitive information, like the password hash.

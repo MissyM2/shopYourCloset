@@ -8,11 +8,12 @@ const morgan = require('morgan');  // npm module that handles logging:  https://
 const passport = require('passport'); //npm module that handles authentication:  http://www.passportjs.org/docs/
 
 // import modules
-const {authRouter} = require('./auth/auth.router');
-const {localStrategy, jwtStrategy} = require('./auth/auth.strategy');
-const {userRouter} = require('./user/user.router');
-const {idealitemRouter} = require('./idealitem/idealitem.router');
-const {myitemRouter} = require('./myitem/myitem.router');
+const { authRouter } = require('./auth/auth.router');
+const { localStrategy, jwtStrategy } = require('./auth/auth.strategy');
+const { userRouter } = require('./user/user.router');
+const { idealitemRouter } = require('./idealitem/idealitem.router');
+const { myitemRouter } = require('./myitem/myitem.router');
+const { clothingoptionRouter } = require('./admin/clothingoption.router');
 
 // configure mongoose to use ES6 promises
 mongoose.Promise = global.Promise;
@@ -36,6 +37,7 @@ app.use('/api/auth', authRouter);  // redirects all calls to /api/user to userRo
 // protected routers
 app.use('/api/idealitem', idealitemRouter);  // redirects all calls to /api/idealcloset to idealclosetRouter
 app.use('/api/myitem', myitemRouter);  //redirects all calls to /api/mycloset to myclosetRouter
+app.use('/api/clothingoption', clothingoptionRouter); //redirects all calls to /api/clothingoption/ to clothingoptionRouter
 
 // in case we make an HTTP request that is unhandles by our Express server, we return a 404 status code and the message "Not Found."
 app.use('*', (req, res) => {

@@ -260,7 +260,6 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
     padding-bottom: 5px;
 }
 
-
 .buttons-options-min {
     width:33.3%;
 }
@@ -317,17 +316,24 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
     margin-left:2px;
 }
 
-.itemlabel {
-    width: 70px;
+.fa-asterisk {
+    color:red;
+    font-size: .4em;
+    padding-right:2px;
 }
-
+/*
+.itemlabel {
+    width: 80px;
+}
+*/
 .reglabel {
     width: 200px;
     text-align:left;
 }
 
-.itembody {
-    width: 250px;
+.itembody, .updatefields {
+    width: 100%;
+    background-color:#FBF9EC;
 }
 
 .mycl-editbuttons {

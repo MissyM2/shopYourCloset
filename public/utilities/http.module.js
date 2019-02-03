@@ -94,7 +94,7 @@ function fetchForCreateNewItemInCloset(newItem) {
                 return response.json();
             };
             throw new Error(response.text);
-            })
+        })
         .then(responseJson => {
             fetchCloset();
         })
@@ -103,44 +103,34 @@ function fetchForCreateNewItemInCloset(newItem) {
         });
 }
 
-function fetchForUpdateClosetItemData(closetitemId, updateObject) {
-        console.log('updateItemInMycloset fired');
-        const jwtToken = localStorage.getItem('jwtToken');
-        const fetchPath=`/api/${closetChoice}item/${closetitemId}/`;
-        fetch(fetchPath, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json, text/plain, *',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`
-            },
-            body: JSON.stringify(updateObject)
-            })
+function fetchForUpdateClosetItemData(selectedId, updateObject) {
+    const jwtToken = localStorage.getItem('jwtToken');
+    console.log('updateItemInMycloset fired');
+        
+    const fetchPath=`/api/${closetChoice}item/${selectedId}/`;
+    fetch(fetchPath, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json, text/plain, *',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify(updateObject)
+        })
 
-            .then(response =>  {
-                if (response.ok) {
-                    return response.json();
-                }
-                //throw new Error('HTTP error, status = ' + response.text, response.status);
-               
-            })
-
-            .then(responseJson => {
-                if (responseJson.error) {
-                    throw new Error(responseJson.error);
-                }
-                return responseJson;
-            })
-            .then(responseJson => {
-                console.log('responseJson is ' + JSON.stringify(responseJson));
-                console.log('Success: ', JSON.stringify(responseJson));
-                //$('.mycloset').empty();
-               //fetchCloset();
-            })
-            
-            .catch(error => {
-                console.error('Error: ', error)
-            });
+        .then(response =>  {
+            if (response.ok) {
+                return;
+            }
+            throw new Error(response.statusText);
+        })
+        .then(() => {
+            fetchCloset();
+        })
+        
+        .catch(error => {
+            console.error('Error: ', error)
+        });
 }
 
 function fetchForDeleteClosetItemData(selectedId) {
@@ -156,12 +146,11 @@ function fetchForDeleteClosetItemData(selectedId) {
     })
     .then(response => {
         if (response.ok) {
-            console.log(response);
-            return response.json();
+            return;
         };
         throw new Error(response.text);
         })
-    .then(responseJson => {
+    .then(() => {
         fetchCloset();
     })
     .catch(error => {

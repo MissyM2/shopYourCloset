@@ -6,8 +6,9 @@ window.RENDER_MODULE = {
     renderOptionsScreen,
     renderCloset,
     renderAddItemForm,
+    renderUpdateForm,
     renderLoginError,
-    renderSignUpError
+    renderSignUpError,
 };
 
 function renderRegistrationForm() {
@@ -194,14 +195,27 @@ function renderCloset(closetItems) {
 }
 function renderAddItemForm() {
     // change closet cell to updateable form
+
     const updateFormBody = `<div class="cl-header"><h5>Add new item to ${closetChoice} Closet</h5></div>` +
         `<div class="cl-resultcell additem-class"><div class="cl-resultbody"><form action="/action_page.php">` +
-        `<div class="itemrow cl-whichseason"><div class="item itemlabel"><p>which season: </p></div><div class="item itembody"><input id="js-additem-whichseason" type="text" name="whichseason"></div></div>` +
-        `<div class="itemrow cl-appareltype"><div class="item itemlabel"><p>type of clothing: </p></div><div class="item itembody"><input id="js-additem-appareltype" type="text" name="appareltype"></div></div>` +
-        `<div class="itemrow cl-color"><div class="item itemlabel"><p>color: </p></div><div class="item itembody"><input id="js-additem-color" type="text" name="color"></div></div>` +
-        `<div class="itemrow cl-shortdesc"><div class="item itemlabel"><p>short description: </p></div><div class="item itembody"><input id="js-additem-shortdesc" type="text" name="shortdesc"></div></div>` +
-        `<div class="itemrow cl-longdesc"><div class="item itemlabel"><p>long description: </p></div><div class="item itembody"><input id="js-additem-longdesc" type="text" name="longdesc"></div></div>` +
-        `<div class="itemrow cl-size"><div class="item itemlabel"><p>size: </p></div><div class="item itembody"><input id="js-additem-size" type="text" name="size"></div></div>`;
+        `<div class="itemrow cl-whichseason"><div class="item itemlabel"><p>which season: <i class="fas fa-asterisk"></i></p></div>` +
+            `<div class="item itembody"><select class="updatefields" id="js-additem-whichseason" type="text" name="whichseason">` +
+                `<option selected = "selected">Always in Season</option>` +
+                `<option>Fall Basics</option>` +
+                `<option>Winter Basics</option>` +
+                `<option>Spring Basics</option>` +
+                `<option>Summer Basics</option>` +
+                `</select></div></div>` +
+        `<div class="itemrow cl-appareltype"><div class="item itemlabel"><p>type of clothing: <i class="fas fa-asterisk"></i></p></div>` +
+            `<div class="item itembody"><input class="updatefields" id="js-additem-appareltype" type="text" name="appareltype"></div></div>` +
+        `<div class="itemrow cl-color"><div class="item itemlabel"><p>color: </p></div>` +
+            `<div class="item itembody"><input class="updatefields" id="js-additem-color" type="text" name="color"></div></div>` +
+        `<div class="itemrow cl-shortdesc"><div class="item itemlabel"><p>short description: <i class="fas fa-asterisk"></i></p></div>` +
+            `<div class="item itembody"><input class="updatefields" id="js-additem-shortdesc" type="text" name="shortdesc"></div></div>` +
+        `<div class="itemrow cl-longdesc"><div class="item itemlabel"><p>long description: </p></div>` +
+            `<div class="item itembody"><input class="updatefields" id="js-additem-longdesc" type="text" name="longdesc"></div></div>` +
+        `<div class="itemrow cl-size"><div class="item itemlabel"><p>size: </p></div>` + 
+            `<div class="item itembody"><input class="updatefields" id="js-additem-size" type="text" name="size"></div></div>`;
 
        
 
@@ -211,6 +225,28 @@ function renderAddItemForm() {
     `</div></div></form>`;
     $(`.col-closet`).html(updateFormBody);
     $(`.col-closet`).append(updateEditButtons);
+}
+
+function renderUpdateForm(updateObjForm) {
+    console.log('made it to render update form');
+    console.log('updateObjForm is ' + updateObjForm);
+    console.log('updateObjForm is ' + JSON.stringify(updateObjForm));
+
+    // change closet cell to updateable form
+
+    const updateFormBody = `<div class="cl-resultbody"><form id='form-update-closet'>` +
+        `<div class="itemrow cl-id"><div class="item itemlabel">id: </div><div class="item itembody"><div id="js-itemid" data-value="${updateObjForm.id}">${updateObjForm.id}</div></div></div>` +
+        `<div class="itemrow cl-season"><div class="item itemlabel">season: <i class="fas fa-asterisk"></i></div><div class="item itembody"><input class="updatefields" id="js-updateseason" type="text" name="season" value="${updateObjForm.season}"></div></div>` +
+        `<div class="itemrow cl-appareltype"><div class="item itemlabel">type of clothing: <i class="fas fa-asterisk"></i></div><div class="item itembody"><input class="updatefields" id="js-updateappareltype" type="text" name="appareltype" value="${updateObjForm.appareltype}"></div></div>` +
+        `<div class="itemrow cl-color"><div class="item itemlabel">color: </div><div class="item itembody"><input class="updatefields" id="js-updatecolor" type="text" name="color" value="${updateObjForm.color}"></div></div>` +
+        `<div class="itemrow cl-shortdesc"><div class="item itemlabel">short description: <i class="fas fa-asterisk"></i></div><div class="item itembody"><input class="updatefields" id="js-updateshortdesc" type="text" name="shortdesc" value="${updateObjForm.shortdesc}"></div></div>` +
+        `<div class="itemrow cl-longdesc"><div class="item itemlabel">long description: </div><div class="item itembody"><input class="updatefields" id="js-updatelongdesc" type="text" name="longdesc" value="${updateObjForm.longdesc}"></div></div>` +
+        `<div class="itemrow cl-size"><div class="item itemlabel">size: </div><div class="item itembody"><input class="updatefields" id="js-updatesize" type="text" name="size" value="${updateObjForm.size}"></div></div></div>` +
+        `<div class="cl-editbuttons">` +
+        `<button class="cl-updatebtn2" data-id="${updateObjForm.id}" data-season="${updateObjForm.season}" data-appareltype="${updateObjForm.appareltype}" data-color="${updateObjForm.color}" data-shortdesc="${updateObjForm.shortdesc}" data-longdesc="${updateObjForm.longdesc}" data-size="${updateObjForm.size}">update</button>` +
+        `<button class="cl-cancelbtn">cancel</button>` +
+        `</div></form>`;
+    $(`.${updateObjForm.id}class`).html(updateFormBody);
 }
 
 // ** render errors
