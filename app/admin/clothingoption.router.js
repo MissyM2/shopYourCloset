@@ -5,7 +5,6 @@ const Joi = require('joi');
 const clothingoptionRouter = express.Router();
 
 const { HTTP_STATUS_CODES} = require('../config');
-const { jwtPassportMiddleware } = require('../auth/auth.strategy');
 const { Clothingoption, clothingoptionJoiSchema } = require('./clothingoption.model');
 
 //  POST route handler for /clothingitem
@@ -13,7 +12,7 @@ const { Clothingoption, clothingoptionJoiSchema } = require('./clothingoption.mo
 //  * check to see if item already exists
 // *  create item in clothingoption and send JSON response
 
-clothingoptionRouter.post('/', jwtPassportMiddleware, (request, response) => {
+clothingoptionRouter.post('/', (request, response) => {
     // We can access the request body payload thanks to the express.json() middleware 
     //we used in server.js
     const newClothingoption = {
@@ -34,18 +33,18 @@ clothingoptionRouter.post('/', jwtPassportMiddleware, (request, response) => {
         .create(newClothingoption)
         .then(createdOption => {
             // Step 3A: Return the correct HTTP status code, and the note correctly formatted via serialization.
-            console.log('created option is ' + createdItem);
+            console.log('created option is ' + createdOption);
             console.log('newClothingoption is ' + newClothingoption);
             return response.status(HTTP_STATUS_CODES.CREATED).json(createdOption.serialize());
         })
         .catch(error => {
             // Step 3B: If an error ocurred, return an error HTTP status code and the error in JSON format.
-            return response.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).son(error);
+            return response.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json(error);
         });
 });
 
 // retrieve clothing options
-clothingoptionRouter.get('/all', jwtPassportMiddleware, (request, response) => {
+clothingoptionRouter.get('/all', (request, response) => {
     // Step 1: Attempt to retrieve all notes using Mongoose.Model.find()
     Clothingoption
         .find()
@@ -53,7 +52,7 @@ clothingoptionRouter.get('/all', jwtPassportMiddleware, (request, response) => {
             // Step 2A: Return the correct HTTP status code, and the notes correctly 
             //formatted via serialization.
             return response.status(HTTP_STATUS_CODES.OK).json(
-                options.map(option => serialize())
+                options.map(option => option.serialize())
             );
         })
         .catch(error => {
@@ -65,14 +64,14 @@ clothingoptionRouter.get('/all', jwtPassportMiddleware, (request, response) => {
 
 //  retrieve one clothing option by id
 //  * find selected item by id and send JSON response
-clothingoptionRouter.get('/:optionid', jwtPassportMiddleware, (request, response) => {
+clothingoptionRouter.get('/:optionid', (request, response) => {
     // Step 1: Attempt to retrieve the note using Mongoose.Model.findById()
     Clothingoption
         .findById(request.params.optionid)
         .then(option => {
             // Step 2A: Return the correct HTTP status code, and the note 
             //correctly formatted via serialization.
-            return response.json(item.serialize());
+            return response.json(option.serialize());
         })
         .catch(error => {
             // Step 2B: If an error ocurred, return an error HTTP status code 
@@ -82,7 +81,7 @@ clothingoptionRouter.get('/:optionid', jwtPassportMiddleware, (request, response
 });
 
 //  update clothingoption by id
-clothingoptionRouter.put('/:optionid', jwtPassportMiddleware, (request, response) => {
+clothingoptionRouter.put('/:optionid', (request, response) => {
     const clothingoptionUpdate = {
         color: request.body.color,
         shortdesc: request.body.shortdesc,
@@ -112,7 +111,7 @@ clothingoptionRouter.put('/:optionid', jwtPassportMiddleware, (request, response
 });
 
 //  remove item by id
-clothingoptionRouter.delete('/:optionid', jwtPassportMiddleware, (request, response)  => {
+clothingoptionRouter.delete('/:optionid', (request, response)  => {
     // Step 1: Attempt to find the note by ID and delete it using Mongoose.Model.findByIdAndDelete()
     Clothingoption
         .findByIdAndRemove(request.params.optionid)

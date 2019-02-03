@@ -40,7 +40,7 @@ myitemSchema.methods.serialize = function() {
     };
 };
 
-// To validate that data used to create a new user is valid, we will use "Joi"
+// To validate that data used to create a new mycloset item is valid, we will use "Joi"
 const MyitemJoiSchema = Joi.object().keys({
     user: Joi.string().optional(),
     season: Joi.string().min(1).required(),

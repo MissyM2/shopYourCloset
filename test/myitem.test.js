@@ -41,7 +41,6 @@ describe('Integration tests for: /api/myitem', function() {
             })
             .then(createdUser => {
                 testUser.id = createdUser.id;
-
                 jwtToken = jsonwebtoken.sign(
                     {
                         user: {
@@ -71,7 +70,6 @@ describe('Integration tests for: /api/myitem', function() {
                         throw new Error(err);
                     });
             });
-
     });
 
     afterEach(function() {
@@ -156,7 +154,6 @@ describe('Integration tests for: /api/myitem', function() {
             })
             .then(res => {
                 expect(res).to.have.status(HTTP_STATUS_CODES.NO_CONTENT);
-
                 return Myitem.findById(myitemToUpdate.id);
             })
             .then(myitem => {
