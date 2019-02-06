@@ -26,42 +26,63 @@
   <link rel="stylesheet" href="css/index.css">
   
   <!--  favicon -->
-  <link rel="shortcut icon" href="images/dress.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
 
 </head>
 <body>
 
-        <header role="banner">
-                <div class="row topnav">
-                    <div class="col-4"><p class="nav nav-title">shopYourCloset</p></div>
+    <header role="banner">
+            <div class="row topnav">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <div class="header-items" id="header-title">
+                        <div id="logo-img">
+                            <img id="hanger-img" src="images/clothes-hanger.png" />
+                        </div>
+                        <div id="logo-verbage">
+                            <p>shopYourCloset</p>
+                        </div>
+                    </div>
                 </div>
-        </header>
-        <section role="region" class="row section-login" aria-live="assertive">
-            <div id="msgs-reg"></div>
-            <div class="col-12 title-verbage">
-                <h2>love clothes and love to be organized?</h2>
-                <h5>keep track of your wardrobe</h5>
             </div>
-                <div class="col-12 reg-login"></div>
+    </header>
+    <main role="main">
+        <section role="region" class="row section-nav" aria-live="assertive">
+            <div class="nav-one" hidden></div>
+            <div class="nav-two" hidden></div>
+            <div class="admin-nav" hidden></div>
+        </section>
+        <section role="region" class="row section-login" aria-live="assertive">
+            <div class=col-2></div>
+            <div class="col-8 title-verbage">
+                <h2>love clothes and love to be organized?</h2>
+                <h4>keep track of your wardrobe</h4>
+                <div id="msgs-reg"></div>
+                <div class="reg-login"></div>  
+            </div>
+            <div class=col-2></div>
         </section>
 
         <section role="region" class="row section-options" aria-live="assertive">
-
         </section>
 
         <section role="region" class="row section-closet" aria-live="assertive">
-                <div class="col-6 col-closet"></div>
+                <div class="col-2"></div>
+                <div class="col-8 closet-display"></div>
+                <div class="col-2"></div>
             </div></h2>
         </section>
- 
 
 
-        <footer role="content-info">
-            <div class="row">
-                <p>&copy Missy Maloney</p>
-                <p>Favicon made by <a href="http://www.freepik.com/">Freepik</a> from <a href="www.flaticon.com">www.flaticon.com</a></p>
-        </div>
-        </footer>
+    </main>
+    <footer role="content-info">
+    </footer>
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <script src="./utilities/cache.module.js"></script>  
     <script src="./utilities/render.module.js"></script>

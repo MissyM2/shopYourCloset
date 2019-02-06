@@ -5,21 +5,38 @@ body {
 }
 
 header {
-    color: #221505;
-    background: #C98573;
+    background-color: #C98573;
+    height: 100px;
+    position: fixed;
+    top: 0;
+    width: 100%;
     padding: 10px 20px;
-    margin-bottom: 10px;
 }
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #C98573;
+    color: #221505;
+    text-align: center;
+  }
 
 main {
-    margin: 0 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 100px;
+    margin-top: 100px;
+    overflow: auto;
+    width: 80%;
+
 }
 
-h1, h2, h3 {
+h1, h2 {
     font-family: 'The Girl Next Door', cursive;
     text-align: center;
     color: #221505;
-    padding-top: 15px;
     padding-bottom: 15px;
 }
 
@@ -30,28 +47,29 @@ h1 {
 }
 
 h2 {
-    margin: 10px 0;
-    font-size: 2em;
+    font-size: 1.8em;
+    font-weight:bold;
 }
 
 h3 {
-    font-size: 1.5em;
+    font-family:'Raleway', sans-serif;
+    font-size: 1em;
     margin: 5px 0 10px;
+    text-align: center;
 }
 
 h4 {
+    font-family: 'The Girl Next Door', cursive;
     font-size: 1.2em;
     padding: 5px 20px;
     font-weight: bold;
-    background-color: black;
-    color: white;
-    margin: 5px -20px;
+    padding: 5px 0;
+
 }
 
 h5 {
-    font-size: 1.2em;
+    font-size: .8em;
     padding: 5px 0;
-    font-family: 'The Girl Next Door', cursive;
 }
 
 p {
@@ -60,9 +78,11 @@ p {
 }
 
 input, textarea {
+    display:block;
     border: 1px solid #E0D5C9;
-    background-color: #FBF9EC;
-    padding:2px;
+    padding:5px;
+    margin:0 auto;
+    border-radius:3px;
 }
 
 button {
@@ -75,55 +95,185 @@ button {
     background-color: #F2D387;
     
 }
-
-input, textarea {
-    font-size: 0.9em;
-    font-family: 'Raleway', sans-serif;
+.header-container {
+    display:block;
 }
 
-input[type="date"]{
-    max-width: 150px;
+.options-container {
+    text-align:center;
 }
 
-
-input[type="submit"], input[type="button"] {
-    margin: 5px 0 10px;
+.radiogroup {
+    display:inline-block;
+    text-align:center;
 }
 
-button:hover, input[type="submit"]:hover, input[type="button"]:hover  {
-    background-color: #E0E0E0;
+label {
+    display:block;
+    margin:6px;
+    font-size: 16px;
 }
 
-button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
-    background-color: #E0E0E0;
+.section-nav {
+    margin:10px 0 10px 0;
 }
+
+.nav-one, .nav-two, .admin-nav {
+    overflow:hidden;
+    padding-bottom: 8px;
+    padding-top:5px;
+    text-align:center;
+    border-bottom: 1px solid lightgrey;
+}
+.options-btns-min {
+    display:inline-block;
+    font-size: .8em;
+    padding: 5px;
+    text-align:center;
+}
+
+.options-btns-min:hover {
+    background-color: lightgrey;
+}
+
+#ideal-closet-btn-min,
+#my-closet-btn-min, 
+#giveaway-closet-btn-min,
+#donation-closet-btn-min {
+    border-right: 1px solid lightgrey;
+}
+
+#header-logout {
+    padding-left: 22px;
+    border-left:1px solid lightgrey;
+}
+
+#login-field-container {
+    padding:10px 0 10px 0;
+}
+
+#signup-verbage, #signup-btn {
+    display:inline-block;
+    padding:5px;
+    margin:20px 0 25px 0;
+}
+
+#signup-btn {
+    font-weight: 800;
+}
+
+.options-btns {
+    text-align:center;
+    /*border: 1px solid purple;*/
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+#my-closet-btn, #donation-closet-btn, #giveaway-closet-btn {
+    display:inline-block;
+    width:32%;
+}
+
+.section-options {
+    padding-top: 25px;
+}
+
+.select-season-icon {
+    height: 40px;
+}
+
 
 .error-field {
     border:1px solid red;
 }
-.section-login {
-    background-color: #A8D2CB;
-}
+
 
 .title-verbage {
     text-align: center;
 }
 
-.nav {
-    font-family: 'The Girl Next Door', cursive;
-    text-align:center;
-    border-radius: 50%;
-    background-color: #F2D387;
-    border: 1px solid #221505;
-    height: 2rem;
-    margin: 5px 20px 2px 20px;
-    padding-top:.5rem;
-    position: relative;
+.header-items {
+    display:inline-block;
 }
+#header-title {
+    /*border:1px solid green;*/
+    max-height: 75px;
+}
+
+#logo-img {
+    /*border:1px solid red;*/
+    display:inline-block;
+}
+
+#hanger-img {
+    height:75px;
+}
+
+#logo-verbage {
+    font-family: 'The Girl Next Door', cursive;
+    font-size: 20px;
+    /*border:1px solid red;*/
+    display:inline-block;
+    vertical-align: top;
+    margin-top:20px;
+    padding-left:3px;
+    color:white;
+}
+
+#header-logout {
+    float:right;
+    /*border:1px solid green;*/
+}
+
+#header-greeting {
+    float:left;
+    /*border:1px solid green;*/
+}
+
+
+.cl-resultbody {
+
+    display:inline-block;
+    width:85%;
+}
+
+.cl-savebtn, .cl-cancelbtn {
+    display:inline-block;
+}
+
 
 .reg-login {
     padding-bottom: 20px;
 }
+.cl-items-sh {
+    width:33%;
+    text-align:center;
+}
+.cl-items {
+    display:inline-block;
+
+}
+
+#cl-season, #cl-shortdesc, #cl-longdesc{
+    display:block;
+}
+#cl-season {
+    font-weight:800;
+    font-size:1em;
+}
+
+#cl-appareltype, #cl-color, #cl-size, #cl-shortdesc, #cl-longdesc {
+    font-size: .9em;
+}
+
+.item {
+    display:inline-block;
+}
+
+.item#closet-title {
+    display:block;
+}
+
 
 .reg-item, .login-item {
     text-align:left;
@@ -169,7 +319,7 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
 }
 
 .form-reg-login {
-    border: 1px black solid;
+    /*border: 1px black solid;*/
     margin:0 auto;
     text-align: center;
     padding-left:5px;
@@ -199,9 +349,12 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
 
 .fa-door-open, .fa-tshirt, .fa-atom {
 	margin-bottom: .5rem;
-	padding: 1rem;
+	padding: .7rem;
 	font-size: 2rem;
 	border-radius: 50%;
+}
+.fa-door-open:hover, .fa-tshirt:hover, .fa-atom:hover {
+    background-color:lightgray;
 }
 
 .fa-door-open {
@@ -220,100 +373,73 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
     border: 1px solid #A8D2CB;
 }
 
-.fa-trash-alt, .fa-edit {
-	margin-bottom: .5rem;
+.fa-trash-alt, .fa-edit, .fa-save, .fa-undo {
+	margin: 1px;
+	padding: 5px;
+	font-size: 18px;
+    border-radius: 50%;
+    border: 1px solid #874D62;
+    color: #874D62;
+}
+
+
+.fa-plus {
+    margin-bottom: .5rem;
 	padding: 1rem;
-	font-size: 1rem;
-	border-radius: 50%;
+    font-size: 25px;
+    border: 1px solid #874D62;
+    border-radius: 50%;
+    color: #874D62;
 }
 
-.fa-trash-alt {
-    color: #C98573;
-    border: 1px solid #C98573;
-}
-.fa-edit {
-    color: #C98573;
-    border: 1px solid #C98573;
-}
-/*
-.flex-container {
-    display: flex;
-}
-*/
-/*
-.options-closet {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin: 0 auto;
-    border: 1px solid pink;
-}
-*/
 
-.closet-functions {
-    font-family: 'The Girl Next Door', cursive;
-}
-
-.buttons-options {
-    text-align:center;
-    border: 1px solid purple;
-    padding-top: 10px;
-    padding-bottom: 5px;
-}
-
-.buttons-options-min {
-    width:33.3%;
-}
 
 
 /***  closet styles ***/
 
 
-.col-closet {
-    background-color: #A8D2CB;
-    color: #322E3D; 
-}
 
 .cl-header {
     text-align:center;
 }
 
-/*
-.cl-resultcell {
-    display:flex;
-    flex-direction: row;
-    margin-bottom: 8px;
-}
-.cl-resultbody {
-    flex: 2 0 0;
-    font-size: 11px;
-}
 
 .cl-resultcell {
-    border: 1px solid black;
+    border: 1px solid  #C98573;
+    text-align:left;
+    border-radius: 3px;
+    padding: 8px;
+    margin: 5px 0 0 0;
 }
-*/
+
+.cl-resultcell-display {
+    height: 12em;
+}
+
 .itemrow {
     width:100%;
-    border: 1px solid orange;
+    border: 1px solid  #C98573;
     text-align:left;
+    border-radius: 3px;
+    padding: 3px;
+    margin: 5px 0 0 0;
 }
 
-.item {
-    border: 1px solid red;
-    display:inline-block;
-}
-.cl-editbutton-row {
-    text-align:right;
+.update-edit-btns {
+    float:right;
+    vertical-align:top;
+    text-align:center;
 }
 
-.cl-editbuttons {
-    display:inline-block;
-    padding-left: 3px;
+.editbuttons {
+
+    /*padding-left: 3px;
     padding-right: 3px;
     margin-top:2px;
     margin-right:2px;
     margin-bottom: 2px;
     margin-left:2px;
+    */
 }
 
 .fa-asterisk {
@@ -331,20 +457,11 @@ button:focus, input[type="submit"]:focus, input[type="button"]:focus  {
     text-align:left;
 }
 
-.itembody, .updatefields {
+.updatefields {
     width: 100%;
-    background-color:#FBF9EC;
+    background-color:white;
 }
 
-.mycl-editbuttons {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    flex: 1 0 0;
-}
-
-.mycl-addbutton {
-    margin-top: 10px;
-
+#cl-addbutton {
+    text-align:right;
 }

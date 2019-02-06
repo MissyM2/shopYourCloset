@@ -7,7 +7,7 @@
     padding-left: 20px;
     padding-right: 20px;
     margin: 0 auto;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
 }
 
 .row::before,
@@ -31,7 +31,7 @@
     float: left;
     padding-left: 1.04166666%;
     padding-right: 1.04166666%;
-    border: 1px solid green;
+    /*border: 1px solid green;*/
 }
 
 
@@ -46,7 +46,7 @@
 .col-9,
 .col-12 {
     width: 100%;
-    border: 1px solid green;
+    /*border: 1px solid green;*/
 }
 
 @media only screen and (min-width: 843px) {

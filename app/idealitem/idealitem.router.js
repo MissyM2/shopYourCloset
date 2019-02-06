@@ -52,6 +52,7 @@ idealitemRouter.get('/', jwtPassportMiddleware, (request, response) => {
     // Step 1: Attempt to retrieve all notes using Mongoose.Model.find()
     Idealitem
         .find()
+        .sort({ adddate: -1} )
         .populate('user')
         .then( items => {
             // Step 2A: Return the correct HTTP status code, and the notes correctly formatted via serialization.

@@ -5,7 +5,7 @@ window.HTTP_MODULE = {
     //get closet item by id
     fetchForCreateNewItemInCloset,
     fetchForUpdateClosetItemData,
-    fetchForDeleteClosetItemData,
+    fetchForDeleteClosetItemData
 };
 
 function fetchForCreateNewUser(userData) {
@@ -69,7 +69,8 @@ function fetchForLogUserIn(userData) {
             email: responseJson.user.email
         };
         saveAuthenticatedUserIntoCache(userData);
-        renderOptionsScreen(userData.name);
+        renderNavOne(userData.username);
+        renderOptionsScreen(userData.username);
     })
     .catch(() => {
         renderLoginError();
@@ -77,10 +78,17 @@ function fetchForLogUserIn(userData) {
 }
 
 
-function fetchForCreateNewItemInCloset(newItem) {
+function fetchForCreateNewItemInCloset(newItem, closet) {
     const jwtToken = localStorage.getItem("jwtToken");
-    console.log(closetChoice);
-    fetch('/api/myitem/', {
+    const loggedinUser = localStorage.getItem("userid");
+    let fetchPath = '';
+    if (localStorage.getItem("name") == 'Admin ID') {
+        fetchPath = '/api/idealcloset/';
+    } else {
+        fetchPath = `/api/userclosets/${loggedinUser}`;
+    };
+    console.log(fetchPath);
+    fetch(fetchPath, {
         method: 'POST',
         headers: {
             'Accept': 'application/json, text/plain, *',
@@ -96,7 +104,7 @@ function fetchForCreateNewItemInCloset(newItem) {
             throw new Error(response.text);
         })
         .then(responseJson => {
-            fetchCloset();
+            fetchCloset(closet);
         })
         .catch(error => {
             console.log('Error: ', error)
@@ -105,9 +113,18 @@ function fetchForCreateNewItemInCloset(newItem) {
 
 function fetchForUpdateClosetItemData(selectedId, updateObject) {
     const jwtToken = localStorage.getItem('jwtToken');
+    console.log(selectedId);
+
     console.log('updateItemInMycloset fired');
+
+    let fetchPath = '';
+    if (localStorage.getItem("name") == 'Admin ID') {
+        fetchPath = `/api/idealcloset/${selectedId}`;
+    } else {
+        fetchPath = `/api/userclosets/${loggedinUser}/${selectedId}`;
+    };
         
-    const fetchPath=`/api/${closetChoice}item/${selectedId}/`;
+    //const fetchPath=`/api/${closetChoice}item/${selectedId}/`;
     fetch(fetchPath, {
         method: 'PUT',
         headers: {
@@ -133,9 +150,17 @@ function fetchForUpdateClosetItemData(selectedId, updateObject) {
         });
 }
 
-function fetchForDeleteClosetItemData(selectedId) {
+function fetchForDeleteClosetItemData(selectedItemId, closet) {
     const jwtToken = localStorage.getItem("jwtToken");
-    const fetchPath= `/api/${closetChoice}item/${selectedId}`;
+
+    const loggedinUser = localStorage.getItem("userid");
+    let fetchPath = '';
+    if (localStorage.getItem("name") == 'Admin ID') {
+        fetchPath = `/api/idealcloset/${selectedId}`;
+    } else {
+        fetchPath = `/api/userclosets/${loggedinUser}/${selectedItemId}`;
+    };
+    console.log(fetchPath);
     fetch(fetchPath , {
         method: 'DELETE',
         headers: {
@@ -151,7 +176,7 @@ function fetchForDeleteClosetItemData(selectedId) {
         throw new Error(response.text);
         })
     .then(() => {
-        fetchCloset();
+        fetchCloset(closet);
     })
     .catch(error => {
         console.log(error.message);
@@ -159,15 +184,44 @@ function fetchForDeleteClosetItemData(selectedId) {
     });
 }
 
-
-
-
-
-function fetchCloset() {
+// show all items for the logged-in user
+function fetchCloset(closet) {
+    console.log('which closet is selected? ' + closet);
     console.log('fetchMycloset fired');
     const jwtToken = localStorage.getItem("jwtToken");
+    const loggedinUser = localStorage.getItem("userid");
+    let dataMsg;
+    let fetchPath;
+    if (localStorage.getItem("name") == 'Admin ID') {
+        fetchPath = '/api/idealcloset/';
+    } else {
+        switch(closet) {
+            case 'ideal':
+            fetchPath = '/api/idealcloset/';
+              break;
+            case 'my':
+                fetchPath = `/api/userclosets/${loggedinUser}`;
+              break;
+            case 'giveaway':
+                console.log('giveaway fetchpath will go here ', closet);
+                renderFake(closet, loggedinUser);
+              break;
+            case 'donation':
+                console.log('donation fetch path will go here ', closet);
+                renderFake(closet, loggedinUser);
+              break;
+            case 'analyze':
+                console.log('analyze fetchPath will go here ', closet);
+                renderFake(closet, loggedinUser);
+              break;
+            default:
+                console.log('it is another closet! ', closet);
+                renderFake(closet, loggedinUser);
+        }
+    };
+    console.log(fetchPath);
     //  GET fetch request for My Closet
-        fetch(`/api/${closetChoice}item/`, {
+        fetch(fetchPath, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${jwtToken}`
@@ -182,14 +236,20 @@ function fetchCloset() {
         })
         .then(data => {
             if (data.length !== 0) {
-                renderOptionsScreenMin();
-                renderCloset(data);
+                if (localStorage.getItem("name") !== 'Admin ID') {
+                    renderNavTwo(closet);
+                } else {
+                    renderNavAdmin(closet);
+                }
+                renderCloset(data, closet, loggedinUser);
             } else {
-                renderOptionsScreenMin();
-                renderCloset();
-                //renderAddItemForm();
+                if (localStorage.getItem("name") !== 'Admin ID') {
+                    renderNavTwo(closet);
+                } else {
+                    renderNavAdmin(closet);
+                }
+                renderAddItemForm(dataMsg, closet);
             };
         })
         .catch(error => console.log(error));
 } 
-

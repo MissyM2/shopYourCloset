@@ -14,7 +14,7 @@ const {Myitem, MyitemJoiSchema} = require('./myitem.model');
 //  * validate request body
 //  * check to see if item already exists
 // *  create item in mycloset and send JSON response
-myitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
+myitemRouter.post('/:id', jwtPassportMiddleware, (request, response) => {
     // Remember, We can access the request body payload thanks to the express.json() middleware we used in server.js
     const newMyitem = {
         user: request.user.id,
@@ -51,7 +51,7 @@ myitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
 });
 
 //  retrive user's closet items
-myitemRouter.get('/', jwtPassportMiddleware, (request, response) => {
+myitemRouter.get('/:id', jwtPassportMiddleware, (request, response) => {
     // Step 1: Attempt to retrieve all notes using Mongoose.Model.find()
     Myitem
         .find({ user: request.user.id})
@@ -69,7 +69,7 @@ myitemRouter.get('/', jwtPassportMiddleware, (request, response) => {
 });
 
 // retrieve all closet items
-myitemRouter.get('/all', (request, response) => {
+myitemRouter.get('/:userid', (request, response) => {
     // Step 1: Attempt to retrieve all notes using Mongoose.Model.find()
 
     Myitem
@@ -139,7 +139,7 @@ myitemRouter.put('/:id', jwtPassportMiddleware, (request, response) => {
 });
 
 //  remove item by id
-myitemRouter.delete('/:itemid', jwtPassportMiddleware, (request, response) => {
+myitemRouter.delete('/:userid/:itemid', jwtPassportMiddleware, (request, response) => {
      // Step 1: Attempt to find the note by ID and delete it using Mongoose.Model.findByIdAndDelete()
     Myitem
         .findByIdAndRemove(request.params.itemid)
