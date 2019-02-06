@@ -6,9 +6,11 @@ window.RENDER_MODULE = {
     renderOptionsScreen,
     renderCloset,
     renderAddItemForm,
-    renderNavOne,
-    renderNavTwo,
+    renderTopNav,
+    renderNavLoggedIn,
+    renderNavMenu,
     renderNavAdmin,
+    renderNavLogout,
     renderUpdateForm,
     renderLoginError,
     renderSignUpError,
@@ -63,61 +65,76 @@ function renderRegistrationForm() {
 
 function renderLoginForm() {
     console.log('renderLoginForm fired');
-    $('.reg-login').html(`
-        <form id="form-login" class="form-reg-login">
-            <div id="div-login">
-                <div id="login-field-container">
-                    <div class="login-item">
-                        <div class="input-container">
-                            <i class="fas fa-user user-icon"></i>
-                            <input type="text" name="GET-username" id="GET-username" class="login-input" required>
-                        </div>
-                    </div>
-                    <div class="login-item">
-                        <div class="input-container">
-                            <i class="fas fa-key user-icon"></i>
-                            <input type="password" name="GET-password" id="GET-password" class="login-input" required>
-                            <i class="far fa-eye-slash password-icon"></i>
-                        </div>
-                    </div>
-                </div>
-                <div id="signin-btn">
-                    <h3>Sign In</h3>
-                </div>
-                <div class="container-signup-btn">
-                    <div id="signup-verbage">
-                        <h3>New user?</h3>
-                    </div>
-                    <div id="signup-btn">
-                        <h3>Sign Up</h3>
-                    </div>
-                </div>
-                <div class="demo-item">
-                    <p class="demo"><p>For demo:  </p><p>username: chuckles </p><p>password: chuck</p>
+    $('.section-login').append(`
+        <div class=col-2></div>
+        <div class="col-8>
+            <div id="title-verbage">
+                <h2>love clothes and love to be organized?</h2>
+                <h4>keep track of your wardrobe</h4>
+                <div id="msgs-reg"></div>
             </div>
-        </form>
-    `);
+            <div class="reg-login">
+                <form id="form-login" class="form-reg-login">
+                    <div id="div-login">
+                        <div id="login-field-container">
+                            <div class="login-item">
+                                <div class="input-container">
+                                    <i class="fas fa-user user-icon"></i>
+                                    <input type="text" name="GET-username" id="GET-username" class="login-input" required>
+                                </div>
+                            </div>
+                            <div class="login-item">
+                                <div class="input-container">
+                                    <i class="fas fa-key user-icon"></i>
+                                    <input type="password" name="GET-password" id="GET-password" class="login-input" required>
+                                    <i class="far fa-eye-slash password-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="signin-btn">
+                            <h3>Sign In</h3>
+                        </div>
+                        <div class="container-signup-btn">
+                            <div id="signup-verbage">
+                                <h3>New user?</h3>
+                            </div>
+                            <div id="signup-btn">
+                                <h3>Sign Up</h3>
+                            </div>
+                        </div>
+                        <div class="demo-item">
+                            <p class="demo"><p>For demo:  </p><p>username: cathm94 </p><p>password: cathm94</p>
+                    </div>
+                </form>
+            </div>  
+        </div>
+        <div class=col-2></div>
+        
+    `).show();
+
 }
 
-
+function renderTopNav() {
+    $('.topnav').html(`
+            <div class="col-2"></div>
+            <div class="col-8 header-container">
+                <div class="header-items" id="header-title">
+                    <div id="logo-img">
+                        <img id="hanger-img" src="images/clothes-hanger1.png" />
+                    </div>
+                    <div id="logo-verbage">
+                        <p>shopYourCloset</p>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-2"></div>`);
+}
 
 function renderOptionsScreen(userName) {
-    $('#div-login').hide();
-    $('.section-login').hide();
-    $('.topnav').html(`<div class="col-2"></div>` +
-                      `<div class="col-8 header-container">
-                            <div class="header-items" id="header-title">` +
-                                `<div id="logo-img">` +
-                                    `<img id="hanger-img" src="images/clothes-hanger.png" />` +
-                                `</div>` +
-                                `<div id="logo-verbage">` +
-                                    `<p>shopYourCloset</p>` +
-                                `</div>` +
-                            `</div>` +
-                      `</div>` + 
-                      `<div class="col-2"></div>`);
+    //renderTopNav();
+    $('#div-login').css("display", "none");
+    $('.section-login').css("display", "none");
 
-    $('.section-options').show();
     if (userName == 'Admin ID') {
         $('.section-options').html(`
                 <div class="col-2"></div>
@@ -125,59 +142,61 @@ function renderOptionsScreen(userName) {
                     <h4 class="closet-functions">view/add to the ideal closet</h4>
                 </div>
                 <div class="col-2"></div>
-     `);
+     `).show();
 
     } else {
-    $('.section-options').html(`
-                <div class="options-header">
-                    <h3>Which closet would you like to work with?</h3>
+        $('.section-options').html(`
+            <div class="options-header">
+                <h3>Which closet would you like to work with?</h3>
+            </div>
+            <div class="options-btns" id="ideal-closet-btn" data-option="ideal">
+                <i class="fas fa-door-open"></i>
+                <h4 class="closet-functions">the ideal</h4>
+            </div>
+            <div class="options-btns">
+                <div class="options-btns" id="my-closet-btn" data-option="my">
+                    <i class="fas fa-tshirt"></i>
+                    <h4 class="closet-functions">your own</h4>
                 </div>
-                <div class="options-btns" id="ideal-closet-btn" data-option="ideal">
-                    <i class="fas fa-door-open"></i>
-                    <h4 class="closet-functions">the ideal</h4>
+                <div class="options-btns" id="giveaway-closet-btn" data-option="giveaway">
+                    <i class="fas fa-tshirt"></i>
+                    <h4 class="closet-functions">giveaway</h4>
                 </div>
-                <div class="options-btns">
-                    <div class="options-btns" id="my-closet-btn" data-option="my">
-                        <i class="fas fa-tshirt"></i>
-                        <h4 class="closet-functions">your own</h4>
-                    </div>
-                    <div class="options-btns" id="giveaway-closet-btn" data-option="giveaway">
-                        <i class="fas fa-tshirt"></i>
-                        <h4 class="closet-functions">giveaway</h4>
-                    </div>
-                    <div class="options-btns" id="donation-closet-btn" data-option="donation">
-                        <i class="fas fa-tshirt"></i>
-                        <h4 class="closet-functions">donation</h4>
-                    </div>
+                <div class="options-btns" id="donation-closet-btn" data-option="donation">
+                    <i class="fas fa-tshirt"></i>
+                    <h4 class="closet-functions">donation</h4>
                 </div>
-                <div class="options-header">
-                    <h3>Would you like some recommendations?</h3>
-                </div>
-                <div class="options-btns" id="analyze-closet-btn" data-option="analyze">
-                    <i class="fas fa-atom"></i>
-                    <h4 class="closet-functions">Analyze!</h4>
-                <div>
-     `);
+            </div>
+            <div class="options-header">
+                <h3>Would you like some recommendations?</h3>
+            </div>
+            <div class="options-btns" id="analyze-closet-btn" data-option="analyze">
+                <i class="fas fa-atom"></i>
+                <h4 class="closet-functions">Analyze!</h4>
+            <div>
+        `);
     };
     
 }
 
-function renderNavOne(userName) {
-    $('.nav-one').show().html(
-        `<div id="header-greeting">` +
-            `<p>Welcome, ${userName}!</p>` +
-        `</div>` +
-        `<div id="header-logout">` +
-            `<p>Logout</p>` +
-        `</div>`);
+function renderNavLoggedIn(userName) {
+    $('.section-nav').append(`
+        <div class="nav-loggedin">
+            <div id="header-greeting">
+                <p>Welcome, ${userName}!</p>
+            </div>
+            <div id="header-logout">
+                <p>Logout</p>
+            </div>
+        </div>`).css('border-bottom', '1px solid lightgrey');
 }
 
-function renderNavTwo() {
-    let closet = STORE.selCloset;
-    
-    $('#div-login').hide();
-    $('.section-login').hide();
-    $('.nav-two').show().html(`
+function renderNavMenu() {
+    //$('#div-login').hide();
+    //$('.section-login').css("display", "none");
+    $('.nav-menu').remove();
+    $('.section-nav').append(`
+            <div class="nav-menu">
                 <div class="options-btns-min" id="ideal-closet-btn-min">
                     ideal
                 </div>
@@ -193,9 +212,10 @@ function renderNavTwo() {
                 <div class="options-btns-min" id="analyze-closet-btn-min">
                     analyze
                 <div>
-     `);
+            </div>
+     `).css('border-bottom', '1px solid lightgray');
 
-     switch(closet) {
+     switch(STORE.selCloset) {
         case 'ideal':
           $('#ideal-closet-btn-min').css('background-color', '#A8D2CB');
           break;
@@ -214,10 +234,10 @@ function renderNavTwo() {
 }
 
 function renderNavAdmin() {
-    let closet = STORE.selCloset;
-    $('#div-login').hide();
-    $('.section-login').hide();
-    $('.admin-nav').show().html(`
+    
+    $('.nav-admin').remove();
+    $('.section-nav').append(`
+            <div class="nav-admin">
                 <div class="options-btns-min" id="ideal-closet-btn-min">
                     ideal
                 </div>
@@ -227,22 +247,38 @@ function renderNavAdmin() {
                 <div class="options-btns-min" id="donation-closet-btn-min">
                     donation
                 </div>
-     `).css('border-bottom', '1px solid black');
+            </div>
+     `).css('border-bottom', '1px solid lightgrey');
 }
 
+function renderNavLogout(userName) {
+    $('.section-options').html('');
+    $('.section-login').html('');
+    $('.section-closet').html('');
+    $('.section-nav').html('');
+    $('.section-nav').append(`
+        <div class="nav-logout">
+            <div id="header-greeting">
+                <p>Goodbye, ${userName}..  Come visit soon!</p>
+            </div>`).css("border-bottom", "1px solid lightgrey");
+}    
+
+
+
+
 function renderCloset(closetItems, loggedinUser) {
-    let closet = STORE.selCloset;
-    console.log(closet);
-        $('.section-options').hide();
-        $('.closet-display').html(`
+        console.log('did i get here? ', closetItems);
+        $('.section-options').html('');
+        $('.section-closet').html(`
             <br>
             <div class="cl-header">
-                <div class="item" id="closet-title"><h2>${closet} Closet</h2></div>
+                <div class="item" id="closet-title"><h2>${STORE.selCloset} Closet</h2></div>
                 <div class="item" id="cl-itemcount"></div>
-                <div class="item" id="cl-addbutton" data-closet="${closet}" data-user="${loggedinUser}"><i class="fas fa-plus"></i></div>
+                <div class="item" id="cl-addbutton" data-closet="${STORE.selCloset}" data-user="${loggedinUser}"><i class="fas fa-plus"></i></div>
             </div>`);
 
         let closetHtml = '';
+        let editBtnsHtml = '';
         let id1 = '';
         let appareltype1 = '';
         let color1 = '';
@@ -252,8 +288,15 @@ function renderCloset(closetItems, loggedinUser) {
         let longdesc1 = '';
         let itemCount = 0;
 
-        closetHtml= '<div id="cl-body">';
-        
+        closetHtml= `<div id="cl-body">`;
+        if (localStorage.getItem("name") !== 'Admin ID') {
+            editBtnsHtml = ``;
+        } else {
+            editBtnsHtml = `<div class="update-edit-btns">` +
+            `<div class="editbuttons" id="clupdate-btn" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-longdesc="${longdesc1}" data-size="${size1}"><i class="far fa-edit"></i></div>` +
+            `<div class="editbuttons" id="cl-deletebtn" data-id="${id1}" data-closet="${STORE.selCloset}"><i class="far fa-trash-alt"></i></div>` +
+            `</div>`; 
+        }
 
         for (let i=0; i < closetItems.length; i++) {
             itemCount +=1;
@@ -266,8 +309,7 @@ function renderCloset(closetItems, loggedinUser) {
             longdesc1 = closetItems[i].longdesc;
             size1 = closetItems[i].size;
 
-
-
+           
             closetHtml += `<div class="cl-resultcell ${id1}class">` +
                     `<div class="cl-resultbody">` +
                             `<div class="cl-items" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p>${season1}</p></div></div>` +
@@ -278,11 +320,7 @@ function renderCloset(closetItems, loggedinUser) {
                             `</div>` +
                             `<div class="cl-items" id="cl-shortdesc"><div class="item itembody"><p>${shortdesc1}</p></div></div>` +
                             `<div class="cl-items" id="cl-longdesc"><div class="item itembody"><p>${longdesc1}</p></div></div>` +
-                    `</div>` +
-                    `<div class="update-edit-btns">` +
-                        `<div class="editbuttons" id="clupdate-btn" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-longdesc="${longdesc1}" data-size="${size1}"><i class="far fa-edit"></i></div>` +
-                        `<div class="editbuttons" id="cl-deletebtn" data-id="${id1}" data-closet="${closet}"><i class="far fa-trash-alt"></i></div>` +
-                    `</div>` +
+                    `</div>` + editBtnsHtml +
                     `<br>` +
                 `</div>`; 
             `<br>`;
@@ -290,7 +328,7 @@ function renderCloset(closetItems, loggedinUser) {
 
         closetHtml+='</div>';
         $('#cl-itemcount').append(`<h3>There are ${itemCount} items in the closet.</h3>`);
-        $('.closet-display').append(closetHtml);
+        $('.section-closet').append(closetHtml);
 
 }
 
@@ -300,9 +338,8 @@ function renderFake() {
 }
 
 function renderAddItemForm(msg, loggedinUser) {
-    let closet = STORE.selCloset;
     $('.section-options').hide();
-    const updateFormBody = `<div class="cl-header"><h4>${msg}Add new item to ${closet} Closet</h4></div>` +
+    const updateFormBody = `<div class="cl-header"><h4>${msg}Add new item to ${STORE.selCloset} Closet</h4></div>` +
         `<div class="cl-resultcell-new additem-class"><div class="cl-resultbody-new"><form >` +
         `<div class="itemrow cl-whichseason">` +
             `<div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>` +
@@ -432,7 +469,7 @@ function renderAddItemForm(msg, loggedinUser) {
             `</div>` +
         `</div>` +
         `<div class="editbuttons">` +
-            `<div id="cl-savebtn" data-closet="${closet}" data="${loggedinUser}"><i class="far fa-save"></i></div>` +
+            `<div id="cl-savebtn" data-closet="${STORE.selCloset}" data="${loggedinUser}"><i class="far fa-save"></i></div>` +
             `<div id="cl-cancelbtn"><i class="fas fa-undo"></i></div>` +
         `</div>` +
         `</form>`;

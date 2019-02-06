@@ -5,7 +5,7 @@ body {
 }
 
 header {
-    background-color: #C98573;
+    background-color: #A7D2CB;
     height: 100px;
     position: fixed;
     top: 0;
@@ -64,7 +64,7 @@ h4 {
     padding: 5px 20px;
     font-weight: bold;
     padding: 5px 0;
-
+    text-align:center;
 }
 
 h5 {
@@ -118,12 +118,20 @@ label {
     margin:10px 0 10px 0;
 }
 
-.nav-one, .nav-two, .admin-nav {
+.section-options {
+    padding-top: 25px;
+}
+
+.section-login {
+    padding-top:35px;
+}
+
+.nav-loggedin, .nav-menu, .nav-admin {
     overflow:hidden;
     padding-bottom: 8px;
     padding-top:5px;
     text-align:center;
-    border-bottom: 1px solid lightgrey;
+    /*border-bottom: 1px solid lightgrey;*/
 }
 .options-btns-min {
     display:inline-block;
@@ -134,6 +142,7 @@ label {
 
 .options-btns-min:hover {
     background-color: lightgrey;
+    cursor:pointer
 }
 
 #ideal-closet-btn-min,
@@ -143,9 +152,15 @@ label {
     border-right: 1px solid lightgrey;
 }
 
-#header-logout {
+#header-logout, #header-loginagain {
     padding-left: 22px;
     border-left:1px solid lightgrey;
+    display: inline-block;
+}
+
+#header-logout:hover, #header-loginagain:hover {
+    background-color: lightgrey;
+    cursor:pointer;
 }
 
 #login-field-container {
@@ -174,9 +189,7 @@ label {
     width:32%;
 }
 
-.section-options {
-    padding-top: 25px;
-}
+
 
 .select-season-icon {
     height: 40px;
@@ -199,6 +212,11 @@ label {
     /*border:1px solid green;*/
     max-height: 75px;
 }
+#header-title:hover {
+    /*border:1px solid green;*/
+    cursor:pointer;
+    background-color:lightgray;
+}
 
 #logo-img {
     /*border:1px solid red;*/
@@ -206,7 +224,7 @@ label {
 }
 
 #hanger-img {
-    height:75px;
+    height:60px;
 }
 
 #logo-verbage {
@@ -355,6 +373,7 @@ label {
 }
 .fa-door-open:hover, .fa-tshirt:hover, .fa-atom:hover {
     background-color:lightgray;
+    cursor:pointer;
 }
 
 .fa-door-open {

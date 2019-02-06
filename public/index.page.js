@@ -8,9 +8,6 @@ const HTTP = window.HTTP_MODULE;
 const RENDER = window.RENDER_MODULE;
 const CACHE = window.CACHE_MODULE;
 
-
-
-
 function onPageLoad() {
     updateAuthenticatedUI();
     if (STATE.authUser) {
@@ -25,14 +22,13 @@ function onPageLoad() {
 
 function updateAuthenticatedUI() {
     const authUser = CACHE.getAuthenticatedUserFromCache();
-    STORE.selCloset = 'my';
     console.log(authUser);
     if (authUser) {
         STATE.authUser = authUser;
         $('#nav-greeting').html(`Welcome, ${authUser.name}`);
         $('#auth-menu').removeAttr('hidden');
     } else {
-        renderLoginForm();
+        RENDER.renderLoginForm();
         //$('#default-menu').removeAttr('hidden');
     }
 }
@@ -74,14 +70,21 @@ function onRegisterNewUserClick() {
     });
 }
 
+
+
 function onSigninClick() {
     $(document).on('click', '#signin-btn', function(event) {
+        console.log('sign in fired');
         event.preventDefault();
         $('#error-msg').remove();
         const userData = {
             username: $("#GET-username").val(),
             password: $("#GET-password").val()
         };
+        $('.section-options').html('');
+        $('.section-login').html('');
+        $('.section-closet').html('');
+        $('.section-nav').html('');
         HTTP.fetchForLogUserIn(userData);
     });
 }
@@ -90,7 +93,7 @@ function onSignupRequestClick() {
     $(document).on('click', '#signup-btn', function(event) {
         event.preventDefault();
         $('#error-msg').remove();
-        renderRegistrationForm();
+        RENDER.renderRegistrationForm();
     });
 }
 
@@ -99,14 +102,22 @@ function onLogoutClick() {
         event.preventDefault();
         console.log('onLogoutClick fired');
         //return to login page
-        $('.closet-display').html('');
+        const loggedinUser = localStorage.getItem("username");
+
+        CACHE.deleteAuthenticatedUserFromCache();
         $('.section-options').html('');
-        $('.section-login').show();
-        $('#nav-one').html(`<p>Goodbye!  Come back soon!</p>`);
-        $('.nav-two').html('').css('border-bottom', 'none');
-        $('.nav-admin').html('').css('border-bottom', 'none');
-        deleteAuthenticatedUserFromCache();
+        $('.section-login').html('');
+        $('.section-closet').html('');
+        $('.section-nav').html('');
+        RENDER.renderNavLogout(loggedinUser);
         RENDER.renderLoginForm();
+    });
+}
+
+function onGoHome() {
+    $(document).on('click', '#header-title', function(event) {
+        event.preventDefault();
+        RENDER.renderOptionsScreen();
     });
 }
 
@@ -135,8 +146,9 @@ function onViewClosetClick() {
 }));
 }
 
-function onViewClosetFromNavTwoClick() {
-    $('.nav-two').on('click', (function(event) {
+function onViewClosetFromNavMenuClick() {
+    $('.section-nav').on('click', '.nav-menu', (function(event) {
+        console.log('made it to view closet');
         event.preventDefault();
         let closetElement;
         closetElement=event.target.id;
@@ -157,7 +169,7 @@ function onAddItemToClosetClick() {
         const selMsg = "";
         console.log(STORE.selCloset);
         console.log(selUser)
-        renderAddItemForm(selMsg, selUser);
+        RENDER.renderAddItemForm(selMsg, selUser);
     }));
 }
 
@@ -176,7 +188,7 @@ function onSaveItemClosetClick() {
         };
          console.log(newItem);
     
-        fetchForCreateNewItemInCloset(newItem, selUser);
+        HTTP.fetchForCreateNewItemInCloset(newItem, selUser);
     });
 }
 
@@ -213,7 +225,7 @@ function onFinalUpdateItemInClosetClick() {
             longdesc: $("#js-updatelongdesc").val(),
             size: $("#js-updatesize").val()
         };
-        fetchForUpdateClosetItemData(idToUpdate, updatedClosetItemObj);
+        HTTP.fetchForUpdateClosetItemData(idToUpdate, updatedClosetItemObj);
     });
 }
 
@@ -227,7 +239,7 @@ function onDeleteItemInClosetClick() {
         const userSaidYes = confirm('Are you sure you want to delete this item?');
         if (userSaidYes) {
             // step 3:  make fetch call to delete item from closet
-            fetchForDeleteClosetItemData(selItemId);
+            HTTP.fetchForDeleteClosetItemData(selItemId);
         }
     }));
 }
@@ -237,7 +249,7 @@ function onCancelAddItemClick() {
     $(document).on('click', '#cl-cancelbtn', (function(event) {
         event.preventDefault();
         console.log('onCancelAdd or updateItemClick fired.');
-        fetchCloset();
+        HTTP.fetchCloset();
     }))
 }
 
@@ -309,8 +321,9 @@ $(document).ready(function () {
     onRegisterNewUserClick();
     onSigninClick();
     onLogoutClick();
+    onGoHome();
     onViewClosetClick();
-    onViewClosetFromNavTwoClick();
+    onViewClosetFromNavMenuClick();
     onAddItemToClosetClick();
     onSaveItemClosetClick()
     onDeleteItemInClosetClick();

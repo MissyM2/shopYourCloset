@@ -69,7 +69,7 @@ function fetchForLogUserIn(userData) {
             email: responseJson.user.email
         };
         saveAuthenticatedUserIntoCache(userData);
-        renderNavOne(userData.username);
+        renderNavLoggedIn(userData.username);
         renderOptionsScreen(userData.username);
     })
     .catch(() => {
@@ -106,7 +106,7 @@ function fetchForCreateNewItemInCloset(newItem) {
             throw new Error(response.text);
         })
         .then(responseJson => {
-            fetchCloset(closet);
+            fetchCloset();
         })
         .catch(error => {
             console.log('Error: ', error)
@@ -177,7 +177,7 @@ function fetchForDeleteClosetItemData(selectedItemId) {
         throw new Error(response.text);
         })
     .then(() => {
-        fetchCloset(closet);
+        fetchCloset();
     })
     .catch(error => {
         console.log(error.message);
@@ -198,7 +198,8 @@ function fetchCloset() {
     } else {
         switch(STORE.selCloset) {
             case 'ideal':
-            fetchPath = '/api/idealcloset/';
+                fetchPath = '/api/idealcloset/';
+                console.log('ideal fetchpath ' + fetchPath)
               break;
             case 'my':
                 fetchPath = `/api/userclosets/mycloset/${loggedinUser}`;
@@ -206,20 +207,20 @@ function fetchCloset() {
             case 'giveaway':
                 fetchPath = `/api/userclosets/giveawaycloset/${loggedinUser}`;
                 console.log('giveaway fetchpath will go here: ' + STORE.selCloset + fetchPath );
-                renderFake(STORE.selCloset, loggedinUser);
+                renderFake(loggedinUser);
               break;
             case 'donation':
                 fetchPath = `/api/userclosets/donationcloset/${loggedinUser}`;
                 console.log('giveaway fetchpath will go here: ' + STORE.selCloset, fetchPath );
-                renderFake(STORE.selCloset, loggedinUser);
+                renderFake(loggedinUser);
               break;
             case 'analyze':
                 console.log('analyze fetchPath will go here ', STORE.selCloset);
-                renderFake(STORE.selCloset, loggedinUser);
+                renderFake(loggedinUser);
               break;
             default:
                 console.log('it is another closet! ', STORE.selCloset);
-                renderFake(STORE.selCloset, loggedinUser);
+                renderFake(loggedinUser);
         }
     };
     console.log(fetchPath);
@@ -240,18 +241,18 @@ function fetchCloset() {
         .then(data => {
             if (data.length !== 0) {
                 if (localStorage.getItem("name") !== 'Admin ID') {
-                    renderNavTwo(STORE.selCloset);
+                    renderNavMenu();
                 } else {
-                    renderNavAdmin(STORE.selCloset);
+                    renderNavAdmin();
                 }
-                renderCloset(data, STORE.selCloset, loggedinUser);
+                renderCloset(data, loggedinUser);
             } else {
                 if (localStorage.getItem("name") !== 'Admin ID') {
-                    renderNavTwo(STORE.selCloset);
+                    renderNavTwo();
                 } else {
-                    renderNavAdmin(STORE.selCloset);
+                    renderNavAdmin();
                 }
-                renderAddItemForm(dataMsg, STORE.selCloset);
+                renderAddItemForm(dataMsg);
             };
         })
         .catch(error => console.log(error));
