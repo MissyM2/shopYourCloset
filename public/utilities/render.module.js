@@ -172,8 +172,8 @@ function renderNavOne(userName) {
         `</div>`);
 }
 
-function renderNavTwo(selCloset) {
-    console.log(selCloset);
+function renderNavTwo() {
+    let closet = STORE.selCloset;
     
     $('#div-login').hide();
     $('.section-login').hide();
@@ -195,7 +195,7 @@ function renderNavTwo(selCloset) {
                 <div>
      `);
 
-     switch(selCloset) {
+     switch(closet) {
         case 'ideal':
           $('#ideal-closet-btn-min').css('background-color', '#A8D2CB');
           break;
@@ -213,7 +213,8 @@ function renderNavTwo(selCloset) {
     }
 }
 
-function renderNavAdmin(selCloset) {
+function renderNavAdmin() {
+    let closet = STORE.selCloset;
     $('#div-login').hide();
     $('.section-login').hide();
     $('.admin-nav').show().html(`
@@ -229,15 +230,16 @@ function renderNavAdmin(selCloset) {
      `).css('border-bottom', '1px solid black');
 }
 
-function renderCloset(closetItems, closetChoice, loggedinUser) {
-    console.log(closetChoice);
+function renderCloset(closetItems, loggedinUser) {
+    let closet = STORE.selCloset;
+    console.log(closet);
         $('.section-options').hide();
         $('.closet-display').html(`
             <br>
             <div class="cl-header">
-                <div class="item" id="closet-title"><h2>${closetChoice} Closet</h2></div>
+                <div class="item" id="closet-title"><h2>${closet} Closet</h2></div>
                 <div class="item" id="cl-itemcount"></div>
-                <div class="item" id="cl-addbutton" data-closet="${closetChoice}" data-user="${loggedinUser}"><i class="fas fa-plus"></i></div>
+                <div class="item" id="cl-addbutton" data-closet="${closet}" data-user="${loggedinUser}"><i class="fas fa-plus"></i></div>
             </div>`);
 
         let closetHtml = '';
@@ -279,7 +281,7 @@ function renderCloset(closetItems, closetChoice, loggedinUser) {
                     `</div>` +
                     `<div class="update-edit-btns">` +
                         `<div class="editbuttons" id="clupdate-btn" data-id="${id1}" data-season="${season1}" data-appareltype="${appareltype1}" data-color="${color1}" data-shortdesc="${shortdesc1}" data-longdesc="${longdesc1}" data-size="${size1}"><i class="far fa-edit"></i></div>` +
-                        `<div class="editbuttons" id="cl-deletebtn" data-id="${id1}" data-closet="${closetChoice}"><i class="far fa-trash-alt"></i></div>` +
+                        `<div class="editbuttons" id="cl-deletebtn" data-id="${id1}" data-closet="${closet}"><i class="far fa-trash-alt"></i></div>` +
                     `</div>` +
                     `<br>` +
                 `</div>`; 
@@ -292,14 +294,15 @@ function renderCloset(closetItems, closetChoice, loggedinUser) {
 
 }
 
-function renderFake(closetChoice, User) {
+function renderFake() {
     $('.section-options').hide();
     $('.closet-display').html(`<div>THIS IS A PLACEHOLDER PAGE</div>`);
 }
 
-function renderAddItemForm(msg, closetChoice, loggedinUser) {
+function renderAddItemForm(msg, loggedinUser) {
+    let closet = STORE.selCloset;
     $('.section-options').hide();
-    const updateFormBody = `<div class="cl-header"><h4>${msg}Add new item to ${closetChoice} Closet</h4></div>` +
+    const updateFormBody = `<div class="cl-header"><h4>${msg}Add new item to ${closet} Closet</h4></div>` +
         `<div class="cl-resultcell-new additem-class"><div class="cl-resultbody-new"><form >` +
         `<div class="itemrow cl-whichseason">` +
             `<div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>` +
@@ -429,7 +432,7 @@ function renderAddItemForm(msg, closetChoice, loggedinUser) {
             `</div>` +
         `</div>` +
         `<div class="editbuttons">` +
-            `<div id="cl-savebtn" data-closet="${closetChoice}" data="${loggedinUser}"><i class="far fa-save"></i></div>` +
+            `<div id="cl-savebtn" data-closet="${closet}" data="${loggedinUser}"><i class="far fa-save"></i></div>` +
             `<div id="cl-cancelbtn"><i class="fas fa-undo"></i></div>` +
         `</div>` +
         `</form>`;
@@ -509,7 +512,7 @@ function renderUpdateForm(updateObjForm) {
                         `</select>` +
                     `</div>` +
                 `</div>` +
-            `</form>`
+            `</form>` +
         `</div> ` +
         `<div class="update-edit-btns">` +
             `<div class="editbuttons" id="cl-savebtn" data-id="${updateObjForm.id}" data-season="${updateObjForm.season}" data-appareltype="${updateObjForm.appareltype}" data-color="${updateObjForm.color}" data-shortdesc="${updateObjForm.shortdesc}" data-longdesc="${updateObjForm.longdesc}" data-size="${updateObjForm.size}"><i class="far fa-save"></i>` +

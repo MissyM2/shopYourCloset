@@ -66,23 +66,6 @@ giveawayitemRouter.get('/', jwtPassportMiddleware, (request, response) => {
         });
 });
 
-giveawayitemRouter.get('/', (request, response) => {
-    // Step 1: Attempt to retrieve all notes using Mongoose.Model.find()
-    Giveawayitem
-        .find()
-        .populate('user')
-        .then(items => {
-            // Step 2A: Return the correct HTTP status code, and the notes correctly formatted via serialization.
-            return response.status(HTTP_STATUS_CODES.OK).json(
-                items.map(item => item.serialize())
-            );
-        })
-        .catch(error => {
-            // Step 2B: If an error ocurred, return an error HTTP status code and the error in JSON format.
-            return response.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json(error);
-        });
-});
-
 // retrieve one note by id
 giveawayitemRouter.get('/:itemid', jwtPassportMiddleware, (request, response) => {
      // Step 1: Attempt to retrieve the note using Mongoose.Model.findById()

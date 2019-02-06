@@ -105,7 +105,7 @@ myitemRouter.get('/:itemid', jwtPassportMiddleware,(request, response) => {
 });
 
 // update mycloset item by id
-myitemRouter.put('/:id', jwtPassportMiddleware, (request, response) => {
+myitemRouter.put('/:userid/:id', jwtPassportMiddleware, (request, response) => {
    const itemUpdate = {
         season: request.body.season,
         color: request.body.color,

@@ -14,7 +14,7 @@ const donationitemRouter = express.Router();
 //  * check to see if item already exists
 // *  create item in mycloset and send JSON response
 
-donationitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
+donationitemRouter.post('/:id', jwtPassportMiddleware, (request, response) => {
     // Remember, We can access the request body payload thanks to the express.json() middleware we used in server.js
     const newDonationitem = {
         user: request.user.id,
@@ -48,7 +48,7 @@ donationitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
 });
 
 //  retrieve all donationItems for logged-in user
-donationitemRouter.get('/', jwtPassportMiddleware, (request, response) => {
+donationitemRouter.get('/:id', jwtPassportMiddleware, (request, response) => {
     // Step 1: Attempt to retrieve all notes using Mongoose.Model.find()
     Donationitem
         .find()
@@ -66,24 +66,7 @@ donationitemRouter.get('/', jwtPassportMiddleware, (request, response) => {
         });
 });
 
-donationitemRouter.get('/', (request, response) => {
-    // Step 1: Attempt to retrieve all notes using Mongoose.Model.find()
-    Donationitem
-        .find()
-        .populate('user')
-        .then(items => {
-            // Step 2A: Return the correct HTTP status code, and the notes correctly formatted via serialization.
-            return response.status(HTTP_STATUS_CODES.OK).json(
-                items.map(item => item.serialize())
-            );
-        })
-        .catch(error => {
-            // Step 2B: If an error ocurred, return an error HTTP status code and the error in JSON format.
-            return response.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json(error);
-        });
-});
-
-// retrieve one note by id
+// retrieve one item by id
 donationitemRouter.get('/:itemid', jwtPassportMiddleware, (request, response) => {
      // Step 1: Attempt to retrieve the note using Mongoose.Model.findById()
     Donationitem
@@ -130,7 +113,7 @@ donationitemRouter.put('/:itemid', jwtPassportMiddleware, (request, response) =>
 });
 
 //  remove donationitem by id
-donationitemRouter.delete('/:itemid', jwtPassportMiddleware, (request, response) => {
+donationitemRouter.delete('/:id/:itemid', jwtPassportMiddleware, (request, response) => {
      // Step 1: Attempt to find the note by ID and delete it using Mongoose.Model.findByIdAndDelete()
     Donationitem.findByIdAndRemove(request.params.itemid)
         .then(() => {
