@@ -11,6 +11,7 @@ header {
     top: 0;
     width: 100%;
     padding: 10px 20px;
+    border-bottom: 2px solid #F2D338;
 }
 
 footer {
@@ -29,7 +30,7 @@ main {
     margin-bottom: 100px;
     margin-top: 100px;
     overflow: auto;
-    width: 80%;
+    /*width: 80%;*/
 
 }
 
@@ -60,7 +61,7 @@ h3 {
 
 h4 {
     font-family: 'The Girl Next Door', cursive;
-    font-size: 1.2em;
+    font-size: 1em;
     padding: 5px 20px;
     font-weight: bold;
     padding: 5px 0;
@@ -99,8 +100,15 @@ button {
     display:block;
 }
 
-.options-container {
+.options-container, 
+.reg-container, 
+.login-container, 
+.closet-container {
     text-align:center;
+    padding-top:45px;
+    margin-left:5px;
+    margin-right:5px;
+    /*border:1px solid green;*/
 }
 
 .radiogroup {
@@ -113,20 +121,17 @@ label {
     margin:6px;
     font-size: 16px;
 }
-
-.section-nav {
-    margin:10px 0 10px 0;
+.section-options,
+.section-login,
+.section-closet {
+    max-width:500px;
+    margin:auto;
 }
 
-.section-options {
-    padding-top: 25px;
-}
-
-.section-login {
-    padding-top:35px;
-}
-
-.nav-loggedin, .nav-menu, .nav-admin {
+.nav-loggedin, 
+.nav-menu, 
+.nav-admin,
+.nav-logout {
     overflow:hidden;
     padding-bottom: 8px;
     padding-top:5px;
@@ -150,6 +155,7 @@ label {
 #giveaway-closet-btn-min,
 #donation-closet-btn-min {
     border-right: 1px solid lightgrey;
+    padding-right:10px;
 }
 
 #header-logout, #header-loginagain {
@@ -248,7 +254,30 @@ label {
     /*border:1px solid green;*/
 }
 
+.item-body {
+    text-align:left;
+    padding:2px;
+    width: 80%;
+    display:inline-block
+}
+.item-edit-btns{
+    display:inline-block;
+    float:right;
+}
 
+.editbuttons {
+    text-align: right;
+}
+
+
+.additem-edit-btns {
+    text-align:right;
+}
+
+#additem-save-btn,
+#additem-cancel-btn {
+    display:inline-block;
+}
 .cl-resultbody {
 
     display:inline-block;
@@ -395,7 +424,7 @@ label {
 .fa-trash-alt, .fa-edit, .fa-save, .fa-undo {
 	margin: 1px;
 	padding: 5px;
-	font-size: 18px;
+	font-size: 24px;
     border-radius: 50%;
     border: 1px solid #874D62;
     color: #874D62;
@@ -423,7 +452,7 @@ label {
 }
 
 
-.cl-resultcell {
+.closet-item {
     border: 1px solid  #C98573;
     text-align:left;
     border-radius: 3px;
@@ -450,16 +479,6 @@ label {
     text-align:center;
 }
 
-.editbuttons {
-
-    /*padding-left: 3px;
-    padding-right: 3px;
-    margin-top:2px;
-    margin-right:2px;
-    margin-bottom: 2px;
-    margin-left:2px;
-    */
-}
 
 .fa-asterisk {
     color:red;
@@ -481,6 +500,19 @@ label {
     background-color:white;
 }
 
-#cl-addbutton {
+#cl-add-btn {
     text-align:right;
+}
+
+.closet-body {
+    text-align:left;
+}
+
+.instruction-list {
+    margin: 10px 5px 0 55px;
+}
+
+.info-msg {
+    padding:15px 7px;
+
 }

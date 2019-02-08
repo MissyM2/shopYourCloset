@@ -1,4 +1,7 @@
 let STORE = {
-    selCloset:''
+    selCloset:'',
+    idealClosetLength:0,
+    myClosetLength:0,
+    authUser:''
 }
 

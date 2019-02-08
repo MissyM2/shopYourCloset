@@ -10,19 +10,10 @@ const CACHE = window.CACHE_MODULE;
 
 function onPageLoad() {
     updateAuthenticatedUI();
-    if (STATE.authUser) {
-        console.log('is jwtToken in application?');
-      //  HTTP.getUserNotes({
-       //     jwtToken: STATE.authUser.jwtToken
-            
-            //onSuccess: RENDER.renderNotesList
-        //});
-    }
 }
 
 function updateAuthenticatedUI() {
     const authUser = CACHE.getAuthenticatedUserFromCache();
-    console.log(authUser);
     if (authUser) {
         STATE.authUser = authUser;
         $('#nav-greeting').html(`Welcome, ${authUser.name}`);
@@ -53,7 +44,6 @@ function onRegisterNewUserClick() {
             // add current error
             $('#btn-register').before('<p class="error-msg" id="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i> One of your entries is blank.</p>');
         } else if (newPassword != newPasswordConfirm) {
-            console.log('password and new pass are not the same');
             // add current error
             $('#btn-register').before('<p class="error-msg" id="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i> Password and Confirmation Password are not the same</p>');
 
@@ -64,17 +54,13 @@ function onRegisterNewUserClick() {
                 username: newUsername,
                 password: newPassword
             };
-            
             HTTP.fetchForCreateNewUser(userData);
         };
     });
 }
 
-
-
 function onSigninClick() {
     $(document).on('click', '#signin-btn', function(event) {
-        console.log('sign in fired');
         event.preventDefault();
         $('#error-msg').remove();
         const userData = {
@@ -83,7 +69,7 @@ function onSigninClick() {
         };
         $('.section-options').html('');
         $('.section-login').html('');
-        $('.section-closet').html('');
+        $('.closet-container').html('');
         $('.section-nav').html('');
         HTTP.fetchForLogUserIn(userData);
     });
@@ -100,23 +86,26 @@ function onSignupRequestClick() {
 function onLogoutClick() {
     $(document).on('click', '#header-logout', function(event) {
         event.preventDefault();
-        console.log('onLogoutClick fired');
         //return to login page
-        const loggedinUser = localStorage.getItem("username");
+        const userName= localStorage.getItem("username");
 
         CACHE.deleteAuthenticatedUserFromCache();
         $('.section-options').html('');
         $('.section-login').html('');
-        $('.section-closet').html('');
+        $('.closet-container').html('');
         $('.section-nav').html('');
-        RENDER.renderNavLogout(loggedinUser);
+        RENDER.renderLogout(userName);
         RENDER.renderLoginForm();
     });
 }
 
 function onGoHome() {
     $(document).on('click', '#header-title', function(event) {
-        event.preventDefault();
+        event.preventDefault();$('.section-options').html('');
+        $('.section-login').html('');
+        $('.closet-container').html('');
+        $('.section-nav').html(''); $('.closet-container').html('');
+        RENDER.renderNavLoggedIn();
         RENDER.renderOptionsScreen();
     });
 }
@@ -127,57 +116,51 @@ function onGoHome() {
 function onViewClosetClick() {
     $('.section-options').on('click', (function(event) {
         event.preventDefault();
-        console.log('the state of the closet is ' + STORE.selCloset)
         let closetElement;
         if (event.target.id.includes('btn') && event.target.id != "") {
             closetElement=event.target.id;
-            console.log('selected button is', closetElement);
         } else {
             closetElement=event.target.parentElement.id;
-            console.log('selected closet is', closetElement);
         }
         let selectedClosetArr = [];
         selectedClosetArr = closetElement.split("-");
-        console.log(selectedClosetArr[0]);
         STORE.selCloset=selectedClosetArr[0];
-        //HTTP.fetchCloset(selectedClosetArr[0]);
         HTTP.fetchCloset();
-        
 }));
 }
 
+
 function onViewClosetFromNavMenuClick() {
-    $('.section-nav').on('click', '.nav-menu', (function(event) {
-        console.log('made it to view closet');
+   // $('.section-nav').on('click',(function(event) {
+    $(document).on('click','.options-btns-min',(function(event) {
         event.preventDefault();
         let closetElement;
         closetElement=event.target.id;
-        console.log(closetElement);
         let closetElementArr = [];
         closetElementArr = closetElement.split("-");
-        console.log(closetElementArr[0]);
         STORE.selCloset = closetElementArr[0]
         HTTP.fetchCloset(); 
 }));
 }
 
 function onAddItemToClosetClick() {
-    $(document).on('click','#cl-addbutton', (function(event){
+    $('.section-closet').on('click', '#cl-add-btn', (function(event){
         event.preventDefault();
+        alert('hello');
+        console.log(event.target);
         STORE.selCloset = $(this).attr('data-closet');
         const selUser = $(this).attr('data-user');
         const selMsg = "";
-        console.log(STORE.selCloset);
-        console.log(selUser)
         RENDER.renderAddItemForm(selMsg, selUser);
     }));
 }
 
-function onSaveItemClosetClick() {
-    $(document).on('click','#cl-savebtn', function(event) {
-        STORE.selCloset = $(this).attr('data-closet');
-        const selUser = $(this).attr('data-user');
+function onSaveItemToClosetClick() {
+    $('.section-closet').on('click','.additem-edit-btns', function(event) {
         event.preventDefault();
+        console.log(event.target);
+        console.log(event.currentTarget);
+        console.log(event.target.id);
         const newItem= {
             season: $("input[name='season']:checked").val(),
             appareltype:$("input[name='appareltype']:checked").val(),
@@ -186,15 +169,13 @@ function onSaveItemClosetClick() {
             longdesc: $('#js-additem-longdesc').val(),
             size: $("input[name='size']:checked").val()
         };
-         console.log(newItem);
     
-        HTTP.fetchForCreateNewItemInCloset(newItem, selUser);
+        HTTP.fetchForCreateNewItemInCloset(newItem);
     });
 }
 
 function onUpdateItemInClosetClick() {
     $(document).on('click', '#clupdate-btn', (function(event) {
-        console.log('update form is listening');
         event.preventDefault();
         const updateObj = {
             id: $(this).attr('data-id'),
@@ -205,7 +186,6 @@ function onUpdateItemInClosetClick() {
             longdesc: $(this).attr('data-longdesc'),
             size: $(this).attr('data-size')
         }
-        console.log(updateObj);
         RENDER.renderUpdateForm(updateObj);
     }));
 }
@@ -233,7 +213,6 @@ function onDeleteItemInClosetClick() {
     $(document).on('click', '#cl-deletebtn', (function(event){
         event.preventDefault();
         STORE.selCloset = $(this).attr('data-closet');
-        console.log('the state of the closet is: ', STORE.selCloset);
         const selItemId = $(this).attr('data-id');
         // Step 2: Verify use is sure of deletion
         const userSaidYes = confirm('Are you sure you want to delete this item?');
@@ -248,7 +227,6 @@ function onDeleteItemInClosetClick() {
 function onCancelAddItemClick() {
     $(document).on('click', '#cl-cancelbtn', (function(event) {
         event.preventDefault();
-        console.log('onCancelAdd or updateItemClick fired.');
         HTTP.fetchCloset();
     }))
 }
@@ -256,15 +234,12 @@ function onCancelAddItemClick() {
 function onPasswordRevealClick() {
     $(document).on('click', '.password-icon', (function(event) {
         event.preventDefault();
-        console.log('onPasswordRevealClick fired');
         if ($( "input[name='new-password']").attr('type') === 'password') {
-            console.log("found the right element password");
             $( "input[name='new-password']").attr('type','text');
             $(this).removeClass("fa-eye-slash").addClass("fa-eye");
             
           } else {
             $( "input[name='new-password']").attr('type','password');
-            console.log('password');
             $(this).removeClass("fa-eye");
             $(this).addClass("fa-eye-slash");
           };
@@ -274,15 +249,12 @@ function onPasswordRevealClick() {
 function onLoginPasswordRevealClick() {
     $(document).on('click', '.password-icon', (function(event) {
         event.preventDefault();
-        console.log('onPasswordRevealClick fired');
         if ($( "input[name='GET-password']").attr('type') === 'password') {
-            console.log("found the right element password");
             $( "input[name='GET-password']").attr('type','text');
             $(this).removeClass("fa-eye-slash").addClass("fa-eye");
             
           } else {
             $( "input[name='GET-password']").attr('type','password');
-            console.log('password');
             $(this).removeClass("fa-eye");
             $(this).addClass("fa-eye-slash");
           };
@@ -292,15 +264,12 @@ function onLoginPasswordRevealClick() {
 function onConfirmPasswordRevealClick() {
     $(document).on('click', '.password-confirm-icon', (function(event) {
         event.preventDefault();
-        console.log('onPasswordRevealClick fired');
         if ($( "input[name='confirm-password']").attr('type') === 'password') {
-            console.log("found the right element password");
             $( "input[name='confirm-password']").attr('type','text');
             $(this).removeClass("fa-eye-slash").addClass("fa-eye");
             
           } else {
             $( "input[name='confirm-password']").attr('type','password');
-            console.log('password');
             $(this).removeClass("fa-eye");
             $(this).addClass("fa-eye-slash");
           };
@@ -315,7 +284,6 @@ function onConfirmPasswordRevealClick() {
 
 
 $(document).ready(function () {
-    console.log('doc ready fired');
     onPageLoad();
     onSignupRequestClick();
     onRegisterNewUserClick();
@@ -325,7 +293,7 @@ $(document).ready(function () {
     onViewClosetClick();
     onViewClosetFromNavMenuClick();
     onAddItemToClosetClick();
-    onSaveItemClosetClick()
+    onSaveItemToClosetClick()
     onDeleteItemInClosetClick();
     onUpdateItemInClosetClick();
     onCancelAddItemClick();
