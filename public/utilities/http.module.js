@@ -71,8 +71,9 @@ function fetchForLogUserIn(userData) {
         };
         saveAuthenticatedUserIntoCache(userData);
         STORE.authUser = localStorage.getItem("userid");
-        renderNavLoggedIn(userData.username);
-        renderOptionsScreen(userData.username);
+        STORE.authUserName = localStorage.getItem("username");
+        renderNavLoggedIn();
+        renderOptionsPage();
     })
     .catch(() => {
         renderLoginError();
@@ -81,12 +82,23 @@ function fetchForLogUserIn(userData) {
 
 // show all items for the logged-in user
 function fetchCloset() {
+    console.log(STORE.selCloset);
     const jwtToken = localStorage.getItem("jwtToken");
     console.log(STORE.authUser);
     let dataMsg;
     let fetchPath;
-    if (localStorage.getItem("name") == 'Admin ID') {
-        fetchPath = '/api/idealcloset/';
+    if (STORE.authUserName === 'admin') {
+        switch(STORE.selCloset) {
+            case 'ideal':
+                fetchPath = '/api/idealcloset/';
+              break;
+            case 'giveaway':
+                fetchPath = `/api/groupclosets/giveawaycloset/`;
+              break;
+            default:
+                console.log('error coming from fetch module! ', STORE.selCloset);
+                
+        }
     } else {
         switch(STORE.selCloset) {
             case 'ideal':
@@ -105,7 +117,7 @@ function fetchCloset() {
                 console.log('analyze fetchPath will go here ', STORE.selCloset);
               break;
             default:
-                console.log('it is another closet! ', STORE.selCloset);
+                console.log('error coming from fetch module ', STORE.selCloset);
                 
         }
     };
@@ -127,14 +139,15 @@ function fetchCloset() {
                 })
                 .then(data => {
                     if (data.length !== 0) {
-                        if (localStorage.getItem("name") !== 'Admin ID') {
+                        if (STORE.authUserName !== 'admin') {
                             renderNavMenu();
                         } else {
                             renderNavAdmin();
+                           
                         }
-                        renderCloset(data);
+                        ETC.organizeData(data);
                     } else {
-                        if (localStorage.getItem("name") !== 'Admin ID') {
+                        if (STORE.authUserName !== 'admin') {
                             renderNavMenu();
                         } else {
                             renderNavAdmin();
@@ -161,10 +174,13 @@ function fetchCloset() {
 function fetchForCreateNewItemInCloset(newItem) {
     const jwtToken = localStorage.getItem("jwtToken");
     const authUser = localStorage.getItem("userid");
+    let closet = STORE.selCloset;
+    console.log(closet);
     let fetchPath = '';
-    if (localStorage.getItem("name") == 'Admin ID') {
+    if (STORE.authUserName === 'admin') {
         fetchPath = '/api/idealcloset/';
     } else {
+        console.log('selected closet is ', STORE.selCloset);
         fetchPath = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
     };
     fetch(fetchPath, {
@@ -192,12 +208,14 @@ function fetchForCreateNewItemInCloset(newItem) {
 
 function fetchForUpdateClosetItemData(selectedItemId, updateObject) {
     const jwtToken = localStorage.getItem("jwtToken");
+    const authUser = localStorage.getItem('userid');
+    console.log('selected item is ', selectedItemId);
     let closet = STORE.selCloset;
     let fetchPath = '';
-    if (localStorage.getItem("name") == 'Admin ID') {
-        fetchPath = '/api/idealcloset/';
+    if (STORE.authUserName === 'admin') {
+        fetchPath = `/api/idealcloset/${selectedItemId}`;
     } else {
-        fetchPath = `/api/userclosets/${closet}closet/${STORE.authUser}/${selectedItemId}`;
+        fetchPath = `/api/userclosets/${closet}closet/${authUser}/${selectedItemId}`;
     };
         
     fetch(fetchPath, {
@@ -217,7 +235,7 @@ function fetchForUpdateClosetItemData(selectedItemId, updateObject) {
             throw new Error(response.statusText);
         })
         .then(() => {
-            fetchCloset();
+            HTTP.fetchCloset();
         })
         
         .catch(error => {

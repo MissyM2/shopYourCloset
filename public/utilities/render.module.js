@@ -3,8 +3,9 @@
 window.RENDER_MODULE = {
     renderRegistrationForm,
     renderLoginForm,
-    renderOptionsScreen,
-    renderCloset,
+    renderOptionsPage,
+    renderClosetHeader,
+    renderClosetBody,
     renderAddItemForm,
     renderTopNav,
     renderNavLoggedIn,
@@ -133,15 +134,26 @@ function renderTopNav() {
             <div class="col-2"></div>`);
 }
 
-function renderOptionsScreen(userName) {
+function renderOptionsPage() {
     //renderTopNav();
     $('.section-login').html('');
 
-    if (userName == 'Admin ID') {
+    if (STORE.authUserName == 'admin') {
         $('.section-options').html(`
                 <div class="options-container">
-                    <div class="col-8 options-btns" id="ideal-closet-btn"><i class="fas fa-tshirt"></i>
-                        <h4 class="closet-functions">view/add to the ideal closet</h4>
+                <div class="options-header">
+                    <h3>The ADMIN functions include the following:
+                    <div class="instruction-list">
+                                    <p>1.  VIEW, ADD TO, DELETE FROM and EDIT the Ideal Closet.</p>
+                                    <p>2.  DELETE FROM the GIVEAWAY CLOSET.</p>
+                                </div>
+                </div>
+                    <div class="options-btns" id="ideal-closet-btn" data-option="ideal"><i class="fas fa-tshirt"></i>
+                        <h4 class="closet-functions">view/add to/delete from/edit the ideal closet</h4>
+                    </div>
+                    <div class="options-btns" id="giveaway-closet-btn" data-option="giveaway">
+                        <i class="fas fa-tshirt"></i>
+                        <h4 class="closet-functions">view/add to/delete from/edit the giveaway closet</h4>
                     </div>
                 </div>
      `).show();
@@ -183,12 +195,12 @@ function renderOptionsScreen(userName) {
     
 }
 
-function renderNavLoggedIn(userName) {
+function renderNavLoggedIn() {
     $('.section-nav').html('');
     $('.section-nav').append(`
         <div class="nav-loggedin" style="border-bottom: 1px solid lightgrey">
             <div id="header-greeting">
-                <p>Welcome, ${userName}!</p>
+                <p>Welcome, ${STORE.authUserName}!</p>
             </div>
             <div id="header-logout">
                 <p>Logout</p>
@@ -241,17 +253,14 @@ function renderNavAdmin() {
     $('.section-options').html('');
     $('.section-login').html('');
     $('.closet-container').html('');
-    //$('.nav-admin').html('');
+    $('.nav-admin').remove('');
     $('.section-nav').append(`
             <div class="nav-admin" style="border-bottom: 1px solid lightgrey">
-                <div class="options-btns-min" id="ideal-closet-btn-min">
-                    <p>ideal</p>
+                <div class="options-btns-min">
+                    <p id="ideal-closet-btn-min">ideal</p>
                 </div>
-                <div class="options-btns-min" id="giveaway-closet-btn-min">
-                    <p>giveaway</p>
-                </div>
-                <div class="options-btns-min" id="donation-closet-btn-min">
-                    <p>donation</p>
+                <div class="options-btns-min">
+                    <p id="giveaway-closet-btn-min">giveaway</p>
                 </div>
             </div>
      `);
@@ -271,11 +280,8 @@ function renderLogout(user) {
 }    
 
 
-
-
-function renderCloset(closetItems) {
-    $('.section-options').html('');
-
+function renderClosetHeader(closetItems) {
+    
     let closetHtml = '';
     let headerHtml = '';
     let itemCountHmtl = '';
@@ -283,91 +289,104 @@ function renderCloset(closetItems) {
     let editBtnsHtml = '';
     
 
-    const isAdmin = (localStorage.getItem("name") == 'Admin ID');
+    const isAdmin = (STORE.authUserName === 'admin');
     
     //  Create Header for one of the User Selected Options
-
-    //  if the user is other than the ADMIN and the selected closet is 'ideal', then do not render the add new item button.
-    //  user may only view data
-    if (STORE.selCloset === 'ideal' || STORE.selCloset === 'donation' || STORE.selCloset === 'donation' && (!isAdmin)) {
-        editButtonHtml = ``;
-    //  if the user is the ADMIN, and the closet selected is ideal, render the add new item button
+    // header title:  For all 'closets', use the stored closet name for the header. 
+    if (STORE.selCloset === 'analyze') {
+        headerHtml = `<div class="item" id="closet-title"><h2>Analyze It!</h2></div>`;
     } else {
-        editButtonHtml = `<div class="item" id="cl-add-btn"><i class="fas fa-plus"></i></div>`;
+        headerHtml = `<div class="item" id="closet-title"><h2>${STORE.selCloset} Closet</h2></div>`;
+    }
+    
+    //  add new button: if the user is other than the ADMIN and the selected closet is 'ideal', 'donation or 'giveaway, then do not render the add new item button.
+    //  user may only view data
+    if (!isAdmin) {
+        if (STORE.selCloset === 'ideal' || STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway') {
+            editButtonHtml = ``;
+        } else {
+            editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add"><i class="fas fa-plus"></i></div>`;
+        }
+
+            //  if the user is the ADMIN, and the closet selected is ideal, render the add new item button
+    } else {
+        editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add"><i class="fas fa-plus"></i></div>`;
+    }
+    //  itemcount:  Itemcount is only needed on closet pages.  It is not needed on 'analyze' page.
+    if (STORE.selCloset === 'my' || STORE.selCloset === 'ideal' || STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway') {
+        itemCountHtml = `<div class="item" id="cl-itemcount">There are ${STORE.dataLength} items in this closet.</div>`;
+    } else {
+        itemCountHtml =``;
     }
 
-        headerHtml = `<div class="item" id="closet-title"><h2>Analyze It!</h2></div>`
-    
-    // the custom header is created
-    $('.closet-container').html(`
-                <div class="closet-header">
+    // the custom header is rendered here
+    $('.closet-header').html(`
                     ${headerHtml}
                     ${itemCountHtml}
-                    ${editButtonHtml}  
-                </div>`);
+                    ${editButtonHtml} `);
     
-    
-    // Create BODY for the User Selected Option
 
-    //  first append a div for the body portion of the screen
-    $('.closet-container').append(`
-                <div class="closet-body"></div>`
-                );
-    
+}
+
+function renderClosetBody(season, closetItems) {
+    console.log(closetItems);
+
     // create the html from looping through the returned data from the selected closet
     let closetBodyHtml="";
     let closetEditBtnsHtml = "";
-    for (let i=0; i < closetItems.length; i++) {
+    const isAdmin = (STORE.authUserName === 'admin');
+        closetBodyHtml +=`<div class="season-container"><div id="season-header">${season} Season</div>`;
+            for (let i=0; i < closetItems.length; i++) {
 
- // all 4 possible closets (ideal, my, donation and giveaway) there are the same items showing in the item-body div
-        closetBodyHtml +=`
-                    <div class="closet-item">
-                        <div class="item-body">
-                            <div class="cl-items" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p>${closetItems[i].season}</p></div></div>
-                            <div class="cl-items-short">
-                                <div class="cl-items cl-items-sh" id="cl-appareltype"><div class="item itembody"><p>${closetItems[i].appareltype}</p></div></div>
-                                <div class="cl-items cl-items-sh" id="cl-color"><div class="item itembody"><p>${closetItems[i].color}</p></div></div>
-                                <div class="cl-items cl-items-sh" id="cl-size"><div class="item itembody"><p>${closetItems[i].size}</p></div></div>
-                            </div>
-                            <div class="cl-items" id="cl-shortdesc"><div class="item itembody"><p>${closetItems[i].shortdesc}</p></div></div>
-                            <div class="cl-items" id="cl-longdesc"><div class="item itembody"><p>${closetItems[i].longdesc}</p></div></div>
-                        </div>`;
+        // all 4 possible closets (ideal, my, donation and giveaway) there are the same items showing in the item-body div
+                closetBodyHtml +=`
+                            <div class="closet-item ${closetItems[i].id}-class">
+                                <div class="item-body">
+                                    <div class="cl-items cl-season" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p>${closetItems[i].season}</p></div></div>
+                                    <div class="cl-items-short">
+                                        <div class="cl-items cl-appareltype cl-items-sh" id="cl-appareltype"><p class="cl-items-label">item</p><div class="item itembody"><p>${closetItems[i].appareltype}</p></div></div>
+                                        <div class="cl-items cl-color cl-items-sh" id="cl-color"><p class="cl-items-label">color</p><div class="item itembody"><p>${closetItems[i].color}</p></div></div>
+                                        <div class="cl-items cl-size cl-items-sh" id="cl-size"><p class="cl-items-label">size</p><div class="item itembody"><p>${closetItems[i].size}</p></div></div>
+                                    </div>
+                                    <div class="cl-items cl-shortdesc" id="cl-shortdesc"><div class="item itembody"><p>${closetItems[i].shortdesc}</p></div></div>
+                                    <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p>${closetItems[i].longdesc}</p></div></div>
+                                </div>`;
 
-       
-        //  depending on whether the user is a regular user or ADMIN, 
-        //  then, depending on which closet is selected
-        // the user will see a different set of edit options for each item
-        if (!isAdmin) {
-            if (STORE.selCloset === 'my') {
-                closetBodyHtml += `
-                            <div class="item-edit-btns">
-                                <div class="editbuttons" id="clupdate-btn" data-id="${closetItems[i].id}" data-season="${closetItems[i].season}" data-appareltype="${closetItems[i].appareltype}" data-color="${closetItems[i].color}" data-shortdesc="${closetItems[i].shortdesc}" data-longdesc="${closetItems[i].longdesc}" data-size="${closetItems[i].size}"><i class="far fa-edit"></i></div>
-                                <div class="editbuttons" id="cl-delete-btn" data-id="${closetItems[i].id}"><i class="far fa-trash-alt"></i></div>
-                                <div class="editbuttons" id="cl-donate-btn" data-id="${closetItems[i].id}">donate</div>
-                                <div class="editbuttons" id="cl-giveaway-btn" data-id="${closetItems[i].id}">giveaway</div>
-                            </div>
-                        </div>
-                        `;
-            } else {
-                closetBodyHtml +=`</div>`;
+            
+                //  depending on whether the user is a regular user or ADMIN, 
+                //  then, depending on which closet is selected
+                // the user will see a different set of edit options for each item
+                if (!isAdmin) {
+                    if (STORE.selCloset === 'my') {
+                        closetBodyHtml += `
+                                    <div class="item-edit-btns">
+                                        <div class="editbuttons" data-id="${closetItems[i].id}" data-season="${closetItems[i].season}" data-appareltype="${closetItems[i].appareltype}" data-color="${closetItems[i].color}" data-shortdesc="${closetItems[i].shortdesc}" data-longdesc="${closetItems[i].longdesc}" data-size="${closetItems[i].size}"><i id="cl-edit-btn" class="far fa-edit"></i></div>
+                                        <div class="editbuttons" id="cl-delete-btn" data-id="${closetItems[i].id}"><i class="far fa-trash-alt"></i></div>
+                                        <div class="editbuttons" id="cl-donate-btn" data-id="${closetItems[i].id}">donate</div>
+                                        <div class="editbuttons" id="cl-giveaway-btn" data-id="${closetItems[i].id}">giveaway</div>
+                                    </div>
+                                </div>
+                                `;
+                    } else {
+                        closetBodyHtml +=`</div>`;
+                    }
+                } else  {
+                    if (STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway'  || STORE.selCloset === 'ideal') {
+                        closetBodyHtml += `
+                                    <div class="item-edit-btns">
+                                        <div class="editbuttons" data-id="${closetItems[i].id}" data-season="${closetItems[i].season}" data-appareltype="${closetItems[i].appareltype}" data-color="${closetItems[i].color}" data-shortdesc="${closetItems[i].shortdesc}" data-longdesc="${closetItems[i].longdesc}" data-size="${closetItems[i].size}"><i id="cl-edit-btn" class="far fa-edit"></i></div>
+                                        <div class="editbuttons" data-id="${closetItems[i].id}"><i id="cl-delete-btn" class="far fa-trash-alt"></i></div>
+                                    </div>
+                                </div>
+                                `;
+                    } else {
+                        closetBodyHtml += `</div></div>`;
+                    }  
+                } 
+
+                
             }
-        } else  {
-            if (STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway' ) {
-                closetBodyHtml += `
-                            <div class="item-edit-btns">
-                                <div class="editbuttons" id="clupdate-btn" data-id="${closetItems[i].id}" data-season="${closetItems[i].season}" data-appareltype="${closetItems[i].appareltype}" data-color="${closetItems[i].color}" data-shortdesc="${closetItems[i].shortdesc}" data-longdesc="${closetItems[i].longdesc}" data-size="${closetItems[i].size}"><i class="far fa-edit"></i></div>
-                                <div class="editbuttons" id="cl-delete-btn" data-id="${closetItems[i].id}"><i class="far fa-trash-alt"></i></div>
-                            </div>
-                        </div>
-                        `;
-            } else {
-                closetBodyHtml += `</div>`;
-            }  
-        } 
-
-        
-    }
-    $('.closet-body').html(closetBodyHtml);
+    $('.closet-body').append(closetBodyHtml);
 }
 
 
@@ -415,10 +434,9 @@ function renderAddItemForm(msg) {
     $('.closet-container').html('');
     $('.section-options').html('');
     const addItemFormBody = `
-        <div class="closet-container">
+        <div class="addnewitem-container">
             <div class="cl-header">` +
-                `<h2>${STORE.selCloset} Closet</h2>` +
-                `<h3>${msg}</h3>` +
+                `<h2>Add New Item</h2>` +
             `</div>` +
            `<div class="cl-resultcell-new additem-class">` +
                 `<div class="cl-resultbody-new">` +
@@ -430,7 +448,7 @@ function renderAddItemForm(msg) {
                             `<div class="itemrow cl-whichseason">` +
                                 `<div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>` +
                                 `<div class="newitem itembody">` +
-                                    `<div class="options-container" id="js-additem-season">` +
+                                    `<div class="additems-container" id="js-additem-season">` +
                                         `<div class="radiogroup">` +
                                             `<label class="season-selector-label" for="season-icon-selector">All Seasons` +
                                             `<input type="radio" name="season" id="season-all" value="Always in Season" checked /></label>` +
@@ -458,7 +476,7 @@ function renderAddItemForm(msg) {
                             `<div class="itemrow cl-appareltype">` +
                                 `<div class="newitem itemlabel"><label>type of clothing <i class="fas fa-asterisk"></i></label></div>` +
                                 `<div class="newitem itembody">` +
-                                    `<div class="options-container" id="js-additem-appareltype">` +
+                                    `<div class="additems-container" id="js-additem-appareltype">` +
                                         `<div class="radiogroup">` +
                                             `<label for="season-icon-selector">top` +
                                             `<input type="radio" name="appareltype" value="top" checked></label>` +
@@ -487,7 +505,7 @@ function renderAddItemForm(msg) {
                             `<div class="itemrow cl-color">` +
                                 `<div class="newitem itemlabel"><label>color </label></div>` +
                                 `<div class="newitem itembody">` +
-                                    `<div class="options-container" id="js-additem-color">` +
+                                    `<div class="additems-container" id="js-additem-color">` +
                                         `<div class="radiogroup">` +
                                             `<label for="color-icon-selector">black` +
                                             `<input type="radio" name="color" value="black"></label>` +
@@ -511,7 +529,7 @@ function renderAddItemForm(msg) {
                             `<div class="itemrow cl-size">` +
                                 `<div class="newitem itemlabel"><label>size: </label></div>` + 
                                 `<div class="newitem itembody">` +
-                                    `<div class="options-container" id="js-additem-size">` +
+                                    `<div class="additems-container" id="js-additem-size">` +
                                             `<div class="radiogroup">` +
                                                 `<label for="size-selector">x-small` +
                                                 `<input type="radio" name="size" value="x-small"></label>` +
@@ -636,13 +654,13 @@ function renderUpdateForm(updateObjForm) {
             `</form>` +
         `</div> ` +
         `<div class="update-edit-btns">` +
-            `<div class="editbuttons" id="cl-savebtn" data-id="${updateObjForm.id}" data-season="${updateObjForm.season}" data-appareltype="${updateObjForm.appareltype}" data-color="${updateObjForm.color}" data-shortdesc="${updateObjForm.shortdesc}" data-longdesc="${updateObjForm.longdesc}" data-size="${updateObjForm.size}"><i class="far fa-save"></i>` +
+            `<div class="editbuttons" data-id="${updateObjForm.id}" data-season="${updateObjForm.season}" data-appareltype="${updateObjForm.appareltype}" data-color="${updateObjForm.color}" data-shortdesc="${updateObjForm.shortdesc}" data-longdesc="${updateObjForm.longdesc}" data-size="${updateObjForm.size}"><i id="cl-updatebtn-final" class="far fa-save"></i>` +
             `</div>` +
-            `<div class="editbuttons" id="cl-cancelbtn"><i class="fas fa-undo"></i></div>` +
+            `<div class="editbuttons"><i id="cl-cancel-btn" class="fas fa-undo"></i></div>` +
         `</div>`; 
 
-    $(`.${updateObjForm.id}class`).html(updateFormBody);
-    $(`.${updateObjForm.id}class`).css("border", "5px solid #C98573");
+    $(`.${updateObjForm.id}-class`).html(updateFormBody);
+    $(`.${updateObjForm.id}-class`).css("border", "5px solid #C98573");
 }
 
 function renderAnalysis() {
@@ -691,3 +709,4 @@ function renderSignUpError(errMessage) {
     $('#btn-register').before(`<p class="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i>${errMessage}</p>`);
     
 }
+

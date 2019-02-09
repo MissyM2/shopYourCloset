@@ -7,6 +7,7 @@ let STATE = {
 const HTTP = window.HTTP_MODULE;
 const RENDER = window.RENDER_MODULE;
 const CACHE = window.CACHE_MODULE;
+const ETC = window.ETC_MODULE;
 
 function onPageLoad() {
     updateAuthenticatedUI();
@@ -101,12 +102,14 @@ function onLogoutClick() {
 
 function onGoHome() {
     $(document).on('click', '#header-title', function(event) {
-        event.preventDefault();$('.section-options').html('');
+        event.preventDefault();
+        $('.section-options').html('');
         $('.section-login').html('');
         $('.closet-container').html('');
-        $('.section-nav').html(''); $('.closet-container').html('');
+        $('.section-nav').html(''); 
+        $('.closet-container').html('');
         RENDER.renderNavLoggedIn();
-        RENDER.renderOptionsScreen();
+        RENDER.renderOptionsPage();
     });
 }
 
@@ -146,21 +149,17 @@ function onViewClosetFromNavMenuClick() {
 function onAddItemToClosetClick() {
     $('.section-closet').on('click', '#cl-add-btn', (function(event){
         event.preventDefault();
-        alert('hello');
-        console.log(event.target);
-        STORE.selCloset = $(this).attr('data-closet');
-        const selUser = $(this).attr('data-user');
         const selMsg = "";
-        RENDER.renderAddItemForm(selMsg, selUser);
+        RENDER.renderAddItemForm(selMsg);
     }));
 }
 
 function onSaveItemToClosetClick() {
-    $('.section-closet').on('click','.additem-edit-btns', function(event) {
+    $('.section-closet').on('click','#cl-save-btn', function(event) {
         event.preventDefault();
-        console.log(event.target);
-        console.log(event.currentTarget);
-        console.log(event.target.id);
+        //console.log(event.target);
+        //console.log(event.currentTarget);
+        //console.log(event.target.id);
         const newItem= {
             season: $("input[name='season']:checked").val(),
             appareltype:$("input[name='appareltype']:checked").val(),
@@ -175,29 +174,50 @@ function onSaveItemToClosetClick() {
 }
 
 function onUpdateItemInClosetClick() {
-    $(document).on('click', '#clupdate-btn', (function(event) {
+    $('.section-closet').on('click', '#cl-edit-btn', (function(event) {
         event.preventDefault();
+
+        /*
+        console.log(event.target);
+        console.log(event.currentTarget);
+        console.log(event.target.id);
+
+        if (event.target.id.includes('btn') && event.target.id != "") {
+            closetElement=event.target.id;
+        } else {
+            closetElement=event.target.parentElement.id;
+        }
+        let selectedClosetArr = [];
+        selectedClosetArr = closetElement.split("-");
+        STORE.selCloset=selectedClosetArr[0];
+*/
+
         const updateObj = {
-            id: $(this).attr('data-id'),
-            season: $(this).attr('data-season'),
-            appareltype: $(this).attr('data-appareltype'),
-            color: $(this).attr('data-color'),
-            shortdesc: $(this).attr('data-shortdesc'),
-            longdesc: $(this).attr('data-longdesc'),
-            size: $(this).attr('data-size')
+            id: $(this.parentElement).attr('data-id'),
+            season: $(this.parentElement).attr('data-season'),
+            appareltype: $(this.parentElement).attr('data-appareltype'),
+            color: $(this.parentElement).attr('data-color'),
+            shortdesc: $(this.parentElement).attr('data-shortdesc'),
+            longdesc: $(this.parentElement).attr('data-longdesc'),
+            size: $(this.parentElement).attr('data-size')
         }
         RENDER.renderUpdateForm(updateObj);
     }));
 }
 
 function onFinalUpdateItemInClosetClick() {
-    $(document).on('click', '#cl-updatebtn2', function(event){
+    $('.section-closet').on('click', '#cl-updatebtn-final', function(event){
         event.preventDefault();
-        STORE.selCloset = $(this).attr('data-closet');
+
+        console.log(event.target);
+        console.log(event.currentTarget);
+        console.log(event.target.id);
+        //STORE.selCloset = $(this).attr('data-closet');
         event.preventDefault();
-        const idToUpdate = $("#js-itemid").text();
+        const idToUpdate = $(this.parentElement).attr('data-id');
         // create object and send to update function
         const updatedClosetItemObj = {
+            id: $(this.parentElement).attr('data-id'),
             season: $("#js-updateseason").val(),
             color: $("#js-updatecolor").val(),
             appareltype: $("#js-updateappareltype").val(),
@@ -296,6 +316,7 @@ $(document).ready(function () {
     onSaveItemToClosetClick()
     onDeleteItemInClosetClick();
     onUpdateItemInClosetClick();
+    onFinalUpdateItemInClosetClick();
     onCancelAddItemClick();
 });
 

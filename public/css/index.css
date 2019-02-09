@@ -74,7 +74,7 @@ h5 {
 }
 
 p {
-    font-size: 1em;
+    font-size: 1.2em;
     padding: 3px 0;
 }
 
@@ -111,6 +111,12 @@ button {
     /*border:1px solid green;*/
 }
 
+.season-container{
+    /*border:1px solid green;*/
+    margin-bottom: 10px;
+}
+
+
 .radiogroup {
     display:inline-block;
     text-align:center;
@@ -124,8 +130,8 @@ label {
 .section-options,
 .section-login,
 .section-closet {
-    max-width:500px;
-    margin:auto;
+    /*max-width:500px;*/
+    margin:0 auto;
 }
 
 .nav-loggedin, 
@@ -257,7 +263,7 @@ label {
 .item-body {
     text-align:left;
     padding:2px;
-    width: 80%;
+    width: 85%;
     display:inline-block
 }
 .item-edit-btns{
@@ -292,21 +298,41 @@ label {
 .reg-login {
     padding-bottom: 20px;
 }
-.cl-items-sh {
-    width:33%;
+#season-header {
+    padding: 10px 0 10px 0;
+    font-weight:bold;
+    background-color: #C98474;
+}
+
+.cl-items-label {
+    border-bottom: 1px solid #874C62;
+    background-color: lightgray;
+    font-weight: bold;
+}
+
+.cl-shortdesc {
+    padding: 3px 0 3px 0;
+    font-weight: bold;
+}
+
+.cl-items-short {
     text-align:center;
+}
+.cl-items-sh {
+    text-align:center;
+    border: 1px solid #874C62;
+    width:32%;
 }
 .cl-items {
     display:inline-block;
 
 }
 
-#cl-season, #cl-shortdesc, #cl-longdesc{
+#cl-shortdesc, #cl-longdesc{
     display:block;
 }
-#cl-season {
-    font-weight:800;
-    font-size:1em;
+.cl-season {
+    display:none;
 }
 
 #cl-appareltype, #cl-color, #cl-size, #cl-shortdesc, #cl-longdesc {
@@ -453,11 +479,11 @@ label {
 
 
 .closet-item {
-    border: 1px solid  #C98573;
     text-align:left;
     border-radius: 3px;
     padding: 8px;
     margin: 5px 0 0 0;
+    border-bottom:1px solid lightgray;
 }
 
 .cl-resultcell-display {
@@ -505,7 +531,12 @@ label {
 }
 
 .closet-body {
-    text-align:left;
+    /*text-align:left;*/
+
+    /(border: solid 1px #ff0000;*/
+    text-align: center;
+    margin: 0px auto;
+    /*width: 40%;*/
 }
 
 .instruction-list {
@@ -514,5 +545,46 @@ label {
 
 .info-msg {
     padding:15px 7px;
+
+}
+
+
+
+
+/*The third set is a media query for desktop and forward, min-width: 991 px*/
+/** DESKTOP & FORWARD **/
+@media only screen and (min-width: 600px) {
+
+    .section-closet {
+        max-width:900px;
+    }
+
+    .closet-body {
+        margin-top: 25px;
+    }
+
+    .season-container {
+        display:inline-block;
+        width:25%;
+        vertical-align:top;
+        border: 1px solid  #C98573;
+    }
+
+/*
+    .item-body {
+        display:block;
+        width:100%;
+    }
+    */
+
+    .item-edit-btns {
+        display:block;
+        float:none;
+    }
+    
+    .editbuttons {
+        display:inline-block;
+        float:none;
+    }
 
 }
