@@ -680,12 +680,171 @@ function renderAnalysis() {
                 <div class="analysis-header">
                     <p>Here is your analysis</p>
                 </div>
-                <div class="analysis-body">
-                    <p>the ideal closet has ${STORE.idealClosetLength} items in its closet.</p>
-                    <p>Your closet has ${STORE.myClosetLength} items in its closet.</p>
-                </div>`);
-}
+                <div class="analysis-body"></div>`);
 
+    // append whole closet analysis
+    $('.analysis-body').append(`
+            <div class="analysis-whole-header">
+                <h3>Whole dataset item</>
+                <p>This item compares the total number of items in your closet to the number of items in the ideal closet.</p>
+            </div>
+            <div class="analysis-whole-ds">
+                <p>the ideal closet has ${STORE.closetLength.ideal} items in its closet.</p>
+                <p>Your closet has ${STORE.closetLength.my} items in its closet.</p>
+                </div>`);
+    const closetDiff = STORE.closetLength.ideal - STORE.closetLength.my;
+    if (Math.sign(closetDiff) === 1) {
+        console.log(Math.sign(closetDiff));
+        $('.analysis-whole-ds').append(`
+            <p class="final-thought">The ideal closet has ${closetDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
+        </div>`);
+    } else if (Math.sign(closetDiff) === -1) {
+        console.log(Math.sign(closetDiff));
+        $('.analysis-whole-ds').append(`
+            <p class="final-thought">The ideal closet has ${closetDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>
+        </div>`);
+    } else {
+        $('analysis-whole-ds').append(`
+        <p class="final-thought">You have the exact right number of items in your closet.</p>
+    </div>`);
+    }
+
+    // append analysis of season items:  Always in Season
+
+    $('.analysis-body').append(`
+            <div class="analysis-season-header">
+                <h3>Seasons dataset item</h3>
+                <p>Each item in this section compares the total number of items in your closet for the each season to the number of items in the ideal closet.</p>
+            </div>
+            <div class="analysis-season-ds">
+                        <p>Always in Season</p>
+                        <div class="analysis-alwaysinseason-ds">
+                            <p>You have ${STORE.mySeasonLength.alwaysInSeason} Always in Season items in your closet.</p>
+                            <p>There are ${STORE.idealSeasonLength.alwaysInSeason} Always in Season items the ideal closet.</p>
+                        </div>`);
+    //  append analysis of 'always in season'
+    const alwaysInSeasonDiff = STORE.mySeasonLength.alwaysInSeason - STORE.idealSeasonLength.alwaysInSeason;
+    if (Math.sign(alwaysInSeasonDiff) === 1) {
+        console.log(Math.sign(alwaysInSeasonDiff));
+        $('.analysis-alwaysinseason-ds').append(`
+            <p class="final-thought">The ideal closet has ${alwaysInSeasonDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
+        </div>`);
+    } else if (Math.sign(alwaysInSeasonDiff) === -1) {
+        console.log(Math.sign(alwaysInSeasonDiff));
+        $('.analysis-alwaysinseason-ds').append(`
+            <p class="final-thought">The ideal closet has ${alwaysInSeasonDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>
+        </div>`);
+    } else {
+        $('analysis-alwaysinseason-ds').append(`
+        <p class="final-thought">You have the exact right number of items in your closet.</p>
+    </div>`);
+    }
+
+    // append analysis of 'spring'
+    $('.analysis-body').append(`
+    <div class="analysis-season-ds">
+                <p>Spring Basics</p>
+                <div class="analysis-spring-ds">
+                    <p>You have ${STORE.mySeasonLength.springBasics} Spring Basicsitems in your closet.</p>
+                    <p>There are ${STORE.idealSeasonLength.springBasics} Spring Basics items in ideal closet.</p>
+                </div>`);
+//  append analysis of 'always in season'
+    const springDiff = STORE.mySeasonLength.springBasics - STORE.idealSeasonLength.springBasics;
+    if (Math.sign(springDiff) === 1) {
+        console.log(Math.sign(springDiff));
+        $('.analysis-spring-ds').append(`
+            <p class="final-thought">The ideal closet has ${springDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
+        </div>`);
+    } else if (Math.sign(springDiff) === -1) {
+        console.log(Math.sign(springDiff));
+        $('.analysis-spring-ds').append(`
+            <p class="final-thought">The ideal closet has ${springDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>
+        </div>`);
+    } else {
+        $('analysis-spring-ds').append(`
+        <p class="final-thought">You have the exact right number of items in your closet.</p>
+    </div>`);
+    }
+
+    // append analysis of 'summer'
+    $('.analysis-body').append(`
+    <div class="analysis-season-ds">
+                <p>Summer Basics</p>
+                <div class="analysis-summer-ds">
+                    <p>You have ${STORE.mySeasonLength.summerBasics} Summer Basics items in your closet.</p>
+                    <p>There are ${STORE.idealSeasonLength.summerBasics} Summer Basics items in ideal closet.</p>
+                </div>`);
+//  append analysis of 'always in season'
+    const summerDiff = STORE.mySeasonLength.summerBasics - STORE.idealSeasonLength.summerBasics;
+    if (Math.sign(springDiff) === 1) {
+        console.log(Math.sign(summerDiff));
+        $('.analysis-summer-ds').append(`
+            <p class="final-thought">The ideal closet has ${summerDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
+        </div>`);
+    } else if (Math.sign(summerDiff) === -1) {
+        console.log(Math.sign(summerDiff));
+        $('.analysis-summer-ds').append(`
+            <p class="final-thought">The ideal closet has ${summerDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>
+        </div>`);
+    } else {
+        $('analysis-summer-ds').append(`
+        <p class="final-thought">You have the exact right number of items in your closet.</p>
+    </div>`);
+    }
+
+    // append analysis of 'fall'
+    $('.analysis-body').append(`
+    <div class="analysis-season-ds">
+                <p>Fall Basics</p>
+                <div class="analysis-fall-ds">
+                    <p>You have ${STORE.mySeasonLength.fallBasics} Fall Basics items in your closet.</p>
+                    <p>There are ${STORE.idealSeasonLength.fallBasics} Fall Basics items in ideal closet.</p>
+                </div>`);
+//  append analysis of 'always in season'
+    const fallDiff = STORE.mySeasonLength.fallBasics - STORE.idealSeasonLength.fallBasics;
+    if (Math.sign(fallDiff) === 1) {
+        console.log(Math.sign(fallDiff));
+        $('.analysis-fall-ds').append(`
+            <p class="final-thought">The ideal closet has ${fallDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
+        </div>`);
+    } else if (Math.sign(fallDiff) === -1) {
+        console.log(Math.sign(fallDiff));
+        $('.analysis-fall-ds').append(`
+            <p class="final-thought">The ideal closet has ${fallDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>
+        </div>`);
+    } else {
+        $('analysis-fall-ds').append(`
+        <p class="final-thought">You have the exact right number of items in your closet.</p>
+    </div>`);
+    }
+
+    // append analysis of 'winter'
+    $('.analysis-body').append(`
+    <div class="analysis-season-ds">
+                <p>Winter Basics</p>
+                <div class="analysis-winter-ds">
+                    <p>You have ${STORE.mySeasonLength.winterBasics} Winter Basics items in your closet.</p>
+                    <p>There are ${STORE.idealSeasonLength.winterBasics} Winter Basics items in the ideal closet.</p>
+                </div>`);
+//  append analysis of 'always in season'
+    const winterDiff = STORE.mySeasonLength.winterBasics - STORE.idealSeasonLength.winterBasics;
+    if (Math.sign(winterDiff) === 1) {
+        console.log(Math.sign(winterDiff));
+        $('.analysis-winter-ds').append(`
+            <p class="final-thought">The ideal closet has ${winterDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
+        </div>`);
+    } else if (Math.sign(winterDiff) === -1) {
+        console.log(Math.sign(winterDiff));
+        $('.analysis-winter-ds').append(`
+            <p class="final-thought">The ideal closet has ${winterDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>
+        </div>`);
+    } else {
+        $('analysis-winter-ds').append(`
+        <p class="final-thought">You have the exact right number of items in your closet.</p>
+    </div>`);
+    }
+}
+               
 
 // ** render errors
 
@@ -709,4 +868,5 @@ function renderSignUpError(errMessage) {
     $('#btn-register').before(`<p class="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i>${errMessage}</p>`);
     
 }
+
 

@@ -128,7 +128,14 @@ function onViewClosetClick() {
         let selectedClosetArr = [];
         selectedClosetArr = closetElement.split("-");
         STORE.selCloset=selectedClosetArr[0];
-        HTTP.fetchCloset();
+        if (STORE.selCloset === 'analyze') {
+            STORE.functionChoice = 'analysis';
+            //STORE.isAnalyze = true;
+            fetchForAnalysis();
+        } else {
+            STORE.functionChoice = 'closet';
+            HTTP.fetchCloset(); 
+        }
 }));
 }
 
@@ -142,7 +149,13 @@ function onViewClosetFromNavMenuClick() {
         let closetElementArr = [];
         closetElementArr = closetElement.split("-");
         STORE.selCloset = closetElementArr[0]
-        HTTP.fetchCloset(); 
+        if (STORE.selCloset === 'analyze') {
+            STORE.isAnalyze = true;
+            STORE.function
+            fetchForAnalysis();
+        } else {
+            HTTP.fetchCloset(); 
+        }
 }));
 }
 

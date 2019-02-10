@@ -115,6 +115,7 @@ function fetchCloset() {
               break;
             case 'analyze':
                 console.log('analyze fetchPath will go here ', STORE.selCloset);
+                fetchForAnalysis();
               break;
             default:
                 console.log('error coming from fetch module ', STORE.selCloset);
@@ -161,7 +162,7 @@ function fetchCloset() {
                     };
                 })
                 .catch(error => console.log(error));
-    } else if (STORE.selCloset == 'analyze') {
+    } else if (STORE.selCloset === 'analyze') {
         RENDER.renderNavMenu();
         HTTP.fetchForAnalysis();
     } else {
@@ -279,55 +280,63 @@ function fetchForDeleteClosetItemData(selectedItemId) {
 
 function fetchForAnalysis() {
     const jwtToken = localStorage.getItem("jwtToken");
-    //  GET fetch request for My Closet and put number in STORE
-    let fetchPath = `/api/idealcloset/`;
-        fetch(fetchPath, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${jwtToken}`
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-            return response.json();
-        };
-        throw new Error(response.text);
-        })
-        .then(data => {
-            if (data.length !== 0) {
-                STORE.idealClosetLength = data.length;
-            } else {
-                console.log('is data length 0?');
-            }
-        })
-        .catch(error => console.log(error));
+    const authUser = localStorage.getItem('userid');
 
-        //  GET fetch request for My closet and put number in STORE
-        fetchPath = `/api/userclosets/mycloset/${STORE.authUser}`;
-        fetch(fetchPath, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${jwtToken}`
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-            return response.json();
+    // fetch all the data from the ideal closet to prepare for analysis
+    fetch('/api/idealcloset/', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${jwtToken}`
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+        return response.json();
+    };
+    throw new Error(response.text);
+    })
+    .then(data => {
+        if (data.length !== 0) {
+
+            // call organizeData to count the number of items in each grouping
+            STORE.selCloset = 'ideal';
+            ETC.organizeData(data);
+        } else {
+                console.log('there are no items for the ideal closet');
         };
-        throw new Error(response.text);
-        })
-        .then(data => {
-            if (data.length !== 0) {
-                STORE.myClosetLength = data.length;
-                RENDER.renderNavMenu();
-                RENDER.renderAnalysis();
-            } else {
-                console.log('is data length 0?');
-            }
-        })
-        .catch(error => console.log(error));
+    })
+    .catch(error => console.log(error));
+
+    // fetch all the data from the authUser's closet to prepare for analysis
+    fetch(`/api/userclosets/mycloset/${STORE.authUser}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${jwtToken}`
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+        return response.json();
+    };
+    throw new Error(response.text);
+    })
+    .then(data => {
+        if (data.length !== 0) {
+
+             // if there are documents in the collection, call organizeData to count the number of items in each grouping
+             STORE.selCloset = 'my';
+             ETC.organizeData(data);
+        } else {
+                console.log('there are no items for the ideal closet');
+        };
+    })
+    .catch(error => console.log(error));
+
+    console.log('check the counts in the STORE to see if the groupings have been counted');
+       /*
          
          RENDER.renderNavMenu();
          RENDER.renderAnalysis();
+         */
 
 }

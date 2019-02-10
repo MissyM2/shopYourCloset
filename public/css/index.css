@@ -529,16 +529,16 @@ label {
 #cl-add-btn {
     text-align:right;
 }
-
+/*
 .closet-body {
-    /*text-align:left;*/
+    text-align:left;
 
-    /(border: solid 1px #ff0000;*/
+border: solid 1px #ff0000;
     text-align: center;
     margin: 0px auto;
-    /*width: 40%;*/
+    width: 40%;
 }
-
+*/
 .instruction-list {
     margin: 10px 5px 0 55px;
 }
@@ -546,6 +546,19 @@ label {
 .info-msg {
     padding:15px 7px;
 
+}
+.analysis-body {
+    border: 1px solid red;
+    padding:8px;
+    margin:8px;
+}
+
+.analysis-body-ds,
+.analysis-whole-ds, 
+.analysis-season-ds {
+    text-align: left;
+    font-size: 10px;
+    border: 1px solid;
 }
 
 
