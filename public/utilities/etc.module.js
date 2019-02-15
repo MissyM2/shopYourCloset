@@ -101,7 +101,6 @@ function getSeasonCount(season, items) {
             result.push(items[i]);
         }
     } 
-    console.log(seasonCountCollector);
       switch(season) {
         case "Spring Basics":
             if (result.length > 0) seasonCountCollector['Spring Basics'] = result.length;

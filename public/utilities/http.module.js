@@ -8,7 +8,8 @@ window.HTTP_MODULE = {
     fetchForDeleteClosetItemData,
     fetchForAnalysis,
     fetchForDonation,
-    fetchForGiveaway
+    fetchForGiveaway,
+    fetchForReturn
 };
 
 function fetchForCreateNewUser(userData) {
@@ -457,6 +458,68 @@ function fetchForGiveaway() {
         .then(responseJson => {
             alert('one item has been added to the public giveaway closet.');
             STORE.selCloset = 'my';
+            fetchCloset();
+        })
+        .catch(error => {
+            console.log('Error: ', error)
+        });
+}
+
+function  fetchForReturn() {
+    //first we are going to delete the item from the user's my closet
+    const jwtToken = localStorage.getItem("jwtToken");
+    const authUser = localStorage.getItem("userid");
+    let selectedItemId = STORE.currentEditItem.id;
+    console.log('inside fetchForReturn ', selectedItemId);
+    let fetchPath = '';
+
+    fetchPath = `/api/userclosets/donationcloset/${authUser}/${selectedItemId}`;
+    fetch(fetchPath , {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json, text/plain, *',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+        }
+        })
+        .then(response => {
+            if (response.ok) {
+                return;
+            };
+            throw new Error(response.text);
+        })
+        .then(() => {
+            console.log('item has been deleted from your donation closet.  It is ready to be returned to your personal closet.');
+            // switch closet to donation closet
+            STORE.selCloset = 'my';
+        })
+        .catch(error => {
+            console.log(error.message);
+            //renderDeletionError(error.message);
+    });
+
+    //next we are going to add the object to your personal closet
+
+    fetchPath = '';
+    fetchPath = fetchPath = `/api/userclosets/mycloset/${authUser}`;;
+    fetch(fetchPath, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, *',
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify(STORE.currentEditItem)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            };
+            throw new Error(response.text);
+        })
+        .then(responseJson => {
+            alert('one item has been returned to your personal closet.');
+            STORE.selCloset = 'donation';
             fetchCloset();
         })
         .catch(error => {

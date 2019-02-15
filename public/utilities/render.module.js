@@ -529,6 +529,10 @@ function renderClosetItemActionBtns(bodyHtml, data) {
                             <div class="action-btns small-btn" id="cl-donate-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">donate</div>
                             <div class="action-btns small-btn" id="cl-giveaway-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">giveaway</div>
                         </div>`;
+        } else if (STORE.selCloset === 'donation') {
+            bodyHtml += `<div class="item-edit-btns">
+                            <div class="action-btns small-btn" id="cl-return-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">return to your closet</div>
+                        </div>`;
         }
 
      // if the ADMIN is logged in, get these buttons   

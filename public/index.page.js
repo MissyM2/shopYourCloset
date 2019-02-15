@@ -144,15 +144,34 @@ function onViewClosetClick() {
 
 
 function onViewClosetFromNavMenuClick() {
-   // $('.section-nav').on('click',(function(event) {
     $(document).on('click','.options-btns-min',(function(event) {
         event.preventDefault();
         let closetElement;
+        console.log(event.target.id);
         closetElement=event.target.id;
-        let closetElementArr = [];
-        closetElementArr = closetElement.split("-");
-        STORE.selCloset = closetElementArr[0]
-        console.log('from nav ' + STORE.selCloset);
+        
+        switch (closetElement) {
+            case `ideal-closet-btn-min`:
+                STORE.selCloset = 'ideal';
+                break;
+            case `my-closet-btn-min`:
+                STORE.selCloset = 'my';
+                break;
+            case `donation-closet-btn-min`:
+                STORE.selCloset = 'donation';
+                break;
+            case `giveaway-closet-btn-min`:
+                STORE.selCloset = 'giveaway';
+                break;
+            case `analyze-closet-btn-min`:
+                STORE.selCloset = 'analyze';
+                break;
+        }
+
+        //let closetElementArr = [];
+        //closetElementArr = closetElement.split("-");
+        //STORE.selCloset = closetElementArr[0]
+        //console.log('from nav ' + STORE.selCloset);
         if (STORE.selCloset === 'analyze') {
             STORE.functionChoice = 'analysis';
             HTTP.fetchForAnalysis();
@@ -328,6 +347,25 @@ function onGiveawayItemClick() {
     }));
 }
 
+    function onReturnItemClick() {
+        $('.section-closet').on('click', '#cl-return-btn', (function(event) {
+            event.preventDefault();
+            console.log('return button has been clicked');
+            STORE.currentEditItem = {
+                id: $(this).attr('data-id'),
+                season: $(this).attr('data-season'),
+                color: $(this).attr('data-color'),
+                appareltype: $(this).attr('data-appareltype'),
+                shortdesc: $(this).attr('data-shortdesc'),
+                longdesc: $(this).attr('data-longdesc'),
+                size: $(this).attr('data-size')
+            };
+            console.log('leaving onReturnItemClick ', STORE.currentEditItem.id);
+            HTTP.fetchForReturn();
+          
+        }));
+}
+
 
 
 
@@ -352,6 +390,7 @@ $(document).ready(function () {
     onCancelAddItemClick();
     onDonateItemClick();
     onGiveawayItemClick();
+    onReturnItemClick();
 });
 
 
