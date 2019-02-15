@@ -19,7 +19,10 @@ window.RENDER_MODULE = {
     renderWholeClosetAnalysis,
     renderSeasonAnalysis,
     renderAppareltypeAnalysis,
-    renderInformationPage
+    renderInformationPage,
+    renderSeasonHeaders,
+    renderClosetItemBody,
+    renderClosetItemActionBtns
 };
 
 function renderRegistrationForm() {
@@ -340,88 +343,222 @@ function renderClosetHeader(closetItems) {
 
 }
 
-function renderClosetBody(season, closetItems) {
-
-    // create the html from looping through the returned data from the selected closet
-    let seasonBodyHtml="";
+function renderSeasonHeaders() {
+    //let seasonHeadersHtml="";
+    console.log('made it to season headers' + STORE.seasonAry);
     
-    let closetEditBtnsHtml = "";
-    const isAdmin = (STORE.authUserName === 'admin');
-
-    if (season === 'Always in Season') {
-        seasonBodyHtml +=`<div class="season-container"><div class="season-header">${season}</div>`;
-    } else {
-        seasonBodyHtml +=`<div class="season-container"><div class="season-header">${season}</div>`;
-    }
- 
-    for (let i=0; i < closetItems.length; i++) {
-
-        // all 4 possible closets (ideal, my, donation and giveaway) there are the same items showing in the item-body div
-        seasonBodyHtml +=`<div class="closet-item ${closetItems[i].id}-class">
-                        <div class="item-body">
-                            <div class="cl-items cl-season" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p id="season">${closetItems[i].season}</p></div></div>
-                            <div class="cl-items-short">
-                                <div class="cl-items cl-appareltype cl-items-sh" id="cl-appareltype"><p class="cl-items-label">item</p><div class="item itembody"><p id="appareltype">${closetItems[i].appareltype}</p></div></div>
-                                <div class="cl-items cl-color cl-items-sh" id="cl-color"><p class="cl-items-label">color</p><div class="item itembody"><p id="color">${closetItems[i].color}</p></div></div>
-                                <div class="cl-items cl-size cl-items-sh" id="cl-size"><p class="cl-items-label">size</p><div class="item itembody"><p id="size">${closetItems[i].size}</p></div></div>
-                            </div>
-                            <div class="cl-items cl-shortdesc" id="cl-shortdesc"><div class="item itembody"><p id="shortdesc">${closetItems[i].shortdesc}</p></div></div>
-                            <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p id="longdesc">${closetItems[i].longdesc}</p></div></div>
-                        </div>`;
-
-    
-        //  depending on whether the user is a regular user or ADMIN, 
-        //  then, depending on which closet is selected
-        // the user will see a different set of edit options for each item
-        if (!isAdmin) {
-
-            if (STORE.selCloset === 'my') {
-                // edit buttons for edit, delete, donate or giveaway if NOT admin and closet it MY
-                seasonBodyHtml += `<div class="item-edit-btns">
-                                <div class="action-btns small-btn" id="cl-edit-btn" data-id="${closetItems[i].id}" data-season="${closetItems[i].season}" data-appareltype="${closetItems[i].appareltype}" data-color="${closetItems[i].color}" data-shortdesc="${closetItems[i].shortdesc}" data-longdesc="${closetItems[i].longdesc}" data-size="${closetItems[i].size}">edit</div>
-                                <div class="action-btns small-btn" id="cl-delete-btn" data-id="${closetItems[i].id}">delete</div>
-                                <div class="action-btns small-btn" id="cl-donate-btn" data-id="${closetItems[i].id}" data-season="${closetItems[i].season}" data-appareltype="${closetItems[i].appareltype}" data-color="${closetItems[i].color}" data-shortdesc="${closetItems[i].shortdesc}" data-longdesc="${closetItems[i].longdesc}" data-size="${closetItems[i].size}">donate</div>
-                                <div class="action-btns small-btn" id="cl-giveaway-btn" data-id="${closetItems[i].id}" data-season="${closetItems[i].season}" data-appareltype="${closetItems[i].appareltype}" data-color="${closetItems[i].color}" data-shortdesc="${closetItems[i].shortdesc}" data-longdesc="${closetItems[i].longdesc}" data-size="${closetItems[i].size}">giveaway</div>
-                            </div>
-                        </div>`;
+    for (let i=0; i < STORE.seasonAry.length; i++) {
+        if (STORE.selCloset === 'ideal') {
+            switch (STORE.seasonAry[i]) {
+                case 'Always in Season':  
+                    $('#always-in-season').append(`<div class="season-container" id="season-Always-in-Season">
+                                                        <div class="season-header">${STORE.seasonAry[i]} ${STORE.idealSeasonLength[STORE.seasonAry[i]]} items
+                                                    </div>`);
+                    break;
+                case ('Spring Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Spring-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.idealSeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                case ('Summer Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Summer-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.idealSeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                case ('Fall Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Fall-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.idealSeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                case ('Winter Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Winter-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.idealSeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                default:
+                    console.log('there are no more seasons');
+                    break;
             }
-        } else  {
-                if (STORE.selCloset === 'my') {
-                    seasonBodyHtml += `<div> no buttons here
-                                        </div>
-                                        </div>`;
-                } else if (STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway'  || STORE.selCloset === 'ideal') {
-                    // if isAdmin and the closet is one of the above, then the user may edit or delete
-                    seasonBodyHtml += `
-                                <div class="item-edit-btns">
-                                    <div class="action-btns small-btn" data-id="${closetItems[i].id}" data-season="${closetItems[i].season}" data-appareltype="${closetItems[i].appareltype}" data-color="${closetItems[i].color}" data-shortdesc="${closetItems[i].shortdesc}" data-longdesc="${closetItems[i].longdesc}" data-size="${closetItems[i].size}"><i id="cl-edit-btn" class="far fa-edit"></i></div>
-                                    <div class="action-btns small-btn" data-id="${closetItems[i].id}"><i id="cl-delete-btn" class="far fa-trash-alt"></i></div>
-                                </div>
-                            </div>`;
-                
-                } else {
-                    alert('there is a problem with the closet format!');
-                   
-                }  
-                    
-        } 
-        console.log(seasonBodyHtml);
-
-        if (season === 'Always in Season') {
-            $('#always-in-season').append(seasonBodyHtml);
-        }  else {
-            $('#other-seasons').append(seasonBodyHtml);
-        }    
-            
+        } else if (STORE.selCloset === 'my') {
+                switch (STORE.seasonAry[i]) {
+                    case 'Always in Season':  
+                        $('#always-in-season').append(`<div class="season-container" id="season-Always-in-Season">
+                                                            <div class="season-header">${STORE.seasonAry[i]} ${STORE.mySeasonLength[STORE.seasonAry[i]]} items
+                                                        </div>`);
+                        break;
+                    case ('Spring Basics'):
+                        $('#other-seasons').append(`<div class="season-container" id="season-Spring-Basics">
+                                                        <div class="season-header">${STORE.seasonAry[i]} ${STORE.mySeasonLength[STORE.seasonAry[i]]} items
+                                                    </div>`);
+                        break;
+                    case ('Summer Basics'):
+                        $('#other-seasons').append(`<div class="season-container" id="season-Summer-Basics">
+                                                        <div class="season-header">${STORE.seasonAry[i]} ${STORE.mySeasonLength[STORE.seasonAry[i]]} items
+                                                    </div>`);
+                        break;
+                    case ('Fall Basics'):
+                        $('#other-seasons').append(`<div class="season-container" id="season-Fall-Basics">
+                                                        <div class="season-header">${STORE.seasonAry[i]} ${STORE.mySeasonLength[STORE.seasonAry[i]]} items
+                                                    </div>`);
+                        break;
+                    case ('Winter Basics'):
+                        $('#other-seasons').append(`<div class="season-container" id="season-Winter-Basics">
+                                                        <div class="season-header">${STORE.seasonAry[i]} ${STORE.mySeasonLength[STORE.seasonAry[i]]} items
+                                                    </div>`);
+                        break;
+                    default:
+                        console.log('there are no more seasons');
+                        break;
+                }
+        } else if (STORE.selCloset === 'donation') {
+            switch (STORE.seasonAry[i]) {
+                case 'Always in Season':  
+                    $('#always-in-season').append(`<div class="season-container" id="season-Always-in-Season">
+                                                        <div class="season-header">${STORE.seasonAry[i]} ${STORE.donationSeasonLength[STORE.seasonAry[i]]} items
+                                                    </div>`);
+                    break;
+                case ('Spring Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Spring-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.donationSeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                case ('Summer Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Summer-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.donationSeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                case ('Fall Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Fall-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.donationSeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                case ('Winter Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Winter-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.donationSeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                default:
+                    console.log('there are no more seasons');
+                    break;
+            }
+        } else if (STORE.selCloset === 'giveaway') {
+            switch (STORE.seasonAry[i]) {
+                case 'Always in Season':  
+                    $('#always-in-season').append(`<div class="season-container" id="season-Always-in-Season">
+                                                        <div class="season-header">${STORE.seasonAry[i]} ${STORE.giveawaySeasonLength[STORE.seasonAry[i]]} items
+                                                    </div>`);
+                    break;
+                case ('Spring Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Spring-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.giveawaySeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                case ('Summer Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Summer-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.giveawaySeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                case ('Fall Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Fall-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.giveawaySeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                case ('Winter Basics'):
+                    $('#other-seasons').append(`<div class="season-container" id="season-Winter-Basics">
+                                                    <div class="season-header">${STORE.seasonAry[i]} ${STORE.giveawaySeasonLength[STORE.seasonAry[i]]} items
+                                                </div>`);
+                    break;
+                default:
+                    console.log('there are no more seasons');
+                    break;
+            }
+        } else {
+            console.log('this is funny.  Its got to stop!');
+        }
     }
-    
 
-   // if (season === 'Always in Season') {
-   //     $('#always-in-season').append(seasonBodyHtml);
-    //}  else {
-    //    $('#other-seasons').append(seasonBodyHtml);
-    //}    
-   // $('.closet-body').append(closetBodyHtml);
+   // $('.closet-header').append(seasonHeadersHtml);
+}
+
+function renderClosetItemBody(data) {
+    let item = '';
+    item =`<div class="closet-item ${data.id}-class">
+                        <div class="item-body">
+                            <div class="cl-items cl-season" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p id="season">${data.season}</p></div></div>
+                            <div class="cl-items-short">
+                                <div class="cl-items cl-appareltype cl-items-sh" id="cl-appareltype"><p class="cl-items-label">item</p><div class="item itembody"><p id="appareltype">${data.appareltype}</p></div></div>
+                                <div class="cl-items cl-color cl-items-sh" id="cl-color"><p class="cl-items-label">color</p><div class="item itembody"><p id="color">${data.color}</p></div></div>
+                                <div class="cl-items cl-size cl-items-sh" id="cl-size"><p class="cl-items-label">size</p><div class="item itembody"><p id="size">${data.size}</p></div></div>
+                            </div>
+                            <div class="cl-items cl-shortdesc" id="cl-shortdesc"><div class="item itembody"><p id="shortdesc">${data.shortdesc}</p></div></div>
+                            <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p id="longdesc">${data.longdesc}</p></div></div>
+                        </div>`;
+    const body = renderClosetItemActionBtns(item, data);
+    switch (data.season) {
+        case 'Always in Season':
+            $(`#season-Always-in-Season`).append(body);
+            break;
+        case ('Spring Basics'):
+            $(`#season-Spring-Basics`).append(body);
+            break;
+        case ('Summer Basics'):
+            $(`#season-Summer-Basics`).append(body);
+            break;
+        case ('Fall Basics'):
+            $(`#season-Fall-Basics`).append(body);
+            break;
+        case ('Winter Basics'):
+            $(`#season-Winter-Basics`).append(body);
+            break;
+        default:
+            console.log('there are no more seasons');
+            break;
+    };
+  
+}
+
+function renderClosetItemActionBtns(bodyHtml, data) {
+
+    // if someone other than the ADMIN is logged in, get these buttons
+    if (STORE.authUserName !== 'admin') {
+        if (STORE.selCloset === 'my') {
+            // edit buttons for edit, delete, donate or giveaway if NOT admin and closet it MY
+            bodyHtml += `<div class="item-edit-btns">
+                            <div class="action-btns small-btn" id="cl-edit-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">edit</div>
+                            <div class="action-btns small-btn" id="cl-delete-btn" data-id="${data.id}">delete</div>
+                            <div class="action-btns small-btn" id="cl-donate-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">donate</div>
+                            <div class="action-btns small-btn" id="cl-giveaway-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">giveaway</div>
+                        </div>`;
+        }
+
+     // if the ADMIN is logged in, get these buttons   
+    } else  {
+            if (STORE.selCloset === 'my') {
+                bodyHtml += `<div> no buttons here
+                                    </div>`;
+            } else if (STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway'  || STORE.selCloset === 'ideal') {
+                // if isAdmin and the closet is one of the above, then the user may edit or delete
+                bodyHtml += `
+                            <div class="item-edit-btns">
+                                <div class="action-btns small-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}"><i id="cl-edit-btn" class="far fa-edit"></i></div>
+                                <div class="action-btns small-btn" data-id="${data.id}"><i id="cl-delete-btn" class="far fa-trash-alt"></i></div>
+                            </div>`;
+            
+            } else {
+                alert('there is a problem with the closet format!');
+               
+            }       
+    } 
+return bodyHtml;
+}
+
+//  render the selected closet
+function renderClosetBody(closetItems) {
+    let item;
+    for (let i=0; i < closetItems.length; i++) {
+        item = closetItems[i];
+        renderClosetItemBody(item);     
+    } 
 }
 
 
@@ -706,7 +843,6 @@ function renderAnalysis() {
     $('.closet-container').append(`
                 <div class="closet-header">
                     <div class="item" id="closet-title"><h2>Analyze It!</h2></div>
-                    <div class="subhead">here is your subhead!!!</div>
                 </div>`);
     
     $('.closet-container').append(`
@@ -724,9 +860,9 @@ function renderAnalysis() {
 function renderWholeClosetAnalysis() {
     // append whole closet analysis
     $('.analysis-body').append(`
-    <div class="analysis-whole-header">
-        <h3>Whole dataset item</>
-        <p>This item compares the total number of items in your closet to the number of items in the ideal closet.</p>
+    <div class="analysis-subhead">
+        <h3>Here is some notes of the whole closet</h3>
+        This item compares the total number of items in your closet to the number of items in the ideal closet.</p>
     </div>
     <div class="analysis-whole-ds">
         <p>the ideal closet has ${STORE.closetLength.ideal} items in its closet.</p>

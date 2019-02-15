@@ -26,6 +26,20 @@ let STORE = {
         "Fall Basics":0,
         "Winter Basics":0
     },
+    giveawaySeasonLength: {
+        "Always in Season":0,
+        "Spring Basics":0,
+        "Summer Basics":0,
+        "Fall Basics":0,
+        "Winter Basics":0
+    },
+    donationSeasonLength: {
+        "Always in Season":0,
+        "Spring Basics":0,
+        "Summer Basics":0,
+        "Fall Basics":0,
+        "Winter Basics":0
+    },
     idealAppareltypeLength: {
         top:0,
         bottom:0,
