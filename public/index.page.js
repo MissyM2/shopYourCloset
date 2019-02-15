@@ -120,6 +120,9 @@ function onViewClosetClick() {
     $('.section-options').on('click', (function(event) {
         event.preventDefault();
         let closetElement;
+        console.log(event.target);
+        console.log(event.target.id);
+        console.log(event.target.parentElement.id);
         if (event.target.id.includes('btn') && event.target.id != "") {
             closetElement=event.target.id;
         } else {
@@ -149,11 +152,12 @@ function onViewClosetFromNavMenuClick() {
         let closetElementArr = [];
         closetElementArr = closetElement.split("-");
         STORE.selCloset = closetElementArr[0]
+        console.log('from nav ' + STORE.selCloset);
         if (STORE.selCloset === 'analyze') {
-            STORE.isAnalyze = true;
-            STORE.function
-            fetchForAnalysis();
+            STORE.functionChoice = 'analysis';
+            HTTP.fetchForAnalysis();
         } else {
+            STORE.functionChoice = 'closet';
             HTTP.fetchCloset(); 
         }
 }));
@@ -170,9 +174,9 @@ function onAddItemToClosetClick() {
 function onSaveItemToClosetClick() {
     $('.section-closet').on('click','#cl-save-btn', function(event) {
         event.preventDefault();
-        //console.log(event.target);
-        //console.log(event.currentTarget);
-        //console.log(event.target.id);
+        console.log(event.target);
+        console.log(event.currentTarget);
+        console.log(event.target.id);
         const newItem= {
             season: $("input[name='season']:checked").val(),
             appareltype:$("input[name='appareltype']:checked").val(),
@@ -189,48 +193,26 @@ function onSaveItemToClosetClick() {
 function onUpdateItemInClosetClick() {
     $('.section-closet').on('click', '#cl-edit-btn', (function(event) {
         event.preventDefault();
-
-        /*
-        console.log(event.target);
-        console.log(event.currentTarget);
-        console.log(event.target.id);
-
-        if (event.target.id.includes('btn') && event.target.id != "") {
-            closetElement=event.target.id;
-        } else {
-            closetElement=event.target.parentElement.id;
+        let closetElement = '';
+        STORE.currentEditItem = {
+            id: $(this).attr('data-id'),
+            season: $(this).attr('data-season'),
+            color: $(this).attr('data-color'),
+            appareltype: $(this).attr('data-appareltype'),
+            shortdesc: $(this).attr('data-shortdesc'),
+            longdesc: $(this).attr('data-longdesc'),
+            size: $(this).attr('data-size')
         }
-        let selectedClosetArr = [];
-        selectedClosetArr = closetElement.split("-");
-        STORE.selCloset=selectedClosetArr[0];
-*/
-
-        const updateObj = {
-            id: $(this.parentElement).attr('data-id'),
-            season: $(this.parentElement).attr('data-season'),
-            appareltype: $(this.parentElement).attr('data-appareltype'),
-            color: $(this.parentElement).attr('data-color'),
-            shortdesc: $(this.parentElement).attr('data-shortdesc'),
-            longdesc: $(this.parentElement).attr('data-longdesc'),
-            size: $(this.parentElement).attr('data-size')
-        }
-        RENDER.renderUpdateForm(updateObj);
+        console.log(STORE.currentEditItem);
+        RENDER.renderUpdateForm();
     }));
 }
 
 function onFinalUpdateItemInClosetClick() {
     $('.section-closet').on('click', '#cl-updatebtn-final', function(event){
         event.preventDefault();
-
-        console.log(event.target);
-        console.log(event.currentTarget);
-        console.log(event.target.id);
-        //STORE.selCloset = $(this).attr('data-closet');
-        event.preventDefault();
-        const idToUpdate = $(this.parentElement).attr('data-id');
-        // create object and send to update function
-        const updatedClosetItemObj = {
-            id: $(this.parentElement).attr('data-id'),
+        STORE.currentEditItem = {
+            id: $(this).attr('data-id'),
             season: $("#js-updateseason").val(),
             color: $("#js-updatecolor").val(),
             appareltype: $("#js-updateappareltype").val(),
@@ -238,14 +220,13 @@ function onFinalUpdateItemInClosetClick() {
             longdesc: $("#js-updatelongdesc").val(),
             size: $("#js-updatesize").val()
         };
-        HTTP.fetchForUpdateClosetItemData(idToUpdate, updatedClosetItemObj);
+        HTTP.fetchForUpdateClosetItemData();
     });
 }
 
 function onDeleteItemInClosetClick() {
-    $(document).on('click', '#cl-deletebtn', (function(event){
+    $(document).on('click', '#cl-delete-btn', (function(event){
         event.preventDefault();
-        STORE.selCloset = $(this).attr('data-closet');
         const selItemId = $(this).attr('data-id');
         // Step 2: Verify use is sure of deletion
         const userSaidYes = confirm('Are you sure you want to delete this item?');
@@ -258,8 +239,9 @@ function onDeleteItemInClosetClick() {
 
 
 function onCancelAddItemClick() {
-    $(document).on('click', '#cl-cancelbtn', (function(event) {
+    $(document).on('click', '#cl-cancel-btn', (function(event) {
         event.preventDefault();
+        console.log()
         HTTP.fetchCloset();
     }))
 }
@@ -309,6 +291,43 @@ function onConfirmPasswordRevealClick() {
     }));
 }
 
+function onDonateItemClick() {
+    $('.section-closet').on('click', '#cl-donate-btn', (function(event) {
+        event.preventDefault();
+        STORE.currentEditItem = {
+            id: $(this).attr('data-id'),
+            season: $(this).attr('data-season'),
+            color: $(this).attr('data-color'),
+            appareltype: $(this).attr('data-appareltype'),
+            shortdesc: $(this).attr('data-shortdesc'),
+            longdesc: $(this).attr('data-longdesc'),
+            size: $(this).attr('data-size')
+        };
+        console.log('leaving onDonationItemClick ', STORE.currentEditItem.id);
+        HTTP.fetchForDonation();
+      
+    }));
+}
+
+function onGiveawayItemClick() {
+    $('.section-closet').on('click', '#cl-giveaway-btn', (function(event) {
+        event.preventDefault();
+        console.log('giveaway button has been clicked');
+        STORE.currentEditItem = {
+            id: $(this).attr('data-id'),
+            season: $(this).attr('data-season'),
+            color: $(this).attr('data-color'),
+            appareltype: $(this).attr('data-appareltype'),
+            shortdesc: $(this).attr('data-shortdesc'),
+            longdesc: $(this).attr('data-longdesc'),
+            size: $(this).attr('data-size')
+        };
+        console.log('leaving onGiveawayItemClick ', STORE.currentEditItem.id);
+        HTTP.fetchForGiveaway();
+      
+    }));
+}
+
 
 
 
@@ -331,6 +350,8 @@ $(document).ready(function () {
     onUpdateItemInClosetClick();
     onFinalUpdateItemInClosetClick();
     onCancelAddItemClick();
+    onDonateItemClick();
+    onGiveawayItemClick();
 });
 
 

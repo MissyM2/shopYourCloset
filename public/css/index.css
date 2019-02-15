@@ -111,6 +111,7 @@ button {
     /*border:1px solid green;*/
 }
 
+
 .season-container{
     /*border:1px solid green;*/
     margin-bottom: 10px;
@@ -125,7 +126,6 @@ button {
 label {
     display:block;
     margin:6px;
-    font-size: 16px;
 }
 .section-options,
 .section-login,
@@ -142,7 +142,7 @@ label {
     padding-bottom: 8px;
     padding-top:5px;
     text-align:center;
-    /*border-bottom: 1px solid lightgrey;*/
+
 }
 .options-btns-min {
     display:inline-block;
@@ -152,7 +152,7 @@ label {
 }
 
 .options-btns-min:hover {
-    background-color: lightgrey;
+    background-color: #EBEBEB;
     cursor:pointer
 }
 
@@ -160,18 +160,19 @@ label {
 #my-closet-btn-min, 
 #giveaway-closet-btn-min,
 #donation-closet-btn-min {
-    border-right: 1px solid lightgrey;
-    padding-right:10px;
+    border-right: 1px solid #EBEBEB;
+    padding-left:5px;
+    padding-right:5px;
 }
 
 #header-logout, #header-loginagain {
     padding-left: 22px;
-    border-left:1px solid lightgrey;
+    border-left:1px solid #EBEBEB;
     display: inline-block;
 }
 
 #header-logout:hover, #header-loginagain:hover {
-    background-color: lightgrey;
+    background-color: #DEB5AB;
     cursor:pointer;
 }
 
@@ -223,11 +224,13 @@ label {
 #header-title {
     /*border:1px solid green;*/
     max-height: 75px;
+    padding:10px 20px 10px 20px;
 }
 #header-title:hover {
     /*border:1px solid green;*/
     cursor:pointer;
-    background-color:lightgray;
+    background-color:#C9E3DF;
+    border-radius: 3px;
 }
 
 #logo-img {
@@ -266,14 +269,29 @@ label {
     width: 85%;
     display:inline-block
 }
-.item-edit-btns{
+
+.action-btns {
+    text-align: center;
+    cursor:pointer;
+    border: 1px solid #C98474;
+    margin:2px;
+    padding:2px;
+    border-radius:3px;
     display:inline-block;
-    float:right;
 }
 
-.editbuttons {
-    text-align: right;
+.small-btn {
+    width:60px;
 }
+
+.med-btn {
+    width:100px;
+}
+
+.action-btns:hover {
+    background-color: #DEB5AB;
+}
+    
 
 
 .additem-edit-btns {
@@ -285,9 +303,8 @@ label {
     display:inline-block;
 }
 .cl-resultbody {
-
     display:inline-block;
-    width:85%;
+    width:100%;
 }
 
 .cl-savebtn, .cl-cancelbtn {
@@ -298,15 +315,21 @@ label {
 .reg-login {
     padding-bottom: 20px;
 }
-#season-header {
-    padding: 10px 0 10px 0;
+
+.season-header {
+    padding: 10px 5px 10px 0;
+    margin-bottom: 8px;
+    margin-top: 8px;
     font-weight:bold;
-    background-color: #C98474;
+    background-color: #DEB5AB;
+    font-size:14px;
+    border-radius: 3px;
+    font-family: 'The Girl Next Door', cursive;
 }
 
 .cl-items-label {
     border-bottom: 1px solid #874C62;
-    background-color: lightgray;
+    background-color: #ECECEB;
     font-weight: bold;
 }
 
@@ -350,6 +373,11 @@ label {
 
 .reg-item, .login-item {
     text-align:left;
+}
+
+.reg-item:hover, 
+.login-item:hover {
+    background: #E0E0DE;
 }
 
 .reg-input, .login-input {
@@ -427,7 +455,7 @@ label {
 	border-radius: 50%;
 }
 .fa-door-open:hover, .fa-tshirt:hover, .fa-atom:hover {
-    background-color:lightgray;
+    background-color:#ECECEB;
     cursor:pointer;
 }
 
@@ -479,11 +507,12 @@ label {
 
 
 .closet-item {
-    text-align:left;
+    text-align:center;
     border-radius: 3px;
-    padding: 8px;
+    padding: 10px;
     margin: 5px 0 0 0;
-    border-bottom:1px solid lightgray;
+    border-bottom:1px solid #F2D387;
+    font-size:12px;
 }
 
 .cl-resultcell-display {
@@ -497,12 +526,6 @@ label {
     border-radius: 3px;
     padding: 3px;
     margin: 5px 0 0 0;
-}
-
-.update-edit-btns {
-    float:right;
-    vertical-align:top;
-    text-align:center;
 }
 
 
@@ -524,6 +547,12 @@ label {
 .updatefields {
     width: 100%;
     background-color:white;
+}
+
+
+.update-season > .itembody,
+.update-appareltype > .itembody {
+    width:50%;
 }
 
 #cl-add-btn {
@@ -553,12 +582,35 @@ border: solid 1px #ff0000;
     margin:8px;
 }
 
+.analysis-subhead {
+    padding: 15px;
+}
+
 .analysis-body-ds,
 .analysis-whole-ds, 
-.analysis-season-ds {
+.analysis-season-ds,
+.analysis-appareltype-ds {
     text-align: left;
     font-size: 10px;
     border: 1px solid;
+    padding:8px;
+}
+
+.analysis-appareltype-header,
+.analysis-season-header {
+    color: #874C62;
+}
+
+.subhead {
+    color: #874C62;
+}
+
+.analysis-subset {
+    padding-left:25px;
+}
+
+.final-thought {
+    font-weight:bold;
 }
 
 
@@ -571,33 +623,35 @@ border: solid 1px #ff0000;
     .section-closet {
         max-width:900px;
     }
+    
+    .section-login,
+    .section-options {
+        max-width:350px;
+        margin: 0 auto;
+    }
+
+    .addnewitem-container {
+        max-width:500px;
+        margin:0 auto;
+    }
 
     .closet-body {
         margin-top: 25px;
     }
 
-    .season-container {
+    #always-in-season,
+    #other-seasons {
         display:inline-block;
-        width:25%;
-        vertical-align:top;
-        border: 1px solid  #C98573;
-    }
-
-/*
-    .item-body {
-        display:block;
-        width:100%;
-    }
-    */
-
-    .item-edit-btns {
-        display:block;
-        float:none;
+        float:left;
+        width:45%;
+        margin:3px;
     }
     
-    .editbuttons {
+    .action-btns {
         display:inline-block;
         float:none;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
 }

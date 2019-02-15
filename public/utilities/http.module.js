@@ -6,7 +6,9 @@ window.HTTP_MODULE = {
     fetchForCreateNewItemInCloset,
     fetchForUpdateClosetItemData,
     fetchForDeleteClosetItemData,
-    fetchForAnalysis
+    fetchForAnalysis,
+    fetchForDonation,
+    fetchForGiveaway
 };
 
 function fetchForCreateNewUser(userData) {
@@ -82,9 +84,7 @@ function fetchForLogUserIn(userData) {
 
 // show all items for the logged-in user
 function fetchCloset() {
-    console.log(STORE.selCloset);
     const jwtToken = localStorage.getItem("jwtToken");
-    console.log(STORE.authUser);
     let dataMsg;
     let fetchPath;
     if (STORE.authUserName === 'admin') {
@@ -125,7 +125,6 @@ function fetchCloset() {
     //  GET fetch request for My Closet
 
     if (STORE.selCloset === 'my' || STORE.selCloset === 'ideal' || STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway') {
-        console.log(fetchPath);
                 fetch(fetchPath, {
                     method: 'GET',
                     headers: {
@@ -176,12 +175,10 @@ function fetchForCreateNewItemInCloset(newItem) {
     const jwtToken = localStorage.getItem("jwtToken");
     const authUser = localStorage.getItem("userid");
     let closet = STORE.selCloset;
-    console.log(closet);
     let fetchPath = '';
     if (STORE.authUserName === 'admin') {
         fetchPath = '/api/idealcloset/';
     } else {
-        console.log('selected closet is ', STORE.selCloset);
         fetchPath = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
     };
     fetch(fetchPath, {
@@ -207,16 +204,15 @@ function fetchForCreateNewItemInCloset(newItem) {
         });
 }
 
-function fetchForUpdateClosetItemData(selectedItemId, updateObject) {
+function fetchForUpdateClosetItemData() {
     const jwtToken = localStorage.getItem("jwtToken");
     const authUser = localStorage.getItem('userid');
-    console.log('selected item is ', selectedItemId);
     let closet = STORE.selCloset;
     let fetchPath = '';
     if (STORE.authUserName === 'admin') {
         fetchPath = `/api/idealcloset/${selectedItemId}`;
     } else {
-        fetchPath = `/api/userclosets/${closet}closet/${authUser}/${selectedItemId}`;
+        fetchPath = `/api/userclosets/${closet}closet/${authUser}/${STORE.currentEditItem.id}`;
     };
         
     fetch(fetchPath, {
@@ -226,7 +222,7 @@ function fetchForUpdateClosetItemData(selectedItemId, updateObject) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${jwtToken}`
         },
-        body: JSON.stringify(updateObject)
+        body: JSON.stringify(STORE.currentEditItem)
         })
 
         .then(response =>  {
@@ -245,11 +241,12 @@ function fetchForUpdateClosetItemData(selectedItemId, updateObject) {
 }
 
 function fetchForDeleteClosetItemData(selectedItemId) {
+    console.log('from fetchForDeleteClosetItemData ', selectedItemId);
     const jwtToken = localStorage.getItem("jwtToken");
     let closet = STORE.selCloset;
     let fetchPath = '';
 
-    if (localStorage.getItem("name") == 'Admin ID') {
+    if (localStorage.getItem("name") === 'Admin ID') {
         fetchPath = `/api/idealcloset/${selectedId}`;
     } else {
         fetchPath = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
@@ -339,4 +336,130 @@ function fetchForAnalysis() {
          RENDER.renderAnalysis();
          */
 
+}
+
+
+function fetchForDonation() {
+    //first we are going to delete the item from the user's my closet
+    const jwtToken = localStorage.getItem("jwtToken");
+    const authUser = localStorage.getItem("userid");
+    let selectedItemId = STORE.currentEditItem.id;
+    console.log('inside fetchForDonation ', selectedItemId);
+    let fetchPath = '';
+    alert(`about to delete ${STORE.currentEditItem.season}, ${STORE.currentEditItem.color} ${STORE.currentEditItem.appareltype} from your closet and move it to the donation closet.  OK? `);
+
+    fetchPath = `/api/userclosets/mycloset/${authUser}/${selectedItemId}`;
+    fetch(fetchPath , {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json, text/plain, *',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+        }
+        })
+        .then(response => {
+            if (response.ok) {
+                return;
+            };
+            throw new Error(response.text);
+        })
+        .then(() => {
+            console.log('item has been deleted from your closet.  It is ready to move to donation closet.');
+            // switch closet to donation closet
+            //STORE.selCloset = 'donation';
+        })
+        .catch(error => {
+            console.log(error.message);
+            //renderDeletionError(error.message);
+    });
+
+    //next we are going to add the object to the user's donation closet
+
+    fetchPath = '';
+    fetchPath = `/api/userclosets/donationcloset/${authUser}`;
+    fetch(fetchPath, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, *',
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify(STORE.currentEditItem)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            };
+            throw new Error(response.text);
+        })
+        .then(responseJson => {
+            alert(`Your ${STORE.currentEditItem.color} ${STORE.currentEditItem.appareltype} is now in the donation closet.`);
+           // STORE.selCloset = 'my';
+            fetchCloset();
+        })
+        .catch(error => {
+            console.log('Error: ', error)
+        });
+}
+
+function fetchForGiveaway() {
+    //first we are going to delete the item from the user's my closet
+    const jwtToken = localStorage.getItem("jwtToken");
+    const authUser = localStorage.getItem("userid");
+    let selectedItemId = STORE.currentEditItem.id;
+    console.log('inside fetchForGivewaway ', selectedItemId);
+    let fetchPath = '';
+
+    fetchPath = `/api/userclosets/mycloset/${authUser}/${selectedItemId}`;
+    fetch(fetchPath , {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json, text/plain, *',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+        }
+        })
+        .then(response => {
+            if (response.ok) {
+                return;
+            };
+            throw new Error(response.text);
+        })
+        .then(() => {
+            console.log('item has been deleted from your closet.  It is ready to move to donation closet.');
+            // switch closet to donation closet
+            STORE.selCloset = 'donation';
+        })
+        .catch(error => {
+            console.log(error.message);
+            //renderDeletionError(error.message);
+    });
+
+    //next we are going to add the object to the public giveaway closet
+
+    fetchPath = '';
+    fetchPath = `/api/groupclosets/giveawaycloset`;
+    fetch(fetchPath, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, *',
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify(STORE.currentEditItem)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            };
+            throw new Error(response.text);
+        })
+        .then(responseJson => {
+            alert('one item has been added to the public giveaway closet.');
+            STORE.selCloset = 'my';
+            fetchCloset();
+        })
+        .catch(error => {
+            console.log('Error: ', error)
+        });
 }

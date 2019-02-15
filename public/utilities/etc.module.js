@@ -4,26 +4,26 @@ window.ETC_MODULE = {
 
 function organizeData(data) {
 
-    
-    const seasonAry = ['Spring Basics', 'Always in Season',  'Summer Basics', 'Fall Basics', 'Winter Basics'];
-    const appareltypeAry = ['top', 'bottom', 'dress', 'coat', 'shoes'];
-
     // if the user has selected the ANALYZE option, collect the data and send to the renderAnalysis
     if (STORE.functionChoice === 'analysis') {
      // First, collect data length for the selected closet
             if (STORE.selCloset ==='ideal') {
                 STORE.closetLength.ideal = data.length;
                 //console.log(`Total ${STORE.selCloset} count is ${STORE.closetLength.ideal}`);
-                for (let i = 0; i < seasonAry.length; i++) {
-                    getSeasonCount(seasonAry[i], data);
-                    getApparelTypeCount(appareltypeAry, data);
+                for (let i = 0; i < STORE.seasonAry.length; i++) {
+                    getSeasonCount(STORE.seasonAry[i], data);
+                }
+                for (let i=0; i < STORE.appareltypeAry.length; i++) {
+                    getApparelTypeCount(STORE.appareltypeAry[i], data);
                 }
             } else if (STORE.selCloset === 'my') {
                 STORE.closetLength.my = data.length;
                 //console.log(`Total ${STORE.selCloset} count is ${STORE.closetLength.ideal}`);
-                for (let i = 0; i < seasonAry.length; i++) {
-                    getSeasonCount(seasonAry[i], data);
-                    getApparelTypeCount(appareltypeAry, data);
+                for (let i = 0; i < STORE.seasonAry.length; i++) {
+                    getSeasonCount(STORE.seasonAry[i], data);
+                }
+                for (let i=0; i < STORE.appareltypeAry.length; i++) {
+                    getApparelTypeCount(STORE.appareltypeAry[i], data);
                 }
             }
             
@@ -32,19 +32,37 @@ function organizeData(data) {
     
     // for all other options selected (which are closets), append the proper header and render the closet 
     } else if (STORE.functionChoice === 'closet') {
+        const len = 0;;
+        switch(STORE.selCloset) {
+            case 'my':
+                STORE.closetLength.my = data.length;
+                break;
+            case 'ideal':
+                STORE.closetLength.ideal = data.length;
+                break;
+            case 'giveaway':
+                STORE.closetLength.giveaway = data.length;
+                break;
+            case 'donation':
+                STORE.closetLength.donation = data.length;
+        }
 
-        STORE.dataLength= itemsFall.length;
-        console.log(STORE.datalength);
+
         $('.closet-container').html('');
+        $('.options-container').html('');
         $('.closet-container').append(`<div class="closet-header"></div>`);
-        $('.closet-container').append(`<div class="closet-body"></div>`);
-        renderClosetHeader();
-        //renderClosetBody(itemsSpring);
-        renderClosetBody(seasonAllSeasons, itemsAllSeasons);
-        renderClosetBody(seasonSummer, itemsSummer);
-        renderClosetBody(seasonFall, itemsFall);
-        renderClosetBody(seasonWinter, itemsWinter);
-        renderClosetBody(seasonSpring, itemsSpring);
+        $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
+        renderClosetHeader(data);
+        for (let i=0; i < STORE.seasonAry.length; i++) {
+            let season = STORE.seasonAry[i];
+            let result = [];
+            for(let i = 0; i < data.length; i++) {
+                if (data[i].season === season) {
+                    result.push(data[i]);
+                } 
+            }
+            renderClosetBody(season,result);
+        }
     }
 }
 
@@ -60,19 +78,19 @@ function getSeasonCount(season, items) {
       //console.log( 'result set is for ideal closet/seasons is  ', result);
       switch(season) {
         case "Spring Basics":
-            if (result.length > 0) STORE.idealSeasonLength.springBasics = result.length;
+            if (result.length > 0) STORE.idealSeasonLength['Spring Basics'] = result.length;
             break;
         case 'Summer Basics':
-        if (result.length > 0) STORE.idealSeasonLength.summerBasics = result.length;
+        if (result.length > 0) STORE.idealSeasonLength['Summer Basics'] = result.length;
             break;
         case 'Fall Basics':
-        if (result.length > 0) STORE.idealSeasonLength.fallBasics = result.length;
+        if (result.length > 0) STORE.idealSeasonLength['Fall Basics'] = result.length;
             break;
         case 'Winter Basics':
-        if (result.length > 0) STORE.idealSeasonLength.winterBasics = result.length;
+        if (result.length > 0) STORE.idealSeasonLength['Winter Basics'] = result.length;
             break;
         case 'Always in Season':
-        if (result.length > 0) STORE.idealSeasonLength.alwaysInSeasonBasics = result.length;
+        if (result.length > 0) STORE.idealSeasonLength['Always in Season'] = result.length;
             break;
         default:
             console.log('there is a problem with this switch statement');
@@ -82,19 +100,19 @@ function getSeasonCount(season, items) {
         //console.log( 'result set for my closet/seasons is ', result);
         switch(season) {
           case "Spring Basics":
-              if (result.length > 0) STORE.mySeasonLength.springBasics = result.length;
+              if (result.length > 0) STORE.mySeasonLength['Spring Basics'] = result.length;
               break;
           case 'Summer Basics':
-          if (result.length > 0) STORE.mySeasonLength.summerBasics = result.length;
+          if (result.length > 0) STORE.mySeasonLength['Summer Basics'] = result.length;
               break;
           case 'Fall Basics':
-          if (result.length > 0) STORE.mySeasonLength.fallBasics = result.length;
+          if (result.length > 0) STORE.mySeasonLength['Fall Basics'] = result.length;
               break;
           case 'Winter Basics':
-          if (result.length > 0) STORE.mySeasonLength.winterBasics = result.length;
+          if (result.length > 0) STORE.mySeasonLength['Winter Basics'] = result.length;
               break;
           case 'Always in Season':
-          if (result.length > 0) STORE.mySeasonLength.alwaysInSeasonBasics = result.length;
+          if (result.length > 0) STORE.mySeasonLength['Always in Season'] = result.length;
               break;
           default:
               console.log('there is a problem with this switch statement');

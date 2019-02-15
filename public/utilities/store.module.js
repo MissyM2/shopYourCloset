@@ -7,20 +7,24 @@ let STORE = {
     closetLength: {
         ideal:0,
         my:0,
+        donation:0,
+        giveaway:0
     },
+    seasonAry:['Always in Season','Spring Basics', 'Summer Basics', 'Fall Basics', 'Winter Basics'],
+    appareltypeAry: ['top', 'bottom', 'dress', 'coat', 'shoes'],
     idealSeasonLength: {
-        alwaysInSeason:0,
-        springBasics:0,
-        summerBasics:0,
-        fallBasics:0,
-        winterBasics:0
+        "Always in Season":0,
+        "Spring Basics":0,
+        "Summer Basics":0,
+        "Fall Basics":0,
+        "Winter Basics":0
     },
     mySeasonLength: {
-        alwaysInSeason:0,
-        springBasics:0,
-        summerBasics:0,
-        fallBasics:0,
-        winterBasics:0
+        "Always in Season":0,
+        "Spring Basics":0,
+        "Summer Basics":0,
+        "Fall Basics":0,
+        "Winter Basics":0
     },
     idealAppareltypeLength: {
         top:0,
@@ -35,9 +39,16 @@ let STORE = {
         dress:0,
         coat: 0,
         shoes:0
+    },
+    currentEditItem: {
+        id:'',
+        season:'',
+        appareltype:'',
+        aolor:'',
+        shortdesc:'',
+        longdesc:'',
+        size:''
     }
-
-
 
 }
 
