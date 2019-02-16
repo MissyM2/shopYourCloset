@@ -7,7 +7,7 @@
     "test": "mocha",
     "start": "node start.js"
   },
-  "keywords":[],
+  "keywords": [],
   "author": "Missy Maloney",
   "license": "ISC",
   "devDependencies": {

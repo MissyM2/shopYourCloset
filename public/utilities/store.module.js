@@ -10,6 +10,7 @@ let STORE = {
         donation:0,
         giveaway:0
     },
+    closetAry: ['my', 'ideal', 'donation', 'giveaway'],
     seasonAry:['Always in Season','Spring Basics', 'Summer Basics', 'Fall Basics', 'Winter Basics'],
     appareltypeAry: ['top', 'bottom', 'dress', 'coat', 'shoes'],
     idealSeasonLength: {

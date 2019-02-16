@@ -87,15 +87,21 @@ input, textarea {
 }
 
 button {
-    margin: 3px auto;
-    padding: 1rem;
-    font-size: 1.2rem;
-    font-family: 'The Girl Next Door', cursive;
-    border-radius: 50%;
-    border: 1px solid #221505;
-    background-color: #F2D387;
+    text-align: center;
+    cursor:pointer;
+    border: 1px solid #874C62;
+    background-color: #DEB5AB;
+    margin:2px;
+    padding:2px;
+    border-radius:3px;
+    display:inline-block;
     
 }
+
+button:hover {
+    background-color: #874C62;
+}
+
 .header-container {
     display:block;
 }
@@ -209,10 +215,6 @@ label {
 }
 
 
-.error-field {
-    border:1px solid red;
-}
-
 
 .title-verbage {
     text-align: center;
@@ -269,7 +271,7 @@ label {
     width: 85%;
     display:inline-block
 }
-
+/*
 .action-btns {
     text-align: center;
     cursor:pointer;
@@ -279,7 +281,7 @@ label {
     border-radius:3px;
     display:inline-block;
 }
-
+*/
 .small-btn {
     width:60px;
 }
@@ -383,7 +385,6 @@ label {
 
 .reg-input, .login-input {
     width:100%;
-    border-right:0;
 }
 
 .input-container {
@@ -442,11 +443,15 @@ label {
 
 .error-msg {
     color: #EC130E;
-    font-size: 0.8em;
+    margin-bottom: 15px;
+    padding:7px 0 7px 0;
+    border:1px solid red;
+    height:2.2em;
+    font-size: .8em;
 }
 
 .error-field {
-    border: 1.5px solid #EC130E;
+    background-color: #EBEBEB;
 }
 
 .fa-door-open, .fa-tshirt, .fa-atom {

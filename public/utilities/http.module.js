@@ -9,7 +9,8 @@ window.HTTP_MODULE = {
     fetchForAnalysis,
     fetchForDonation,
     fetchForGiveaway,
-    fetchForReturn
+    fetchForReturn,
+    handleErrors
 };
 
 function fetchForCreateNewUser(userData) {
@@ -41,7 +42,6 @@ function fetchForCreateNewUser(userData) {
         renderLoginForm();
     })
     .catch(err => {
-       
         renderSignUpError(err.message);
        
     });
@@ -79,7 +79,9 @@ function fetchForLogUserIn(userData) {
         renderOptionsPage();
     })
     .catch(() => {
-        renderLoginError();
+        renderLoginForm();
+        $('.error-msg').html('username/password problem.  Try again.').css('visibility','visible');
+        //renderLoginError();
     });
 }
 
@@ -525,4 +527,11 @@ function  fetchForReturn() {
         .catch(error => {
             console.log('Error: ', error)
         });
+}
+
+function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response.json;
 }
