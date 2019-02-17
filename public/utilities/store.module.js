@@ -59,7 +59,7 @@ let STORE = {
         id:'',
         season:'',
         appareltype:'',
-        aolor:'',
+        color:'',
         shortdesc:'',
         longdesc:'',
         size:''

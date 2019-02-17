@@ -150,6 +150,20 @@ label {
     text-align:center;
 
 }
+
+.options-btns {
+    text-align:center;
+    /*border: 1px solid purple;*/
+    padding-top: 10px;
+    padding-bottom: 5px;
+    display:inline-block;
+    padding: 10px 15px 10px 15px;
+}
+
+.options-btns-container {
+    margin-bottom: 25px;
+}
+
 .options-btns-min {
     display:inline-block;
     font-size: .8em;
@@ -196,17 +210,6 @@ label {
     font-weight: 800;
 }
 
-.options-btns {
-    text-align:center;
-    /*border: 1px solid purple;*/
-    padding-top: 10px;
-    padding-bottom: 5px;
-}
-
-#my-closet-btn, #donation-closet-btn, #giveaway-closet-btn {
-    display:inline-block;
-    width:32%;
-}
 
 
 
@@ -445,9 +448,13 @@ label {
     color: #EC130E;
     margin-bottom: 15px;
     padding:7px 0 7px 0;
-    border:1px solid red;
     height:2.2em;
     font-size: .8em;
+}
+
+.user-msg {
+    color: red;
+    font-size: 14px;
 }
 
 .error-field {
@@ -472,8 +479,17 @@ label {
 
 .fa-tshirt {
     color:#F2D387;
-    border: 1px solid #F2D387;
-    
+    border: 1px solid #F2D387;  
+}
+
+.fa-thumbs-up {
+    margin-bottom: .5rem;
+	padding: .6rem;
+	font-size: 1.2rem;
+    border-radius: 50%;
+    color: red;
+    border: 1px solid red;
+
 }
 
 .fa-atom {

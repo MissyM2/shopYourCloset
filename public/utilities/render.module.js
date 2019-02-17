@@ -4,8 +4,12 @@ window.RENDER_MODULE = {
     renderRegistrationForm,
     renderLoginForm,
     renderOptionsPage,
+    renderCloset,
     renderClosetHeader,
     renderClosetBody,
+    renderSeasonHeaders,
+    renderClosetItemBody,
+    renderClosetItemActionBtns,
     renderAddItemForm,
     renderTopNav,
     renderNavLoggedIn,
@@ -19,10 +23,7 @@ window.RENDER_MODULE = {
     renderWholeClosetAnalysis,
     renderSeasonAnalysis,
     renderAppareltypeAnalysis,
-    renderInformationPage,
-    renderSeasonHeaders,
-    renderClosetItemBody,
-    renderClosetItemActionBtns
+    renderInformationPage
 };
 
 function renderRegistrationForm() {
@@ -173,29 +174,29 @@ function renderOptionsPage() {
                 <div class="options-header">
                     <h3>Which closet would you like to work with?</h3>
                 </div>
-                <div class="options-btns" id="ideal-closet-btn" data-option="ideal">
-                    <i class="fas fa-door-open"></i>
+                <div class="options-btns" >
+                    <i class="fas fa-door-open" id="ideal-closet-btn" data-closet="ideal"></i>
                     <h4 class="closet-functions">the ideal</h4>
                 </div>
-                <div class="options-btns">
-                    <div class="options-btns" id="my-closet-btn" data-option="my">
-                        <i class="fas fa-tshirt"></i>
+                <div class="options-btns-container">
+                    <div class="options-btns">
+                        <i class="fas fa-tshirt" id="my-closet-btn" data-closet="my"></i>
                         <h4 class="closet-functions">your own</h4>
                     </div>
-                    <div class="options-btns" id="giveaway-closet-btn" data-option="giveaway">
-                        <i class="fas fa-tshirt"></i>
+                    <div class="options-btns">
+                        <i class="fas fa-tshirt" id="giveaway-closet-btn" data-closet="giveaway"></i>
                         <h4 class="closet-functions">giveaway</h4>
                     </div>
-                    <div class="options-btns" id="donation-closet-btn" data-option="donation">
-                        <i class="fas fa-tshirt"></i>
+                    <div class="options-btns">
+                        <i class="fas fa-tshirt" id="donation-closet-btn" data-closet="donation"></i>
                         <h4 class="closet-functions">donation</h4>
                     </div>
                 </div>
                 <div class="options-header">
                     <h3>Would you like some recommendations?</h3>
                 </div>
-                <div class="options-btns" id="analyze-closet-btn" data-option="analyze">
-                    <i class="fas fa-atom"></i>
+                <div class="options-btns">
+                    <i class="fas fa-atom" id="analyze-closet-btn" data-closet="analyze"></i>
                     <h4 class="closet-functions">Analyze!</h4>
                 <div>
             </div>
@@ -288,6 +289,36 @@ function renderLogout(user) {
             </div>`);
 }    
 
+function renderCloset(closetItems) {
+    // make sure options and closet section are empty before rendering new closet
+    $('.section-closet').html('');
+    $('.section-options').html('');
+
+    //  append appropriate divs and classes before adding data
+    $('.section-closet').append(`<div class="closet-container"></div>`);
+    $('.closet-container').append(`<div class="closet-header"></div>`); 
+    $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
+    
+    // render the header
+    renderClosetHeader(closetItems);
+    $('.closet-header').append(`<div class="user-msg" style="visibility:hidden"><i class="fas fa-thumbs-up"></i></div>`);
+
+    //  organize items into seasons and render season headers
+    let result = [];
+    for (let i=0; i < STORE.seasonAry.length; i++) {
+        let season = STORE.seasonAry[i];
+        for(let i = 0; i < closetItems.length; i++) {
+            if (closetItems[i].season === season) {
+                result.push(closetItems[i]);
+            } 
+        } 
+    }
+    RENDER.renderSeasonHeaders();
+
+    //  with data now in its proper categories, render the data
+    RENDER.renderClosetBody(result);
+}
+
 
 function renderClosetHeader(closetItems) {
     
@@ -312,7 +343,7 @@ function renderClosetHeader(closetItems) {
         if (STORE.selCloset === 'ideal' || STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway') {
             editButtonHtml = ``;
         } else {
-            editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add"><i class="fas fa-plus"></i></div>`;
+            editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add" data-closet="${STORE.selCloset}"><i class="fas fa-plus"></i></div>`;
         }
 
             //  if the user is the ADMIN, and the closet selected is ideal, render the add new item button
@@ -320,28 +351,14 @@ function renderClosetHeader(closetItems) {
         editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add"><i class="fas fa-plus"></i></div>`;
     }
     //  itemcount:  Itemcount is only needed on closet pages.  It is not needed on 'analyze' page.
-    switch(STORE.selCloset) {
-        case 'my':
-            itemCountHtml = `<div class="item" id="cl-itemcount">There are ${STORE.closetLength.my} items in this closet.</div>`;
-            break;
-        case 'ideal':
-            itemCountHtml = `<div class="item" id="cl-itemcount">There are ${STORE.closetLength.ideal} items in this closet.</div>`;
-            break;
-        case 'giveaway':
-            itemCountHtml = `<div class="item" id="cl-itemcount">There are ${STORE.closetLength.giveaway} items in this closet.</div>`;
-            break;
-        case 'donation':
-            itemCountHtml = `<div class="item" id="cl-itemcount">There are ${STORE.closetLength.donation} items in this closet.</div>`;
-            break;
-        default:
-            itemCountHtml =``;
-    }
+    itemCountHtml = `<div class="item" id="cl-itemcount">There are ${STORE.closetLength[STORE.selCloset]} items in this closet.</div>`;
 
     // the custom header is rendered here
     $('.closet-header').html(`
                     ${headerHtml}
                     ${itemCountHtml}
-                    ${editButtonHtml} `);
+                    ${editButtonHtml}
+                    `);
     
 
 }
@@ -521,8 +538,8 @@ function renderAddItemForm(msg) {
                 `<div class="cl-resultbody-new">` +
                     `<form>` +
                             `<div class="additem-edit-btns">` +
-                                `<div class="action-btns small-btn" id="cl-save-btn" data-closet="${STORE.selCloset}" data-user="${STORE.authUser}">save</div>` +
-                                `<div class="action-btns small-btn" id="cl-cancel-btn">cancel</div>` +
+                                `<button class="action-btns small-btn" id="cl-save-btn" data-closet="${STORE.selCloset}" data-user="${STORE.authUser}">save</button>` +
+                                `<button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>` +
                             `</div>` +
                             `<div class="itemrow cl-whichseason">` +
                                 `<div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>` +

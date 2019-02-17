@@ -68,26 +68,7 @@ function organizeData(data) {
                 STORE.closetLength.donation = data.length;
         }
 
-
-        $('.closet-container').html('');
-        $('.options-container').html('');
-        $('.closet-container').append(`<div class="closet-header"></div>`);
-        $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
-       
-
-        let result = [];
-        RENDER.renderClosetHeader(data);
-        for (let i=0; i < STORE.seasonAry.length; i++) {
-            let season = STORE.seasonAry[i];
-            for(let i = 0; i < data.length; i++) {
-                if (data[i].season === season) {
-                    result.push(data[i]);
-                } 
-            } 
-        }
-        RENDER.renderSeasonHeaders();
-        RENDER.renderClosetBody(result);
-        
+        RENDER.renderCloset(data);
     }
     
 }
