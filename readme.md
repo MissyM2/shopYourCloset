@@ -1,10 +1,10 @@
-##shopYourCloset
+## shopYourCloset
 Demo Link https://missym2.github.io/shopYourCloset/
 Live App:  https://serene-dawn-65763.herokuapp.com/
-###Summary
+### Summary
 This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  All persistent data are stored in MongoDB, and users can view or edit data based upon whether they are a normal user or admin.
 
-###User Stories (Functional)
+### User Stories (Functional)
 1.  Regular user may view their entire closet organized by season.
 2.  Regular User may add, edit or delete a particular item in their personal closet.
 3.  Regular User may view items in the ideal closet.
@@ -16,7 +16,7 @@ This app is a allows a user to log the items in their personal closet, compare i
      b.  count of items in each season
      c.  count of items in each apparel category.
 
-###Technology Used
+### Technology Used
 *  HTML/CSS/JavaScript/jQuery
 *  Node.js/Express
 *  MongoDB/Mongoose
