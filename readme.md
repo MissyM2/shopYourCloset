@@ -43,8 +43,7 @@ This app is a allows a user to log the items in their personal closet, compare i
  -  [Home](#shopYourCloset)
 
 
-
-    Home page
+     Home page
 ![Mobile - login/home page](/docimages/m1.png "Mobile-Login/Home Page")
 
     Registration Page
