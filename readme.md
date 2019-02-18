@@ -12,9 +12,14 @@
 #### Screenshots
     Home page
 1.  ![Mobile Version Pic 1](/docimages/m1.png "Mobile Pic 1")
+
     Registration Page
 2.  ![Mobile Version Pic 2](/docimages/m2.png "Mobile Pic 2")
+
+    Options Page
 3.  ![Mobile Version Pic 3](/docimages/m3.png "Mobile Pic 3")
+
+    Ideal Closet
 4.  ![Mobile Version Pic 4](/docimages/m4.png "Mobile Pic 4")
 5.  ![Mobile Version Pic 5](/docimages/m5.png "Mobile Pic 5")
 6.  ![Mobile Version Pic 6](/docimages/m6.png "Mobile Pic 6")
