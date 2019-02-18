@@ -13,16 +13,16 @@
 
 
     Home page
-![Mobile Version Pic 1](/docimages/m1.png "Mobile-Login/Home Page")
+![Mobile - login/home page](/docimages/m1.png "Mobile-Login/Home Page")
 
     Registration Page
-![Mobile Version Pic 2](/docimages/m2.png "Mobile-Registration Page")
+![Mobile - registration page](/docimages/m2.png "Mobile-Registration Page")
 
     Options Page
-![Mobile Version Pic 3](/docimages/m3.png "Mobile-Options Page")
+![Mobile - options page](/docimages/m3.png "Mobile-Options Page")
 
     Ideal Closet
-![Mobile Version Pic 4](/docimages/m4.png "Mobile-Ideal Closet)
+![Mobile - ideal closet](/docimages/m4.png "Mobile-Ideal Closet)
 
     My Closet:   add new item screen
 ![Mobile - my closet (add new item)](/docimages/m5.png "Mobile-My Closet: add an item")
