@@ -7,7 +7,7 @@
 
  -  [Summary](#Summary)
  -  [Screenshots](#screenshots)
- -  [User Stories](#user-stories)
+ -  [Functions and Features](#functions-and-features)
 
  -  [Technologies Used](#technologies-used)
  
@@ -21,7 +21,7 @@ This app is a allows a user to log the items in their personal closet, compare i
 
 
 
-#### User Stories
+#### Functions and Features
  -  [Home](#shopYourCloset)
 
 
@@ -135,13 +135,17 @@ Front End:
 
 
  #####  Tech Stack: Details
-*  Front-End Development:
-      HTML
-      CSS
-      JavaScript
-      jQuery
-*  Node.js:  enables use of Javascript on the server side
-   Express:  a framework that allows development of node-based web apps
+*  Front-End Technologie:
+   > HTML: a standard markup language for the creation of web pages
+   > CSS: used to describe the presentation of HTML pages
+   > JavaScript: an interpreted language that can create and dynamically change web pages
+        - jQuery: a JS library developed simplify HTML DOM tree traversal and manipulation, event handling, CSS animation, and Ajax
+        
+*  Server Technologies
+   > Node.js:  enables use of Javascript on the server side
+   > Express:  the webserver - a framework that allows development of node-based web apps
+   > MongoDB:  the database
+     Mongoose
    > bcryptjs: 2.4.3
    > dotenv: 6.2.0
    > express: 4.16.4
@@ -154,11 +158,13 @@ Front End:
    > passport-jwt: 4.0.0
    > passport-local: 1.0.0
    
-*  MongoDB
-   Mongoose
 *  Testing Technologies
    > chai: 4.2.0
    > chai-http: 4.2.1
    > faker: 4.1.0
    > mocha: 5.2.0
-   > Travis CI 
+   
+*  Development/Deployment
+   >  Git & GitHub:  a development platform that allows storage and revision management
+   >  Heroku:  a cloud platform for deploying apps  
+   >  Travis CI: a host for continuous testing
