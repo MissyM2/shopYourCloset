@@ -1,19 +1,24 @@
 window.HTTP_MODULE = {
     fetchForCreateNewUser,
-    fetchForLogUserIn,
     fetchCloset,
-    //get closet item by id
-    fetchForCreateNewItemInCloset,
     fetchForUpdateClosetItemData,
-    fetchForDeleteClosetItemData,
     fetchForAnalysis,
     //fetchForDonation,
-    fetchForGiveaway,
-    fetchForReturn,
-    handleErrors
+    //handleErrors,
+    genericFetch
 };
 
+function genericFetch(url, settings, callback) {
+    fetch(url, settings)
+    
+        .then(response => response.json())
+        .then(responseJson => callback(responseJson))
+        .catch(err => console.log("Error", err.statusText))
+}
+
+
 function fetchForCreateNewUser(userData) {
+    /*
     fetch('/api/user/', {
         method: "POST",
         headers: {
@@ -45,45 +50,10 @@ function fetchForCreateNewUser(userData) {
         renderSignUpError(err.message);
        
     });
+    */
 }
 
-function fetchForLogUserIn(userData) {
-    fetch ('/api/auth/login/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData)
-    })
-    .then(response => {
-        return response.json();
-    })
-    .then(responseJson => {
-        if (responseJson.error) {
-            throw new Error(responseJson.error);
-        }
-        return responseJson;
-    })
-    .then (responseJson => {
-        const userData = {
-            jwtToken: responseJson.jwtToken,
-            id: responseJson.user.id,
-            name: responseJson.user.name,
-            username: responseJson.user.username,
-            email: responseJson.user.email
-        };
-        saveAuthenticatedUserIntoCache(userData);
-        STORE.authUser = localStorage.getItem("userid");
-        STORE.authUserName = localStorage.getItem("username");
-        renderNavLoggedIn();
-        renderOptionsPage();
-    })
-    .catch(() => {
-        renderLoginForm();
-        $('.error-msg').html('username/password problem.  Try again.').css('visibility','visible');
-        //renderLoginError();
-    });
-}
+
 
 // show all items for the logged-in user
 function fetchCloset() {
@@ -173,45 +143,6 @@ function fetchCloset() {
 } 
 
 
-
-function fetchForCreateNewItemInCloset() {
-    const jwtToken = localStorage.getItem("jwtToken");
-    const authUser = localStorage.getItem("userid");
-    const closet = STORE.selCloset;
-    //let closet = STORE.selCloset;
-    let fetchPath = '';
-    if (STORE.authUserName === 'admin') {
-        fetchPath = '/api/idealcloset/';
-    } else {
-        if (closet === 'giveaway') {
-            fetchPatch = `/api/groupclosets/giveawaycloset`;
-        } else {
-            fetchPath = `/api/userclosets/${closet}closet/${authUser}`;
-        }
-    };
-    fetch(fetchPath, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json, text/plain, *',
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': `Bearer ${jwtToken}`
-        },
-        body: JSON.stringify(STORE.currentEditItem)
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            };
-            throw new Error(response.text);
-        })
-        .then(responseJson => {
-            fetchCloset();
-        })
-        .catch(error => {
-            console.log('Error: ', error)
-        });
-}
-
 function fetchForUpdateClosetItemData() {
     const jwtToken = localStorage.getItem("jwtToken");
     const authUser = localStorage.getItem('userid');
@@ -248,40 +179,6 @@ function fetchForUpdateClosetItemData() {
         });
 }
 
-function fetchForDeleteClosetItemData() {
-    const jwtToken = localStorage.getItem("jwtToken");
-    let selectedItemId = STORE.currentEditItem.id;
-    //let closet = STORE.selCloset;
-    let fetchPath = '';
-
-    if (localStorage.getItem("name") === 'Admin ID') {
-        fetchPath = `/api/idealcloset/${selectedId}`;
-    } else {
-        fetchPath = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
-    };
-    fetch(fetchPath , {
-        method: 'DELETE',
-        headers: {
-            'Accept': 'application/json, text/plain, *',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            return;
-        };
-        throw new Error(response.text);
-        })
-    .then(() => {
-        console.log('deletion operation is complete.  Fetch closet');
-        //fetchCloset();
-    })
-    .catch(error => {
-        console.log(error.message);
-        //renderDeletionError(error.message);
-    });
-}
 
 
 function fetchForAnalysis() {
@@ -348,133 +245,4 @@ function fetchForAnalysis() {
 }
 
 
-function fetchForGiveaway() {
-    //first we are going to delete the item from the user's my closet
-    const jwtToken = localStorage.getItem("jwtToken");
-    const authUser = localStorage.getItem("userid");
-    let selectedItemId = STORE.currentEditItem.id;
-    console.log('inside fetchForGivewaway ', selectedItemId);
-    let fetchPath = '';
 
-    fetchPath = `/api/userclosets/mycloset/${authUser}/${selectedItemId}`;
-    fetch(fetchPath , {
-        method: 'DELETE',
-        headers: {
-            'Accept': 'application/json, text/plain, *',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`
-        }
-        })
-        .then(response => {
-            if (response.ok) {
-                return;
-            };
-            throw new Error(response.text);
-        })
-        .then(() => {
-            console.log('item has been deleted from your closet.  It is ready to move to donation closet.');
-            // switch closet to donation closet
-            STORE.selCloset = 'donation';
-        })
-        .catch(error => {
-            console.log(error.message);
-            //renderDeletionError(error.message);
-    });
-
-    //next we are going to add the object to the public giveaway closet
-
-    fetchPath = '';
-    fetchPath = `/api/groupclosets/giveawaycloset`;
-    fetch(fetchPath, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json, text/plain, *',
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': `Bearer ${jwtToken}`
-        },
-        body: JSON.stringify(STORE.currentEditItem)
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            };
-            throw new Error(response.text);
-        })
-        .then(responseJson => {
-            alert('one item has been added to the public giveaway closet.');
-            STORE.selCloset = 'my';
-            fetchCloset();
-        })
-        .catch(error => {
-            console.log('Error: ', error)
-        });
-}
-
-function  fetchForReturn() {
-    //first we are going to delete the item from the user's my closet
-    const jwtToken = localStorage.getItem("jwtToken");
-    const authUser = localStorage.getItem("userid");
-    let selectedItemId = STORE.currentEditItem.id;
-    console.log('inside fetchForReturn ', selectedItemId);
-    let fetchPath = '';
-
-    fetchPath = `/api/userclosets/donationcloset/${authUser}/${selectedItemId}`;
-    fetch(fetchPath , {
-        method: 'DELETE',
-        headers: {
-            'Accept': 'application/json, text/plain, *',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`
-        }
-        })
-        .then(response => {
-            if (response.ok) {
-                return;
-            };
-            throw new Error(response.text);
-        })
-        .then(() => {
-            console.log('item has been deleted from your donation closet.  It is ready to be returned to your personal closet.');
-            // switch closet to donation closet
-            STORE.selCloset = 'my';
-        })
-        .catch(error => {
-            console.log(error.message);
-            //renderDeletionError(error.message);
-    });
-
-    //next we are going to add the object to your personal closet
-
-    fetchPath = '';
-    fetchPath = fetchPath = `/api/userclosets/mycloset/${authUser}`;;
-    fetch(fetchPath, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json, text/plain, *',
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': `Bearer ${jwtToken}`
-        },
-        body: JSON.stringify(STORE.currentEditItem)
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            };
-            throw new Error(response.text);
-        })
-        .then(responseJson => {
-            alert('one item has been returned to your personal closet.');
-            STORE.selCloset = 'donation';
-            fetchCloset();
-        })
-        .catch(error => {
-            console.log('Error: ', error)
-        });
-}
-
-function handleErrors(response) {
-    if (!response.ok) {
-        throw Error(response.statusText);
-    }
-    return response.json;
-}

@@ -1,0 +1,42 @@
+oneUrl = "someUrl/one";
+oneSettings = {
+    "Headers" : {
+        "Authorization" : "Bearer token"
+    },
+    "method" : "PUT"
+}
+
+function callBackForOne(data){
+    // Some logic here
+}
+
+genericFetch(oneUrl, oneSettings, callBackForOne);
+
+
+function genericFetch(url, settings, callback){
+    fetch(url, settings)
+        .then(response => response.json())
+        .then(responseJson => callback(responseJson))
+        .catch(err => console.log("Error"))
+}
+
+
+twoUrl = "someUrl/two";
+twoSettings = {
+    "Headers" : {
+        "Authorization" : "Bearer token"
+    },
+    "method" : "DELETE"
+}
+
+function callBackForTwo(data){
+    // Some logic here
+}
+
+genericFetch(twoUrl, twoSettings, callBackForTwo);
+
+
+http://localhost:8080/api/userclosets/mycloset/5c5763445a482076bdc37b97/5c6aea31470ad89e12ec0cb3
+Request Method: POST
+
+http://localhost:8080/api/userclosets/mycloset/5c5763445a482076bdc37b97/5c6aea31470ad89e12ec0cb3

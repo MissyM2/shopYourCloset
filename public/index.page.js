@@ -33,13 +33,16 @@ function updateAuthenticatedUI() {
 function onRegisterNewUserClick() {
     $(document).on('click', '#btn-register', function(event){
         event.preventDefault();
+        alert('heloo');
         $('#error-msg').remove();
+
         const newName = $('#new-name').val();
         const newEmail = $('#new-email').val();
         const newUsername = $('#new-username').val();
         const newPassword = $("#new-password").val();
         const newPasswordConfirm = $("#confirm-password").val();
         let isValid = ETC.validateForm();
+        /*
         if (isValid) {
                 const userData = {
                     name: newName,
@@ -47,14 +50,37 @@ function onRegisterNewUserClick() {
                     username: newUsername,
                     password: newPassword
                 };
-                HTTP.fetchForCreateNewUser(userData);
+
+                const newUserUrl = '/api/user/';
+                const newUserSettings = {
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json; charset=utf-8",
+                    },
+                    "body": JSON.stringify(userData)
+                };
+                HTTP.genericFetch(newUserUrl, newUserSettings);
+                //HTTP.fetchForCreateNewUser(userData);
             } else {
                 console.log('There is an unidentified issue with the registration.');
             }
+            */
     });
 }
-
-
+/*
+function callbackNewUser(data) {
+    let userData = {
+        jwtToken: data.jwtToken,
+        id: data.id,
+        name: data.name,
+        username: data.username,
+        email: data.email
+    };
+    console.log(userData);
+    //saveAuthenticatedUserIntoCache(responseJson);
+    renderLoginForm();
+}
+*/
 
 function onSigninClick() {
     $(document).on('click', '#signin-btn', function(event) {
@@ -68,8 +94,33 @@ function onSigninClick() {
         $('.section-login').html('');
         $('.closet-container').html('');
         $('.section-nav').html('');
-        HTTP.fetchForLogUserIn(userData);
+        const newUserUrl = '/api/auth/login/';
+        const newUserSettings = {
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            "body": JSON.stringify(userData)
+        };
+        HTTP.genericFetch(newUserUrl, newUserSettings, callbackLogin);
+
+        //HTTP.fetchForLogUserIn(userData);
     });
+}
+
+function callbackLogin(data) {
+    const userData = {
+        jwtToken: data.jwtToken,
+        id: data.user.id,
+        name: data.user.name,
+        username: data.user.username,
+        email: data.user.email
+    };
+    saveAuthenticatedUserIntoCache(userData);
+    STORE.authUser = localStorage.getItem("userid");
+    STORE.authUserName = localStorage.getItem("username");
+    renderNavLoggedIn();
+    renderOptionsPage();
 }
 
 function onSignupRequestClick() {
@@ -117,38 +168,9 @@ function onViewClosetClick() {
         event.preventDefault();
         let closetElement;
         closetElement = event.target.id;
-       // alert('about to switch closets');
-        switch (closetElement) {
-            case `ideal-closet-btn`:
-                STORE.selCloset = 'ideal';
-                console.log()
-                break;
-            case `my-closet-btn`:
-                STORE.selCloset = 'my';
-                break;
-            case `donation-closet-btn`:
-                STORE.selCloset = 'donation';
-                break;
-            case `giveaway-closet-btn`:
-                STORE.selCloset = 'giveaway';
-                break;
-            case `analyze-closet-btn`:
-                STORE.selCloset = 'analyze';
-                break;
-        }
-       // alert('myselcloset =' + STORE.selCloset);
-
-        if (STORE.selCloset === 'analyze') {
-            STORE.functionChoice = 'analysis';
-            //STORE.isAnalyze = true;
-            fetchForAnalysis();
-        } else {
-            STORE.functionChoice = 'closet';
-            HTTP.fetchCloset(); 
-        }
+        closetClick(closetElement);
 }));
 }
-
 
 function onViewClosetFromNavMenuClick() {
     $(document).on('click','.options-btns-min',(function(event) {
@@ -156,38 +178,49 @@ function onViewClosetFromNavMenuClick() {
         let closetElement;
         console.log(event.target.id);
         closetElement=event.target.id;
-        
-        switch (closetElement) {
-            case `ideal-closet-btn-min`:
-                STORE.selCloset = 'ideal';
-                break;
-            case `my-closet-btn-min`:
-                STORE.selCloset = 'my';
-                break;
-            case `donation-closet-btn-min`:
-                STORE.selCloset = 'donation';
-                break;
-            case `giveaway-closet-btn-min`:
-                STORE.selCloset = 'giveaway';
-                break;
-            case `analyze-closet-btn-min`:
-                STORE.selCloset = 'analyze';
-                break;
-        }
-
-        if (STORE.selCloset === 'analyze') {
-            STORE.functionChoice = 'analysis';
-            HTTP.fetchForAnalysis();
-        } else {
-            STORE.functionChoice = 'closet';
-            HTTP.fetchCloset(); 
-        }
+        closetClick(closetElement);
 }));
+}
+
+function closetClick(closetElement) {
+    switch (closetElement) {
+        case `ideal-closet-btn`:
+        case `ideal-closet-btn-min`:
+                            STORE.selCloset = 'ideal';
+                            console.log()
+                            break;
+        case `my-closet-btn`:
+        case `my-closet-btn-min`:
+                            STORE.selCloset = 'my';
+                            break;
+        case `donation-closet-btn`:
+        case `donation-closet-btn-min`:
+                            STORE.selCloset = 'donation';
+                            break;
+        case `giveaway-closet-btn`:
+        case `giveaway-closet-btn-min`:
+                            STORE.selCloset = 'giveaway';
+                            break;
+        case `analyze-closet-btn`:
+        case `analyze-closet-btn-min`:
+                            STORE.selCloset = 'analyze';
+                            break;
+    }
+
+    if (STORE.selCloset === 'analyze') {
+        STORE.functionChoice = 'analysis';
+        //STORE.isAnalyze = true;
+        fetchForAnalysis();
+    } else {
+        STORE.functionChoice = 'closet';
+        HTTP.fetchCloset(); 
+    }
 }
 
 function onAddItemToClosetClick() {
     $('.section-closet').on('click', '#cl-add-btn', (function(event){
         event.preventDefault();
+        // ???
         const selMsg = "";
         RENDER.renderAddItemForm(selMsg);
     }));
@@ -196,9 +229,8 @@ function onAddItemToClosetClick() {
 function onSaveItemToClosetClick() {
     $('.section-closet').on('click','#cl-save-btn', function(event) {
         event.preventDefault();
-        console.log(event.target);
-        console.log(event.currentTarget);
-        console.log(event.target.id);
+        const jwtToken = localStorage.getItem("jwtToken");
+        const authUser = localStorage.getItem("userid");
         STORE.currentEditItem = {
             season: $("input[name='season']:checked").val(),
             appareltype:$("input[name='appareltype']:checked").val(),
@@ -208,30 +240,52 @@ function onSaveItemToClosetClick() {
             size: $("input[name='size']:checked").val()
         };
 
-        STORE.selCloset = $(this).attr('data-closet'),
-        HTTP.fetchForCreateNewItemInCloset();
+        STORE.selCloset = $(this).attr('data-closet');
+        let addItemUrl = '';
+        if (STORE.authUserName === 'admin') {
+            addItemUrl = '/api/idealcloset/';
+        } else {
+            if (STORE.selCloset === 'giveaway') {
+                addItemUrl = `/api/groupclosets/giveawaycloset`;
+            } else {
+                addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
+            }
+        };
+        const addItemSettings = {
+            "method": "POST",
+            "headers": {
+                'Accept': 'application/json, text/plain, *',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+            },
+            body: JSON.stringify(STORE.currentEditItem)
+        };
+       HTTP.genericFetch(addItemUrl, addItemSettings);
+
     });
 }
 
 function onUpdateItemInClosetClick() {
     $('.section-closet').on('click', '#cl-edit-btn', (function(event) {
         event.preventDefault();
-        let closetElement = '';
-        STORE.currentEditItem = {
-            id: $(this).attr('data-id'),
-            season: $(this).attr('data-season'),
-            color: $(this).attr('data-color'),
-            appareltype: $(this).attr('data-appareltype'),
-            shortdesc: $(this).attr('data-shortdesc'),
-            longdesc: $(this).attr('data-longdesc'),
-            size: $(this).attr('data-size')
-        }
-        console.log(STORE.currentEditItem);
+        updateStoreItem(this);
         RENDER.renderUpdateForm();
     }));
 }
 
-function onFinalUpdateItemInClosetClick() {
+function updateStoreItem(currentBtn) {
+    STORE.currentEditItem = {
+        id: $(currentBtn).attr('data-id'),
+        season: $(currentBtn).attr('data-season'),
+        color: $(currentBtn).attr('data-color'),
+        appareltype: $(currentBtn).attr('data-appareltype'),
+        shortdesc: $(currentBtn).attr('data-shortdesc'),
+        longdesc: $(currentBtn).attr('data-longdesc'),
+        size: $(currentBtn).attr('data-size')
+    }
+}
+
+function onSaveItemToClosetClick() {
     $('.section-closet').on('click', '#cl-updatebtn-final', function(event){
         event.preventDefault();
         STORE.currentEditItem = {
@@ -243,43 +297,74 @@ function onFinalUpdateItemInClosetClick() {
             longdesc: $("#js-updatelongdesc").val(),
             size: $("#js-updatesize").val()
         };
-        HTTP.fetchForUpdateClosetItemData();
+
+        const jwtToken = localStorage.getItem("jwtToken");
+        const authUser = localStorage.getItem('userid');
+        let closet = STORE.selCloset;
+        let updateItemUrl = '';
+        if (STORE.authUserName === 'admin') {
+            updateItemUrl = `/api/idealcloset/${selectedItemId}`;
+        } else {
+            updateItemUrl = `/api/userclosets/${closet}closet/${authUser}/${STORE.currentEditItem.id}`;
+        };
+            const updateItemSettings = {
+                "method": "PUT",
+                "headers": {
+                    'Accept': 'application/json, text/plain, *',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
+                },
+                "body": JSON.stringify(STORE.currentEditItem)
+            };
+            HTTP.genericFetch(updateItemUrl, updateItemSettings, callbackShowCloset);
+        
+            //HTTP.fetchForUpdateClosetItemData();
     });
 }
+
+function callbackShowCloset(data) {
+    console.log('made it to cbShowCloset');
+    HTTP.fetchCloset();
+}
+
 
 function onDeleteItemInClosetClick() {
     $(document).on('click', '#cl-delete-btn', (function(event){
         event.preventDefault();
-        //const selItemId = $(this).attr('data-id');
-
-        STORE.currentEditItem = {
-            id: $(this).attr('data-id'),
-            season: $(this).attr('data-season'),
-            color: $(this).attr('data-color'),
-            appareltype: $(this).attr('data-appareltype'),
-            shortdesc: $(this).attr('data-shortdesc'),
-            longdesc: $(this).attr('data-longdesc'),
-            size: $(this).attr('data-size')
-        };
-
-
-        // Step 2: Verify use is sure of deletion
+        updateStoreItem(this);
         const userSaidYes = confirm('Are you sure you want to delete this item?');
         if (userSaidYes) {
-            // step 3:  make fetch call to delete item from closet
-            //HTTP.fetchForDeleteClosetItemData(selItemId);
-            HTTP.fetchForDeleteClosetItemData(selItemId);
-        }
+                const jwtToken = localStorage.getItem("jwtToken");
+                let selectedItemId = STORE.currentEditItem.id;
+                //let closet = STORE.selCloset;
+                let deleteItemUrl = '';
+            
+                if (localStorage.getItem("name") === 'Admin ID') {
+                    deleteItemUrl = `/api/idealcloset/${selectedId}`;
+                } else {
+                    deleteItemUrl = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
+                };
 
-        fetchCloset();
+
+                //const deleteItemUrl = '/api/auth/login/';
+                const deleteItemSettings = {
+                    "method": "DELETE",
+                    "headers": {
+                        'Accept': 'application/json, text/plain, *',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`
+                    }
+                };
+        HTTP.genericFetch(deleteItemUrl, deleteItemSettings);
+
+        //HTTP.fetchCloset();
+    }
     }));
 }
-
 
 function onCancelAddItemClick() {
     $(document).on('click', '#cl-cancel-btn', (function(event) {
         event.preventDefault();
-        console.log()
         HTTP.fetchCloset();
     }))
 }
@@ -329,99 +414,110 @@ function onConfirmPasswordRevealClick() {
     }));
 }
 
-function onDonateItemClick() {
-    $('.section-closet').on('click', '#cl-donate-btn', (function(event) {
+function onMoveItemClick() {
+    //$('.section-closet').on('click', '#cl-donate-btn', (function(event) {
+    $('.section-closet').on('click', '.js-move', (function(event) {
         event.preventDefault();
-        STORE.currentEditItem = {
-            id: $(this).attr('data-id'),
-            season: $(this).attr('data-season'),
-            color: $(this).attr('data-color'),
-            appareltype: $(this).attr('data-appareltype'),
-            shortdesc: $(this).attr('data-shortdesc'),
-            longdesc: $(this).attr('data-longdesc'),
-            size: $(this).attr('data-size')
+        console.log('one of the move buttons has been clicked');
+        updateStoreItem(this);
+
+        const jwtToken = localStorage.getItem("jwtToken");
+        const authUser = localStorage.getItem('userid');
+        let selectedItemId = STORE.currentEditItem.id;
+        let currentId = $(this).attr("id");
+        
+        let deleteItemUrl = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
+        const deleteItemSettings = {
+            "method": "DELETE",
+            "headers": {
+                'Accept': 'application/json, text/plain, *',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+            }
         };
-        console.log('leaving onDonationItemClick ', STORE.currentEditItem.id);
-        // delete item from 'my' closet
-        STORE.selCloset = 'my';
-        HTTP.fetchForDeleteClosetItemData();
+       HTTP.genericFetch(deleteItemUrl, deleteItemSettings);
+       console.log('item has been deleted from my closet, now adding to appropriate closet');
 
-        // add the same item to 'donation' closet
-        STORE.selCloset = 'donation';
-        HTTP.fetchForCreateNewItemInCloset();
+       let addItemUrl;
+       if(currentId === 'cl-donate-btn'){
+            STORE.selCloset='donation';
+            addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
+        } else {
+            STORE.selCloset='giveaway';
+            addItemUrl = `/api/groupclosets/giveawaycloset`;
+        }
 
-        // render the revised 'my' closet to screen
+        
+        const addItemSettings = {
+            "method": "POST",
+            "headers": {
+               'Accept': 'application/json, text/plain, *',
+               'Content-Type': 'application/json',
+               'Authorization': `Bearer ${jwtToken}`
+            },
+            "body": JSON.stringify(STORE.currentEditItem)
+        };
+
+        HTTP.genericFetch(addItemUrl, addItemSettings);
         STORE.selCloset = 'my';
         HTTP.fetchCloset();
 
+       
+
         // show user the message that the item has been moved
-        $('.user-msg').html('one item has been added to the public giveaway closet.');
-        $('.user-msg').css("visibility", "visible");
+       // $('.user-msg').html('one item has been added to the public giveaway closet.');
+        //$('.user-msg').css("visibility", "visible");
       
     }));
 }
 
-function onGiveawayItemClick() {
-    $('.section-closet').on('click', '#cl-giveaway-btn', (function(event) {
-        event.preventDefault();
-        console.log('giveaway button has been clicked');
-        STORE.currentEditItem = {
-            id: $(this).attr('data-id'),
-            season: $(this).attr('data-season'),
-            color: $(this).attr('data-color'),
-            appareltype: $(this).attr('data-appareltype'),
-            shortdesc: $(this).attr('data-shortdesc'),
-            longdesc: $(this).attr('data-longdesc'),
-            size: $(this).attr('data-size')
-        };
-        console.log('leaving onGiveawayItemClick ', STORE.currentEditItem.id);
-
-         // delete item from 'my' closet
-         STORE.selCloset = 'my';
-         HTTP.fetchForDeleteClosetItemData();
- 
-         // add the same item to 'donation' closet
-         STORE.selCloset = 'giveaway';
-         HTTP.fetchForCreateNewItemInCloset();
- 
-         // render the revised 'my' closet to screen
-         STORE.selCloset = 'my';
-         HTTP.fetchCloset();
-        //HTTP.fetchForGiveaway();
-      
-    }));
 }
 
     function onReturnItemClick() {
         $('.section-closet').on('click', '#cl-return-btn', (function(event) {
             event.preventDefault();
-            console.log('return button has been clicked');
-            STORE.currentEditItem = {
-                id: $(this).attr('data-id'),
-                season: $(this).attr('data-season'),
-                color: $(this).attr('data-color'),
-                appareltype: $(this).attr('data-appareltype'),
-                shortdesc: $(this).attr('data-shortdesc'),
-                longdesc: $(this).attr('data-longdesc'),
-                size: $(this).attr('data-size')
+            updateStoreItem(this);
+            const jwtToken = localStorage.getItem("jwtToken");
+            let selectedItemId = STORE.currentEditItem.id;
+
+            // delete item from donation closet
+            let deleteItemUrl = `/api/userclosets/donationcloset/${STORE.authUser}/${selectedItemId}`;
+            const deleteItemSettings = {
+                "method": "DELETE",
+                "headers": {
+                    'Accept': 'application/json, text/plain, *',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
+                }
             };
-            console.log('leaving onReturnItemClick ', STORE.currentEditItem.id);
-            HTTP.fetchForReturn();
+           HTTP.genericFetch(deleteItemUrl, deleteItemSettings);
+
+           //  add item to my closet
+
+            let addItemUrl = `/api/userclosets/mycloset/${STORE.authUser}`;
+            const addItemSettings = {
+                "method": "POST",
+                "headers": {
+                   'Accept': 'application/json, text/plain, *',
+                   'Content-Type': 'application/json',
+                   'Authorization': `Bearer ${jwtToken}`
+                },
+                "body": JSON.stringify(STORE.currentEditItem)
+            };
+   
+            HTTP.genericFetch(addItemUrl, addItemSettings);
           
         }));
+
+        fetchCloset();
 }
-
-
-
-
-
 
 
 
 $(document).ready(function () {
     onPageLoad();
     onSignupRequestClick();
-    onRegisterNewUserClick();
+    //onRegisterNewUserClick();
     onSigninClick();
     onLogoutClick();
     onGoHome();
@@ -431,11 +527,14 @@ $(document).ready(function () {
     onSaveItemToClosetClick()
     onDeleteItemInClosetClick();
     onUpdateItemInClosetClick();
-    onFinalUpdateItemInClosetClick();
+    onSaveItemToClosetClick();
     onCancelAddItemClick();
-    onDonateItemClick();
-    onGiveawayItemClick();
+    onMoveItemClick();
     onReturnItemClick();
+    updateStoreItem();
+    closetClick();
+    //callbackNewUser();
+    callbackShowCloset();
 });
 
 

@@ -29,7 +29,7 @@ window.RENDER_MODULE = {
 function renderRegistrationForm() {
     $('.reg-login').html(`
         <div class="reg-container">
-                <form name="form-reg-login" action="/action_page.php" method="post">
+                <form name="form-reg-login" method="post">
                     <div id="div-reg">
                         <div id="reg-title"><p>Register</p></div>
                         <div class="user-instruction">
@@ -68,7 +68,7 @@ function renderRegistrationForm() {
                                 <i class="far fa-eye-slash password-confirm-icon"></i></div>
                         </div>
                         <div id="btn-sign-me-up" class="reg-editbuttons">
-                            <button type="submit" class="btn-register action-btns med-btn" id="btn-register" value="submit!">Register me!</button>
+                            <button class="btn-register action-btns med-btn" id="btn-register">Register me!</button>
                         </div>
                         
                     </div>
@@ -451,8 +451,8 @@ function renderClosetItemActionBtns(bodyHtml, data) {
             bodyHtml += `<div class="item-edit-btns">
                             <button class="action-btns small-btn" id="cl-edit-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">edit</button>
                             <button class="action-btns small-btn" id="cl-delete-btn" data-id="${data.id}">delete</div>
-                            <button class="action-btns small-btn" id="cl-donate-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">donate</button>
-                            <button class="action-btns small-btn" id="cl-giveaway-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">giveaway</button>
+                            <button class="js-move action-btns small-btn" id="cl-donate-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">donate</button>
+                            <button class="js-move action-btns small-btn" id="cl-giveaway-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">giveaway</button>
                         </div>`;
         } else if (STORE.selCloset === 'donation') {
             bodyHtml += `<div class="item-edit-btns">
