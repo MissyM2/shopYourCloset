@@ -125,55 +125,7 @@ This app is a allows a user to log the items in their personal closet, compare i
 The backend for this app uses NodeJS with express. Authentication is handled using JWTs with passport. BcryptJS is used to hash passwords. The database is a mongo database. It's hosted on mLab. The client uses HTML, CSS, Javascript and JQuery. The server and client are both hosted on Heroku.
 
 
-  ###  Code Base Overview
-  -  [Home](#shopYourCloset)
   
-  
-  
-shopYourCloset app is a single page application (SPA) which includes as its primary static html file, index.html.  The file is dynamically changed throughout the user session by a number of .js files located under the /public folder as describe below.  The index.page.js is responsible for initiating the app and calls to other .js files as described below.   The primary CRUD operations occur on four different 'closets' as well as 'users' through a series of routers and data models under the /app folder.  Authentication and of users takes place through the use of JSON Web Tokens (JWT), obtained on login as well as a requirement to refresh.  Security of the password is maintained through the use of a hashing algorithm and encryption with bcrypt.
-
-
-
-#####  Front End 
--  [Home](#shopYourCloset)
-
-
-
-1.  All front-end files are located in the /public folder.
-2.  The front end is controlled by the index.page.js.  The function that initiates the application is located here as well as all the event listeners for the app.  
-3.  All other functions are located under the /public/utilities folder and are divided among the following files:
-
-    a.  cache.module.js:  all functions dealing with authentication of the user reside here.
-    
-    b.  http.module.js:  all functions related to accessing the database are located here.
-    
-    c.  render.module.js:  all functions related to bringing the UI to screen are located here.
-    
-    d.  etc.module.js:  Several functions are located here that are integral to the program but do not fall under the other major categories are located here.
-    
-    e.  store.module.js:  A STORE object is located here that maintains a variety of information that is passed to different functions resides here.
-    
-    f.  The primary .html file is index.html
-    
-4.  There are 3 CSS files, all located in the /public/css folder.
-  
-  
-  
-  
-#####  Back End
--  [Home](#shopYourCloset)
-
-
- 
- 1.  All front-end files are located in the /app folder
- 2.  The model and router files for each closet item and user are located in their own folder /app/donationitem, /app/giveawayitem, /app/myitem, /app/idealitem and /app/user.
- 3.  The model and strategies file for local authentication and obtaining a JWT are located in the /app/auth folder.
- 4.  The model and router files 
-    
-
-
-
-
  ###  Tech Stack: Details
  -  [Home](#shopYourCloset)
  
@@ -235,3 +187,64 @@ shopYourCloset app is a single page application (SPA) which includes as its prim
    1.  Git & GitHub:  a development platform that allows storage and revision management
    2.  Heroku:  a cloud platform for deploying apps  
    3.  Travis CI: a host for continuous testing
+   
+
+
+
+###  Code Base Overview
+  -  [Home](#shopYourCloset)
+  
+  
+  
+shopYourCloset app is a single page application (SPA) which includes as its primary static html file, index.html.  The file is dynamically changed throughout the user session by a number of .js files located under the /public folder as describe below.  The index.page.js is responsible for initiating the app and calls to other .js files as described below.   The primary CRUD operations occur on four different 'closets' as well as 'users' through a series of routers and data models under the /app folder.  Authentication and of users takes place through the use of JSON Web Tokens (JWT), obtained on login as well as a requirement to refresh.  Security of the password is maintained through the use of a hashing algorithm and encryption with bcrypt.
+
+
+
+
+
+###  Code Base Details
+ -  [Home](#shopYourCloset)
+
+
+
+
+#####  Front End 
+-  [Home](#shopYourCloset)
+
+
+
+1.  All front-end files are located in the /public folder.
+2.  The front end is controlled by the index.page.js.  The function that initiates the application is located here as well as all the event listeners for the app.  
+3.  All other functions are located under the /public/utilities folder and are divided among the following files:
+
+    a.  cache.module.js:  all functions dealing with authentication of the user reside here.
+    
+    b.  http.module.js:  all functions related to accessing the database are located here.
+    
+    c.  render.module.js:  all functions related to bringing the UI to screen are located here.
+    
+    d.  etc.module.js:  Several functions are located here that are integral to the program but do not fall under the other major categories are located here.
+    
+    e.  store.module.js:  A STORE object is located here that maintains a variety of information that is passed to different functions resides here.
+    
+    f.  The primary .html file is index.html
+    
+4.  There are 3 CSS files, all located in the /public/css folder.
+  
+  
+  
+  
+#####  Back End
+-  [Home](#shopYourCloset)
+
+
+ 
+ 1.  All front-end files are located in the /app folder
+ 2.  The model and router files for each closet item and user are located in their own folder /app/donationitem, /app/giveawayitem, /app/myitem, /app/idealitem and /app/user.
+ 3.  The model and strategies file for local authentication and obtaining a JWT are located in the /app/auth folder.
+ 4.  The model and router files 
+    
+
+
+
+
