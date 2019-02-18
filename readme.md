@@ -10,18 +10,30 @@
  -  [Technologies Used](#technologies-used)
 
 #### Screenshots
-1.  ![Mobile Version Pic 1](/docimages/m1.jpg "Mobile Pic 1")
-2.  ![Mobile Version Pic 2](docimages/m2.jpg "Mobile Pic 2")
-3.  ![Mobile Version Pic 3](docimages/m3.jpg "Mobile Pic 3")
-4.  ![Mobile Version Pic 4](docimages/m4.jpg "Mobile Pic 4")
-5.  ![Mobile Version Pic 5](docimages/m5.jpg "Mobile Pic 5")
-6.  ![Mobile Version Pic 6](docimages/m6.jpg "Mobile Pic 6")
-6. (desktop)   ![Desktop Version Pic 6](docimages/m6-desktop.jpg "Desktop Pic 4")
-7.  ![Mobile Version Pic 7](docimages/m7.jpg "Mobile Pic 7")
-8.  ![Mobile Version Pic 8](docimages/m8.jpg "Mobile Pic 8")
-9.  ![Mobile Version Pic 9](docimages/m9.jpg "Mobile Pic 9")
-9. (desktop)   ![Desktop Version Pic 9](docimages/m9-desktop.jpg "Desktop Pic 9")
-10.  ![Mobile Version Pic 10](docimages/m10.jpg "Mobile Pic 10")
+    Home page
+1.  ![Mobile Version Pic 1](/docimages/m1.png "Mobile Pic 1")
+
+    Registration Page
+2.  ![Mobile Version Pic 2](/docimages/m2.png "Mobile Pic 2")
+
+    Options Page
+3.  ![Mobile Version Pic 3](/docimages/m3.png "Mobile Pic 3")
+
+    Ideal Closet
+4.  ![Mobile Version Pic 4](/docimages/m4.png "Mobile Pic 4")
+
+    My Closet (My Closet)
+5.  ![Mobile Version Pic 5](/docimages/m5.png "Mobile Pic 5")
+
+    My closet:  add new item screen
+6.  ![Mobile Version Pic 6](/docimages/m6.png "Mobile Pic 6")
+
+6. (desktop)   ![Desktop Version Pic 6](/docimages/m6-desktop.png "Desktop Pic 4")
+7.  ![Mobile Version Pic 7](/docimages/m7.png "Mobile Pic 7")
+8.  ![Mobile Version Pic 8](/docimages/m8.png "Mobile Pic 8")
+9.  ![Mobile Version Pic 9](/docimages/m9.png "Mobile Pic 9")
+9. (desktop)   ![Desktop Version Pic 9](/docimages/m9-desktop.png "Desktop Pic 9")
+10.  ![Mobile Version Pic 10](/docimages/m10.png "Mobile Pic 10")
 
 #### Summary
 This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  All persistent data are stored in MongoDB, and users can view or edit data based upon whether they are a normal user or admin.
