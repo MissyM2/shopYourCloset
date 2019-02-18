@@ -6,6 +6,7 @@
 ### Table of Contents
 
  -  [Screenshots](#screenshots)
+ -  [User Stories](#user-stories)
  -  [Summary](#Summary)
  -  [Technologies Used](#technologies-used)
 
@@ -52,10 +53,18 @@
 ![Mobile - logout](/docimages/m10.png "Mobile-Logout")
 
 
+
+
 #### Summary
+
+
 This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  All persistent data are stored in MongoDB, and users can view or edit data based upon whether they are a normal user or admin.
 
-### User Stories (Functional)
+
+
+#### User Stories
+
+
 1.  Regular user may view their entire closet organized by season.
 2.  Regular User may add, edit or delete a particular item in their personal closet.
 3.  Regular User may view items in the ideal closet.
@@ -68,8 +77,35 @@ This app is a allows a user to log the items in their personal closet, compare i
      c.  count of items in each apparel category.
 
 
-### Technology Used
-*  HTML/CSS/JavaScript/jQuery
-*  Node.js/Express
-*  MongoDB/Mongoose
-*  Mocha/Chai/Travis CI 
+
+
+#### Technologies Used
+
+
+*  Front-End Development:
+      HTML
+      CSS
+      JavaScript
+      jQuery
+*  Node.js:  enables use of Javascript on the server side
+   Express:  a framework that allows development of node-based web apps
+   > bcryptjs: 2.4.3
+   > dotenv: 6.2.0
+   > express: 4.16.4
+   > joi: 14.3.1
+   > jsonwebtoken: 8.4.0
+   > mongoose: 5.4.1
+   > morgan: 1.9.1
+   > passport: 0.4.0
+   > passport-http: 0.3.0
+   > passport-jwt: 4.0.0
+   > passport-local: 1.0.0
+   
+*  MongoDB
+   Mongoose
+*  Testing Technologies
+   > chai: 4.2.0
+   > chai-http: 4.2.1
+   > faker: 4.1.0
+   > mocha: 5.2.0
+   > Travis CI 
