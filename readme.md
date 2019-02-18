@@ -115,7 +115,7 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
 
   #####  Code Base
 
-Front End: 
+######  Front End 
 
 1.  All front-end files are located in the /public folder.
 2.  The front end is controlled by the index.page.js.  The function that initiates the application is located here as well as all the event listeners for the app.  
@@ -135,7 +135,8 @@ Front End:
     
 4.  There are 3 CSS files, all located in the /public/css folder.
    
- Back End:
+######  Back End
+ 
  1.  All front-end files are located in the /app folder
  2.  The model and router files for each closet item and user are located in their own folder /app/donationitem, /app/giveawayitem, /app/myitem, /app/idealitem and /app/user.
  3.  The model and strategies file for local authentication and obtaining a JWT are located in the /app/auth folder.
@@ -146,22 +147,23 @@ Front End:
 
 
  #####  Tech Stack: Details
-1.  Front-End Technologies
+ 
+######  Front-End Technologies
 
-   *  HTML: a standard markup language for the creation of web pages
+   1.  HTML: a standard markup language for the creation of web pages
+   2.  CSS: used to describe the presentation of HTML pages
+   3.  JavaScript: an interpreted language that can create and dynamically change web pages
    
-   *  CSS: used to describe the presentation of HTML pages
-   
-   *  JavaScript: an interpreted language that can create and dynamically change web pages
-   
-       +  jQuery: a JS library developed simplify HTML DOM tree traversal and manipulation, event handling, CSS animation, and Ajax
+       *  jQuery: a JS library developed simplify HTML DOM tree traversal and manipulation, event handling, CSS animation, and Ajax
         
-2.  Server Technologies
+######  Server Technologies
 
-   *  Node.js:  enables use of Javascript on the server side
-   > Express:  the webserver - a framework that allows development of node-based web apps
-   > MongoDB:  the database
-     Mongoose
+   1.  Node.js:  enables use of Javascript on the server side
+   2.  Express:  the webserver - a framework that allows development of node-based web apps
+   3.  MongoDB:  the database
+   
+       *  Mongoose
+       
    > bcryptjs: 2.4.3
    > dotenv: 6.2.0
    > express: 4.16.4
@@ -174,13 +176,14 @@ Front End:
    > passport-jwt: 4.0.0
    > passport-local: 1.0.0
    
-*  Testing Technologies
+######  Testing Technologies
    > chai: 4.2.0
    > chai-http: 4.2.1
    > faker: 4.1.0
    > mocha: 5.2.0
    
-*  Development/Deployment
-   >  Git & GitHub:  a development platform that allows storage and revision management
-   >  Heroku:  a cloud platform for deploying apps  
-   >  Travis CI: a host for continuous testing
+######  Development/Deployment
+
+   1.  Git & GitHub:  a development platform that allows storage and revision management
+   2.  Heroku:  a cloud platform for deploying apps  
+   3.  Travis CI: a host for continuous testing
