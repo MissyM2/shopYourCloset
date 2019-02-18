@@ -8,8 +8,10 @@
  -  [Summary](#Summary)
  -  [Screenshots](#screenshots)
  -  [Functions and Features](#functions-and-features)
-
  -  [Technologies Used](#technologies-used)
+       -  [Tech Stack Overview](#tech-stack-overview)
+       -  [Tech Stack Details](#tech-stack-details)
+       -  [Code Base](#code-base)
  
  
  
@@ -18,6 +20,9 @@
  -  [Home](#shopYourCloset)
 
 This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  All persistent data are stored in MongoDB, and users can view or edit data based upon whether they are a normal user or admin.
+
+
+
 
 
 
@@ -38,6 +43,9 @@ This app is a allows a user to log the items in their personal closet, compare i
      b.  count of items in each season
      
      c.  count of items in each apparel category.
+
+
+
 
 
 
@@ -109,11 +117,16 @@ This app is a allows a user to log the items in their personal closet, compare i
  
 
 
-  ###  Tech Stack: Overview
+  ###  Tech Stack Overview
+  
 The backend for this app uses NodeJS with express. Authentication is handled using JWTs with passport. BcryptJS is used to hash passwords. The database is a mongo database. It's hosted on mLab. The client uses HTML, CSS, Javascript and JQuery. The server and client are both hosted on Heroku.
 
 
-  ###  Code Base
+  ###  Code Base Overview
+  
+shopYourCloset app is a single page application (SPA) which includes as its primary static html file, index.html.  The file is dynamically changed throughout the user session by a number of .js files located under the /public folder as describe below.  The index.page.js is responsible for initiating the app and calls to other .js files as described below.   The primary CRUD operations occur on four different 'closets' as well as 'users' through a series of routers and data models under the /app folder.  Authentication and of users takes place through the use of JSON Web Tokens (JWT), obtained on login as well as a requirement to refresh.  Security of the password is maintained through the use of a hashing algorithm and encryption with bcrypt.
+
+
 
 #####  Front End 
 
@@ -134,7 +147,10 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
     f.  The primary .html file is index.html
     
 4.  There are 3 CSS files, all located in the /public/css folder.
-   
+  
+  
+  
+  
 #####  Back End
  
  1.  All front-end files are located in the /app folder
@@ -142,11 +158,13 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
  3.  The model and strategies file for local authentication and obtaining a JWT are located in the /app/auth folder.
  4.  The model and router files 
     
-    
-   All components are located in src/components. Other than logging in and registering, dashboard.js is responsible for dispatching all actions. All actions are located in src/users. auth.js handles logging in and JWTs. users.js handles registration. words.js is where the main functionality of the app is. This is responsible for fetching words and progress and also submitting answers from and to the server. On the backend, index.js is the main file. The rest is divided into directories containing their own index.js file that imports from other files in the directory and simply exports everything in one place. Auth contains the local and jwt strategies as well as a router with login and refresh endpoints. Users contains our user model, which has methods to hash and validate passwords using bcrypt. Registration is handled in the users router. Words just has a router. This is where the get word, get progress, and answer question endpoints are. The answer question endpoint has our spaced repetition algorithm.
+
+
 
 
  ###  Tech Stack: Details
+ 
+ 
  
 #####  Front-End Technologies
 
@@ -155,7 +173,9 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
    3.  JavaScript: an interpreted language that can create and dynamically change web pages
    
        *  jQuery: a JS library developed simplify HTML DOM tree traversal and manipulation, event handling, CSS animation, and Ajax
-        
+  
+  
+  
 #####  Server Technologies
 
    1.  Node.js:  enables use of Javascript on the server side
