@@ -11,8 +11,8 @@
  -  [Technologies Used](#technologies-used)
        -  [Tech Stack Overview](#tech-stack-overview)
        -  [Tech Stack Details](#tech-stack-details)
-       -  [Code Base](#code-base)
-       -  [Code Base Detao;s](#code-base-details)
+       -  [Code Base Overview](#code-base-overview)
+       -  [Code Base Details](#code-base-details)
        
  
  
@@ -114,9 +114,13 @@ This app is a allows a user to log the items in their personal closet, compare i
 
 
 
+
+
 ## Technologies Used
  -  [Home](#shopYourCloset)
  
+
+
 
 
   ###  Tech Stack Overview
@@ -150,22 +154,29 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
 
 
    1.  Node.js:  enables use of Javascript on the server side
+   
+      *  bcryptjs: 2.4.3:  a password hashing function
+      
+      *  dotenv: 6.2.0: loads environment variable form an .env file
+      
+      *  joi: 14.3.1:  validates js objects from data schemes
+      
+      *  jsonwebtoken: 8.4.0:  securely transmis information between server and front-end in json format
+      
+      *  morgan: 1.9.1:  a request logger middleware
+      
+      *  passport: 0.4.0:  an authentication middleware
+      
+          +  passport-http: 0.3.0:  allows the authentication of HTTP requests
+          +  passport-jwt: 4.0.0
+   > passport-local: 1.0.0
    2.  Express:  the webserver - a framework that allows development of node-based web apps
    3.  MongoDB:  the database
    
-       *  Mongoose
+   
+       *  mongoose: 5.4.1:  manages the relationships between data, provides schema validation and translation between objects in code and representation of those objects in MongoDB.
        
-   > bcryptjs: 2.4.3
-   > dotenv: 6.2.0
-   > express: 4.16.4
-   > joi: 14.3.1
-   > jsonwebtoken: 8.4.0
-   > mongoose: 5.4.1
-   > morgan: 1.9.1
-   > passport: 0.4.0
-   > passport-http: 0.3.0
-   > passport-jwt: 4.0.0
-   > passport-local: 1.0.0
+   
    
    
    
@@ -188,6 +199,10 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
    2.  Heroku:  a cloud platform for deploying apps  
    3.  Travis CI: a host for continuous testing
    
+
+
+
+
 
 
 
