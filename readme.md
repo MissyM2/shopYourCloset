@@ -22,10 +22,10 @@
     Ideal Closet
 4.  ![Mobile Version Pic 4](/docimages/m4.png "Mobile Pic 4")
 
-    My Closet (My Closet)
+    My Closet:   add new item screen
 5.  ![Mobile Version Pic 5](/docimages/m5.png "Mobile Pic 5")
 
-    My closet:  add new item screen
+    My closet:
 6.  ![Mobile Version Pic 6](/docimages/m6.png "Mobile Pic 6")
 
 6. (desktop)   ![Desktop Version Pic 6](/docimages/m6-desktop.png "Desktop Pic 4")
