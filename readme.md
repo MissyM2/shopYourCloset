@@ -12,6 +12,8 @@
        -  [Tech Stack Overview](#tech-stack-overview)
        -  [Tech Stack Details](#tech-stack-details)
        -  [Code Base](#code-base)
+       -  [Code Base Detao;s](#code-base-details)
+       
  
  
  
@@ -118,17 +120,24 @@ This app is a allows a user to log the items in their personal closet, compare i
 
 
   ###  Tech Stack Overview
+  -  [Home](#shopYourCloset)
   
 The backend for this app uses NodeJS with express. Authentication is handled using JWTs with passport. BcryptJS is used to hash passwords. The database is a mongo database. It's hosted on mLab. The client uses HTML, CSS, Javascript and JQuery. The server and client are both hosted on Heroku.
 
 
   ###  Code Base Overview
+  -  [Home](#shopYourCloset)
+  
+  
   
 shopYourCloset app is a single page application (SPA) which includes as its primary static html file, index.html.  The file is dynamically changed throughout the user session by a number of .js files located under the /public folder as describe below.  The index.page.js is responsible for initiating the app and calls to other .js files as described below.   The primary CRUD operations occur on four different 'closets' as well as 'users' through a series of routers and data models under the /app folder.  Authentication and of users takes place through the use of JSON Web Tokens (JWT), obtained on login as well as a requirement to refresh.  Security of the password is maintained through the use of a hashing algorithm and encryption with bcrypt.
 
 
 
 #####  Front End 
+-  [Home](#shopYourCloset)
+
+
 
 1.  All front-end files are located in the /public folder.
 2.  The front end is controlled by the index.page.js.  The function that initiates the application is located here as well as all the event listeners for the app.  
@@ -152,6 +161,9 @@ shopYourCloset app is a single page application (SPA) which includes as its prim
   
   
 #####  Back End
+-  [Home](#shopYourCloset)
+
+
  
  1.  All front-end files are located in the /app folder
  2.  The model and router files for each closet item and user are located in their own folder /app/donationitem, /app/giveawayitem, /app/myitem, /app/idealitem and /app/user.
@@ -163,10 +175,14 @@ shopYourCloset app is a single page application (SPA) which includes as its prim
 
 
  ###  Tech Stack: Details
+ -  [Home](#shopYourCloset)
  
  
  
 #####  Front-End Technologies
+-  [Home](#shopYourCloset)
+
+
 
    1.  HTML: a standard markup language for the creation of web pages
    2.  CSS: used to describe the presentation of HTML pages
@@ -177,6 +193,9 @@ shopYourCloset app is a single page application (SPA) which includes as its prim
   
   
 #####  Server Technologies
+-  [Home](#shopYourCloset)
+
+
 
    1.  Node.js:  enables use of Javascript on the server side
    2.  Express:  the webserver - a framework that allows development of node-based web apps
@@ -196,13 +215,22 @@ shopYourCloset app is a single page application (SPA) which includes as its prim
    > passport-jwt: 4.0.0
    > passport-local: 1.0.0
    
+   
+   
 #####  Testing Technologies
+-  [Home](#shopYourCloset)
+
+
    > chai: 4.2.0
    > chai-http: 4.2.1
    > faker: 4.1.0
    > mocha: 5.2.0
    
+   
+   
 #####  Development/Deployment
+
+-  [Home](#shopYourCloset)
 
    1.  Git & GitHub:  a development platform that allows storage and revision management
    2.  Heroku:  a cloud platform for deploying apps  
