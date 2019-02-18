@@ -44,15 +44,19 @@ This app is a allows a user to log the items in their personal closet, compare i
 
 
      Home page
+     
 ![Mobile - login/home page](/docimages/m1.png "Mobile-Login/Home Page")
 
     Registration Page
+    
 ![Mobile - registration page](/docimages/m2.png "Mobile-Registration Page")
 
     Options Page
+    
 ![Mobile - options page](/docimages/m3.png "Mobile-Options Page")
 
     Ideal Closet
+    
 ![Mobile - ideal closet](/docimages/m4.png "Mobile-Ideal Closet")
 
     My Closet:   add new item screen
