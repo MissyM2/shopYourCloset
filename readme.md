@@ -1,6 +1,8 @@
 # shopYourCloset
-*  Demo Link https://missym2.github.io/shopYourCloset/
 *  Live App:  https://serene-dawn-65763.herokuapp.com/
+
+     +  demo user: tester/tester1
+     +  admin demo user:  admin/admin1
 
 
 #### Table of Contents
