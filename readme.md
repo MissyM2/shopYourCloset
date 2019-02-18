@@ -113,22 +113,22 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
   #####  Code Base
 
 Front End:  
-  1.  All front-end files are located in the /public folder.
-  2.  The front end is controlled by the index.page.js.  The function that initiates the application is located here as well as all the event listeners for the app.  
-  3.  All other functions are located under the /public/utilities folder and are divided among the following files:
-     a.  cache.module.js:  all functions dealing with authentication of the user reside here.
-     b.  http.module.js:  all functions related to accessing the database are located here.
-     c.  render.module.js:  all functions related to bringing the UI to screen are located here.
-     d.  etc.module.js:  Several functions are located here that are integral to the program but do not fall under the other major categories are located here.
-     e.  store.module.js:  A STORE object is located here that maintains a variety of information that is passed to different functions resides here.
-     f.  The primary .html file is index.html
-   4.  There are 3 CSS files, all located in the /public/css folder.
+..1.  All front-end files are located in the /public folder.
+..2.  The front end is controlled by the index.page.js.  The function that initiates the application is located here as well as all the event listeners for the app.  
+..3.  All other functions are located under the /public/utilities folder and are divided among the following files:
+.....a.  cache.module.js:  all functions dealing with authentication of the user reside here.
+.....b.  http.module.js:  all functions related to accessing the database are located here.
+.....c.  render.module.js:  all functions related to bringing the UI to screen are located here.
+.....d.  etc.module.js:  Several functions are located here that are integral to the program but do not fall under the other major categories are located here.
+.....e.  store.module.js:  A STORE object is located here that maintains a variety of information that is passed to different functions resides here.
+.....f.  The primary .html file is index.html
+..4.  There are 3 CSS files, all located in the /public/css folder.
    
  Back End:
-    1.  All front-end files are located in the /app folder
-    2.  The model and router files for each closet item and user are located in their own folder /app/donationitem, /app/giveawayitem, /app/myitem, /app/idealitem and /app/user.
-    3.  The model and strategies file for local authentication and obtaining a JWT are located in the /app/auth folder.
-    3.  The model and router files 
+ ..1.  All front-end files are located in the /app folder
+ ..2.  The model and router files for each closet item and user are located in their own folder /app/donationitem, /app/giveawayitem, /app/myitem, /app/idealitem and /app/user.
+ ..3.  The model and strategies file for local authentication and obtaining a JWT are located in the /app/auth folder.
+ ..4.  The model and router files 
     
     
    All components are located in src/components. Other than logging in and registering, dashboard.js is responsible for dispatching all actions. All actions are located in src/users. auth.js handles logging in and JWTs. users.js handles registration. words.js is where the main functionality of the app is. This is responsible for fetching words and progress and also submitting answers from and to the server. On the backend, index.js is the main file. The rest is divided into directories containing their own index.js file that imports from other files in the directory and simply exports everything in one place. Auth contains the local and jwt strategies as well as a router with login and refresh endpoints. Users contains our user model, which has methods to hash and validate passwords using bcrypt. Registration is handled in the users router. Words just has a router. This is where the get word, get progress, and answer question endpoints are. The answer question endpoint has our spaced repetition algorithm.
