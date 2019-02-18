@@ -19,37 +19,38 @@
 ![Mobile Version Pic 2](/docimages/m2.png "Mobile-Registration Page")
 
     Options Page
-    ![Mobile Version Pic 3](/docimages/m3.png "Mobile-Options Page")
+![Mobile Version Pic 3](/docimages/m3.png "Mobile-Options Page")
 
     Ideal Closet
-    ![Mobile Version Pic 4](/docimages/m4.png "Mobile-Ideal Closet)
+![Mobile Version Pic 4](/docimages/m4.png "Mobile-Ideal Closet)
 
     My Closet:   add new item screen
-    ![Mobile - my closet (add new item)](/docimages/m5.png "Mobile-My Closet: add an item")
+![Mobile - my closet (add new item)](/docimages/m5.png "Mobile-My Closet: add an item")
 
     My closet: viewing items (by season)
-    ![Mobile - my closet (viewing items)](/docimages/m6.png "Mobile-My Closet")
+![Mobile - my closet (viewing items)](/docimages/m6.png "Mobile-My Closet")
 
     My closet: editing an existing item
-    ![Mobile - my closet](/docimages/m11.png "Mobile-My Closet: edit an item")
+![Mobile - my closet](/docimages/m11.png "Mobile-My Closet: edit an item")
 
     My closet: viewing My Closetitems on the desktop
-    ![Desktop - my closet](/docimages/m6-desktop.png "Desktop-My Closet")
+![Desktop - my closet](/docimages/m6-desktop.png "Desktop-My Closet")
 
     Donation closet
-    ![Mobile - donation closet](/docimages/m7.png "Mobile-Donation Closet")
+![Mobile - donation closet](/docimages/m7.png "Mobile-Donation Closet")
 
     Giveaway closet
-    ![Mobile Version Pic 8](/docimages/m8.png "Mobile-Giveaway Closet")
+![Mobile Version Pic 8](/docimages/m8.png "Mobile-Giveaway Closet")
 
     Analyze It
-    ![Mobile - analysis of my closet](/docimages/m9.png "Mobile-Analyze It")
+![Mobile - analysis of my closet](/docimages/m9.png "Mobile-Analyze It")
 
     Analyze It: desktop version
-    ![Desktop - analysis of my closet](/docimages/m9-desktop.png "Desktop-Analyze It")
+![Desktop - analysis of my closet](/docimages/m9-desktop.png "Desktop-Analyze It")
 
     Logout
-    ![Mobile - logout](/docimages/m10.png "Mobile-Logout")
+![Mobile - logout](/docimages/m10.png "Mobile-Logout")
+
 
 #### Summary
 This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  All persistent data are stored in MongoDB, and users can view or edit data based upon whether they are a normal user or admin.
