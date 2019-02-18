@@ -67,6 +67,7 @@ This app is a allows a user to log the items in their personal closet, compare i
      b.  count of items in each season
      c.  count of items in each apparel category.
 
+
 ### Technology Used
 *  HTML/CSS/JavaScript/jQuery
 *  Node.js/Express
