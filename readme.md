@@ -11,29 +11,43 @@
 
 #### Screenshots
     Home page
-1.  ![Mobile Version Pic 1](/docimages/m1.png "Mobile Pic 1")
+1.  ![Mobile Version Pic 1](/docimages/m1.png "Mobile-Login/Home Page")
 
     Registration Page
-2.  ![Mobile Version Pic 2](/docimages/m2.png "Mobile Pic 2")
+2.  ![Mobile Version Pic 2](/docimages/m2.png "Mobile-Registration Page")
 
     Options Page
-3.  ![Mobile Version Pic 3](/docimages/m3.png "Mobile Pic 3")
+3.  ![Mobile Version Pic 3](/docimages/m3.png "Mobile-Options Page")
 
     Ideal Closet
-4.  ![Mobile Version Pic 4](/docimages/m4.png "Mobile Pic 4")
+4.  ![Mobile Version Pic 4](/docimages/m4.png "Mobile-Ideal Closet)
 
     My Closet:   add new item screen
-5.  ![Mobile Version Pic 5](/docimages/m5.png "Mobile Pic 5")
+5.  ![Mobile - my closet (add new item)](/docimages/m5.png "Mobile-My Closet: add an item")
 
-    My closet:
-6.  ![Mobile Version Pic 6](/docimages/m6.png "Mobile Pic 6")
+    My closet: viewing items (by season)
+6.  ![Mobile - my closet (viewing items)](/docimages/m6.png "Mobile-My Closet")
 
-6. (desktop)   ![Desktop Version Pic 6](/docimages/m6-desktop.png "Desktop Pic 4")
-7.  ![Mobile Version Pic 7](/docimages/m7.png "Mobile Pic 7")
-8.  ![Mobile Version Pic 8](/docimages/m8.png "Mobile Pic 8")
-9.  ![Mobile Version Pic 9](/docimages/m9.png "Mobile Pic 9")
-9. (desktop)   ![Desktop Version Pic 9](/docimages/m9-desktop.png "Desktop Pic 9")
-10.  ![Mobile Version Pic 10](/docimages/m10.png "Mobile Pic 10")
+    My closet: editing an existing item
+7.  ![Mobile - my closet](/docimages/m11.png "Mobile-My Closet: edit an item")
+
+    My closet: viewing My Closetitems on the desktop
+8.  ![Desktop - my closet](/docimages/m6-desktop.png "Desktop-My Closet")
+
+    Donation closet
+9.  ![Mobile - donation closet](/docimages/m7.png "Mobile-Donation Closet")
+
+    Giveaway closet
+10.  ![Mobile Version Pic 8](/docimages/m8.png "Mobile-Giveaway Closet")
+
+    Analyze It
+11.  ![Mobile - analysis of my closet](/docimages/m9.png "Mobile-Analyze It")
+
+    Analyze It: desktop version
+12. ![Desktop - analysis of my closet](/docimages/m9-desktop.png "Desktop-Analyze It")
+
+    Logout
+13.  ![Mobile - logout](/docimages/m10.png "Mobile-Logout")
 
 #### Summary
 This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  All persistent data are stored in MongoDB, and users can view or edit data based upon whether they are a normal user or admin.
