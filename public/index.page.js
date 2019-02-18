@@ -39,25 +39,22 @@ function onRegisterNewUserClick() {
         const newUsername = $('#new-username').val();
         const newPassword = $("#new-password").val();
         const newPasswordConfirm = $("#confirm-password").val();
-        
-        if (newName === '' || newEmail === '' || newUsername === '' || newPassword === '') {
-            // add current error
-            $('#btn-register').before('<p class="error-msg" id="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i> One of your entries is blank.</p>');
-        } else if (newPassword != newPasswordConfirm) {
-            // add current error
-            $('#btn-register').before('<p class="error-msg" id="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i> Password and Confirmation Password are not the same</p>');
-
-        } else {
-            const userData = {
-                name: newName,
-                email: newEmail,
-                username: newUsername,
-                password: newPassword
-            };
-            HTTP.fetchForCreateNewUser(userData);
-        };
+        let isValid = ETC.validateForm();
+        if (isValid) {
+                const userData = {
+                    name: newName,
+                    email: newEmail,
+                    username: newUsername,
+                    password: newPassword
+                };
+                HTTP.fetchForCreateNewUser(userData);
+            } else {
+                console.log('There is an unidentified issue with the registration.');
+            }
     });
 }
+
+
 
 function onSigninClick() {
     $(document).on('click', '#signin-btn', function(event) {

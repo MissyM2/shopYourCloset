@@ -1,5 +1,6 @@
 window.ETC_MODULE = {
-    organizeData
+    organizeData,
+    validateForm
 };
 
 function organizeData(data) {
@@ -157,4 +158,51 @@ function getApparelTypeCount(appareltype, items) {
         }
     }
 
+}
+
+
+function validateForm() {
+    var checkName = document.forms['form-reg-login']['new-name'];
+    var checkEmail = document.forms['form-reg-login']['new-email'];
+    var checkUsername = document.forms['form-reg-login']['new-username'];
+    var checkPass = document.forms['form-reg-login']['new-password'];
+    var checkConfirm = document.forms['form-reg-login']['confirm-password']
+
+    // clear out all previous error messages
+    $('#error-new-name').html('');
+    $('#error-new-email').html('');
+    $('#error-new-username').html('');
+    $('#error-new-pass').html('');
+    $('#error-confirmpass').html('');
+
+
+    console.log('made it to validateForm');
+    let re = /[0-9]/;
+    console.log(re);
+    if (checkName.value === "") {
+        $('#error-new-name').html(`<i class="fas fa-exclamation"></i>username cannot be blank.`)
+        checkName.focus();
+        return false;
+
+    } else if (checkEmail.value === "") {
+        $('#error-new-email').html(`<i class="fas fa-exclamation"></i>email cannot be blank.`)
+        checkEmail.focus();
+        return false;
+    } else if (checkUsername.value === "" || checkUsername.value.length < 5) {
+        $('#error-new-username').html(`<i class="fas fa-exclamation"></i>username cannot be blank and must be at least 5 characters.`)
+        checkUsername.focus();
+        return false;
+   // } else if (checkPass.value == "" || checkPass.value.length < 5 || !re.test(checkPass)) {
+    } else if (checkPass.value === "" || checkPass.value.length < 5) {
+        $('#error-new-pass').html(`<i class="fas fa-exclamation"></i>password required with at least 5 characters and 1 number`);
+        checkPass.focus();
+        return false;
+    } else if (checkConfirm.value === "" || checkConfirm.value !== checkPass.value) {
+        $('#error-confirmpass').html(`<i class="fas fa-exclamation"></i>confirmation password must match password.`)
+        checkConfirm.focus();
+        return false;
+    } else {
+        alert("You entered a valid password: ");
+        return true;
+    }
 }

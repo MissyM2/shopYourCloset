@@ -29,43 +29,46 @@ window.RENDER_MODULE = {
 function renderRegistrationForm() {
     $('.reg-login').html(`
         <div class="reg-container">
-                <form class="form-reg-login">
+                <form name="form-reg-login" action="/action_page.php" method="post">
                     <div id="div-reg">
-                        <h3>Register</h3>
+                        <div id="reg-title"><p>Register</p></div>
+                        <div class="user-instruction">
+                            <div id="instruction-icon"><i class="fas fa-atom instruction"></i></div>
+                            <div id="instruction-verbage"><p>We need to keep track of all the inputs below.  The username and password must be a minimum of 5 characters and 1 number</p></div>
+                        </div>
                         <div class="reg-item">
-                            <p>name</p>
+                            <p>name</p><span class="error-msg" id="error-new-name"></span>
                             <div class="reg-input-container">
-                                <input type="text" class="reg-input" name="new-name" id="new-name" class="js-new-name" placeholder="First Last" required>
+                                <input type="text" class="reg-input" name="new-name" id="new-name" class="js-new-name" tabindex="1" placeholder="First Last" required>
                             </div>
                         </div> 
                         <div class="reg-item">
-                            <p>email</p>
+                            <p>email</p><span class="error-msg" id="error-new-email"></span>
                             <div class="reg-input-container">
-                                <input type="text" class="reg-input" name="new-email" id="new-email" class="js-new-email" placeholder="myname@gmail.com" required>
+                                <input type="email" class="reg-input" name="new-email" id="new-email" class="js-new-email" tabindex="2" placeholder="enter a valid email address" required>
                             </div>
                         </div> 
                         <div class="reg-item">
-                            <p>username</p>
+                            <p>username</p><span class="error-msg" id="error-new-username"></span>
                             <div class="reg-input-container">
-                                <input type="text" class="reg-input" name="new-username" id="new-username" class="js-new-username" placeholder="chuckles" required>
+                                <input type="text" class="reg-input" name="new-username" id="new-username" class="js-new-username" tabindex="3" placeholder="tester1" required>
                             </div>
                         </div>                      
                         <div class="reg-item">
-                            <p>password:</p>
+                            <p>password:</p><span class="error-msg" id="error-new-pass"></span>
                             <div class="input-container">
-                                <input type="password" class="reg-input" name="new-password" id="new-password" class="js-new-password" value="password" required>
+                                <input type="password" class="reg-input" name="new-password" id="new-password" class="js-new-password" tabindex="4" value="password" required>
                                 <i class="far fa-eye-slash password-icon"></i>
                             </div>
                         </div>
                         <div class="reg-item">
-                            <p>retype password:</p>
+                            <p>retype password:</p><span class="error-msg" id="error-confirm-pass"></span>
                             <div class="input-container">
-                                <input type="password" class="reg-input" name="confirm-password" id="confirm-password" class="js-confirm-password" value="password" required>
-                                <i class="far fa-eye-slash password-confirm-icon"></i>
-                            </div>
+                                <input type="password" class="reg-input" name="confirm-password" id="confirm-password" class="js-confirm-password" tabindex="5" value="password" required>
+                                <i class="far fa-eye-slash password-confirm-icon"></i></div>
                         </div>
                         <div id="btn-sign-me-up" class="reg-editbuttons">
-                            <button type="button" class="btn-register action-btns small-btn" id="btn-register" value="Sign me up!">Sign me up!</button>
+                            <button type="submit" class="btn-register action-btns med-btn" id="btn-register" value="submit!">Register me!</button>
                         </div>
                         
                     </div>
@@ -98,7 +101,7 @@ function renderLoginForm() {
                                     <div class="login-item">
                                         <div class="input-container">
                                             <i class="fas fa-key user-icon"></i>
-                                            <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" autocomplete="off"required>
+                                            <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" autocomplete="off" required>
                                             <i class="far fa-eye-slash password-icon"></i>
                                         </div>
                                     </div>
@@ -116,7 +119,9 @@ function renderLoginForm() {
                                     </div>
                                 </div>
                                 <div class="demo-item">
-                                    <p class="demo"><p>For demo:  </p><p>username: cathm94 </p><p>password: cathm94</p>
+                                    <div id="demo-existing-user"><p>Demo User:  tester1/tester1</p></div>
+                                    <div id="demo-admin"><p>Demo Admin:  admin/admin1</p></div>
+ 
                             </div>
                         </form>
                     </div> 
@@ -351,7 +356,7 @@ function renderClosetHeader(closetItems) {
         editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add"><i class="fas fa-plus"></i></div>`;
     }
     //  itemcount:  Itemcount is only needed on closet pages.  It is not needed on 'analyze' page.
-    itemCountHtml = `<div class="item" id="cl-itemcount">There are ${STORE.closetLength[STORE.selCloset]} items in this closet.</div>`;
+    itemCountHtml = `<div id="cl-itemcount">There are ${STORE.closetLength[STORE.selCloset]} items in this closet.</div>`;
 
     // the custom header is rendered here
     $('.closet-header').html(`
@@ -451,7 +456,7 @@ function renderClosetItemActionBtns(bodyHtml, data) {
                         </div>`;
         } else if (STORE.selCloset === 'donation') {
             bodyHtml += `<div class="item-edit-btns">
-                            <button class="action-btns small-btn" id="cl-return-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">return to your closet</button>
+                            <button class="action-btns med-btn" id="cl-return-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">return to your closet</button>
                         </div>`;
         }
 
@@ -946,6 +951,7 @@ function renderErrorMessage() {
 }
 
 function renderSignUpError(errMessage) {
+    /*
     //reset previous errors
     $('.error-msg').remove();
     if (errLocation === 'username'){
@@ -955,6 +961,6 @@ function renderSignUpError(errMessage) {
         $('.confirm-password').val('').addClass('error-field').attr('aria-invalid', false);
     };
     $('#btn-register').before(`<p class="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i>${errMessage}</p>`);
-    
+    */
 }
 

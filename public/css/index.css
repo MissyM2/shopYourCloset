@@ -38,7 +38,6 @@ h1, h2 {
     font-family: 'The Girl Next Door', cursive;
     text-align: center;
     color: #221505;
-    padding-bottom: 15px;
 }
 
 h1 {
@@ -78,6 +77,11 @@ p {
     padding: 3px 0;
 }
 
+label {
+    display:block;
+    margin:6px;
+}
+
 input, textarea {
     display:block;
     border: 1px solid #E0D5C9;
@@ -85,7 +89,12 @@ input, textarea {
     margin:0 auto;
     border-radius:3px;
 }
-
+/*
+input:focus {
+    border:2px solid green;
+}
+*/
+/* button styles */
 button {
     text-align: center;
     cursor:pointer;
@@ -94,13 +103,37 @@ button {
     margin:2px;
     padding:2px;
     border-radius:3px;
-    display:inline-block;
-    
+    display:inline-block; 
 }
 
 button:hover {
     background-color: #874C62;
 }
+
+.small-btn {
+    width:60px;
+}
+
+.med-btn {
+    width:100px;
+}
+
+.action-btns:hover {
+    background-color: #DEB5AB;
+}
+    
+
+/*  ***** section styles:  there are four sections:  nav, login, options, closet */
+
+.section-options,
+.section-login,
+.section-closet {
+    /*max-width:500px;*/
+    margin:0 auto;
+}
+
+
+/*  *****  container styles: each section has at least one container within it */
 
 .header-container {
     display:block;
@@ -108,8 +141,8 @@ button:hover {
 
 .options-container, 
 .reg-container, 
-.login-container, 
-.closet-container {
+.login-container,
+.closet-container{
     text-align:center;
     padding-top:45px;
     margin-left:5px;
@@ -117,27 +150,21 @@ button:hover {
     /*border:1px solid green;*/
 }
 
+/**  registration and login styles */
 
-.season-container{
-    /*border:1px solid green;*/
-    margin-bottom: 10px;
+.reg-container ,
+.closet-container {
+    padding-top:20px;
 }
 
+#reg-title {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
 
 .radiogroup {
     display:inline-block;
     text-align:center;
-}
-
-label {
-    display:block;
-    margin:6px;
-}
-.section-options,
-.section-login,
-.section-closet {
-    /*max-width:500px;*/
-    margin:0 auto;
 }
 
 .nav-loggedin, 
@@ -149,51 +176,6 @@ label {
     padding-top:5px;
     text-align:center;
 
-}
-
-.options-btns {
-    text-align:center;
-    /*border: 1px solid purple;*/
-    padding-top: 10px;
-    padding-bottom: 5px;
-    display:inline-block;
-    padding: 10px 15px 10px 15px;
-}
-
-.options-btns-container {
-    margin-bottom: 25px;
-}
-
-.options-btns-min {
-    display:inline-block;
-    font-size: .8em;
-    padding: 5px;
-    text-align:center;
-}
-
-.options-btns-min:hover {
-    background-color: #EBEBEB;
-    cursor:pointer
-}
-
-#ideal-closet-btn-min,
-#my-closet-btn-min, 
-#giveaway-closet-btn-min,
-#donation-closet-btn-min {
-    border-right: 1px solid #EBEBEB;
-    padding-left:5px;
-    padding-right:5px;
-}
-
-#header-logout, #header-loginagain {
-    padding-left: 22px;
-    border-left:1px solid #EBEBEB;
-    display: inline-block;
-}
-
-#header-logout:hover, #header-loginagain:hover {
-    background-color: #DEB5AB;
-    cursor:pointer;
 }
 
 #login-field-container {
@@ -210,174 +192,26 @@ label {
     font-weight: 800;
 }
 
-
-
-
-.select-season-icon {
-    height: 40px;
-}
-
-
-
-.title-verbage {
-    text-align: center;
-}
-
-.header-items {
-    display:inline-block;
-}
-#header-title {
-    /*border:1px solid green;*/
-    max-height: 75px;
-    padding:10px 20px 10px 20px;
-}
-#header-title:hover {
-    /*border:1px solid green;*/
-    cursor:pointer;
-    background-color:#C9E3DF;
-    border-radius: 3px;
-}
-
-#logo-img {
-    /*border:1px solid red;*/
-    display:inline-block;
-}
-
-#hanger-img {
-    height:60px;
-}
-
-#logo-verbage {
-    font-family: 'The Girl Next Door', cursive;
-    font-size: 20px;
-    /*border:1px solid red;*/
-    display:inline-block;
-    vertical-align: top;
-    margin-top:20px;
-    padding-left:3px;
-    color:white;
-}
-
-#header-logout {
-    float:right;
-    /*border:1px solid green;*/
-}
-
-#header-greeting {
-    float:left;
-    /*border:1px solid green;*/
-}
-
-.item-body {
-    text-align:left;
-    padding:2px;
-    width: 85%;
-    display:inline-block
-}
-/*
-.action-btns {
-    text-align: center;
-    cursor:pointer;
-    border: 1px solid #C98474;
-    margin:2px;
-    padding:2px;
-    border-radius:3px;
-    display:inline-block;
-}
-*/
-.small-btn {
-    width:60px;
-}
-
-.med-btn {
-    width:100px;
-}
-
-.action-btns:hover {
-    background-color: #DEB5AB;
-}
-    
-
-
-.additem-edit-btns {
-    text-align:right;
-}
-
-#additem-save-btn,
-#additem-cancel-btn {
-    display:inline-block;
-}
-.cl-resultbody {
-    display:inline-block;
-    width:100%;
-}
-
-.cl-savebtn, .cl-cancelbtn {
-    display:inline-block;
-}
-
-
 .reg-login {
     padding-bottom: 20px;
 }
 
-.season-header,
-.analysis-subhead {
-    padding: 10px 5px 10px 0;
-    margin-bottom: 8px;
-    margin-top: 8px;
-    font-weight:bold;
-    background-color: #DEB5AB;
-    font-size:14px;
-    border-radius: 3px;
-    font-family: 'The Girl Next Door', cursive;
-}
-
-.cl-items-label {
-    border-bottom: 1px solid #874C62;
-    background-color: #ECECEB;
-    font-weight: bold;
-}
-
-.cl-shortdesc {
-    padding: 3px 0 3px 0;
-    font-weight: bold;
-}
-
-.cl-items-short {
-    text-align:center;
-}
-.cl-items-sh {
-    text-align:center;
-    border: 1px solid #874C62;
-    width:32%;
-}
-.cl-items {
-    display:inline-block;
-
-}
-
-#cl-shortdesc, #cl-longdesc{
-    display:block;
-}
-.cl-season {
-    display:none;
-}
-
-#cl-appareltype, #cl-color, #cl-size, #cl-shortdesc, #cl-longdesc {
-    font-size: .9em;
-}
-
-.item {
-    display:inline-block;
-}
-
-.item#closet-title {
-    display:block;
+.demo-item {
+    font-size: .8rem;
 }
 
 
+/**   *****  navigation menu and option page styles:   */
+
+.reg-item > p {
+    font-size: 1.1rem;
+}
 .reg-item, .login-item {
+    text-align:left;
+}
+
+.reglabel {
+    width: 200px;
     text-align:left;
 }
 
@@ -434,31 +268,63 @@ label {
 
 }
 
-.form-elements {
-	/*border: 1px solid green;*/
-	margin:0 auto;
-	padding: 5px;
-	max-width: 100%;
-	display:flex; 
-	flex-direction: row; 
-	align-items: center;
+.options-btns {
+    text-align:center;
+    /*border: 1px solid purple;*/
+    padding-top: 10px;
+    padding-bottom: 5px;
+    display:inline-block;
+    padding: 10px 15px 10px 15px;
 }
 
-.error-msg {
-    color: #EC130E;
-    margin-bottom: 15px;
-    padding:7px 0 7px 0;
-    height:2.2em;
+.options-btns-container {
+    margin-bottom: 25px;
+}
+
+.options-btns-min {
+    display:inline-block;
     font-size: .8em;
+    padding: 5px;
+    text-align:center;
 }
 
-.user-msg {
-    color: red;
-    font-size: 14px;
-}
-
-.error-field {
+.options-btns-min:hover {
     background-color: #EBEBEB;
+    cursor:pointer
+}
+
+#ideal-closet-btn-min,
+#my-closet-btn-min, 
+#giveaway-closet-btn-min,
+#donation-closet-btn-min {
+    border-right: 1px solid #EBEBEB;
+    padding-left:5px;
+    padding-right:5px;
+}
+
+#header-logout, #header-loginagain {
+    padding-left: 22px;
+    border-left:1px solid #EBEBEB;
+    display: inline-block;
+}
+
+#header-logout {
+    float:right;
+    /*border:1px solid green;*/
+}
+
+#header-greeting {
+    float:left;
+    /*border:1px solid green;*/
+}
+
+#header-logout:hover, #header-loginagain:hover {
+    background-color: #DEB5AB;
+    cursor:pointer;
+}
+
+.select-season-icon {
+    height: 40px;
 }
 
 .fa-door-open, .fa-tshirt, .fa-atom {
@@ -482,51 +348,126 @@ label {
     border: 1px solid #F2D387;  
 }
 
-.fa-thumbs-up {
-    margin-bottom: .5rem;
-	padding: .6rem;
-	font-size: 1.2rem;
-    border-radius: 50%;
-    color: red;
-    border: 1px solid red;
+/*  *****  header and logo styles */
 
+.title-verbage {
+    text-align: center;
 }
 
-.fa-atom {
-    color: #A8D2CB;
-    border: 1px solid #A8D2CB;
+.header-items {
+    display:inline-block;
+}
+#header-title {
+    /*border:1px solid green;*/
+    max-height: 75px;
+    padding:10px 20px 10px 20px;
 }
 
-.fa-trash-alt, .fa-edit, .fa-save, .fa-undo {
-	margin: 1px;
-	padding: 5px;
-	font-size: 24px;
-    border-radius: 50%;
-    border: 1px solid #874D62;
-    color: #874D62;
+#header-title:hover {
+    /*border:1px solid green;*/
+    cursor:pointer;
+    background-color:#C9E3DF;
+    border-radius: 3px;
+}
+
+#logo-img {
+    /*border:1px solid red;*/
+    display:inline-block;
+}
+
+#hanger-img {
+    height:60px;
+}
+
+#logo-verbage {
+    font-family: 'The Girl Next Door', cursive;
+    font-size: 20px;
+    /*border:1px solid red;*/
+    display:inline-block;
+    vertical-align: top;
+    margin-top:20px;
+    padding-left:3px;
+    color:white;
+}
+
+.item-body {
+    text-align:left;
+    padding:2px;
+    width: 85%;
+    display:inline-block
 }
 
 
-.fa-plus {
-    margin-bottom: .5rem;
-	padding: 1rem;
-    font-size: 25px;
-    border: 1px solid #874D62;
-    border-radius: 50%;
-    color: #874D62;
+/**  *****   CLOSET STYLES:  closets are the elements that change with the data. */
+
+.season-container{
+    /*border:1px solid green;*/
+    margin-bottom: 10px;
 }
 
+.season-header,
+.analysis-subhead {
+    padding: 10px 5px 10px 0;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    font-weight:bold;
+    background-color: #DEB5AB;
+    font-size:14px;
+    border-radius: 3px;
+    font-family: 'The Girl Next Door', cursive;
+    text-align:center;
+}
+/* need new name */
+.cl-itemcount,
+.analysis-header {
+    text-align:center;
+}
 
+.cl-items-label {
+    border-bottom: 1px solid #874C62;
+    background-color: #ECECEB;
+    font-weight: bold;
+}
 
+.cl-shortdesc {
+    padding: 3px 0 3px 0;
+    font-weight: bold;
+}
 
-/***  closet styles ***/
+.cl-items-short {
+    text-align:center;
+}
+.cl-items-sh {
+    text-align:center;
+    border: 1px solid #874C62;
+    width:32%;
+}
+.cl-items {
+    display:inline-block;
+}
 
+#cl-shortdesc, #cl-longdesc{
+    display:block;
+}
+.cl-season {
+    display:none;
+}
 
+#cl-appareltype, #cl-color, #cl-size, #cl-shortdesc, #cl-longdesc {
+    font-size: .9em;
+}
+
+.item {
+    display:inline-block;
+}
+
+.item#closet-title {
+    display:block;
+}
 
 .cl-header {
     text-align:center;
 }
-
 
 .closet-item {
     text-align:center;
@@ -550,21 +491,13 @@ label {
     margin: 5px 0 0 0;
 }
 
-
 .fa-asterisk {
     color:red;
     font-size: .4em;
     padding-right:2px;
 }
-/*
-.itemlabel {
-    width: 80px;
-}
-*/
-.reglabel {
-    width: 200px;
-    text-align:left;
-}
+
+
 
 .updatefields {
     width: 100%;
@@ -580,24 +513,46 @@ label {
 #cl-add-btn {
     text-align:right;
 }
-/*
-.closet-body {
-    text-align:left;
 
-border: solid 1px #ff0000;
-    text-align: center;
-    margin: 0px auto;
-    width: 40%;
+
+/* *****  edit forms styles:  There are 2 specialized update forms in the closets, Add New (item to closet) and Update (item in closet) */
+
+.additem-edit-btns {
+    text-align:right;
 }
-*/
+
+#additem-save-btn,
+#additem-cancel-btn {
+    display:inline-block;
+}
+.cl-resultbody {
+    display:inline-block;
+    width:100%;
+}
+
+.cl-savebtn, .cl-cancelbtn {
+    display:inline-block;
+}
+
+
+.form-elements {
+	/*border: 1px solid green;*/
+	margin:0 auto;
+	padding: 5px;
+	max-width: 100%;
+	display:flex; 
+	flex-direction: row; 
+	align-items: center;
+}
+
+
+
+/* *****  ANALYSIS SCREEN STYLES */
 .instruction-list {
     margin: 10px 5px 0 55px;
 }
 
-.info-msg {
-    padding:15px 7px;
 
-}
 .analysis-body {
     /*border: 1px solid red;*/
     padding:8px;
@@ -639,12 +594,111 @@ border: solid 1px #ff0000;
     font-weight:bold;
 }
 
+/** **** USER COMMUNICATION STYLES:  error messages and user instructions */
+
+.user-instruction {
+    font-size: 1rem;
+    text-align:center;
+    width:350px;
+    border: 1px solid #F2D338;
+    border-radius: 3px;
+    padding: 6px 3px 0;
+    margin-bottom: 5px;
+}
+
+.user-instruction > div {
+    display:inline-block;
+    margin:0 auto;
+}
+
+#instruction-icon {
+    width:20%;
+    vertical-align:center;
+    font-size:.7rem;
+    transform: translateY(-15%);
+    
+
+}
+
+#instruction-verbage {
+    width: 75%;
+    text-align:left;
+    font-size: .7rem;
+    padding:.8rem;
+}
+
+.error-msg {
+    color: #EC130E;
+    margin-bottom: 15px;
+    padding:7px 0 7px 0;
+    height:2.2em;
+    font-size: .8em;
+}
+
+.info-msg {
+    padding:15px 7px;
+
+}
+
+.user-msg {
+    color: red;
+    font-size: 14px;
+}
+
+.error-field {
+    background-color: #EBEBEB;
+}
+
+.fa-exclamation {
+    margin-bottom: .5rem;
+	font-size: .8rem;
+    color: red;
+    margin-right: 5px;
+
+}
+
+.fa-thumbs-up {
+    margin-bottom: .5rem;
+	padding: .6rem;
+	font-size: 1.2rem;
+    border-radius: 50%;
+    color: red;
+    border: 1px solid red;
+
+}
+
+.fa-atom {
+    color: #A8D2CB;
+    border: 1px solid #A8D2CB;
+}
+
+
+.fa-trash-alt, .fa-edit, .fa-save, .fa-undo {
+	margin: 1px;
+	padding: 5px;
+	font-size: 24px;
+    border-radius: 50%;
+    border: 1px solid #874D62;
+    color: #874D62;
+}
+
+
+.fa-plus {
+    margin-bottom: .5rem;
+	padding: 1rem;
+    font-size: 25px;
+    border: 1px solid #874D62;
+    border-radius: 50%;
+    color: #874D62;
+}
 
 
 
 /*The third set is a media query for desktop and forward, min-width: 991 px*/
 /** DESKTOP & FORWARD **/
 @media only screen and (min-width: 600px) {
+
+    /*  **** styles for sections that change for desktop */
 
     .section-closet {
         max-width:900px;
