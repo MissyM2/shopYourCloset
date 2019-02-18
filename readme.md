@@ -10,8 +10,8 @@
  -  [Technologies Used](#technologies-used)
 
 #### Screenshots
-1.  ![Mobile Version Pic 1](/docimages/m1.jpg "Mobile Pic 1")
-2.  ![Mobile Version Pic 2](docimages/m2.jpg "Mobile Pic 2")
+1.  ![Mobile Version Pic 1](docimages/m1.png "Mobile Pic 1")
+2.  ![Mobile Version Pic 2](/docimages/m2.png "Mobile Pic 2")
 3.  ![Mobile Version Pic 3](docimages/m3.jpg "Mobile Pic 3")
 4.  ![Mobile Version Pic 4](docimages/m4.jpg "Mobile Pic 4")
 5.  ![Mobile Version Pic 5](docimages/m5.jpg "Mobile Pic 5")
