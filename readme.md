@@ -12,6 +12,7 @@
 #### Screenshots
     Home page
 1.  ![Mobile Version Pic 1](/docimages/m1.png "Mobile Pic 1")
+    Registration Page
 2.  ![Mobile Version Pic 2](/docimages/m2.png "Mobile Pic 2")
 3.  ![Mobile Version Pic 3](/docimages/m3.png "Mobile Pic 3")
 4.  ![Mobile Version Pic 4](/docimages/m4.png "Mobile Pic 4")
