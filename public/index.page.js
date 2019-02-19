@@ -31,70 +31,24 @@ function updateAuthenticatedUI() {
 // listeners for registration and login
 
 function onRegisterNewUserClick() {
-    $(document).on('click', '#btn-register', function(event){
+    $(document).on('submit', '#registration-form', function(event){
         event.preventDefault();
         alert('heloo');
-        $('#error-msg').remove();
+        
+        //$('#error-msg').remove();
+        console.log(event.target);
+        console.log(event.target.id);
+        console.log(event.target.parentElement.id);
 
-        const newName = $('#new-name').val();
-        const newEmail = $('#new-email').val();
-        const newUsername = $('#new-username').val();
-        const newPassword = $("#new-password").val();
-        const newPasswordConfirm = $("#confirm-password").val();
-        let isValid = ETC.validateForm();
-        /*
-        if (isValid) {
-                const userData = {
-                    name: newName,
-                    email: newEmail,
-                    username: newUsername,
-                    password: newPassword
-                };
 
-                const newUserUrl = '/api/user/';
-                const newUserSettings = {
-                    "method": "POST",
-                    "headers": {
-                        "Content-Type": "application/json; charset=utf-8",
-                    },
-                    "body": JSON.stringify(userData)
-                };
-                HTTP.genericFetch(newUserUrl, newUserSettings);
-                //HTTP.fetchForCreateNewUser(userData);
-            } else {
-                console.log('There is an unidentified issue with the registration.');
-            }
-            */
-    });
-}
-/*
-function callbackNewUser(data) {
-    let userData = {
-        jwtToken: data.jwtToken,
-        id: data.id,
-        name: data.name,
-        username: data.username,
-        email: data.email
-    };
-    console.log(userData);
-    //saveAuthenticatedUserIntoCache(responseJson);
-    renderLoginForm();
-}
-*/
-
-function onSigninClick() {
-    $(document).on('click', '#signin-btn', function(event) {
-        event.preventDefault();
-        $('#error-msg').remove();
         const userData = {
-            username: $("#GET-username").val(),
-            password: $("#GET-password").val()
+            name: $('#new-name').val(),
+            email: $('#new-email').val(),
+            username: $('#new-username').val(),
+            password: $("#new-pass").val()
         };
-        $('.section-options').html('');
-        $('.section-login').html('');
-        $('.closet-container').html('');
-        $('.section-nav').html('');
-        const newUserUrl = '/api/auth/login/';
+
+        const newUserUrl = '/api/user/';
         const newUserSettings = {
             "method": "POST",
             "headers": {
@@ -102,26 +56,52 @@ function onSigninClick() {
             },
             "body": JSON.stringify(userData)
         };
-        HTTP.genericFetch(newUserUrl, newUserSettings, callbackLogin);
-
-        //HTTP.fetchForLogUserIn(userData);
+        HTTP.genericFetch(newUserUrl, newUserSettings, renderLoginForm);  
     });
 }
 
-function callbackLogin(data) {
-    const userData = {
-        jwtToken: data.jwtToken,
-        id: data.user.id,
-        name: data.user.name,
-        username: data.user.username,
-        email: data.user.email
-    };
-    saveAuthenticatedUserIntoCache(userData);
-    STORE.authUser = localStorage.getItem("userid");
-    STORE.authUserName = localStorage.getItem("username");
-    renderNavLoggedIn();
-    renderOptionsPage();
+
+
+
+function onSigninClick() {
+    $(document).on('click', '#signin-btn', function(event) {
+        event.preventDefault();
+        //$('#error-msg').html();
+
+        if ($("#GET-username").val() == '') {
+            console.log('username is empty');
+            $('#error-username').html('Error: must fill in username');
+            $('#error-username').css("display", "block");
+            $("#GET-username").focus()
+        } else if ($("#GET-password").val() == '') {
+            console.log('passowrd is empty');
+            $('#error-password').html('Error:  must fill in password');
+            $('#error-password').css("display", "block");
+            $("#GET-password").focus()
+        } else {
+            const userData = {
+                username: $("#GET-username").val(),
+                password: $("#GET-password").val()
+            };
+
+            $('.section-login').html('');
+            $('.closet-container').html('');
+            $('.section-nav').html('');
+            const newUserUrl = '/api/auth/login/';
+            const newUserSettings = {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json; charset=utf-8",
+                },
+                "body": JSON.stringify(userData)
+            };
+            genericFetch(newUserUrl, newUserSettings, cbLogin);
+           
+        }
+    });
 }
+
+
 
 function onSignupRequestClick() {
     $(document).on('click', '#signup-btn', function(event) {
@@ -138,7 +118,6 @@ function onLogoutClick() {
         const userName= localStorage.getItem("username");
 
         CACHE.deleteAuthenticatedUserFromCache();
-        $('.section-options').html('');
         $('.section-login').html('');
         $('.closet-container').html('');
         $('.section-nav').html('');
@@ -150,13 +129,12 @@ function onLogoutClick() {
 function onGoHome() {
     $(document).on('click', '#header-title', function(event) {
         event.preventDefault();
-        $('.section-options').html('');
         $('.section-login').html('');
         $('.closet-container').html('');
         $('.section-nav').html(''); 
         $('.closet-container').html('');
         RENDER.renderNavLoggedIn();
-        RENDER.renderOptionsPage();
+       // RENDER.renderOptionsPage();
     });
 }
 
@@ -164,7 +142,7 @@ function onGoHome() {
 // listeners for closet functions
 
 function onViewClosetClick() {
-    $('.section-options').on('click',(function(event) {
+    $('.section-closet').on('click',(function(event) {
         event.preventDefault();
         let closetElement;
         closetElement = event.target.id;
@@ -176,7 +154,6 @@ function onViewClosetFromNavMenuClick() {
     $(document).on('click','.options-btns-min',(function(event) {
         event.preventDefault();
         let closetElement;
-        console.log(event.target.id);
         closetElement=event.target.id;
         closetClick(closetElement);
 }));
@@ -209,26 +186,57 @@ function closetClick(closetElement) {
 
     if (STORE.selCloset === 'analyze') {
         STORE.functionChoice = 'analysis';
-        //STORE.isAnalyze = true;
-        fetchForAnalysis();
+        console.log(STORE.selCloset);
+        getAnalysis();
     } else {
         STORE.functionChoice = 'closet';
         HTTP.fetchCloset(); 
     }
 }
 
+function getAnalysis() {
+    const jwtToken = localStorage.getItem("jwtToken");
+    const authUser = localStorage.getItem('userid');
+    
+    let getAnalysisUrl = '/api/idealcloset/';
+    let getAnalysisSettings = {
+        "method": "GET",
+        "headers": {
+            'Accept': 'application/json, text/plain, *',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+        }
+    };
+   HTTP.genericFetch(getAnalysisUrl, getAnalysisSettings, organizeData);
+   
+   getAnalysisUrl = `/api/userclosets/mycloset/${authUser}`;
+   getAnalysisSettings = {
+        "method": "GET",
+        "headers": {
+            'Accept': 'application/json, text/plain, *',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+        }
+    };
+    HTTP.genericFetch(getAnalysisUrl, getAnalysisSettings, organizeData);
+}
+
+
+
 function onAddItemToClosetClick() {
     $('.section-closet').on('click', '#cl-add-btn', (function(event){
         event.preventDefault();
         // ???
-        const selMsg = "";
+        const selMsg = "make your selections and click save";
         RENDER.renderAddItemForm(selMsg);
     }));
 }
 
 function onSaveItemToClosetClick() {
-    $('.section-closet').on('click','#cl-save-btn', function(event) {
+    $('.section-closet').on('submit','#cl-save-btn', function(event) {
         event.preventDefault();
+        console.log('made it to save item to closet');
+        /*
         const jwtToken = localStorage.getItem("jwtToken");
         const authUser = localStorage.getItem("userid");
         STORE.currentEditItem = {
@@ -260,10 +268,12 @@ function onSaveItemToClosetClick() {
             },
             body: JSON.stringify(STORE.currentEditItem)
         };
-       HTTP.genericFetch(addItemUrl, addItemSettings);
-
+       HTTP.genericFetch(addItemUrl, addItemSettings, fetchCloset);
+*/
     });
 }
+
+
 
 function onUpdateItemInClosetClick() {
     $('.section-closet').on('click', '#cl-edit-btn', (function(event) {
@@ -316,16 +326,11 @@ function onSaveItemToClosetClick() {
                 },
                 "body": JSON.stringify(STORE.currentEditItem)
             };
-            HTTP.genericFetch(updateItemUrl, updateItemSettings, callbackShowCloset);
-        
-            //HTTP.fetchForUpdateClosetItemData();
+            HTTP.genericFetch(updateItemUrl, updateItemSettings, fetchCloset);
     });
 }
 
-function callbackShowCloset(data) {
-    console.log('made it to cbShowCloset');
-    HTTP.fetchCloset();
-}
+
 
 
 function onDeleteItemInClosetClick() {
@@ -336,9 +341,7 @@ function onDeleteItemInClosetClick() {
         if (userSaidYes) {
                 const jwtToken = localStorage.getItem("jwtToken");
                 let selectedItemId = STORE.currentEditItem.id;
-                //let closet = STORE.selCloset;
                 let deleteItemUrl = '';
-            
                 if (localStorage.getItem("name") === 'Admin ID') {
                     deleteItemUrl = `/api/idealcloset/${selectedId}`;
                 } else {
@@ -471,7 +474,7 @@ function onMoveItemClick() {
     }));
 }
 
-}
+
 
     function onReturnItemClick() {
         $('.section-closet').on('click', '#cl-return-btn', (function(event) {
@@ -517,7 +520,7 @@ function onMoveItemClick() {
 $(document).ready(function () {
     onPageLoad();
     onSignupRequestClick();
-    //onRegisterNewUserClick();
+    onRegisterNewUserClick();
     onSigninClick();
     onLogoutClick();
     onGoHome();
@@ -527,14 +530,9 @@ $(document).ready(function () {
     onSaveItemToClosetClick()
     onDeleteItemInClosetClick();
     onUpdateItemInClosetClick();
-    onSaveItemToClosetClick();
     onCancelAddItemClick();
     onMoveItemClick();
     onReturnItemClick();
-    updateStoreItem();
-    closetClick();
-    //callbackNewUser();
-    callbackShowCloset();
 });
 
 

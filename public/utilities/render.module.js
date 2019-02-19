@@ -27,50 +27,60 @@ window.RENDER_MODULE = {
 };
 
 function renderRegistrationForm() {
-    $('.reg-login').html(`
+    $('.login-container').html('');
+    $('.section-login').html(`
         <div class="reg-container">
-                <form name="form-reg-login" method="post">
+                <form id="registration-form" name="form-reg-login">
                     <div id="div-reg">
                         <div id="reg-title"><p>Register</p></div>
                         <div class="user-instruction">
                             <div id="instruction-icon"><i class="fas fa-atom instruction"></i></div>
-                            <div id="instruction-verbage"><p>We need to keep track of all the inputs below.  The username and password must be a minimum of 5 characters and 1 number</p></div>
+                            <div class="helper-verbage">
+                                <p>*  all inputs are required.</p>
+                            </div>
                         </div>
-                        <div class="reg-item">
-                            <p>name</p><span class="error-msg" id="error-new-name"></span>
+                        <div class="reg-item new-name">
+                            <p>name</p><span class="error-msg" id="error-new-name" style="display:none;"></span>
                             <div class="reg-input-container">
                                 <input type="text" class="reg-input" name="new-name" id="new-name" class="js-new-name" tabindex="1" placeholder="First Last" required>
                             </div>
                         </div> 
-                        <div class="reg-item">
-                            <p>email</p><span class="error-msg" id="error-new-email"></span>
+                        <div class="reg-item new-email">
+                            <p>email</p><span class="error-msg" id="error-new-email" style="display:none;"></span>
                             <div class="reg-input-container">
                                 <input type="email" class="reg-input" name="new-email" id="new-email" class="js-new-email" tabindex="2" placeholder="enter a valid email address" required>
                             </div>
                         </div> 
-                        <div class="reg-item">
-                            <p>username</p><span class="error-msg" id="error-new-username"></span>
+                        <div class="reg-item new-username">
+                            <p>username</p><span class="error-msg" id="error-new-username" style="display:none;"></span>
                             <div class="reg-input-container">
                                 <input type="text" class="reg-input" name="new-username" id="new-username" class="js-new-username" tabindex="3" placeholder="tester1" required>
                             </div>
+                            <div class="helper-verbage">
+                                <p>minimum of 5 characters and 1 number</p>
+                            </div>
                         </div>                      
                         <div class="reg-item">
-                            <p>password:</p><span class="error-msg" id="error-new-pass"></span>
+                            <p>password:</p><span class="error-msg" id="error-new-pass" style="display:none;"></span>
                             <div class="input-container">
-                                <input type="password" class="reg-input" name="new-password" id="new-password" class="js-new-password" tabindex="4" value="password" required>
-                                <i class="far fa-eye-slash password-icon"></i>
+                                <input type="password" class="reg-input" name="new-password" id="new-pass" class="js-new-password" tabindex="4" placeholder="password" required>
+                            </div>
+                            <div class="helper-verbage">
+                                <p>minimum of 5 characters and 1 number</p>
                             </div>
                         </div>
                         <div class="reg-item">
-                            <p>retype password:</p><span class="error-msg" id="error-confirm-pass"></span>
+                            <p>retype password:</p><span class="error-msg" id="error-confirm-pass" style="display:none;"></span>
                             <div class="input-container">
-                                <input type="password" class="reg-input" name="confirm-password" id="confirm-password" class="js-confirm-password" tabindex="5" value="password" required>
-                                <i class="far fa-eye-slash password-confirm-icon"></i></div>
+                                <input type="password" class="reg-input" name="confirm-password" id="new-confirm" class="js-confirm-password" tabindex="5" placeholder="password" required>
+                            </div>
+                            <div class="helper-verbage">
+                                <p>passwords must match</p>
+                            </div>
                         </div>
                         <div id="btn-sign-me-up" class="reg-editbuttons">
-                            <button class="btn-register action-btns med-btn" id="btn-register">Register me!</button>
+                            <button type="submit" class="action-btns med-btn" id="btn-register">Register me!</button>
                         </div>
-                        
                     </div>
                 </form>
         </div>
@@ -97,6 +107,7 @@ function renderLoginForm() {
                                             <i class="fas fa-user user-icon"></i>
                                             <input type="text" name="GET-username" id="GET-username" class="login-input" tabindex="1" autocomplete="on" required>
                                         </div>
+                                        <div class="error-msg" id="error-username" style="display:none;"></div>
                                     </div>
                                     <div class="login-item">
                                         <div class="input-container">
@@ -104,6 +115,7 @@ function renderLoginForm() {
                                             <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" autocomplete="off" required>
                                             <i class="far fa-eye-slash password-icon"></i>
                                         </div>
+                                        <div class="error-msg" id="error-password" style="display:none;"></div>
                                     </div>
                                 </div>
                                 <div class="error-msg" style="visibility:hidden"></div>
@@ -154,28 +166,27 @@ function renderOptionsPage() {
     $('.section-login').html('');
 
     if (STORE.authUserName == 'admin') {
-        $('.section-options').html(`
-                <div class="options-container">
-                <div class="options-header">
-                    <h3>The ADMIN functions include the following:
-                    <div class="instruction-list">
-                                    <p>1.  VIEW, ADD TO, DELETE FROM and EDIT the Ideal Closet.</p>
-                                    <p>2.  DELETE FROM the GIVEAWAY CLOSET.</p>
-                                </div>
+        $('.section-closet').html(`
+                <div class="closet-container">
+                <div class="user-instruction">
+                            <div class="instruction-icon"><i class="fas fa-atom instruction"></i></div>
+                            <div class="comments"><p>Which ADMIN function would you like to work with?</p></div>
+                        </div>
+                <div class="options-btns" >
+                        <i class="fas fa-door-open" id="ideal-closet-btn" data-closet="ideal"></i>
+                        <h4 class="closet-functions">ideal closet</h4>
+                        <div class="comments">view/add to/delete from/edit</div>
                 </div>
-                    <div class="options-btns" id="ideal-closet-btn" data-option="ideal"><i class="fas fa-tshirt"></i>
-                        <h4 class="closet-functions">view/add to/delete from/edit the ideal closet</h4>
-                    </div>
-                    <div class="options-btns" id="giveaway-closet-btn" data-option="giveaway">
-                        <i class="fas fa-tshirt"></i>
-                        <h4 class="closet-functions">view/add to/delete from/edit the giveaway closet</h4>
-                    </div>
+                <div class="options-btns">
+                        <i class="fas fa-tshirt" id="giveaway-closet-btn" data-closet="giveaway"></i>
+                        <h4 class="closet-functions">giveaway closet</h4>
+                        <div class="comments">view/add to/delete from/edit</div>
+                </div>
                 </div>
      `).show();
-
     } else {
-        $('.section-options').html(`
-            <div class="options-container">
+        $('.section-closet').html(`
+            <div class="closet-container">
                 <div class="options-header">
                     <h3>Which closet would you like to work with?</h3>
                 </div>
@@ -265,7 +276,6 @@ function renderNavMenu() {
 }
 
 function renderNavAdmin() {
-    $('.section-options').html('');
     $('.section-login').html('');
     $('.closet-container').html('');
     $('.nav-admin').remove('');
@@ -297,7 +307,6 @@ function renderLogout(user) {
 function renderCloset(closetItems) {
     // make sure options and closet section are empty before rendering new closet
     $('.section-closet').html('');
-    $('.section-options').html('');
 
     //  append appropriate divs and classes before adding data
     $('.section-closet').append(`<div class="closet-container"></div>`);
@@ -306,7 +315,7 @@ function renderCloset(closetItems) {
     
     // render the header
     renderClosetHeader(closetItems);
-    $('.closet-header').append(`<div class="user-msg" style="visibility:hidden"><i class="fas fa-thumbs-up"></i></div>`);
+    $('.closet-header').append(`<div class="user-msg" style="display:none"><i class="fas fa-thumbs-up"></i></div>`);
 
     //  organize items into seasons and render season headers
     let result = [];
@@ -356,7 +365,7 @@ function renderClosetHeader(closetItems) {
         editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add"><i class="fas fa-plus"></i></div>`;
     }
     //  itemcount:  Itemcount is only needed on closet pages.  It is not needed on 'analyze' page.
-    itemCountHtml = `<div id="cl-itemcount">There are ${STORE.closetLength[STORE.selCloset]} items in this closet.</div>`;
+    itemCountHtml = `<div class="cl-subhead">There are ${STORE.closetLength[STORE.selCloset]} items in this closet.</div>`;
 
     // the custom header is rendered here
     $('.closet-header').html(`
@@ -491,9 +500,7 @@ function renderClosetBody(closetItems) {
 }
 
 
-function renderInformationPage() {
-    $('.section-options').html('');
-    
+function renderInformationPage() { 
     $('.closet-container').html(`
                 <div class="cl-header">
                     <div class="item" id="closet-title"><h2>${STORE.selCloset} Closet</h2></div>
@@ -505,27 +512,35 @@ function renderInformationPage() {
     
     let infoPageMsg;
     if(STORE.selCloset === 'donation') {
-        infoPageMsg = `<div class="info-msg">
-                            <h3>You have not agreed to donate any of your items.</h3>
-                            <h3>If you would like to make a donation, here are the instructions:</h3>
-                                <div class="instruction-list">
-                                    <p>1.  Click into your own closet.</p>
-                                    <p>2.  Find the item you wish to donate.</p>
-                                    <p>3.  Click the 'donate' button.  Your item will be deleted from your personal closet and added to your personal donation closet.</p>
-                                    <p>4.  Take the physical item out of your wardrobe and place it in a donation bag until you are ready to drop it off.</p>
-                                </div>
-                      </div>`;
+        infoPageMsg = `<div class="user-instruction">
+                            <div id="instruction-icon"><i class="fas fa-atom instruction"></i></div>
+                            <div class="helper-verbage">
+                            <p>To offer an item for donation:</p>
+                            <br>
+                                <ul class="instruction-list">
+                                    <li class="instruction-items">Click into your own closet.</li>
+                                    <li class="instruction-items">Find the item you wish to giveaway.</li>
+                                    <li class="instruction-items">Click the 'donate' button.  </li>
+                                    <li class="instruction-items">Your item will be deleted from your personal closet and added to your personal donation closet.</li>
+                                    <li class="instruction-items">Take the physical item out of your wardrobe and place it in a donation bag until you are ready to make the donation.</li>
+                                </ul>
+                            </div>
+                        </div>`;
     } else if (STORE.selCloset === 'giveaway') {
-        infoPageMsg = `<div class="info-msg">
-                            <h3>You have not agreed to add any of your items to the 'group giveaway' closet.</h3>
-                            <h3>If you would like to offer an item for giveaway, here are the instructions:</h3>
-                                <div class="instruction-list">
-                                    <p>1.  Click into your own closet.</p>
-                                    <p>2.  Find the item you wish to giveaway.</p>
-                                    <p>3.  Click the 'giveaway' button.  Your item will be deleted from your personal closet and added to the group donation closet.</p>
-                                    <p>4.  Take the physical item out of your wardrobe and place it in a giveaway bag until someone wishes to claim it.</p>
-                                </div>
-                       </div>`;
+        infoPageMsg = `<div class="user-instruction">
+                            <div id="instruction-icon"><i class="fas fa-atom instruction"></i></div>
+                            <div class="helper-verbage">
+                            <p>To offer an item for giveaway:</p>
+                            <br>
+                                <ul class="instruction-list">
+                                    <li class="instruction-items">Click into your own closet.</li>
+                                    <li class="instruction-items">Find the item you wish to giveaway.</li>
+                                    <li class="instruction-items">Click the 'giveaway' button.  </li>
+                                    <li class="instruction-items">Your item will be deleted from your personal closet and added to the group giveaway closet.</li>
+                                    <li class="instruction-items">Take the physical item out of your wardrobe and place it in a giveaway bag until someone wishes to claim it.</li>
+                                </ul>
+                            </div>
+                        </div>`;
 
     }
     $('.closet-body').html(infoPageMsg);
@@ -533,237 +548,234 @@ function renderInformationPage() {
 
 function renderAddItemForm(msg) {
     $('.closet-container').html('');
-    $('.section-options').html('');
-    const addItemFormBody = `
-        <div class="addnewitem-container">
-            <div class="cl-header">` +
-                `<h2>Add New Item</h2>` +
-            `</div>` +
-           `<div class="cl-resultcell-new additem-class">` +
-                `<div class="cl-resultbody-new">` +
-                    `<form>` +
-                            `<div class="additem-edit-btns">` +
-                                `<button class="action-btns small-btn" id="cl-save-btn" data-closet="${STORE.selCloset}" data-user="${STORE.authUser}">save</button>` +
-                                `<button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>` +
-                            `</div>` +
-                            `<div class="itemrow cl-whichseason">` +
-                                `<div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>` +
-                                `<div class="newitem itembody">` +
-                                    `<div class="additems-container" id="js-additem-season">` +
-                                        `<div class="radiogroup">` +
-                                            `<label class="season-selector-label" for="season-icon-selector">All Seasons` +
-                                            `<input type="radio" name="season" id="season-all" value="Always in Season" checked /></label>` +
-                                        `</div>` +
-                                        `<div class="radiogroup">` +
-                                            `<label class="season-selector-label" for="season-icon-selector">Spring Basics` +
-                                            `<input type="radio" name="season" id="season-spring" value="Spring Basics" /></label>` +
-                                        `</div>` +
-                                        `<div class="radiogroup">` +
-                                            `<label class="season-selector-label" for="season-icon-selector">Summer Basics` +
-                                            `<input type="radio" name="season" id="season-summer" value="Summer Basics" /></label>` +
-                                        `</div>` +
-                                        `<div class="radiogroup">` +
-                                            `<label class="season-selector-label" for="season-icon-selector">Fall Basics` +
-                                            `<input type="radio" name="season" id="season-fall" value="Fall Basics" /></label>` +
-                                        `</div>` +
-                                        `<div class="radiogroup">` +
-                                            `<label class="season-selector-label" for="season-icon-selector">Winter Basics` +
-                                            `<input type="radio" name="season" id="season-winter" value="Winter Basics" /></label>` +
-                                        `</div>` +
-                                    `</div>` +
-                                `</div>` +
-                            `</div>` +
+    const addItemFormBody = `<div class="addnewitem-container">
+            <div class="cl-header">
+                <h2>Add New Item</h2>
+                <span class="error-msg" id="error-add-new-item">${msg}</span>
+            </div>
+           <div class="cl-resultcell-new additem-class">
+                <div class="cl-resultbody-new">
+                <form id="additem-form" name="additem-form">
+                            <div class="additem-edit-btns">
+                                <button type="submit" class="action-btns small-btn" id="cl-save-btn" data-closet="${STORE.selCloset}" data-user="${STORE.authUser}">save</button>
+                                <button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>
+                            </div>
+                            <div class="itemrow cl-whichseason">
+                                <div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>
+                                <div class="newitem itembody">
+                                    <div class="additems-container" id="js-additem-season">
+                                        <div class="radiogroup">
+                                            <label class="season-selector-label" for="season-icon-selector">All Seasons
+                                            <input type="radio" name="season" id="season-all" value="Always in Season" checked /></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label class="season-selector-label" for="season-icon-selector">Spring Basics
+                                            <input type="radio" name="season" id="season-spring" value="Spring Basics" /></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label class="season-selector-label" for="season-icon-selector">Summer Basics
+                                            <input type="radio" name="season" id="season-summer" value="Summer Basics" /></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label class="season-selector-label" for="season-icon-selector">Fall Basics
+                                            <input type="radio" name="season" id="season-fall" value="Fall Basics" /></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label class="season-selector-label" for="season-icon-selector">Winter Basics
+                                            <input type="radio" name="season" id="season-winter" value="Winter Basics" /></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                            `<div class="itemrow cl-appareltype">` +
-                                `<div class="newitem itemlabel"><label>type of clothing <i class="fas fa-asterisk"></i></label></div>` +
-                                `<div class="newitem itembody">` +
-                                    `<div class="additems-container" id="js-additem-appareltype">` +
-                                        `<div class="radiogroup">` +
-                                            `<label for="season-icon-selector">top` +
-                                            `<input type="radio" name="appareltype" value="top" checked></label>` +
-                                        `</div>` +
-                                        `<div class="radiogroup">` +
-                                            `<label for="season-icon-selector">bottom` +
-                                            `<input type="radio" name="appareltype" value="bottom"></label>` +
-                                        `</div>` + 
-                                        `<div class="radiogroup">` +
-                                            `<label for="season-icon-selector">dress` +
-                                            `<input type="radio" name="appareltype" value="dress"></label>` +
-                                        `</div>` + 
-                                        `<div class="radiogroup">` +
-                                            `<label for="season-icon-selector">coat` +
-                                            `<input type="radio" name="appareltype" value="coat"></label>` +
-                                        `</div>` + 
-                                        `<div class="radiogroup">` +
-                                            `<label for="season-icon-selector">shoes` +
-                                            `<input type="radio" name="appareltype" value="shoes"></label>` +
-                                        `</div>` + 
-                                    `</div>` +
-                                `</div>` +
-                            `</div>` +
+                            <div class="itemrow cl-appareltype">
+                                <div class="newitem itemlabel"><label>type of clothing <i class="fas fa-asterisk"></i></label></div>
+                                <div class="newitem itembody">
+                                    <div class="additems-container" id="js-additem-appareltype">
+                                        <div class="radiogroup">
+                                            <label for="season-icon-selector">top
+                                            <input type="radio" name="appareltype" value="top" checked></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label for="season-icon-selector">bottom
+                                            <input type="radio" name="appareltype" value="bottom"></label>
+                                        </div> 
+                                        <div class="radiogroup">
+                                            <label for="season-icon-selector">dress
+                                            <input type="radio" name="appareltype" value="dress"></label>
+                                        </div> 
+                                        <div class="radiogroup">
+                                            <label for="season-icon-selector">coat
+                                            <input type="radio" name="appareltype" value="coat"></label>
+                                        </div> 
+                                        <div class="radiogroup">
+                                            <label for="season-icon-selector">shoes
+                                            <input type="radio" name="appareltype" value="shoes"></label>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
 
 
-                            `<div class="itemrow cl-color">` +
-                                `<div class="newitem itemlabel"><label>color </label></div>` +
-                                `<div class="newitem itembody">` +
-                                    `<div class="additems-container" id="js-additem-color">` +
-                                        `<div class="radiogroup">` +
-                                            `<label for="color-icon-selector">black` +
-                                            `<input type="radio" name="color" value="black"></label>` +
-                                        `</div>` +
-                                        `<div class="radiogroup">` +
-                                            `<label for="color-icon-selector">white` +
-                                            `<input type="radio" name="color" value="white"></label>` +
-                                        `</div>` + 
-                                        `<div class="radiogroup">` +
-                                            `<label for="color-icon-selector">neutral` +
-                                            `<input type="radio" name="color" value="neutral" checked></label>` +
-                                        `</div>` + 
-                                        `<div class="radiogroup">` +
-                                            `<label for="color-icon-selector">choice` +
-                                            `<input type="radio" name="color" value="choice"></label>` +
-                                        `</div>` + 
-                                    `</div>` +
-                                `</div>` +
-                            `</div>` +
+                            <div class="itemrow cl-color">
+                                <div class="newitem itemlabel"><label>color </label></div>
+                                <div class="newitem itembody">
+                                    <div class="additems-container" id="js-additem-color">
+                                        <div class="radiogroup">
+                                            <label for="color-icon-selector">black
+                                            <input type="radio" name="color" value="black"></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label for="color-icon-selector">white
+                                            <input type="radio" name="color" value="white"></label>
+                                        </div> 
+                                        <div class="radiogroup">
+                                            <label for="color-icon-selector">neutral
+                                            <input type="radio" name="color" value="neutral" checked></label>
+                                        </div> 
+                                        <div class="radiogroup">
+                                            <label for="color-icon-selector">choice
+                                            <input type="radio" name="color" value="choice"></label>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
 
-                            `<div class="itemrow cl-size">` +
-                                `<div class="newitem itemlabel"><label>size: </label></div>` + 
-                                `<div class="newitem itembody">` +
-                                    `<div class="additems-container" id="js-additem-size">` +
-                                            `<div class="radiogroup">` +
-                                                `<label for="size-selector">x-small` +
-                                                `<input type="radio" name="size" value="x-small"></label>` +
-                                            `</div>` +
-                                            `<div class="radiogroup">` +
-                                                `<label for="size-selector">small` +
-                                                `<input type="radio" name="size" value="small"></label>` +
-                                            `</div>` + 
-                                            `<div class="radiogroup">` +
-                                                `<label for="size-selector">medium` +
-                                                `<input type="radio" name="size" value="medium"></label>` +
-                                            `</div>` + 
-                                            `<div class="radiogroup">` +
-                                                `<label for="size-selector">large` +
-                                                `<input type="radio" name="size" value="dress"></label>` +
-                                            `</div>` + 
-                                            `<div class="radiogroup">` +
-                                                `<label for="size-selector">x-large` +
-                                                `<input type="radio" name="size" value="x-large"></label>` +
-                                            `</div>` + 
-                                            `<div class="radiogroup">` +
-                                                `<label for="size-selector">n/a` +
-                                                `<input type="radio" name="size" value="n/a" checked></label>` +
-                                            `</div>` + 
-                                    `</div>` +
-                                `</div>` +
-                            `</div>` +
+                            <div class="itemrow cl-size">
+                                <div class="newitem itemlabel"><label>size: </label></div> 
+                                <div class="newitem itembody">
+                                    <div class="additems-container" id="js-additem-size">
+                                            <div class="radiogroup">
+                                                <label for="size-selector">x-small
+                                                <input type="radio" name="size" value="x-small"></label>
+                                            </div>
+                                            <div class="radiogroup">
+                                                <label for="size-selector">small
+                                                <input type="radio" name="size" value="small"></label>
+                                            </div> 
+                                            <div class="radiogroup">
+                                                <label for="size-selector">medium
+                                                <input type="radio" name="size" value="medium"></label>
+                                            </div> 
+                                            <div class="radiogroup">
+                                                <label for="size-selector">large
+                                                <input type="radio" name="size" value="dress"></label>
+                                            </div> 
+                                            <div class="radiogroup">
+                                                <label for="size-selector">x-large
+                                                <input type="radio" name="size" value="x-large"></label>
+                                            </div> 
+                                            <div class="radiogroup">
+                                                <label for="size-selector">n/a
+                                                <input type="radio" name="size" value="n/a" checked></label>
+                                            </div> 
+                                    </div>
+                                </div>
+                            </div>
 
-                            `<div class="itemrow cl-shortdesc">` +
-                                `<div class="newitem itemlabel"><label>short description <i class="fas fa-asterisk"></i></label></div>` +
-                                `<div class="newitem itembody">` +
-                                    `<input class="updatefields" id="js-additem-shortdesc" type="text" name="shortdesc" value="short-sleeved t-shirt" placeholder="short description" />` +
-                                `</div>` +
-                            `</div>` +
+                            <div class="itemrow cl-shortdesc">
+                                <div class="newitem itemlabel"><label>short description <i class="fas fa-asterisk"></i></label></div>
+                                <div class="newitem itembody">
+                                    <input class="updatefields" id="js-additem-shortdesc" type="text" name="shortdesc" value="short-sleeved t-shirt" placeholder="short description" />
+                                </div>
+                            </div>
 
-                            `<div class="itemrow cl-longdesc">` +
-                                `<div class="newitem itemlabel"><label>long description </label></div>` +
-                                `<div class="newitem itembody">` +
-                                    `<input class="updatefields" id="js-additem-longdesc" type="text" name="longdesc" value="The best short-sleeve length is about 1/2 to 1 inch longer than a typical cap sleeve-` +
-                                    `it shows just eh right amount of arm" placeholder="long description" />` +
-                                `</div>` +
-                            `</div>` +
-                    `</form>` +
-                `</div>` +
-            `</div>` +
-        `</div>`;
+                            <div class="itemrow cl-longdesc">
+                                <div class="newitem itemlabel"><label>long description </label></div>
+                                <div class="newitem itembody">
+                                    <input class="updatefields" id="js-additem-longdesc" type="text" name="longdesc" value="The best short-sleeve length is about 1/2 to 1 inch longer than a typical cap sleeve-
+                                    it shows just eh right amount of arm" placeholder="long description" />
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>`;
     $(`.closet-container`).append(addItemFormBody);
 }
 
 function renderUpdateForm() {
 
     // change closet cell to updateable form
-    const updateFormBody = 
-        `<div class="cl-resultbody">` +
-            `<form id='form-update-closet'>` +
-                `<div class="itemrow update-season">` +
-                    `<div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>` +
-                    `<div class="item itembody">` +
-                            `<select class="updatefields" id="js-updateseason" type="text" name="season">` +
-                                `<option value ="${STORE.currentEditItem.season}">${STORE.currentEditItem.season}</option>` +
-                                `<option value = "Always in Season">Always in Season</option>` +
-                                `<option value = "Fall Basics">Fall Basics</option>` +
-                                `<option value = "Winter Basics">Winter Basics</option>` +
-                                `<option value = "Spring Basics">Spring Basics</option>` +
-                                `<option value = "Summer Basics">Summer Basics</option>` +
-                            `</select>` +
-                    `</div>` +
-                `</div>` +
-                `<div class="itemrow update-appareltype">` +
-                    `<div class="newitem newitemlabel">type of clothing: <i class="fas fa-asterisk"></i></div>` +
-                    `<div class="item itembody">` +
-                        `<select class="updatefields" id="js-updateappareltype" type="text" name="appareltype">` +
-                            `<option value ="${STORE.currentEditItem.appareltype}">${STORE.currentEditItem.appareltype}</option>` +
-                            `<option value = "top">top</option>` +
-                            `<option value = "bottom">bottom</option>` +
-                            `<option value = "dress">dress</option>` +
-                            `<option value = "coat">coat</option>` +
-                            `<option value = "shoes">shoes</option>` +
-                        `</select>` +
-                    `</div>` +
-                `</div>` +
-                `<div class="itemrow update-color">` +
-                    `<div class="newitem itemlabel">color: </div>` +
-                    `<div class="newitem itembody">` +
-                        `<select class="updatefields" id="js-updatecolor" type="text" name="color" value="${STORE.currentEditItem.color}">` +
-                            `<option value = "${STORE.currentEditItem.color}">${STORE.currentEditItem.color}</option>` +
-                            `<option value = "black">black</option>` +
-                            `<option value = "white">white</option>` +
-                            `<option value = "neutral">neutral</option>` +
-                            `<option value = "your choice">your choice</option>` +
-                            `<option value = "n/a">n/a</option>` +
-                        `</select>` +
-                    `</div>` +
-                `</div>` +
-                `<div class="itemrow update-shortdesc">` +
-                    `<div class="newitem itemlabel">short description: <i class="fas fa-asterisk"></i></div>` +
-                    `<div class="newitem itembody">` +
-                        `<input class="updatefields" id="js-updateshortdesc" type="text" name="shortdesc" value="${STORE.currentEditItem.shortdesc}" />` +
-                    `</div>` +
-                `</div>` +
-                `<div class="itemrow update-longdesc">` +
-                    `<div class="newitem itemlabel">long description: </div>` +
-                    `<div class="newitem itembody">` +
-                        `<textarea class="updatefields" id="js-updatelongdesc" type="text" name="longdesc" value="${STORE.currentEditItem.longdesc}" rows="3" cols="20">${STORE.currentEditItem.longdesc}</textarea>` +
-                    `</div>` +
-                `</div>` +
-                `<div class="itemrow update-size">` +
-                    `<div class="newitem itemlabel">size: </div>` +
-                    `<div class="newitem itembody">` +
-                        `<select class="updatefields" id="js-updatesize" type="text" name="size">` +
-                            `<option value = "${STORE.currentEditItem.size}">${STORE.currentEditItem.size}</option>` +
-                            `<option value = "X-Small">X-Small</option>` +
-                            `<option value = "Small">Small</option>` +
-                            `<option value = "Medium">Medium</option>` +
-                            `<option value = "Large">Large</option>` +
-                            `<option value = "X-Large">X-Large</option>` +
-                        `</select>` +
-                    `</div>` +
-                `</div>` +
-            `</form>` +
-        `</div> ` +
-        `<div class="update-edit-btns">` +
-            `<div class="action-btns small-btn" id="cl-updatebtn-final"data-id="${STORE.currentEditItem.id}">save</i>` +
-            `</div>` +
-            `<div class="action-btns small-btn" id="cl-cancel-btn">cancel</div>` +
-        `</div>`; 
+    const updateFormBody = `<div class="cl-resultbody">
+            <form id='form-update-closet'>
+                <div class="itemrow update-season">
+                    <div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>
+                    <div class="item itembody">
+                            <select class="updatefields" id="js-updateseason" type="text" name="season">
+                                <option value ="${STORE.currentEditItem.season}">${STORE.currentEditItem.season}</option>
+                                <option value = "Always in Season">Always in Season</option>
+                                <option value = "Fall Basics">Fall Basics</option>
+                                <option value = "Winter Basics">Winter Basics</option>
+                                <option value = "Spring Basics">Spring Basics</option>
+                                <option value = "Summer Basics">Summer Basics</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="itemrow update-appareltype">
+                    <div class="newitem newitemlabel">type of clothing: <i class="fas fa-asterisk"></i></div>
+                    <div class="item itembody">
+                        <select class="updatefields" id="js-updateappareltype" type="text" name="appareltype">
+                            <option value ="${STORE.currentEditItem.appareltype}">${STORE.currentEditItem.appareltype}</option>
+                            <option value = "top">top</option>
+                            <option value = "bottom">bottom</option>
+                            <option value = "dress">dress</option>
+                            <option value = "coat">coat</option>
+                            <option value = "shoes">shoes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="itemrow update-color">
+                    <div class="newitem itemlabel">color: </div>
+                    <div class="newitem itembody">
+                        <select class="updatefields" id="js-updatecolor" type="text" name="color" value="${STORE.currentEditItem.color}">
+                            <option value = "${STORE.currentEditItem.color}">${STORE.currentEditItem.color}</option>
+                            <option value = "black">black</option>
+                            <option value = "white">white</option>
+                            <option value = "neutral">neutral</option>
+                            <option value = "your choice">your choice</option>
+                            <option value = "n/a">n/a</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="itemrow update-shortdesc">
+                    <div class="newitem itemlabel">short description: <i class="fas fa-asterisk"></i></div>
+                    <div class="newitem itembody">
+                        <input class="updatefields" id="js-updateshortdesc" type="text" name="shortdesc" value="${STORE.currentEditItem.shortdesc}" />
+                    </div>
+                </div>
+                <div class="itemrow update-longdesc">
+                    <div class="newitem itemlabel">long description: </div>
+                    <div class="newitem itembody">
+                        <textarea class="updatefields" id="js-updatelongdesc" type="text" name="longdesc" value="${STORE.currentEditItem.longdesc}" rows="3" cols="20">${STORE.currentEditItem.longdesc}</textarea>
+                    </div>
+                </div>
+                <div class="itemrow update-size">
+                    <div class="newitem itemlabel">size: </div>
+                    <div class="newitem itembody">
+                        <select class="updatefields" id="js-updatesize" type="text" name="size">
+                            <option value = "${STORE.currentEditItem.size}">${STORE.currentEditItem.size}</option>
+                            <option value = "X-Small">X-Small</option>
+                            <option value = "Small">Small</option>
+                            <option value = "Medium">Medium</option>
+                            <option value = "Large">Large</option>
+                            <option value = "X-Large">X-Large</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div> 
+        <div class="update-edit-btns">
+            <div class="action-btns small-btn" id="cl-updatebtn-final"data-id="${STORE.currentEditItem.id}">save</i>
+            </div>
+            <div class="action-btns small-btn" id="cl-cancel-btn">cancel</div>
+        </div>`; 
 
     $(`.${STORE.currentEditItem.id}-class`).html(updateFormBody);
     $(`.${STORE.currentEditItem.id}-class`).css("border", "5px solid #C98573");
 }
 
 function renderAnalysis() {
-    $('.section-options').html('');
     $('.section-login').html('');
     $('.closet-container').html('');
      headerHtml = `<div class="item" id="closet-title"><h2>Analyze It!</h2></div>`
@@ -775,14 +787,22 @@ function renderAnalysis() {
                 </div>`);
     
     $('.closet-container').append(`
-                <div class="analysis-header">
+                <div class="cl-subhead">
                     <p>Here is your analysis</p>
                 </div>
                 <div class="analysis-body"></div>`);
 
-    renderWholeClosetAnalysis();
-    renderSeasonAnalysis();
-    renderAppareltypeAnalysis();
+    if (STORE.closetLength.my !== 0) {
+        renderWholeClosetAnalysis();
+        renderSeasonAnalysis();
+        renderAppareltypeAnalysis();
+    } else {
+        $('.closet-container').append(`
+            <div class="user-instruction">
+                <div id="instruction-icon"><i class="fas fa-atom instruction"></i></div>
+                <div class="instruction-verbage"><p>Add some items to your closet and we can analyze it!</p></div>
+            </div>`);
+    }
 }
                
 
@@ -791,27 +811,31 @@ function renderWholeClosetAnalysis() {
     $('.analysis-body').append(`
     <div class="analysis-subhead">
         <h3>Here is some notes of the whole closet</h3>
-        This item compares the total number of items in your closet to the number of items in the ideal closet.</p>
+        <div class="comments">This item compares the total number of items in your closet to the number of items in the ideal closet.</div>
     </div>
     <div class="analysis-whole-ds">
         <p>the ideal closet has ${STORE.closetLength.ideal} items in its closet.</p>
         <p>Your closet has ${STORE.closetLength.my} items in its closet.</p>
         </div>`);
+    
     const closetDiff = STORE.closetLength.ideal - STORE.closetLength.my;
     if (Math.sign(closetDiff) === 1) {
-    console.log(Math.sign(closetDiff));
-    $('.analysis-whole-ds').append(`
-    <p class="final-thought">The ideal closet has ${closetDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
-    </div>`);
+            console.log(Math.sign(closetDiff));
+            $('.analysis-whole-ds').append(`
+            <p class="final-thought">The ideal closet has ${closetDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
+            </div>`);
     } else if (Math.sign(closetDiff) === -1) {
-    console.log(Math.sign(closetDiff));
-    $('.analysis-whole-ds').append(`
-    <p class="final-thought">The ideal closet has ${closetDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>
-    </div>`);
+            $('.analysis-whole-ds').append(`
+            <p class="final-thought">The ideal closet has ${closetDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>
+            </div>`);
+    } else if (Math.sign(seasonDiff) === 0){
+            $('analysis-whole-ds').append(`
+                    <div class="final-thought-correct">
+                        <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
+                        <div class="correct-verbage"><p>Success!  You have the exact right number of items in your closet!</p></div>
+                    </div>`);
     } else {
-    $('analysis-whole-ds').append(`
-    <p class="final-thought">You have the exact right number of items in your closet.</p>
-    </div>`);
+        alert('ummm, there is something wrong with the whole closet analysis. ');
     }
 }
 
@@ -821,7 +845,7 @@ function renderSeasonAnalysis() {
      $('.analysis-body').append(`
      <div class="analysis-subhead">
          <h3>Seasons dataset item</h3>
-         Each item in this section compares the total number of items in your closet for the each season to the number of items in the ideal closet.
+         <div class="comments">Each item in this section compares the total number of items in your closet for the each season to the number of items in the ideal closet.</div>
      </div>`);
 
      //  find text equivalent of document number
@@ -856,9 +880,12 @@ function renderSeasonAnalysis() {
     } else if (Math.sign(seasonDiff) === -1) {
         analysisNote = `<p class="final-thought">The ideal closet has ${seasonDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>`;
     } else if (Math.sign(seasonDiff) === 0){
-        analysisNote = `<p class="final-thought">You have the exact right number of items in your closet.</p>`;
+        analysisNote = `<div class="final-thought-correct">
+                            <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
+                            <div class="correct-verbage"><p>Success!  You have the exact right number of items in your closet!</p></div>
+                        </div>`;
     } else {
-        console.log('what is the situation?');
+        console.log('there is something wrong with the season analysis section');
     }
 
     // append season analysis to analysis-body
@@ -914,7 +941,10 @@ function renderAppareltypeAnalysis() {
    } else if (Math.sign(appareltypeDiff) === -1) {
        analysisNote = `<p class="final-thought">The ideal closet has ${appareltypeDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>`;
    } else if (Math.sign(appareltypeDiff) === 0){
-       analysisNote = `<p class="final-thought">You have the exact right number of items in your closet.</p>`;
+       analysisNote = `<div class="final-thought-correct">
+                            <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
+                            <div class="correct-verbage"><p>Success!  You have the exact right number of items in your closet!</p></div>
+                    </div>`;
    } else {
        console.log('what is the situation?');
    }

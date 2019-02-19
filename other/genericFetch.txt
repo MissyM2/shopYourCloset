@@ -40,3 +40,8 @@ http://localhost:8080/api/userclosets/mycloset/5c5763445a482076bdc37b97/5c6aea31
 Request Method: POST
 
 http://localhost:8080/api/userclosets/mycloset/5c5763445a482076bdc37b97/5c6aea31470ad89e12ec0cb3
+
+
+ <i class="far fa-eye-slash password-icon"></i>
+
+<i class="far fa-eye-slash password-confirm-icon"></i></div>

@@ -82,6 +82,10 @@ label {
     margin:6px;
 }
 
+ol, ul {
+    list-style-type:square;
+}
+
 input, textarea {
     display:block;
     border: 1px solid #E0D5C9;
@@ -208,6 +212,7 @@ button:hover {
 }
 .reg-item, .login-item {
     text-align:left;
+    margin-top:10px;
 }
 
 .reglabel {
@@ -220,16 +225,16 @@ button:hover {
     background: #E0E0DE;
 }
 
-.reg-input, .login-input {
-    width:100%;
+.reg-input,
+.login-input {
+    width:75%;
+    display:inline-block;
 }
-
-.input-container {
-    display: -ms-flexbox; /* IE10 */
-    display: flex;
-    width: 100%;
+/*
+.login-input {
     margin-bottom: 15px;
-  }
+}
+*/
   
 .password-icon, .password-confirm-icon {
     padding: 5px;
@@ -417,10 +422,10 @@ button:hover {
     font-family: 'The Girl Next Door', cursive;
     text-align:center;
 }
-/* need new name */
-.cl-itemcount,
-.analysis-header {
+
+.cl-subhead {
     text-align:center;
+    display:inline-block;
 }
 
 .cl-items-label {
@@ -463,6 +468,7 @@ button:hover {
 
 .item#closet-title {
     display:block;
+    margin-bottom:20px;
 }
 
 .cl-header {
@@ -496,8 +502,6 @@ button:hover {
     font-size: .4em;
     padding-right:2px;
 }
-
-
 
 .updatefields {
     width: 100%;
@@ -548,9 +552,6 @@ button:hover {
 
 
 /* *****  ANALYSIS SCREEN STYLES */
-.instruction-list {
-    margin: 10px 5px 0 55px;
-}
 
 
 .analysis-body {
@@ -561,10 +562,6 @@ button:hover {
     margin:0 auto;
 }
 
-.analysis-subhead {
-    padding: 15px;
-    margin-top: 15px;
-}
 
 .analysis-body-ds,
 .analysis-whole-ds, 
@@ -590,11 +587,13 @@ button:hover {
     padding-left:25px;
 }
 
-.final-thought {
-    font-weight:bold;
-}
 
 /** **** USER COMMUNICATION STYLES:  error messages and user instructions */
+
+
+.instruction-list {
+    margin: 10px 5px 0 55px;
+}
 
 .user-instruction {
     font-size: 1rem;
@@ -608,23 +607,63 @@ button:hover {
 
 .user-instruction > div {
     display:inline-block;
-    margin:0 auto;
-}
+    margin: 0 10px 15px 10px;
+    font-size: .9em;
 
+}
+.instruction-items {
+    margin: 5px 0 5px 3px;
+}
 #instruction-icon {
     width:20%;
-    vertical-align:center;
-    font-size:.7rem;
-    transform: translateY(-15%);
-    
-
+    font-size:1.5em;
+    margin-top:12px;
 }
 
-#instruction-verbage {
+.instruction-verbage {
     width: 75%;
     text-align:left;
     font-size: .7rem;
-    padding:.8rem;
+}
+
+.helper-icon {
+    font-size:.5rem;
+}
+
+.helper-verbage {
+    text-align:left;
+    font-size:.7em;
+    color: #C98573;
+
+}
+
+#correct-icon {
+    vertical-align:top;
+    font-size:.7rem;
+    display:inline-block;
+}
+
+.highlight {
+    padding-right: 4px;
+    color: #A7D2CB;
+    font-size: 1.2em;
+    border: 1px solid #A7D2CB;
+    border-radius: 50%;
+    padding:4px;
+    margin-right: 4px;
+}
+
+.correct-verbage {
+    width: 75%;
+    text-align:left;
+    display:inline-block;
+}
+
+.comments {
+    font-size: .7rem;
+    text-align:left;
+    padding:0 1rem 0 1rem;
+    font-family:'Raleway', sans-serif;
 }
 
 .error-msg {
@@ -637,7 +676,6 @@ button:hover {
 
 .info-msg {
     padding:15px 7px;
-
 }
 
 .user-msg {
