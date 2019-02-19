@@ -1,4 +1,4 @@
-# shopYourCloset
+# shopYourCloset!
 *  Live App:  https://serene-dawn-65763.herokuapp.com/
 
      +  demo user: tester/tester1
