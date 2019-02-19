@@ -236,7 +236,7 @@ function onSaveItemToClosetClick() {
     $('.section-closet').on('submit','#cl-save-btn', function(event) {
         event.preventDefault();
         console.log('made it to save item to closet');
-        /*
+        /* this is a comment
         const jwtToken = localStorage.getItem("jwtToken");
         const authUser = localStorage.getItem("userid");
         STORE.currentEditItem = {
