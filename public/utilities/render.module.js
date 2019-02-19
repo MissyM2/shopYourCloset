@@ -692,6 +692,9 @@ function renderAddItemForm(msg) {
             </div>
         </div>`;
     $(`.closet-container`).append(addItemFormBody);
+    $(`#additem-form`).submit(function(event) {
+        event.preventDefault();
+    });
 }
 
 function renderUpdateForm() {
