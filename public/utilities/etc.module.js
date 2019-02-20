@@ -19,7 +19,7 @@ function organizeData(data) {
                     for (let i=0; i < STORE.appareltypeAry.length; i++) {
                         getApparelTypeCount(STORE.appareltypeAry[i], data);
                     }
-                    RENDER.renderCloset(data);
+                    renderCloset(data);
                     break;
                 case 'my':
                     STORE.closetLength.my = data.length;
@@ -29,7 +29,7 @@ function organizeData(data) {
                     for (let i=0; i < STORE.appareltypeAry.length; i++) {
                         getApparelTypeCount(STORE.appareltypeAry[i], data);
                     }
-                    RENDER.renderCloset(data);
+                    renderCloset(data);
                     break;
                 case 'giveaway':
                     STORE.closetLength.giveaway = data.length;
@@ -39,7 +39,7 @@ function organizeData(data) {
                     for (let i=0; i < STORE.appareltypeAry.length; i++) {
                         getApparelTypeCount(STORE.appareltypeAry[i], data);
                     }
-                    RENDER.renderCloset(data);
+                    renderCloset(data);
                     break;
                 case 'donation':
                     STORE.closetLength.donation = data.length;
@@ -49,7 +49,7 @@ function organizeData(data) {
                     for (let i=0; i < STORE.appareltypeAry.length; i++) {
                         getApparelTypeCount(STORE.appareltypeAry[i], data);
                     }
-                    RENDER.renderCloset(data);
+                    renderCloset(data);
                     break;
                 default:
                     console.log('there is an issue:  etc. module case statemtn');
@@ -73,7 +73,7 @@ function organizeData(data) {
                 getApparelTypeCount(STORE.appareltypeAry[i], data);
             }
 
-            //RENDER.renderNavMenu();
+            renderNavMenu();
             //RENDER.renderAnalysis();
             console.log('this is the analyze closet.  Not ready to render findings, yet.');
         }
@@ -90,19 +90,39 @@ function getSeasonCount(season, items) {
     } 
       switch(season) {
         case "Spring Basics":
-            if (result.length > 0) seasonCountCollector['Spring Basics'] = result.length;
+            if (result.length > 0) {
+                seasonCountCollector['Spring Basics'] = result.length;
+            } else {
+                seasonCountCollector['Spring Basics'] = result.length;
+            }
             break;
         case 'Summer Basics':
-        if (result.length > 0) seasonCountCollector['Summer Basics'] = result.length;
+        if (result.length > 0) {
+            seasonCountCollector['Summer Basics'] = result.length;
+        } else {
+            seasonCountCollector['Summer Basics'] = 0;
+        }
             break;
         case 'Fall Basics':
-        if (result.length > 0) seasonCountCollector['Fall Basics'] = result.length;
+        if (result.length > 0) {
+            seasonCountCollector['Fall Basics'] = result.length;
+        } else {
+            seasonCountCollector['Fall Basics'] = 0;
+        }
             break;
         case 'Winter Basics':
-        if (result.length > 0) seasonCountCollector['Winter Basics'] = result.length;
+        if (result.length > 0) {
+            seasonCountCollector['Winter Basics'] = result.length;
+        } else {
+            seasonCountCollector['Winter Basics'] = 0;
+        }
             break;
         case 'Always in Season':
-        if (result.length > 0) seasonCountCollector['Always in Season'] = result.length;
+            if (result.length > 0) {
+                seasonCountCollector['Always in Season'] = result.length;
+            } else {
+                seasonCountCollector['Always in Season'] = 0;
+            }
             break;
         default:
             console.log('there is a problem with this switch statement'); 

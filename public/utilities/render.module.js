@@ -27,9 +27,8 @@ window.RENDER_MODULE = {
 };
 
 function renderRegistrationForm() {
-    $('.login-container').html('');
-    $('.section-login').html(`
-        <div class="reg-container">
+    $('.registration-container').html('');
+    $('.registration-container').html(`
                 <form id="registration-form" name="form-reg-login">
                     <div id="div-reg">
                         <div id="reg-title"><p>Register</p></div>
@@ -83,16 +82,13 @@ function renderRegistrationForm() {
                         </div>
                     </div>
                 </form>
-        </div>
     `);
 
 }
 
 function renderLoginForm() {
-
-    $('.section-login').html('');
-    $('.section-login').append(`
-        <div class="login-container">
+    $('.login-container').html('');
+    $('.login-container').html(`
                     <div id="title-verbage">
                         <h2>love clothes and love to be organized?</h2>
                         <h4>keep track of your wardrobe</h4>
@@ -138,9 +134,8 @@ function renderLoginForm() {
                         </form>
                     </div> 
                 </div>
-        </div> 
         
-    `).show();
+    `);
     $('#GET-username').focus();
 
 }
@@ -163,11 +158,10 @@ function renderTopNav() {
 
 function renderOptionsPage() {
     //renderTopNav();
-    $('.section-login').html('');
+    $('.options-container').html('').css('display', 'block');
 
     if (STORE.authUserName == 'admin') {
-        $('.section-closet').html(`
-                <div class="closet-container">
+        $('.options-container').html(`
                 <div class="user-instruction">
                             <div class="instruction-icon"><i class="fas fa-atom instruction"></i></div>
                             <div class="comments"><p>Which ADMIN function would you like to work with?</p></div>
@@ -182,11 +176,9 @@ function renderOptionsPage() {
                         <h4 class="closet-functions">giveaway closet</h4>
                         <div class="comments">view/add to/delete from/edit</div>
                 </div>
-                </div>
-     `).show();
+     `);
     } else {
-        $('.section-closet').html(`
-            <div class="closet-container">
+        $('.options-container').html(`
                 <div class="options-header">
                     <h3>Which closet would you like to work with?</h3>
                 </div>
@@ -215,14 +207,13 @@ function renderOptionsPage() {
                     <i class="fas fa-atom" id="analyze-closet-btn" data-closet="analyze"></i>
                     <h4 class="closet-functions">Analyze!</h4>
                 <div>
-            </div>
         `);
     };
     
 }
 
 function renderNavLoggedIn() {
-    $('.section-nav').html('');
+    $('.section-nav').html('').css('display','block');
     $('.section-nav').append(`
         <div class="nav-loggedin" style="border-bottom: 1px solid lightgrey">
             <div id="header-greeting">
@@ -293,8 +284,8 @@ function renderNavAdmin() {
 
 function renderLogout(user) {
     userName = localStorage.getItem('username');
-    $('.section-options').html('');
-    $('.section-login').html('');
+    $('.options-container').html('');
+    $('.login-container').html('');
     $('.closet-container').html('');
     $('.section-nav').html('');
     $('.section-nav').append(`
@@ -305,11 +296,11 @@ function renderLogout(user) {
 }    
 
 function renderCloset(closetItems) {
-    // make sure options and closet section are empty before rendering new closet
-    $('.section-closet').html('');
 
-    //  append appropriate divs and classes before adding data
-    $('.section-closet').append(`<div class="closet-container"></div>`);
+    // make sure options and closet section are empty before rendering new closet
+    $('.options-container').html('').css('display','none');
+    $('.addnewitem-container').html('').css('display','none');
+    //$('.section-closet').html('').css('display','block');
     $('.closet-container').append(`<div class="closet-header"></div>`); 
     $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
     
@@ -331,6 +322,7 @@ function renderCloset(closetItems) {
 
     //  with data now in its proper categories, render the data
     RENDER.renderClosetBody(result);
+
 }
 
 
@@ -546,18 +538,22 @@ function renderInformationPage() {
     $('.closet-body').html(infoPageMsg);
 }
 
-function renderAddItemForm(msg) {
+
+
+function renderAddItemForm() {
     $('.closet-container').html('');
-    const addItemFormBody = `<div class="addnewitem-container">
+    $('.options-container').html('');
+    $('.addnewitem-container').html('');
+    const addItemFormBody = `
             <div class="cl-header">
                 <h2>Add New Item</h2>
-                <span class="error-msg" id="error-add-new-item">${msg}</span>
+                <span class="error-msg" id="error-add-new-item">hello</span>
             </div>
            <div class="cl-resultcell-new additem-class">
                 <div class="cl-resultbody-new">
                 <form id="additem-form" name="additem-form">
                             <div class="additem-edit-btns">
-                                <button type="submit" class="action-btns small-btn" id="cl-save-btn" data-closet="${STORE.selCloset}" data-user="${STORE.authUser}">save</button>
+                                <button class="action-btns small-btn" id="js-save-btn" data-closet="${STORE.selCloset}" data-user="${STORE.authUser}">save</button>
                                 <button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>
                             </div>
                             <div class="itemrow cl-whichseason">
@@ -689,12 +685,8 @@ function renderAddItemForm(msg) {
                             </div>
                     </form>
                 </div>
-            </div>
-        </div>`;
-    $(`.closet-container`).append(addItemFormBody);
-    $(`#additem-form`).submit(function(event) {
-        event.preventDefault();
-    });
+            </div>`;
+    $('.addnewitem-container').html(addItemFormBody).css('display', 'block');
 }
 
 function renderUpdateForm() {
@@ -769,9 +761,9 @@ function renderUpdateForm() {
             </form>
         </div> 
         <div class="update-edit-btns">
-            <div class="action-btns small-btn" id="cl-updatebtn-final"data-id="${STORE.currentEditItem.id}">save</i>
-            </div>
-            <div class="action-btns small-btn" id="cl-cancel-btn">cancel</div>
+            <button class="action-btns small-btn" id="cl-updatebtn-final"data-id="${STORE.currentEditItem.id}">save</i>
+            </button>
+            <button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>
         </div>`; 
 
     $(`.${STORE.currentEditItem.id}-class`).html(updateFormBody);

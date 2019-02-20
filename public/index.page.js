@@ -129,12 +129,12 @@ function onLogoutClick() {
 function onGoHome() {
     $(document).on('click', '#header-title', function(event) {
         event.preventDefault();
-        $('.section-login').html('');
+        $('.options-container').css('display', 'block');
+        $('.section-login').html('').css('display','none');
         $('.closet-container').html('');
         $('.section-nav').html(''); 
-        $('.closet-container').html('');
-        RENDER.renderNavLoggedIn();
-       // RENDER.renderOptionsPage();
+        renderNavLoggedIn();
+        renderOptionsPage();
     });
 }
 
@@ -142,7 +142,7 @@ function onGoHome() {
 // listeners for closet functions
 
 function onViewClosetClick() {
-    $('.section-closet').on('click',(function(event) {
+    $('.options-container').on('click',(function(event) {
         event.preventDefault();
         let closetElement;
         closetElement = event.target.id;
@@ -151,7 +151,7 @@ function onViewClosetClick() {
 }
 
 function onViewClosetFromNavMenuClick() {
-    $(document).on('click','.options-btns-min',(function(event) {
+    $('.section-nav').on('click','.options-btns-min',(function(event) {
         event.preventDefault();
         let closetElement;
         closetElement=event.target.id;
@@ -160,6 +160,8 @@ function onViewClosetFromNavMenuClick() {
 }
 
 function closetClick(closetElement) {
+    //$('.section-closet').css('display','block');
+    $('.closet-container').html('');
     switch (closetElement) {
         case `ideal-closet-btn`:
         case `ideal-closet-btn-min`:
@@ -190,7 +192,7 @@ function closetClick(closetElement) {
         getAnalysis();
     } else {
         STORE.functionChoice = 'closet';
-        HTTP.fetchCloset(); 
+        fetchCloset(); 
     }
 }
 
@@ -224,16 +226,33 @@ function getAnalysis() {
 
 
 function onAddItemToClosetClick() {
-    $('.section-closet').on('click', '#cl-add-btn', (function(event){
+    $('.closet-container').on('click', '#cl-add-btn', (function(event){
         event.preventDefault();
-        // ???
-        const selMsg = "make your selections and click save";
-        RENDER.renderAddItemForm(selMsg);
+        console.log('add item to closet click');
+        //const selMsg = "make your selections and click save";
+        $('.options-container').html('');
+        $('.closet-container').html('');
+        renderAddItemForm();
     }));
 }
 
+
+function onSave1() {
+    $('.section-closet').on('submit','#cl-save-btn', function(event) {
+        event.preventDefault();
+        console.log('save1');
+    });
+}
+
+function onSave2() {
+    $('#additem-form').on('submit','#cl-save-btn', function(event) {
+        event.preventDefault();
+        console.log('save2');
+    });
+}
+
 function onSaveItemToClosetClick() {
-    $('.section-closet').on('click','#cl-save-btn', function(event) {
+    $('.addnewitem-container').on('click','#js-save-btn', function(event) {
         event.preventDefault();
         console.log('made it to save item to closet');
         /* this is a commentasdfasfdmore moaefsdf
@@ -364,14 +383,14 @@ function onDeleteItemInClosetClick() {
     }
     }));
 }
-
+/*
 function onCancelAddItemClick() {
-    $(document).on('click', '#cl-cancel-btn', (function(event) {
+    $('.closet-container').on('click', '#cl-cancel-btn', (function(event) {
         event.preventDefault();
         HTTP.fetchCloset();
     }))
 }
-
+*/
 function onPasswordRevealClick() {
     $(document).on('click', '.password-icon', (function(event) {
         event.preventDefault();
@@ -527,12 +546,14 @@ $(document).ready(function () {
     onViewClosetClick();
     onViewClosetFromNavMenuClick();
     onAddItemToClosetClick();
-    onSaveItemToClosetClick()
+    onSaveItemToClosetClick();
     onDeleteItemInClosetClick();
     onUpdateItemInClosetClick();
-    onCancelAddItemClick();
+    //onCancelAddItemClick();
     onMoveItemClick();
     onReturnItemClick();
+    onSave1();
+    onSave2();
 });
 
 

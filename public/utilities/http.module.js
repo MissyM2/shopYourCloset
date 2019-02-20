@@ -19,7 +19,7 @@ function genericFetch(url, settings, callback) {
             }
         })
         .then(responseJson => callback(responseJson))
-        .catch(err => console.log("Error", err.statusText))
+        .catch(err => console.log("Error", err));
 }
 
 // show all items for the logged-in user
@@ -98,7 +98,7 @@ function cbGetCloset(data) {
         } else {
             renderNavAdmin();
         }
-        ETC.organizeData(data);
+        organizeData(data);
     } else {
         if (STORE.authUserName !== 'admin') {
             renderNavMenu();
