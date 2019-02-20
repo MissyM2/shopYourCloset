@@ -1,44 +1,39 @@
-## shopYourCloset
-*  Demo Link https://missym2.github.io/shopYourCloset/
+# shopYourCloset!
 *  Live App:  https://serene-dawn-65763.herokuapp.com/
 
+     +  demo user: tester/tester1
+     +  admin demo user:  admin/admin1
 
-### Table of Contents
 
- -  [Screenshots](#screenshots)
+#### Table of Contents
+
  -  [Summary](#Summary)
+ -  [Screenshots](#screenshots)
+ -  [Functions and Features](#functions-and-features)
  -  [Technologies Used](#technologies-used)
+       -  [Tech Stack Overview](#tech-stack-overview)
+       -  [Tech Stack Details](#tech-stack-details)
+       -  [Code Base Overview](#code-base-overview)
+       -  [Code Base Details](#code-base-details)
+       
+ 
+ 
+ 
+ 
+## Summary
+ -  [Home](#shopYourCloset)
 
-#### Screenshots
-    Home page
-1.  ![Mobile Version Pic 1](/docimages/m1.png "Mobile Pic 1")
-
-    Registration Page
-2.  ![Mobile Version Pic 2](/docimages/m2.png "Mobile Pic 2")
-
-    Options Page
-3.  ![Mobile Version Pic 3](/docimages/m3.png "Mobile Pic 3")
-
-    Ideal Closet
-4.  ![Mobile Version Pic 4](/docimages/m4.png "Mobile Pic 4")
-
-    My Closet (My Closet)
-5.  ![Mobile Version Pic 5](/docimages/m5.png "Mobile Pic 5")
-
-    My closet:  add new item screen
-6.  ![Mobile Version Pic 6](/docimages/m6.png "Mobile Pic 6")
-
-6. (desktop)   ![Desktop Version Pic 6](/docimages/m6-desktop.png "Desktop Pic 4")
-7.  ![Mobile Version Pic 7](/docimages/m7.png "Mobile Pic 7")
-8.  ![Mobile Version Pic 8](/docimages/m8.png "Mobile Pic 8")
-9.  ![Mobile Version Pic 9](/docimages/m9.png "Mobile Pic 9")
-9. (desktop)   ![Desktop Version Pic 9](/docimages/m9-desktop.png "Desktop Pic 9")
-10.  ![Mobile Version Pic 10](/docimages/m10.png "Mobile Pic 10")
-
-#### Summary
 This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  All persistent data are stored in MongoDB, and users can view or edit data based upon whether they are a normal user or admin.
 
-### User Stories (Functional)
+
+
+
+
+
+## Functions and Features
+ -  [Home](#shopYourCloset)
+
+
 1.  Regular user may view their entire closet organized by season.
 2.  Regular User may add, edit or delete a particular item in their personal closet.
 3.  Regular User may view items in the ideal closet.
@@ -46,12 +41,227 @@ This app is a allows a user to log the items in their personal closet, compare i
 5.  Regular User may move one of their personal items to the public giveaway closet.
 6.  Regular User may return an item from their donation closet to their personal closet.
 7.  Regular User may view a comparison between their personal closet with the ideal closet and obtain recommendations based on the following:
+
      a.  total count comparison between the two closets
+     
      b.  count of items in each season
+     
      c.  count of items in each apparel category.
 
-### Technology Used
-*  HTML/CSS/JavaScript/jQuery
-*  Node.js/Express
-*  MongoDB/Mongoose
-*  Mocha/Chai/Travis CI 
+
+
+
+
+
+
+## Screenshots
+ -  [Home](#shopYourCloset)
+
+
+     Home page
+     
+![Mobile - login/home page](/docimages/m1.png "Mobile-Login/Home Page")
+
+    Registration Page
+    
+![Mobile - registration page](/docimages/m2.png "Mobile-Registration Page")
+
+    Options Page
+    
+![Mobile - options page](/docimages/m3.png "Mobile-Options Page")
+
+    Ideal Closet
+    
+![Mobile - ideal closet](/docimages/m4.png "Mobile-Ideal Closet")
+
+    My Closet:   add new item screen
+    
+![Mobile - my closet (add new item)](/docimages/m5.png "Mobile-My Closet: add an item")
+
+    My closet: viewing items (by season)
+    
+![Mobile - my closet (viewing items)](/docimages/m6.png "Mobile-My Closet")
+
+    My closet: editing an existing item
+    
+![Mobile - my closet](/docimages/m11.png "Mobile-My Closet: edit an item")
+
+    My closet: viewing My Closetitems on the desktop
+    
+![Desktop - my closet](/docimages/m6-desktop.png "Desktop-My Closet")
+
+    Donation closet
+    
+![Mobile - donation closet](/docimages/m7.png "Mobile-Donation Closet")
+
+    Giveaway closet
+    
+![Mobile Version Pic 8](/docimages/m8.png "Mobile-Giveaway Closet")
+
+    Analyze It
+    
+![Mobile - analysis of my closet](/docimages/m9.png "Mobile-Analyze It")
+
+    Analyze It: desktop version
+    
+![Desktop - analysis of my closet](/docimages/m9-desktop.png "Desktop-Analyze It")
+
+    Logout
+    
+![Mobile - logout](/docimages/m10.png "Mobile-Logout")
+
+
+
+
+
+
+
+
+
+## Technologies Used
+ -  [Home](#shopYourCloset)
+ 
+
+
+
+
+  ###  Tech Stack Overview
+  -  [Home](#shopYourCloset)
+  
+The backend for this app uses NodeJS with express. Authentication is handled using JWTs with passport. BcryptJS is used to hash passwords. The database is a mongo database. It's hosted on mLab. The client uses HTML, CSS, Javascript and JQuery. The server and client are both hosted on Heroku.
+
+
+  
+ ###  Tech Stack: Details
+ -  [Home](#shopYourCloset)
+ 
+ 
+ 
+#####  Front-End Technologies
+-  [Home](#shopYourCloset)
+
+
+
+   1.  HTML: a standard markup language for the creation of web pages
+   2.  CSS: used to describe the presentation of HTML pages
+   3.  JavaScript: an interpreted language that can create and dynamically change web pages
+   
+       *  jQuery: a JS library developed simplify HTML DOM tree traversal and manipulation, event handling, CSS animation, and Ajax
+  
+  
+  
+#####  Server Technologies
+-  [Home](#shopYourCloset)
+
+
+
+   1.  Node.js:  enables use of Javascript on the server side
+   
+      *  bcryptjs: 2.4.3:  a password hashing function
+      
+      *  dotenv: 6.2.0: loads environment variable form an .env file
+      
+      *  joi: 14.3.1:  validates js objects from data schemes
+      
+      *  jsonwebtoken: 8.4.0:  securely transmis information between server and front-end in json format
+      
+      *  morgan: 1.9.1:  a request logger middleware
+      
+      *  passport: 0.4.0:  an authentication middleware
+      
+          +  passport-http: 0.3.0:  allows the authentication of HTTP requests
+          +  passport-jwt: 4.0.0
+   > passport-local: 1.0.0
+   2.  Express:  the webserver - a framework that allows development of node-based web apps
+   3.  MongoDB:  the database
+   
+   
+       *  mongoose: 5.4.1:  manages the relationships between data, provides schema validation and translation between objects in code and representation of those objects in MongoDB.
+       
+   
+   
+   
+   
+#####  Testing Technologies
+-  [Home](#shopYourCloset)
+
+
+   > chai: 4.2.0
+   > chai-http: 4.2.1
+   > faker: 4.1.0
+   > mocha: 5.2.0
+   
+   
+   
+#####  Development/Deployment
+
+-  [Home](#shopYourCloset)
+
+   1.  Git & GitHub:  a development platform that allows storage and revision management
+   2.  Heroku:  a cloud platform for deploying apps  
+   3.  Travis CI: a host for continuous testing
+   
+
+
+
+
+
+
+
+###  Code Base Overview
+  -  [Home](#shopYourCloset)
+  
+  
+  
+shopYourCloset app is a single page application (SPA) which includes as its primary static html file, index.html.  The file is dynamically changed throughout the user session by a number of .js files located under the /public folder as describe below.  The index.page.js is responsible for initiating the app and calls to other .js files as described below.   The primary CRUD operations occur on four different 'closets' as well as 'users' through a series of routers and data models under the /app folder.  Authentication and of users takes place through the use of JSON Web Tokens (JWT), obtained on login as well as a requirement to refresh.  Security of the password is maintained through the use of a hashing algorithm and encryption with bcrypt.
+
+
+
+
+
+###  Code Base Details
+ -  [Home](#shopYourCloset)
+
+
+
+
+#####  Front End 
+-  [Home](#shopYourCloset)
+
+
+
+1.  All front-end files are located in the /public folder.
+2.  The front end is controlled by the index.page.js.  The function that initiates the application is located here as well as all the event listeners for the app.  
+3.  All other functions are located under the /public/utilities folder and are divided among the following files:
+
+    a.  cache.module.js:  all functions dealing with authentication of the user reside here.
+    
+    b.  http.module.js:  all functions related to accessing the database are located here.
+    
+    c.  render.module.js:  all functions related to bringing the UI to screen are located here.
+    
+    d.  etc.module.js:  Several functions are located here that are integral to the program but do not fall under the other major categories are located here.
+    
+    e.  store.module.js:  A STORE object is located here that maintains a variety of information that is passed to different functions resides here.
+    
+    f.  The primary .html file is index.html
+    
+4.  There are 3 CSS files, all located in the /public/css folder.
+  
+  
+  
+  
+#####  Back End
+-  [Home](#shopYourCloset)
+
+
+ 
+ 1.  All front-end files are located in the /app folder
+ 2.  The model and router files for each closet item and user are located in their own folder /app/donationitem, /app/giveawayitem, /app/myitem, /app/idealitem and /app/user.
+ 3.  The model and strategies file for local authentication and obtaining a JWT are located in the /app/auth folder.
+ 4.  The model and router files 
+    
+
+
+
+
