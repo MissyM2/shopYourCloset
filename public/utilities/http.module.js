@@ -1,10 +1,11 @@
 window.HTTP_MODULE = {
-    fetchCloset,
+    getClosetFetchSettings,
     fetchForUpdateClosetItemData,
     //handleErrors,
     genericFetch
 };
 
+//  most functions package their settings and call this generic fetch to connect to db
 function genericFetch(url, settings, callback) {
     fetch(url, settings)
         .then(response => {
@@ -22,8 +23,8 @@ function genericFetch(url, settings, callback) {
         .catch(err => console.log("Error", err));
 }
 
-// show all items for the logged-in user
-function fetchCloset() {
+// fetch all items from the db to show in closets
+function getClosetFetchSettings() {
     const jwtToken = localStorage.getItem("jwtToken");
     const authUser = localStorage.getItem('userid');
 
@@ -92,19 +93,23 @@ function cbLogin(data) {
 
 
 function cbGetCloset(data) {
+    let selMenu = '';
     if (data.length !== 0) {
         if (STORE.authUserName !== 'admin') {
-            renderNavMenu();
+            selMenu='users'
         } else {
-            renderNavAdmin();
+            selMenu='admin';
         }
+        renderNavMenu(selMenu);
         organizeData(data);
     } else {
         if (STORE.authUserName !== 'admin') {
-            renderNavMenu();
+            selMenu='users'
         } else {
-            renderNavAdmin();
+            selMenu='admin';
         }
+        renderNavMenu(selMenu);
+
         if (STORE.selCloset === 'my') {
             dataMsg = "Add your first item here.";
             renderAddItemForm(dataMsg);
@@ -142,7 +147,7 @@ function fetchForUpdateClosetItemData() {
             throw new Error(response.statusText);
         })
         .then(() => {
-            fetchCloset();
+            getClosetFetchSettings();
         })
         
         .catch(error => {

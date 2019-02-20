@@ -3,7 +3,11 @@
 window.RENDER_MODULE = {
     renderRegistrationForm,
     renderLoginForm,
+    renderNavLoggedIn,
+    renderLogout,
     renderOptionsPage,
+    renderTopNav,
+    renderNavMenu,
     renderCloset,
     renderClosetHeader,
     renderClosetBody,
@@ -11,20 +15,17 @@ window.RENDER_MODULE = {
     renderClosetItemBody,
     renderClosetItemActionBtns,
     renderAddItemForm,
-    renderTopNav,
-    renderNavLoggedIn,
-    renderNavMenu,
-    renderNavAdmin,
-    renderLogout,
     renderUpdateForm,
-    renderErrorMessage,
-    renderSignUpError,
     renderAnalysis,
     renderWholeClosetAnalysis,
     renderSeasonAnalysis,
     renderAppareltypeAnalysis,
-    renderInformationPage
+    renderInformationPage,
+    renderErrorMessage,
+    renderSignUpError
 };
+
+// *****  REGISTRATION AND LOGIN RENDER FUNCTIONS
 
 function renderRegistrationForm() {
     $('.registration-container').html('');
@@ -91,9 +92,8 @@ function renderRegistrationForm() {
 
 function renderLoginForm() {
     $('.registration-container').html('');
+    $('section-nav').html('').css('display','none');
     $('.login-container').html('');
-    $('.closet-container').html('');
-    $('.options-container').html('').css('display', 'none');
     $('.login-container').html(`
                     <div id="title-verbage">
                         <h2>love clothes and love to be organized?</h2>
@@ -140,12 +140,22 @@ function renderLoginForm() {
                         </form>
                     </div> 
                 </div>
-        
     `);
     $('#GET-username').focus();
 
 }
 
+function renderLogout(user) {
+    $('.options-container').html('').css('display','none');
+    $('.closet-container').html('').css('display', 'none');
+    $('.registration-container').html('');
+    $('.login-container').html('');
+    $('#header-greeting').html(`<p>Goodbye, ${user}</p>`);
+    renderLoginForm();
+}    
+
+
+// *****  RENDER NAVIGATION FUNCTIONS
 function renderTopNav() {
     $('.topnav').html(`
             <div class="col-2"></div>
@@ -165,7 +175,6 @@ function renderTopNav() {
 function renderOptionsPage() {
     $('.registration-container').html('');
     $('.login-container').html('');
-    //$('.section-login').html('').css('display','none');
     $('.closet-container').html('');
     $('.options-container').html('').css('display','none');
     $('.options-container').html('').css('display', 'block');
@@ -218,44 +227,51 @@ function renderOptionsPage() {
                 <div>
         `);
     };
-    
 }
 
 function renderNavLoggedIn() {
-    $('.section-nav').html('').css('display','block');
-    $('.section-nav').append(`
-        <div class="nav-loggedin" style="border-bottom: 1px solid lightgrey">
+    $('.loggedin-container').html('').css('display','block');
+    $('.loggedin-container').html(`
             <div id="header-greeting">
                 <p>Welcome, ${STORE.authUserName}!</p>
             </div>
             <div id="header-logout">
                 <p>Logout</p>
-            </div>
-        </div>`);
+            </div>`);
+    $('.loggedin-container').css('border-bottom','1px solid lightgrey');
 }
-
-function renderNavMenu() {
-    //$('.section-nav').html('');
-    $('.nav-menu').remove();
-    $('.section-nav').append(`
-            <div class="nav-menu" style="border-bottom: 1px solid lightgrey">
-                <div class="options-btns-min" >
+function renderNavMenu(menu) {
+    $('.menu-container').html('');
+    if (menu === 'admin') {
+        $('.menu-container').html(`
+                <div class="options-btns-min">
                     <p id="ideal-closet-btn-min">ideal</p>
                 </div>
-                <div class="options-btns-min" >
-                    <p id="my-closet-btn-min">yours</p>
-                </div>
-                <div class="options-btns-min" >
-                    <p id="giveaway-closet-btn-min">giveaway</p>
-                </div>
-                <div class="options-btns-min" >
-                    <p id="donation-closet-btn-min">donation</p>
-                </div>
                 <div class="options-btns-min">
-                    <p id="analyze-closet-btn-min">analyze</p>
-                <div>
-            </div>
-     `);
+                    <p id="giveaway-closet-btn-min">giveaway</p>
+                </div>`);
+     $('.menu-container').css('border-bottom','1px solid lightgrey')
+    } else {
+        $('.menu-container').html(`
+                <div class="nav-menu" style="border-bottom: 1px solid lightgrey">
+                    <div class="options-btns-min" >
+                        <p id="ideal-closet-btn-min">ideal</p>
+                    </div>
+                    <div class="options-btns-min" >
+                        <p id="my-closet-btn-min">yours</p>
+                    </div>
+                    <div class="options-btns-min" >
+                        <p id="giveaway-closet-btn-min">giveaway</p>
+                    </div>
+                    <div class="options-btns-min" >
+                        <p id="donation-closet-btn-min">donation</p>
+                    </div>
+                    <div class="options-btns-min">
+                        <p id="analyze-closet-btn-min">analyze</p>
+                    <div>
+                </div>
+        `);
+    }
 
      switch(STORE.selCloset) {
         case 'ideal':
@@ -275,42 +291,15 @@ function renderNavMenu() {
     }
 }
 
-function renderNavAdmin() {
-    $('.registration-container').html('');
-    $('.login-container').html('');
-    $('.section-login').css('display','none');
-    $('.closet-container').html('');
-    $('.nav-admin').remove('');
-    $('.section-nav').append(`
-            <div class="nav-admin" style="border-bottom: 1px solid lightgrey">
-                <div class="options-btns-min">
-                    <p id="ideal-closet-btn-min">ideal</p>
-                </div>
-                <div class="options-btns-min">
-                    <p id="giveaway-closet-btn-min">giveaway</p>
-                </div>
-            </div>
-     `);
-}
 
-function renderLogout(user) {
-    
-    $('.options-container').html('').css('display','none');
-    $('.closet-container').html('').css('display', 'none');
-    $('.registration-container').html('');
-    $('.login-container').html('');
-    $('.section-login').css('display','block');
-    $('#header-greeting').html(`<p>Goodbye, ${user}</p>`);
-    renderLoginForm();
-}    
+//  ***** RENDER CLOSETS (my, ideal, donate and giveaway) (analysis selection is below this block)
 
 function renderCloset(closetItems) {
-    //$('.registration-container').html('');
-    //$('.login-container').html('');
-    //$('.section-login').css('display','none');
     $('.options-container').html('').css('display','none');
     $('.addnewitem-container').html('');
+    $('.closet-container').css('display','block');
     $('.closet-container').html('');
+
     $('.closet-container').append(`<div class="closet-header"></div>`); 
     $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
     
@@ -335,15 +324,12 @@ function renderCloset(closetItems) {
 
 }
 
-
-function renderClosetHeader(closetItems) {
-    
+function renderClosetHeader(closetItems) { 
     let closetHtml = '';
     let headerHtml = '';
     let itemCountHmtl = '';
     let editButtonHtml = '';
     let editBtnsHtml = '';
-
     
     //  Create Header for one of the User Selected Options
     // header title:  For all 'closets', use the stored closet name for the header. 
@@ -375,8 +361,6 @@ function renderClosetHeader(closetItems) {
                     ${itemCountHtml}
                     ${editButtonHtml}
                     `);
-    
-
 }
 
 function renderSeasonHeaders() {
@@ -454,7 +438,6 @@ function renderClosetItemBody(data) {
 }
 
 function renderClosetItemActionBtns(bodyHtml, data) {
-
     // if someone other than the ADMIN is logged in, get these buttons
     if (STORE.authUserName !== 'admin') {
         if (STORE.selCloset === 'my') {
@@ -501,7 +484,7 @@ function renderClosetBody(closetItems) {
     } 
 }
 
-
+//  this page is rendered if before there are items in a closet
 function renderInformationPage() { 
     $('.closet-container').html(`
                 <div class="cl-header">
@@ -549,244 +532,11 @@ function renderInformationPage() {
 }
 
 
-
-function renderAddItemForm(msg) {
-    $('.registration-container').html('');
-    $('.login-container').html('');
-    $('.section-login').css('display','none');
-    $('.closet-container').html('');
-    $('.options-container').html('').css('display', 'none');
-    $('.addnewitem-container').html('').css('display', 'none');
-    const addItemFormBody = `
-            <div class="cl-header">
-                <h2>Add New Item</h2>
-                <span class="error-msg" id="error-add-new-item">${msg}</span>
-            </div>
-           <div class="cl-resultcell-new additem-class">
-                <div class="cl-resultbody-new">
-                <form id="additem-form" name="additem-form">
-                            <div class="additem-edit-btns">
-                                <button class="action-btns small-btn" id="js-save-btn" data-closet="${STORE.selCloset}" data-user="${STORE.authUser}">save</button>
-                                <button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>
-                            </div>
-                            <div class="itemrow cl-whichseason">
-                                <div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>
-                                <div class="newitem itembody">
-                                    <div class="additems-container" id="js-additem-season">
-                                        <div class="radiogroup">
-                                            <label class="season-selector-label" for="season-icon-selector">All Seasons
-                                            <input type="radio" name="season" id="season-all" value="Always in Season" checked /></label>
-                                        </div>
-                                        <div class="radiogroup">
-                                            <label class="season-selector-label" for="season-icon-selector">Spring Basics
-                                            <input type="radio" name="season" id="season-spring" value="Spring Basics" /></label>
-                                        </div>
-                                        <div class="radiogroup">
-                                            <label class="season-selector-label" for="season-icon-selector">Summer Basics
-                                            <input type="radio" name="season" id="season-summer" value="Summer Basics" /></label>
-                                        </div>
-                                        <div class="radiogroup">
-                                            <label class="season-selector-label" for="season-icon-selector">Fall Basics
-                                            <input type="radio" name="season" id="season-fall" value="Fall Basics" /></label>
-                                        </div>
-                                        <div class="radiogroup">
-                                            <label class="season-selector-label" for="season-icon-selector">Winter Basics
-                                            <input type="radio" name="season" id="season-winter" value="Winter Basics" /></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="itemrow cl-appareltype">
-                                <div class="newitem itemlabel"><label>type of clothing <i class="fas fa-asterisk"></i></label></div>
-                                <div class="newitem itembody">
-                                    <div class="additems-container" id="js-additem-appareltype">
-                                        <div class="radiogroup">
-                                            <label for="season-icon-selector">top
-                                            <input type="radio" name="appareltype" value="top" checked></label>
-                                        </div>
-                                        <div class="radiogroup">
-                                            <label for="season-icon-selector">bottom
-                                            <input type="radio" name="appareltype" value="bottom"></label>
-                                        </div> 
-                                        <div class="radiogroup">
-                                            <label for="season-icon-selector">dress
-                                            <input type="radio" name="appareltype" value="dress"></label>
-                                        </div> 
-                                        <div class="radiogroup">
-                                            <label for="season-icon-selector">coat
-                                            <input type="radio" name="appareltype" value="coat"></label>
-                                        </div> 
-                                        <div class="radiogroup">
-                                            <label for="season-icon-selector">shoes
-                                            <input type="radio" name="appareltype" value="shoes"></label>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="itemrow cl-color">
-                                <div class="newitem itemlabel"><label>color </label></div>
-                                <div class="newitem itembody">
-                                    <div class="additems-container" id="js-additem-color">
-                                        <div class="radiogroup">
-                                            <label for="color-icon-selector">black
-                                            <input type="radio" name="color" value="black"></label>
-                                        </div>
-                                        <div class="radiogroup">
-                                            <label for="color-icon-selector">white
-                                            <input type="radio" name="color" value="white"></label>
-                                        </div> 
-                                        <div class="radiogroup">
-                                            <label for="color-icon-selector">neutral
-                                            <input type="radio" name="color" value="neutral" checked></label>
-                                        </div> 
-                                        <div class="radiogroup">
-                                            <label for="color-icon-selector">choice
-                                            <input type="radio" name="color" value="choice"></label>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="itemrow cl-size">
-                                <div class="newitem itemlabel"><label>size: </label></div> 
-                                <div class="newitem itembody">
-                                    <div class="additems-container" id="js-additem-size">
-                                            <div class="radiogroup">
-                                                <label for="size-selector">x-small
-                                                <input type="radio" name="size" value="x-small"></label>
-                                            </div>
-                                            <div class="radiogroup">
-                                                <label for="size-selector">small
-                                                <input type="radio" name="size" value="small"></label>
-                                            </div> 
-                                            <div class="radiogroup">
-                                                <label for="size-selector">medium
-                                                <input type="radio" name="size" value="medium"></label>
-                                            </div> 
-                                            <div class="radiogroup">
-                                                <label for="size-selector">large
-                                                <input type="radio" name="size" value="dress"></label>
-                                            </div> 
-                                            <div class="radiogroup">
-                                                <label for="size-selector">x-large
-                                                <input type="radio" name="size" value="x-large"></label>
-                                            </div> 
-                                            <div class="radiogroup">
-                                                <label for="size-selector">n/a
-                                                <input type="radio" name="size" value="n/a" checked></label>
-                                            </div> 
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="itemrow cl-shortdesc">
-                                <div class="newitem itemlabel"><label>short description <i class="fas fa-asterisk"></i></label></div>
-                                <div class="newitem itembody">
-                                    <input class="updatefields" id="js-additem-shortdesc" type="text" name="shortdesc" value="short-sleeved t-shirt" placeholder="short description" />
-                                </div>
-                            </div>
-
-                            <div class="itemrow cl-longdesc">
-                                <div class="newitem itemlabel"><label>long description </label></div>
-                                <div class="newitem itembody">
-                                    <input class="updatefields" id="js-additem-longdesc" type="text" name="longdesc" value="The best short-sleeve length is about 1/2 to 1 inch longer than a typical cap sleeve-
-                                    it shows just eh right amount of arm" placeholder="long description" />
-                                </div>
-                            </div>
-                    </form>
-                </div>
-            </div>`;
-    $('.addnewitem-container').html(addItemFormBody).css('display', 'block');
-}
-
-function renderUpdateForm() {
-
-    // change closet cell to updateable form
-    const updateFormBody = `<div class="cl-resultbody">
-            <form id='form-update-closet'>
-                <div class="itemrow update-season">
-                    <div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>
-                    <div class="item itembody">
-                            <select class="updatefields" id="js-updateseason" type="text" name="season">
-                                <option value ="${STORE.currentEditItem.season}">${STORE.currentEditItem.season}</option>
-                                <option value = "Always in Season">Always in Season</option>
-                                <option value = "Fall Basics">Fall Basics</option>
-                                <option value = "Winter Basics">Winter Basics</option>
-                                <option value = "Spring Basics">Spring Basics</option>
-                                <option value = "Summer Basics">Summer Basics</option>
-                            </select>
-                    </div>
-                </div>
-                <div class="itemrow update-appareltype">
-                    <div class="newitem newitemlabel">type of clothing: <i class="fas fa-asterisk"></i></div>
-                    <div class="item itembody">
-                        <select class="updatefields" id="js-updateappareltype" type="text" name="appareltype">
-                            <option value ="${STORE.currentEditItem.appareltype}">${STORE.currentEditItem.appareltype}</option>
-                            <option value = "top">top</option>
-                            <option value = "bottom">bottom</option>
-                            <option value = "dress">dress</option>
-                            <option value = "coat">coat</option>
-                            <option value = "shoes">shoes</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="itemrow update-color">
-                    <div class="newitem itemlabel">color: </div>
-                    <div class="newitem itembody">
-                        <select class="updatefields" id="js-updatecolor" type="text" name="color" value="${STORE.currentEditItem.color}">
-                            <option value = "${STORE.currentEditItem.color}">${STORE.currentEditItem.color}</option>
-                            <option value = "black">black</option>
-                            <option value = "white">white</option>
-                            <option value = "neutral">neutral</option>
-                            <option value = "your choice">your choice</option>
-                            <option value = "n/a">n/a</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="itemrow update-shortdesc">
-                    <div class="newitem itemlabel">short description: <i class="fas fa-asterisk"></i></div>
-                    <div class="newitem itembody">
-                        <input class="updatefields" id="js-updateshortdesc" type="text" name="shortdesc" value="${STORE.currentEditItem.shortdesc}" />
-                    </div>
-                </div>
-                <div class="itemrow update-longdesc">
-                    <div class="newitem itemlabel">long description: </div>
-                    <div class="newitem itembody">
-                        <textarea class="updatefields" id="js-updatelongdesc" type="text" name="longdesc" value="${STORE.currentEditItem.longdesc}" rows="3" cols="20">${STORE.currentEditItem.longdesc}</textarea>
-                    </div>
-                </div>
-                <div class="itemrow update-size">
-                    <div class="newitem itemlabel">size: </div>
-                    <div class="newitem itembody">
-                        <select class="updatefields" id="js-updatesize" type="text" name="size">
-                            <option value = "${STORE.currentEditItem.size}">${STORE.currentEditItem.size}</option>
-                            <option value = "X-Small">X-Small</option>
-                            <option value = "Small">Small</option>
-                            <option value = "Medium">Medium</option>
-                            <option value = "Large">Large</option>
-                            <option value = "X-Large">X-Large</option>
-                        </select>
-                    </div>
-                </div>
-            </form>
-        </div> 
-        <div class="update-edit-btns">
-            <button class="action-btns small-btn" id="cl-updatebtn-final"data-id="${STORE.currentEditItem.id}">save</i>
-            </button>
-            <button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>
-        </div>`; 
-
-    $(`.${STORE.currentEditItem.id}-class`).html(updateFormBody);
-    $(`.${STORE.currentEditItem.id}-class`).css("border", "5px solid #C98573");
-}
+// ***** RENDER ANALYSIS SCREEN FUNCTIONS
 
 function renderAnalysis() {
     $('.registration-container').html('');
     $('.login-container').html('');
-    $('.section-login').css('display','none');
     $('.closet-container').html('');
      headerHtml = `<div class="item" id="closet-title"><h2>Analyze It!</h2></div>`
     
@@ -973,7 +723,242 @@ function renderAppareltypeAnalysis() {
 
 }
 
-// ** render errors
+//  *****  RENDER ADD AND UPDATE FORMS
+
+function renderAddItemForm(msg) {
+    $('.registration-container').html('');
+    $('.login-container').html('');
+    $('.closet-container').html('');
+    $('.options-container').html('').css('display', 'none');
+    $('.addnewitem-container').html('').css('display', 'none');
+    const addItemFormBody = `
+            <div class="cl-header">
+                <h2>Add New Item</h2>
+                <span class="error-msg" id="error-add-new-item">${msg}</span>
+            </div>
+           <div class="cl-resultcell-new additem-class">
+                <div class="cl-resultbody-new">
+                <form id="additem-form" name="additem-form">
+                            <div class="additem-edit-btns">
+                                <button class="action-btns small-btn" id="js-save-btn" data-closet="${STORE.selCloset}" data-user="${STORE.authUser}">save</button>
+                                <button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>
+                            </div>
+                            <div class="itemrow cl-whichseason">
+                                <div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>
+                                <div class="newitem itembody">
+                                    <div class="additems-container" id="js-additem-season">
+                                        <div class="radiogroup">
+                                            <label class="season-selector-label" for="season-icon-selector">All Seasons
+                                            <input type="radio" name="season" id="season-all" value="Always in Season" checked /></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label class="season-selector-label" for="season-icon-selector">Spring Basics
+                                            <input type="radio" name="season" id="season-spring" value="Spring Basics" /></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label class="season-selector-label" for="season-icon-selector">Summer Basics
+                                            <input type="radio" name="season" id="season-summer" value="Summer Basics" /></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label class="season-selector-label" for="season-icon-selector">Fall Basics
+                                            <input type="radio" name="season" id="season-fall" value="Fall Basics" /></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label class="season-selector-label" for="season-icon-selector">Winter Basics
+                                            <input type="radio" name="season" id="season-winter" value="Winter Basics" /></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="itemrow cl-appareltype">
+                                <div class="newitem itemlabel"><label>type of clothing <i class="fas fa-asterisk"></i></label></div>
+                                <div class="newitem itembody">
+                                    <div class="additems-container" id="js-additem-appareltype">
+                                        <div class="radiogroup">
+                                            <label for="season-icon-selector">top
+                                            <input type="radio" name="appareltype" value="top" checked></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label for="season-icon-selector">bottom
+                                            <input type="radio" name="appareltype" value="bottom"></label>
+                                        </div> 
+                                        <div class="radiogroup">
+                                            <label for="season-icon-selector">dress
+                                            <input type="radio" name="appareltype" value="dress"></label>
+                                        </div> 
+                                        <div class="radiogroup">
+                                            <label for="season-icon-selector">coat
+                                            <input type="radio" name="appareltype" value="coat"></label>
+                                        </div> 
+                                        <div class="radiogroup">
+                                            <label for="season-icon-selector">shoes
+                                            <input type="radio" name="appareltype" value="shoes"></label>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="itemrow cl-color">
+                                <div class="newitem itemlabel"><label>color </label></div>
+                                <div class="newitem itembody">
+                                    <div class="additems-container" id="js-additem-color">
+                                        <div class="radiogroup">
+                                            <label for="color-icon-selector">black
+                                            <input type="radio" name="color" value="black"></label>
+                                        </div>
+                                        <div class="radiogroup">
+                                            <label for="color-icon-selector">white
+                                            <input type="radio" name="color" value="white"></label>
+                                        </div> 
+                                        <div class="radiogroup">
+                                            <label for="color-icon-selector">neutral
+                                            <input type="radio" name="color" value="neutral" checked></label>
+                                        </div> 
+                                        <div class="radiogroup">
+                                            <label for="color-icon-selector">choice
+                                            <input type="radio" name="color" value="choice"></label>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="itemrow cl-size">
+                                <div class="newitem itemlabel"><label>size: </label></div> 
+                                <div class="newitem itembody">
+                                    <div class="additems-container" id="js-additem-size">
+                                            <div class="radiogroup">
+                                                <label for="size-selector">x-small
+                                                <input type="radio" name="size" value="x-small"></label>
+                                            </div>
+                                            <div class="radiogroup">
+                                                <label for="size-selector">small
+                                                <input type="radio" name="size" value="small"></label>
+                                            </div> 
+                                            <div class="radiogroup">
+                                                <label for="size-selector">medium
+                                                <input type="radio" name="size" value="medium"></label>
+                                            </div> 
+                                            <div class="radiogroup">
+                                                <label for="size-selector">large
+                                                <input type="radio" name="size" value="dress"></label>
+                                            </div> 
+                                            <div class="radiogroup">
+                                                <label for="size-selector">x-large
+                                                <input type="radio" name="size" value="x-large"></label>
+                                            </div> 
+                                            <div class="radiogroup">
+                                                <label for="size-selector">n/a
+                                                <input type="radio" name="size" value="n/a" checked></label>
+                                            </div> 
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="itemrow cl-shortdesc">
+                                <div class="newitem itemlabel"><label>short description <i class="fas fa-asterisk"></i></label></div>
+                                <div class="newitem itembody">
+                                    <input class="updatefields" id="js-additem-shortdesc" type="text" name="shortdesc" value="short-sleeved t-shirt" placeholder="short description" />
+                                </div>
+                            </div>
+
+                            <div class="itemrow cl-longdesc">
+                                <div class="newitem itemlabel"><label>long description </label></div>
+                                <div class="newitem itembody">
+                                    <input class="updatefields" id="js-additem-longdesc" type="text" name="longdesc" value="The best short-sleeve length is about 1/2 to 1 inch longer than a typical cap sleeve-
+                                    it shows just eh right amount of arm" placeholder="long description" />
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>`;
+    $('.addnewitem-container').html(addItemFormBody).css('display', 'block');
+}
+
+function renderUpdateForm() {
+    // change closet cell to updateable form
+    const updateFormBody = `<div class="cl-resultbody">
+            <form id='form-update-closet'>
+                <div class="itemrow update-season">
+                    <div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>
+                    <div class="item itembody">
+                            <select class="updatefields" id="js-updateseason" type="text" name="season">
+                                <option value ="${STORE.currentEditItem.season}">${STORE.currentEditItem.season}</option>
+                                <option value = "Always in Season">Always in Season</option>
+                                <option value = "Fall Basics">Fall Basics</option>
+                                <option value = "Winter Basics">Winter Basics</option>
+                                <option value = "Spring Basics">Spring Basics</option>
+                                <option value = "Summer Basics">Summer Basics</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="itemrow update-appareltype">
+                    <div class="newitem newitemlabel">type of clothing: <i class="fas fa-asterisk"></i></div>
+                    <div class="item itembody">
+                        <select class="updatefields" id="js-updateappareltype" type="text" name="appareltype">
+                            <option value ="${STORE.currentEditItem.appareltype}">${STORE.currentEditItem.appareltype}</option>
+                            <option value = "top">top</option>
+                            <option value = "bottom">bottom</option>
+                            <option value = "dress">dress</option>
+                            <option value = "coat">coat</option>
+                            <option value = "shoes">shoes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="itemrow update-color">
+                    <div class="newitem itemlabel">color: </div>
+                    <div class="newitem itembody">
+                        <select class="updatefields" id="js-updatecolor" type="text" name="color" value="${STORE.currentEditItem.color}">
+                            <option value = "${STORE.currentEditItem.color}">${STORE.currentEditItem.color}</option>
+                            <option value = "black">black</option>
+                            <option value = "white">white</option>
+                            <option value = "neutral">neutral</option>
+                            <option value = "your choice">your choice</option>
+                            <option value = "n/a">n/a</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="itemrow update-shortdesc">
+                    <div class="newitem itemlabel">short description: <i class="fas fa-asterisk"></i></div>
+                    <div class="newitem itembody">
+                        <input class="updatefields" id="js-updateshortdesc" type="text" name="shortdesc" value="${STORE.currentEditItem.shortdesc}" />
+                    </div>
+                </div>
+                <div class="itemrow update-longdesc">
+                    <div class="newitem itemlabel">long description: </div>
+                    <div class="newitem itembody">
+                        <textarea class="updatefields" id="js-updatelongdesc" type="text" name="longdesc" value="${STORE.currentEditItem.longdesc}" rows="3" cols="20">${STORE.currentEditItem.longdesc}</textarea>
+                    </div>
+                </div>
+                <div class="itemrow update-size">
+                    <div class="newitem itemlabel">size: </div>
+                    <div class="newitem itembody">
+                        <select class="updatefields" id="js-updatesize" type="text" name="size">
+                            <option value = "${STORE.currentEditItem.size}">${STORE.currentEditItem.size}</option>
+                            <option value = "X-Small">X-Small</option>
+                            <option value = "Small">Small</option>
+                            <option value = "Medium">Medium</option>
+                            <option value = "Large">Large</option>
+                            <option value = "X-Large">X-Large</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div> 
+        <div class="update-edit-btns">
+            <button class="action-btns small-btn" id="cl-updatebtn-final"data-id="${STORE.currentEditItem.id}">save</i>
+            </button>
+            <button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>
+        </div>`; 
+
+    $(`.${STORE.currentEditItem.id}-class`).html(updateFormBody);
+    $(`.${STORE.currentEditItem.id}-class`).css("border", "5px solid #C98573");
+}
+
+
+
+// ***** RENDER ERROR MESSAGES
 
 function renderErrorMessage() {
     //reset error messages

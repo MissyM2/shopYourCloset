@@ -122,46 +122,38 @@ button:hover {
 .med-btn {
     width:100px;
 }
-
-.action-btns:hover {
-    background-color: #DEB5AB;
-}
-    
+ 
 
 /*  ***** section styles:  there are four sections:  nav, login, options, closet */
 
-.section-options,
-.section-login,
-.section-closet {
-    /*max-width:500px;*/
+
+.section {
     margin:0 auto;
+    max-width:500px;
+}
+.section-options,
+.section-login {
+    text-align:center;
+    padding-top:30px;
+    margin-left:5px;
+    margin-right:5px;
 }
 
-
-/*  *****  container styles: each section has at least one container within it */
+.closet-container {
+    text-align:center;
+}
+/*  *****  container styles: each section has at least one container within it 
 
 .header-container {
     display:block;
 }
 
-.options-container, 
-.reg-container, 
-.login-container,
-.closet-container{
-    text-align:center;
-    padding-top:45px;
-    margin-left:5px;
-    margin-right:5px;
-    /*border:1px solid green;*/
-}
-
 /**  registration and login styles */
 
-.reg-container ,
-.closet-container {
+.reg-container {
     padding-top:20px;
 }
-
+*/
 #reg-title {
     margin-bottom: 10px;
     font-size: 1.2rem;
@@ -221,10 +213,6 @@ button:hover {
     text-align:left;
 }
 
-.reg-item:hover, 
-.login-item:hover {
-    background: #E0E0DE;
-}
 
 .reg-input,
 .login-input {
@@ -295,7 +283,6 @@ button:hover {
 }
 
 .options-btns-min:hover {
-    background-color: #EBEBEB;
     cursor:pointer
 }
 
@@ -316,16 +303,16 @@ button:hover {
 
 #header-logout {
     float:right;
+    padding-right:15px;
     /*border:1px solid green;*/
 }
 
 #header-greeting {
-    float:left;
+    display:inline-block
     /*border:1px solid green;*/
 }
 
 #header-logout:hover, #header-loginagain:hover {
-    background-color: #DEB5AB;
     cursor:pointer;
 }
 
@@ -370,10 +357,7 @@ button:hover {
 }
 
 #header-title:hover {
-    /*border:1px solid green;*/
     cursor:pointer;
-    background-color:#C9E3DF;
-    border-radius: 3px;
 }
 
 #logo-img {
@@ -723,9 +707,8 @@ button:hover {
 
 
 .fa-plus {
-    margin-bottom: .5rem;
-	padding: 1rem;
-    font-size: 25px;
+	padding: .8rem;
+    font-size: 20px;
     border: 1px solid #874D62;
     border-radius: 50%;
     color: #874D62;
@@ -739,7 +722,8 @@ button:hover {
 
     /*  **** styles for sections that change for desktop */
 
-    .section-closet {
+    .section-closet ,
+    .section-nav {
         max-width:900px;
     }
     
@@ -761,9 +745,12 @@ button:hover {
     #always-in-season,
     #other-seasons {
         display:inline-block;
-        float:left;
         width:45%;
         margin:3px;
+    }
+
+    #always-in-season {
+        vertical-align:top;
     }
     
     .action-btns {
