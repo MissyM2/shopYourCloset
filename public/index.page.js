@@ -112,6 +112,34 @@ function onSigninClick() {
 function onLogoutClick() {
     $(document).on('click', '#header-logout', function(event) {
         event.preventDefault();
+        STORE.idealAppareltypeLength = {
+            bottom:0,
+            coat:0,
+            dress:0,
+            shoes:0,
+            top:0
+        };
+        STORE.myAppareltypeLength = {
+            bottom:0,
+            coat:0,
+            dress:0,
+            shoes:0,
+            top:0
+        };
+        STORE.idealSeasonLength = {
+            "Always in Season": 0,
+            "Fall Basics": 0,
+            "Spring Basics": 0,
+            "Summer Basics": 0,
+            "Winter Basics": 0
+        };
+        STORE.mySeasonLength = {
+            "Always in Season": 0,
+            "Fall Basics": 0,
+            "Spring Basics": 0,
+            "Summer Basics": 0,
+            "Winter Basics": 0
+        };
         let userName = localStorage.getItem('username');
         if (userName === null) {
             renderLoginForm();

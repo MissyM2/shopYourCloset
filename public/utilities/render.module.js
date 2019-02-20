@@ -183,9 +183,11 @@ function renderOptionsPage() {
     if (STORE.authUserName == 'admin') {
         $('.options-container').html(`
                 <div class="user-instruction">
-                            <div class="instruction-icon"><i class="fas fa-atom instruction"></i></div>
-                            <div class="comments"><p>Which ADMIN function would you like to work with?</p></div>
-                        </div>
+                    <div id="instruction-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
+                    <div class="helper-verbage">
+                        <p>Which closet would you like to work with, Admin?</p>
+                    </div>
+                </div>
                 <div class="options-btns" >
                         <i class="fas fa-door-open" id="ideal-closet-btn" data-closet="ideal"></i>
                         <h4 class="closet-functions">ideal closet</h4>
@@ -246,13 +248,14 @@ function renderNavMenu(menu) {
     $('.menu-container').html('');
     if (menu === 'admin') {
         $('.menu-container').html(`
+        <div class="nav-menu" style="border-bottom: 1px solid lightgrey">
                 <div class="options-btns-min">
                     <p id="ideal-closet-btn-min">ideal</p>
                 </div>
                 <div class="options-btns-min">
                     <p id="giveaway-closet-btn-min">giveaway</p>
-                </div>`);
-     $('.menu-container').css('border-bottom','1px solid lightgrey')
+                </div>
+            </div>`);
     } else {
         $('.menu-container').html(`
                 <div class="nav-menu" style="border-bottom: 1px solid lightgrey">
@@ -271,8 +274,7 @@ function renderNavMenu(menu) {
                     <div class="options-btns-min">
                         <p id="analyze-closet-btn-min">analyze</p>
                     <div>
-                </div>
-        `);
+                </div>`);
     }
 
      switch(STORE.selCloset) {
@@ -404,17 +406,36 @@ function renderSeasonHeaders() {
 
 function renderClosetItemBody(data) {
     let item = '';
-    item =`<div class="closet-item ${data.id}-class">
-                        <div class="item-body">
-                            <div class="cl-items cl-season" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p id="season">${data.season}</p></div></div>
-                            <div class="cl-items-short">
-                                <div class="cl-items cl-appareltype cl-items-sh" id="cl-appareltype"><p class="cl-items-label">item</p><div class="item itembody"><p id="appareltype">${data.appareltype}</p></div></div>
-                                <div class="cl-items cl-color cl-items-sh" id="cl-color"><p class="cl-items-label">color</p><div class="item itembody"><p id="color">${data.color}</p></div></div>
-                                <div class="cl-items cl-size cl-items-sh" id="cl-size"><p class="cl-items-label">size</p><div class="item itembody"><p id="size">${data.size}</p></div></div>
-                            </div>
-                            <div class="cl-items cl-shortdesc" id="cl-shortdesc"><div class="item itembody"><p id="shortdesc">${data.shortdesc}</p></div></div>
-                            <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p id="longdesc">${data.longdesc}</p></div></div>
-                        </div>`;
+
+    if (STORE.selCloset === 'giveaway') {
+        item =`<div class="closet-item ${data.id}-class">
+                            <div class="item-body">
+                                <div class="cl-items cl-username" id="cl-username"><div class="item itemlabel"><label>Who gave it away: </label></div><div class="item itembody"><p id="username">Name</p></div></div>
+                                <div class="cl-items cl-useremail" id="cl-useremail"><div class="item itemlabel"><label>Email: </label></div><div class="item itembody"><p id="useremail">Email Address</p></div></div>
+
+                                <div class="cl-items cl-season" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p id="season">${data.season}</p></div></div>
+                                <div class="cl-items-short">
+                                    <div class="cl-items cl-appareltype cl-items-sh" id="cl-appareltype"><p class="cl-items-label">item</p><div class="item itembody"><p id="appareltype">${data.appareltype}</p></div></div>
+                                    <div class="cl-items cl-color cl-items-sh" id="cl-color"><p class="cl-items-label">color</p><div class="item itembody"><p id="color">${data.color}</p></div></div>
+                                    <div class="cl-items cl-size cl-items-sh" id="cl-size"><p class="cl-items-label">size</p><div class="item itembody"><p id="size">${data.size}</p></div></div>
+                                </div>
+                                <div class="cl-items cl-shortdesc" id="cl-shortdesc"><div class="item itembody"><p id="shortdesc">${data.shortdesc}</p></div></div>
+                                <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p id="longdesc">${data.longdesc}</p></div></div>
+                            </div>`;
+
+    } else {
+        item =`<div class="closet-item ${data.id}-class">
+                            <div class="item-body">
+                                <div class="cl-items cl-season" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p id="season">${data.season}</p></div></div>
+                                <div class="cl-items-short">
+                                    <div class="cl-items cl-appareltype cl-items-sh" id="cl-appareltype"><p class="cl-items-label">item</p><div class="item itembody"><p id="appareltype">${data.appareltype}</p></div></div>
+                                    <div class="cl-items cl-color cl-items-sh" id="cl-color"><p class="cl-items-label">color</p><div class="item itembody"><p id="color">${data.color}</p></div></div>
+                                    <div class="cl-items cl-size cl-items-sh" id="cl-size"><p class="cl-items-label">size</p><div class="item itembody"><p id="size">${data.size}</p></div></div>
+                                </div>
+                                <div class="cl-items cl-shortdesc" id="cl-shortdesc"><div class="item itembody"><p id="shortdesc">${data.shortdesc}</p></div></div>
+                                <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p id="longdesc">${data.longdesc}</p></div></div>
+                            </div>`;
+    }
     const body = renderClosetItemActionBtns(item, data);
     switch (data.season) {
         case 'Always in Season':
@@ -465,8 +486,8 @@ function renderClosetItemActionBtns(bodyHtml, data) {
                 // if isAdmin and the closet is one of the above, then the user may edit or delete
                 bodyHtml += `
                             <div class="item-edit-btns">
-                                <button class="action-btns small-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}"><i id="cl-edit-btn" class="far fa-edit"></i></button>
-                                <button class="action-btns small-btn" data-id="${data.id}"><i id="cl-delete-btn" class="far fa-trash-alt"></i></button>
+                            <button class="action-btns small-btn" id="cl-edit-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">edit</button>
+                            <button class="action-btns small-btn" id="cl-delete-btn" data-id="${data.id}">delete</button>
                             </div>`;
             
             } else {
@@ -916,7 +937,7 @@ function renderUpdateForm() {
                             <option value = "black">black</option>
                             <option value = "white">white</option>
                             <option value = "neutral">neutral</option>
-                            <option value = "your choice">your choice</option>
+                            <option value = "choice">choice</option>
                             <option value = "n/a">n/a</option>
                         </select>
                     </div>
