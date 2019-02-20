@@ -55,7 +55,14 @@ function onRegisterNewUserClick() {
             },
             "body": JSON.stringify(userData)
         };
-        HTTP.genericFetch(newUserUrl, newUserSettings, renderLoginForm);  
+        if (genericFetch(newUserUrl, newUserSettings, renderLoginForm)){
+            console.log('generic fetch worked!');
+        } else {
+            console.log('generic fetch failed.');
+            $('#error-failure').html('<div id="error-icon" class="error-format"><i class="fas fa-exclamation-circle"></i></div><div id="error-verbage" class="error-format">Try again. Either your passwords didn"t match or you have already been registered.</div>');
+            $('#error-failure').css("display", "block");
+            $("#new-pass").focus();
+        }   
     });
 }
 
@@ -66,13 +73,14 @@ function onSigninClick() {
         //$('#error-msg').html();
 
         if ($("#GET-username").val() == '') {
-            $('#error-username').html('Error: must fill in username');
+
+            $('#error-username').html('<div class="error-format"><i class="fas fa-exclamation-circle"></i></div><div class="error-format">please fill in username</div>');
             $('#error-username').css("display", "block");
-            $("#GET-username").focus()
+            $("#GET-username").focus();
         } else if ($("#GET-password").val() == '') {
-            $('#error-password').html('Error:  must fill in password');
+            $('#error-password').html('<div class="error-format"><i class="fas fa-exclamation-circle"></i></div><div class="error-format">please fill in password</div>');
             $('#error-password').css("display", "block");
-            $("#GET-password").focus()
+            $("#GET-password").focus();
         } else {
             const userData = {
                 username: $("#GET-username").val(),
@@ -86,9 +94,17 @@ function onSigninClick() {
                 },
                 "body": JSON.stringify(userData)
             };
-            genericFetch(newUserUrl, newUserSettings, cbLogin);
-           
-        }
+            if (genericFetch(newUserUrl, newUserSettings, cbLogin)){
+                console.log('generic fetch worked!');
+            } else {
+                console.log('generic fetch failed.');
+                $('#error-username').css("display", "none");
+                $('#error-password').css("display", "none");
+                $('#error-failure').html('<div id="error-icon" class="error-format"><i class="fas fa-exclamation-circle"></i></div><div id="error-verbage" class="error-format">either your name/password are incorrect or you have not registered, yet.</div>');
+                $('#error-failure').css("display", "block");
+                $("#GET-username").focus();
+            }
+        }     
     });
 }
 
@@ -186,7 +202,7 @@ function closetClick(closetElement) {
         getAnalysis();
     } else {
         STORE.functionChoice = 'closet';
-        getClosetFetchSettings(); 
+        getCloset(); 
     }
 }
 
@@ -238,20 +254,22 @@ function onSaveItemToClosetClick() {
             },
             body: JSON.stringify(STORE.currentEditItem)
         };
-        genericFetch(addItemUrl, addItemSettings, getClosetFetchSettings);
+        genericFetch(addItemUrl, addItemSettings, getCloset);
        
     });
 }
 
-/*
-// cancels add item request
+
+// cancels update item request
 function onCancelAddItemClick() {
     $('.closet-container').on('click', '#cl-cancel-btn', (function(event) {
         event.preventDefault();
-        HTTP.getClosetFetchSettings();
+        console.log('cancel add');
+        STORE.selCloset="my";
+        getCloset();
     }))
 }
-*/
+
 
 // requests to update an existing item
 function onUpdateItemInClosetClick() {
@@ -266,30 +284,30 @@ function onUpdateItemInClosetClick() {
 function onSaveUpdatedItemToClosetClick() {
     $('.closet-container').on('click','#cl-updatebtn-final', function(event) {
         event.preventDefault();
-        console.log('made it to save updated itemitem to closet');
         const jwtToken = localStorage.getItem("jwtToken");
         const authUser = localStorage.getItem("userid");
         STORE.currentEditItem = {
-            season: $("input[name='season']:checked").val(),
-            appareltype:$("input[name='appareltype']:checked").val(),
-            color: $("input[name='color']:checked").val(),
-            shortdesc:$('#js-additem-shortdesc').val(),
-            longdesc: $('#js-additem-longdesc').val(),
-            size: $("input[name='size']:checked").val()
+            id: $(this).attr('data-id'),
+            season: $("#js-updateseason").val(),
+            appareltype:$('#js-updateappareltype').val(),
+            color: $('#js-updatecolor').val(),
+            shortdesc:$('#js-updateshortdesc').val(),
+            longdesc: $('#js-updatelongdesc').val(),
+            size: $('#js-updatesize').val()
         };
 
        // STORE.selCloset = $(this).attr('data-closet');
-        let addItemUrl = '';
+        let updateItemUrl = '';
         if (STORE.authUserName === 'admin') {
-            addItemUrl = '/api/idealcloset/';
+            updateItemUrl = '/api/idealcloset/';
         } else {
             if (STORE.selCloset === 'giveaway') {
-                addItemUrl = `/api/groupclosets/giveawaycloset`;
+                updateItemUrl = `/api/groupclosets/giveawaycloset`;
             } else {
-                addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
+                updateItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}/${STORE.currentEditItem.id}`;
             }
         };
-        const addItemSettings = {
+        const updateItemSettings = {
             "method": "PUT",
             "headers": {
                 'Accept': 'application/json, text/plain, *',
@@ -298,7 +316,8 @@ function onSaveUpdatedItemToClosetClick() {
             },
             body: JSON.stringify(STORE.currentEditItem)
         };
-       genericFetch(addItemUrl, addItemSettings, getClosetFetchSettings);
+       genericFetch(updateItemUrl, updateItemSettings);
+       getCloset();
     
     });
 }
@@ -318,9 +337,6 @@ function onDeleteItemInClosetClick() {
                 } else {
                     deleteItemUrl = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
                 };
-
-
-                //const deleteItemUrl = '/api/auth/login/';
                 const deleteItemSettings = {
                     "method": "DELETE",
                     "headers": {
@@ -330,6 +346,7 @@ function onDeleteItemInClosetClick() {
                     }
                 };
         genericFetch(deleteItemUrl, deleteItemSettings);
+        getCloset();
     }
     }));
 }
@@ -376,9 +393,9 @@ function onMoveItemClick() {
             "body": JSON.stringify(STORE.currentEditItem)
         };
 
-        HTTP.genericFetch(addItemUrl, addItemSettings);
+        HTTP.genericFetch(addItemUrl, addItemSettings, getCloset);
         STORE.selCloset = 'my';
-        getClosetFetchSettings();
+        getCloset();
     }));
 }
 
@@ -415,9 +432,10 @@ function onReturnItemClick() {
         };
 
         HTTP.genericFetch(addItemUrl, addItemSettings);
+        getCloset();
         
     }));
-    getClosetFetchSettings();
+    
 }
 
 
@@ -449,50 +467,58 @@ function getAnalysis() {
     HTTP.genericFetch(getAnalysisUrl, getAnalysisSettings, organizeData);
 }
 
-//????
-function onPasswordRevealClick() {
-    $(document).on('click', '.password-icon', (function(event) {
-        event.preventDefault();
-        if ($( "input[name='new-password']").attr('type') === 'password') {
-            $( "input[name='new-password']").attr('type','text');
-            $(this).removeClass("fa-eye-slash").addClass("fa-eye");
-            
-          } else {
-            $( "input[name='new-password']").attr('type','password');
-            $(this).removeClass("fa-eye");
-            $(this).addClass("fa-eye-slash");
-          };
-    }));
-}
+function getCloset() {
+    console.log('getcloset fired');
+    const jwtToken = localStorage.getItem("jwtToken");
+    const authUser = localStorage.getItem('userid');
 
-function onLoginPasswordRevealClick() {
-    $(document).on('click', '.password-icon', (function(event) {
-        event.preventDefault();
-        if ($( "input[name='GET-password']").attr('type') === 'password') {
-            $( "input[name='GET-password']").attr('type','text');
-            $(this).removeClass("fa-eye-slash").addClass("fa-eye");
-            
-          } else {
-            $( "input[name='GET-password']").attr('type','password');
-            $(this).removeClass("fa-eye");
-            $(this).addClass("fa-eye-slash");
-          };
-    }));
-}
-
-function onConfirmPasswordRevealClick() {
-    $(document).on('click', '.password-confirm-icon', (function(event) {
-        event.preventDefault();
-        if ($( "input[name='confirm-password']").attr('type') === 'password') {
-            $( "input[name='confirm-password']").attr('type','text');
-            $(this).removeClass("fa-eye-slash").addClass("fa-eye");
-            
-          } else {
-            $( "input[name='confirm-password']").attr('type','password');
-            $(this).removeClass("fa-eye");
-            $(this).addClass("fa-eye-slash");
-          };
-    }));
+    let getClosetUrl = '';
+    if (STORE.authUserName === 'admin') {
+        switch(STORE.selCloset) {
+            case 'ideal':
+                    getClosetUrl = '/api/idealcloset/';
+                    break;
+            case 'giveaway':
+                    getClosetUrl = `/api/groupclosets/giveawaycloset/`;
+                    break;
+            default:
+                    console.log('error coming from fetch module! ', STORE.selCloset);
+                
+        }
+    } else {
+        switch(STORE.selCloset) {
+            case 'ideal':
+                    getClosetUrl = '/api/idealcloset/';
+                    break;
+            case 'my':
+                    getClosetUrl = `/api/userclosets/mycloset/${authUser}`;
+                    break;
+            case 'giveaway':
+                    getClosetUrl = `/api/groupclosets/giveawaycloset/`;
+                    break;
+            case 'donation':
+                    getClosetUrl = `/api/userclosets/donationcloset/${authUser}`;
+                    break;
+            case 'analyze':
+                    fetchForAnalysis();
+                    break;
+            default:
+                    console.log('error coming from fetch module ', STORE.selCloset);
+                
+        }
+    }
+    console.log('get closetURL is ', getClosetUrl);
+    
+    let getClosetSettings = {
+        "method": "GET",
+        "headers": {
+            'Accept': 'application/json, text/plain, *',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+        }
+    }
+    console.log('fetch is next');
+    genericFetch(getClosetUrl, getClosetSettings, cbGetCloset);
 }
 
 
@@ -513,11 +539,9 @@ $(document).ready(function () {
     onDeleteItemInClosetClick();
     onUpdateItemInClosetClick();
     onSaveUpdatedItemToClosetClick()
-    //onCancelAddItemClick();
+    onCancelAddItemClick();
     onMoveItemClick();
     onReturnItemClick();
-    //onSave1();
-    //onSave2();
 });
 
 

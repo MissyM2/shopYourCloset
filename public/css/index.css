@@ -88,16 +88,12 @@ ol, ul {
 
 input, textarea {
     display:block;
-    border: 1px solid #E0D5C9;
+    border: none;
     padding:5px;
     margin:0 auto;
     border-radius:3px;
 }
-/*
-input:focus {
-    border:2px solid green;
-}
-*/
+
 /* button styles */
 button {
     text-align: center;
@@ -120,7 +116,8 @@ button:hover {
 }
 
 .med-btn {
-    width:100px;
+    width:120px;
+    padding: 3px;
 }
  
 
@@ -144,19 +141,19 @@ button:hover {
 }
 /*  *****  container styles: each section has at least one container within it 
 
-.header-container {
-    display:block;
-}
-
 /**  registration and login styles */
 
 .reg-container {
     padding-top:20px;
 }
-*/
+
 #reg-title {
     margin-bottom: 10px;
     font-size: 1.2rem;
+}
+
+#btn-sign-me-up {
+    margin-top: 15px;
 }
 
 .radiogroup {
@@ -214,16 +211,11 @@ button:hover {
 }
 
 
-.reg-input,
-.login-input {
-    width:75%;
+.reg-input{
+    width:100%;
     display:inline-block;
 }
-/*
-.login-input {
-    margin-bottom: 15px;
-}
-*/
+
   
 .password-icon, .password-confirm-icon {
     padding: 5px;
@@ -243,6 +235,8 @@ button:hover {
     border-top: 1px solid #E0D5C9;
     border-left: 1px solid #E0D5C9;
     border-bottom: 1px solid #E0D5C9;
+    width:10%;
+    border-radius: 3px 0 0 3px;
 }
 
 .input-field {
@@ -250,6 +244,18 @@ button:hover {
     padding: 10px;
     outline: none;
     background-color: #FBF9EC;
+}
+#GET-username,
+#GET-password {
+    border:none;
+    width:88%;
+    display:inline-block;
+}
+
+.input-container {
+    border: 1px solid #E0D5C9;
+    border-radius:3px;
+    background:#E0D5C9;
 }
 
 .form-reg-login {
@@ -482,11 +488,7 @@ button:hover {
     margin: 5px 0 0 0;
 }
 
-.fa-asterisk {
-    color:red;
-    font-size: .4em;
-    padding-right:2px;
-}
+
 
 .updatefields {
     width: 100%;
@@ -581,34 +583,28 @@ button:hover {
 }
 
 .user-instruction {
-    font-size: 1rem;
-    text-align:center;
-    width:350px;
     border: 1px solid #F2D338;
     border-radius: 3px;
     padding: 6px 3px 0;
-    margin-bottom: 5px;
+    margin: 10px 0 5px 0;
 }
 
 .user-instruction > div {
     display:inline-block;
-    margin: 0 10px 15px 10px;
-    font-size: .9em;
-
 }
+
 .instruction-items {
     margin: 5px 0 5px 3px;
-}
-#instruction-icon {
-    width:20%;
-    font-size:1.5em;
-    margin-top:12px;
 }
 
 .instruction-verbage {
     width: 75%;
     text-align:left;
     font-size: .7rem;
+}
+
+.instr-atom {
+    font-size:1rem;
 }
 
 .helper-icon {
@@ -645,18 +641,33 @@ button:hover {
 }
 
 .comments {
-    font-size: .7rem;
+    font-size: .9rem;
     text-align:left;
     padding:0 1rem 0 1rem;
     font-family:'Raleway', sans-serif;
 }
 
-.error-msg {
+.fa-exclamation-circle {
+    color:red;
+    padding-right:2px;
+}
+
+.error-format {
+    display:inline-block;
     color: #EC130E;
     margin-bottom: 15px;
     padding:7px 0 7px 0;
-    height:2.2em;
     font-size: .8em;
+    text-align:left
+}
+
+#error-icon {
+    width: 10%;
+    vertical-align:top;
+}
+
+#error-verbage {
+    width:85%;
 }
 
 .info-msg {

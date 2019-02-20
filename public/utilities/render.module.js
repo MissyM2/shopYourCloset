@@ -37,26 +37,26 @@ function renderRegistrationForm() {
                     <div id="div-reg">
                         <div id="reg-title"><p>Register</p></div>
                         <div class="user-instruction">
-                            <div id="instruction-icon"><i class="fas fa-atom instruction"></i></div>
+                            <div id="instruction-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
                             <div class="helper-verbage">
                                 <p>*  all inputs are required.</p>
                             </div>
                         </div>
                         <div class="reg-item new-name">
                             <p>name</p><span class="error-msg" id="error-new-name" style="display:none;"></span>
-                            <div class="reg-input-container">
+                            <div class="input-container">
                                 <input type="text" class="reg-input" name="new-name" id="new-name" class="js-new-name" tabindex="1" placeholder="First Last" required>
                             </div>
                         </div> 
                         <div class="reg-item new-email">
                             <p>email</p><span class="error-msg" id="error-new-email" style="display:none;"></span>
-                            <div class="reg-input-container">
+                            <div class="input-container">
                                 <input type="email" class="reg-input" name="new-email" id="new-email" class="js-new-email" tabindex="2" placeholder="enter a valid email address" required>
                             </div>
                         </div> 
                         <div class="reg-item new-username">
                             <p>username</p><span class="error-msg" id="error-new-username" style="display:none;"></span>
-                            <div class="reg-input-container">
+                            <div class="input-container">
                                 <input type="text" class="reg-input" name="new-username" id="new-username" class="js-new-username" tabindex="3" placeholder="tester1" required>
                             </div>
                             <div class="helper-verbage">
@@ -81,6 +81,7 @@ function renderRegistrationForm() {
                                 <p>passwords must match</p>
                             </div>
                         </div>
+                        <div class="error-msg" id="error-failure" style="display:none;"></div>
                         <div id="btn-sign-me-up" class="reg-editbuttons">
                             <button type="submit" class="action-btns med-btn" id="btn-register">Register me!</button>
                         </div>
@@ -94,6 +95,7 @@ function renderLoginForm() {
     $('.registration-container').html('');
     $('section-nav').html('').css('display','none');
     $('.login-container').html('');
+    $('.login-container').css('display', 'block');
     $('.login-container').html(`
                     <div id="title-verbage">
                         <h2>love clothes and love to be organized?</h2>
@@ -115,12 +117,11 @@ function renderLoginForm() {
                                         <div class="input-container">
                                             <i class="fas fa-key user-icon"></i>
                                             <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" autocomplete="off" required>
-                                            <i class="far fa-eye-slash password-icon"></i>
                                         </div>
                                         <div class="error-msg" id="error-password" style="display:none;"></div>
                                     </div>
                                 </div>
-                                <div class="error-msg" style="visibility:hidden"></div>
+                                <div class="error-msg" id="error-failure" style="display:none;"></div>
                                 <div id="signin-btn">
                                     <button class="action-btns med-btn" tabindex="3">Sign In</button>
                                 </div>
@@ -148,6 +149,7 @@ function renderLoginForm() {
 function renderLogout(user) {
     $('.options-container').html('').css('display','none');
     $('.closet-container').html('').css('display', 'none');
+    $('.menu-container').html('');
     $('.registration-container').html('');
     $('.login-container').html('');
     $('#header-greeting').html(`<p>Goodbye, ${user}</p>`);
@@ -444,7 +446,7 @@ function renderClosetItemActionBtns(bodyHtml, data) {
             // edit buttons for edit, delete, donate or giveaway if NOT admin and closet it MY
             bodyHtml += `<div class="item-edit-btns">
                             <button class="action-btns small-btn" id="cl-edit-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">edit</button>
-                            <button class="action-btns small-btn" id="cl-delete-btn" data-id="${data.id}">delete</div>
+                            <button class="action-btns small-btn" id="cl-delete-btn" data-id="${data.id}">delete</button>
                             <button class="js-move action-btns small-btn" id="cl-donate-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">donate</button>
                             <button class="js-move action-btns small-btn" id="cl-giveaway-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">giveaway</button>
                         </div>`;
@@ -744,7 +746,7 @@ function renderAddItemForm(msg) {
                                 <button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>
                             </div>
                             <div class="itemrow cl-whichseason">
-                                <div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>
+                                <div class="newitem itemlabel"><label>which season</label></div>
                                 <div class="newitem itembody">
                                     <div class="additems-container" id="js-additem-season">
                                         <div class="radiogroup">
@@ -772,7 +774,7 @@ function renderAddItemForm(msg) {
                             </div>
 
                             <div class="itemrow cl-appareltype">
-                                <div class="newitem itemlabel"><label>type of clothing <i class="fas fa-asterisk"></i></label></div>
+                                <div class="newitem itemlabel"><label>type of clothing</label></div>
                                 <div class="newitem itembody">
                                     <div class="additems-container" id="js-additem-appareltype">
                                         <div class="radiogroup">
@@ -857,7 +859,7 @@ function renderAddItemForm(msg) {
                             </div>
 
                             <div class="itemrow cl-shortdesc">
-                                <div class="newitem itemlabel"><label>short description <i class="fas fa-asterisk"></i></label></div>
+                                <div class="newitem itemlabel"><label>short description</label></div>
                                 <div class="newitem itembody">
                                     <input class="updatefields" id="js-additem-shortdesc" type="text" name="shortdesc" value="short-sleeved t-shirt" placeholder="short description" />
                                 </div>
@@ -881,7 +883,7 @@ function renderUpdateForm() {
     const updateFormBody = `<div class="cl-resultbody">
             <form id='form-update-closet'>
                 <div class="itemrow update-season">
-                    <div class="newitem itemlabel"><label>which season <i class="fas fa-asterisk"></i></label></div>
+                    <div class="newitem itemlabel"><label>which season</label></div>
                     <div class="item itembody">
                             <select class="updatefields" id="js-updateseason" type="text" name="season">
                                 <option value ="${STORE.currentEditItem.season}">${STORE.currentEditItem.season}</option>
@@ -894,7 +896,7 @@ function renderUpdateForm() {
                     </div>
                 </div>
                 <div class="itemrow update-appareltype">
-                    <div class="newitem newitemlabel">type of clothing: <i class="fas fa-asterisk"></i></div>
+                    <div class="newitem newitemlabel">type of clothing:</div>
                     <div class="item itembody">
                         <select class="updatefields" id="js-updateappareltype" type="text" name="appareltype">
                             <option value ="${STORE.currentEditItem.appareltype}">${STORE.currentEditItem.appareltype}</option>
@@ -920,19 +922,19 @@ function renderUpdateForm() {
                     </div>
                 </div>
                 <div class="itemrow update-shortdesc">
-                    <div class="newitem itemlabel">short description: <i class="fas fa-asterisk"></i></div>
+                    <div class="newitem itemlabel">short description</div>
                     <div class="newitem itembody">
                         <input class="updatefields" id="js-updateshortdesc" type="text" name="shortdesc" value="${STORE.currentEditItem.shortdesc}" />
                     </div>
                 </div>
                 <div class="itemrow update-longdesc">
-                    <div class="newitem itemlabel">long description: </div>
+                    <div class="newitem itemlabel">long description</div>
                     <div class="newitem itembody">
                         <textarea class="updatefields" id="js-updatelongdesc" type="text" name="longdesc" value="${STORE.currentEditItem.longdesc}" rows="3" cols="20">${STORE.currentEditItem.longdesc}</textarea>
                     </div>
                 </div>
                 <div class="itemrow update-size">
-                    <div class="newitem itemlabel">size: </div>
+                    <div class="newitem itemlabel">size </div>
                     <div class="newitem itembody">
                         <select class="updatefields" id="js-updatesize" type="text" name="size">
                             <option value = "${STORE.currentEditItem.size}">${STORE.currentEditItem.size}</option>
