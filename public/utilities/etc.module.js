@@ -6,9 +6,6 @@ window.ETC_MODULE = {
 function organizeData(data) {
 
      // First, collect data length for the selected closet
-     console.log(' i made it to organize data ' + STORE.selCloset);
-     console.log('function choice is ' + STORE.functionChoice);
-
      if (STORE.functionChoice === 'closet') {
             switch(STORE.selCloset) {
                 case 'ideal':

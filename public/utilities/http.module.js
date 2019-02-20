@@ -142,7 +142,7 @@ function fetchForUpdateClosetItemData() {
             throw new Error(response.statusText);
         })
         .then(() => {
-            HTTP.fetchCloset();
+            fetchCloset();
         })
         
         .catch(error => {

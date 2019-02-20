@@ -28,6 +28,9 @@ window.RENDER_MODULE = {
 
 function renderRegistrationForm() {
     $('.registration-container').html('');
+    $('.login-container').html('').css('display','none');
+    $('.closet-container').html('');
+    $('.options-container').html('').css('display', 'none');
     $('.registration-container').html(`
                 <form id="registration-form" name="form-reg-login">
                     <div id="div-reg">
@@ -87,7 +90,10 @@ function renderRegistrationForm() {
 }
 
 function renderLoginForm() {
+    $('.registration-container').html('');
     $('.login-container').html('');
+    $('.closet-container').html('');
+    $('.options-container').html('').css('display', 'none');
     $('.login-container').html(`
                     <div id="title-verbage">
                         <h2>love clothes and love to be organized?</h2>
@@ -157,9 +163,12 @@ function renderTopNav() {
 }
 
 function renderOptionsPage() {
-    //renderTopNav();
+    $('.registration-container').html('');
+    $('.login-container').html('');
+    //$('.section-login').html('').css('display','none');
+    $('.closet-container').html('');
+    $('.options-container').html('').css('display','none');
     $('.options-container').html('').css('display', 'block');
-
     if (STORE.authUserName == 'admin') {
         $('.options-container').html(`
                 <div class="user-instruction">
@@ -267,7 +276,9 @@ function renderNavMenu() {
 }
 
 function renderNavAdmin() {
-    $('.section-login').html('');
+    $('.registration-container').html('');
+    $('.login-container').html('');
+    $('.section-login').css('display','none');
     $('.closet-container').html('');
     $('.nav-admin').remove('');
     $('.section-nav').append(`
@@ -283,24 +294,23 @@ function renderNavAdmin() {
 }
 
 function renderLogout(user) {
-    userName = localStorage.getItem('username');
-    $('.options-container').html('');
+    
+    $('.options-container').html('').css('display','none');
+    $('.closet-container').html('').css('display', 'none');
+    $('.registration-container').html('');
     $('.login-container').html('');
-    $('.closet-container').html('');
-    $('.section-nav').html('');
-    $('.section-nav').append(`
-        <div class="nav-logout" style="border-bottom: 1px solid lightgrey">
-            <div id="header-greeting">
-                <p>Goodbye, ${user}!</p>
-            </div>`);
+    $('.section-login').css('display','block');
+    $('#header-greeting').html(`<p>Goodbye, ${user}</p>`);
+    renderLoginForm();
 }    
 
 function renderCloset(closetItems) {
-
-    // make sure options and closet section are empty before rendering new closet
+    //$('.registration-container').html('');
+    //$('.login-container').html('');
+    //$('.section-login').css('display','none');
     $('.options-container').html('').css('display','none');
-    $('.addnewitem-container').html('').css('display','none');
-    //$('.section-closet').html('').css('display','block');
+    $('.addnewitem-container').html('');
+    $('.closet-container').html('');
     $('.closet-container').append(`<div class="closet-header"></div>`); 
     $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
     
@@ -540,14 +550,17 @@ function renderInformationPage() {
 
 
 
-function renderAddItemForm() {
+function renderAddItemForm(msg) {
+    $('.registration-container').html('');
+    $('.login-container').html('');
+    $('.section-login').css('display','none');
     $('.closet-container').html('');
-    $('.options-container').html('');
-    $('.addnewitem-container').html('');
+    $('.options-container').html('').css('display', 'none');
+    $('.addnewitem-container').html('').css('display', 'none');
     const addItemFormBody = `
             <div class="cl-header">
                 <h2>Add New Item</h2>
-                <span class="error-msg" id="error-add-new-item">hello</span>
+                <span class="error-msg" id="error-add-new-item">${msg}</span>
             </div>
            <div class="cl-resultcell-new additem-class">
                 <div class="cl-resultbody-new">
@@ -771,7 +784,9 @@ function renderUpdateForm() {
 }
 
 function renderAnalysis() {
-    $('.section-login').html('');
+    $('.registration-container').html('');
+    $('.login-container').html('');
+    $('.section-login').css('display','none');
     $('.closet-container').html('');
      headerHtml = `<div class="item" id="closet-title"><h2>Analyze It!</h2></div>`
     
@@ -815,7 +830,6 @@ function renderWholeClosetAnalysis() {
     
     const closetDiff = STORE.closetLength.ideal - STORE.closetLength.my;
     if (Math.sign(closetDiff) === 1) {
-            console.log(Math.sign(closetDiff));
             $('.analysis-whole-ds').append(`
             <p class="final-thought">The ideal closet has ${closetDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
             </div>`);
@@ -845,7 +859,6 @@ function renderSeasonAnalysis() {
 
      //  find text equivalent of document number
     for (let i = 0; i < STORE.seasonAry.length; i++) {
-    console.log[i];
     let seasonText = '';
     switch(i) {
         case 0:
