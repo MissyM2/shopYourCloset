@@ -9,11 +9,11 @@ window.RENDER_MODULE = {
     renderTopNav,
     renderNavMenu,
     renderCloset,
-    renderClosetHeader,
-    renderClosetBody,
+    renderClHeader,
+    renderClBody,
     renderSeasonHeaders,
-    renderClosetItemBody,
-    renderClosetItemActionBtns,
+    renderClItemBody,
+    renderClItemActionBtns,
     renderAddItemForm,
     renderUpdateForm,
     renderAnalysis,
@@ -302,11 +302,11 @@ function renderCloset(closetItems) {
     $('.closet-container').css('display','block');
     $('.closet-container').html('');
 
-    $('.closet-container').append(`<div class="user-msg error-msg" id="user-info"></div><div class="closet-header"></div>`); 
+    $('.closet-container').append(`<div class="closet-header"></div>`); 
     $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
     
     // render the header
-    renderClosetHeader(closetItems);
+    renderClHeader(closetItems);
 
     //  organize items into seasons and render season headers
     let result = [];
@@ -321,11 +321,11 @@ function renderCloset(closetItems) {
     RENDER.renderSeasonHeaders();
 
     //  with data now in its proper categories, render the data
-    RENDER.renderClosetBody(result);
+    RENDER.renderClBody(result);
 
 }
 
-function renderClosetHeader(closetItems) { 
+function renderClHeader(closetItems) { 
     let closetHtml = '';
     let headerHtml = '';
     let itemCountHmtl = '';
@@ -337,7 +337,8 @@ function renderClosetHeader(closetItems) {
     if (STORE.selCloset === 'analyze') {
         headerHtml = `<div class="item" id="closet-title"><h2>Analyze It!</h2></div>`;
     } else {
-        headerHtml = `<div class="item" id="closet-title"><h2>${STORE.selCloset} Closet</h2></div>`;
+        headerHtml = `<div class="item" id="closet-title"><h2>${STORE.selCloset} Closet</h2></div>
+                        <div class="user-msg error-msg" id="user-info"></div>`;
     }
     
     //  add new button: if the user is other than the ADMIN and the selected closet is 'ideal', 'donation or 'giveaway, then do not render the add new item button.
@@ -401,7 +402,7 @@ function renderSeasonHeaders() {
     }
 }
 
-function renderClosetItemBody(data) {
+function renderClItemBody(data) {
     let item = '';
 
     if (STORE.selCloset === 'giveaway') {
@@ -433,7 +434,7 @@ function renderClosetItemBody(data) {
                                 <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p id="longdesc">${data.longdesc}</p></div></div>
                             </div>`;
     }
-    const body = renderClosetItemActionBtns(item, data);
+    const body = renderClItemActionBtns(item, data);
     switch (data.season) {
         case 'Always in Season':
             $(`#season-Always-in-Season`).append(body);
@@ -457,7 +458,7 @@ function renderClosetItemBody(data) {
   
 }
 
-function renderClosetItemActionBtns(bodyHtml, data) {
+function renderClItemActionBtns(bodyHtml, data) {
     // if someone other than the ADMIN is logged in, get these buttons
     if (STORE.authUserName !== 'admin') {
         if (STORE.selCloset === 'my') {
@@ -496,11 +497,11 @@ return bodyHtml;
 }
 
 //  render the selected closet
-function renderClosetBody(closetItems) {
+function renderClBody(closetItems) {
     let item;
     for (let i=0; i < closetItems.length; i++) {
         item = closetItems[i];
-        renderClosetItemBody(item);     
+        renderClItemBody(item);     
     } 
 }
 

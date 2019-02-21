@@ -7,6 +7,7 @@ let STATE = {
 const RENDER = window.RENDER_MODULE;
 const CACHE = window.CACHE_MODULE;
 const ETC = window.ETC_MODULE;
+const HTTP = window.HTTP_MODULE;
 
 function onPageLoad() {
     updateAuthenticatedUI();
@@ -24,28 +25,6 @@ function updateAuthenticatedUI() {
 }
 
 
-//  most functions package their settings and call this generic fetch to connect to db
-function genericFetch(url, settings, callback) {
-    fetch(url, settings)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                if (response.status == 400 || response.status == 204) {
-                    console.log('respons status is bad! ' + response.status);
-                    throw new Error(response.status);
-                } else if (response.status == 401) {
-                    console.log('what the heck?');
-                    throw new Error(response.status);
-                }
-            }
-        })
-        .then(responseJson => callback(responseJson))
-        .catch(err => console.log("Error", err));
-}
-
-
-// fetch all items from the db to show in closets
 
 
 
@@ -81,7 +60,7 @@ function onRegisterNewUserClick() {
             },
             "body": JSON.stringify(userData)
         };
-        if (genericFetch(newUserUrl, newUserSettings, renderLoginForm)){
+        if (fetchForData(newUserUrl, newUserSettings, renderLoginForm)){
             console.log('got new user data!');
         } else {
             console.log('did not get new user data.');
@@ -118,8 +97,14 @@ function onSigninClick() {
                 },
                 "body": JSON.stringify(userData)
             };
-            if (genericFetch(newUserUrl, newUserSettings, cbLogin)){
-                console.log('login worked!');
+            console.log('about to fetch');
+
+           // let fetchReturn = genericFetch(newUserUrl, newUserSettings);
+
+            fetchForData(newUserUrl, newUserSettings, (data)=>{
+                if (data.hasOwnProperty("jwtToken")){
+                    console.log('login worked!');
+                    cbLogin(data);
             } else {
                 console.log('login failed.');
                 $('#error-username').css("display", "none");
@@ -128,6 +113,7 @@ function onSigninClick() {
                 $('#error-failure').css("display", "block");
                 $("#GET-username").focus();
             }
+        });
         }     
     });
 }
@@ -272,14 +258,7 @@ function closetClick(closetElement) {
                             $('.addnewitem-container').html('');
                             $('.closet-container').css('display','block');
                             $('.closet-container').html('');
-                            getAnalysis();
-                            //$('.closet-container').append(`<div class="analysis-header>ANalysis</div>`); 
-                           // $('.closet-container').append(`<div class="analysis-body">prep for analysis</div>
-                            //                                <button id="get-ideal-btn">get ideal data</div>
-                            //                                <button id="get-my-btn">get my data</div>
-                            //                                <button id="get-analysis">give me my analysis</div>`);
-
-
+                            fetchAnalysis();
                             break;
     }
 }
@@ -303,80 +282,14 @@ function cbGetCloset(data) {
         renderNavMenu(selMenu);
 
         if (STORE.selCloset === 'my') {
-            dataMsg = "Add your first item here.";
-            renderAddItemForm(dataMsg);
+            renderAddItemForm("Add your first item here.");
         } else {
             renderInformationPage();
         }
     }
 }
 
-function getAnalysis() {
 
-    // first, get and organize data from ideal closet
-    STORE.selCloset = 'ideal';
-    const jwtToken = localStorage.getItem("jwtToken");
-    const authUser = localStorage.getItem('userid');
-    if (STORE.authUserName === 'admin') {
-       console.log('this is admin.  no analysis');
-    } else {
-        let getIdealDataSettings = {
-            "method": "GET",
-            "headers": {
-                'Accept': 'application/json, text/plain, *',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`
-            }
-        };
-        fetch('/api/idealcloset/', getIdealDataSettings)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                if (response.status == 400 || response.status == 204) {
-                    console.log('respons status is bad! ' + response.status);
-                    throw new Error(response.status);
-                } else if (response.status == 401) {
-                    console.log('what the heck?');
-                    throw new Error(response.status);
-                }
-            }
-        })
-        .then(responseJson => organizeData(responseJson))
-        .catch(err => console.log("Error", err));
-        console.log('data from ideal closet should be there now');
-        
-        // next, get and organize data from my closet
-        STORE.selCloset = 'my';
-        let getMyDataSettings = {
-            "method": "GET",
-            "headers": {
-                'Accept': 'application/json, text/plain, *',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`
-            }
-        };
-        fetch(`/api/userclosets/mycloset/${authUser}`, getMyDataSettings)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                if (response.status == 400 || response.status == 204) {
-                    console.log('respons status is bad! ' + response.status);
-                    throw new Error(response.status);
-                } else if (response.status == 401) {
-                    console.log('what the heck?');
-                    throw new Error(response.status);
-                }
-            }
-        })
-        .then(responseJson => organizeData(responseJson))
-        .catch(err => console.log("Error", err)
-        );
-    }
-    renderNavMenu('users');
-    renderAnalysis();
-}
 
 
 
@@ -429,7 +342,10 @@ function onSaveItemToClosetClick() {
             },
             body: JSON.stringify(STORE.currentEditItem)
         };
-        genericFetch(addItemUrl, addItemSettings, getCloset);
+        let fetchResponse = fetchForResponse(addItemUrl, addItemSettings);
+        if (fetchResponse) {
+            getCloset();
+        }
        
     });
 }
@@ -491,8 +407,13 @@ function onSaveUpdatedItemToClosetClick() {
             },
             body: JSON.stringify(STORE.currentEditItem)
         };
-       genericFetch(updateItemUrl, updateItemSettings);
-       getCloset();
+       let fetchResponse = fetchForResponse(updateItemUrl, updateItemSettings);
+       if (fetchResponse) {
+            getCloset();
+       } else {
+           console.log('problem with fetchResponse ', fetchResponse);
+       }
+       
     
     });
 }
@@ -520,8 +441,12 @@ function onDeleteItemInClosetClick() {
                         'Authorization': `Bearer ${jwtToken}`
                     }
                 };
-        genericFetch(deleteItemUrl, deleteItemSettings);
-        getCloset();
+        let fetchResponse = fetchForResponse(deleteItemUrl, deleteItemSettings);
+        if (fetchResponse) {
+            getCloset();
+       } else {
+           console.log('problem with fetchResponse ', fetchResponse);
+       }
     }
     }));
 }
@@ -547,45 +472,51 @@ function onMoveItemClick() {
                 'Authorization': `Bearer ${jwtToken}`
             }
         };
-       genericFetch(deleteItemUrl, deleteItemSettings);
+       let fetchResponse = fetchForResponse(deleteItemUrl, deleteItemSettings);
+       if (fetchResponse) {
+                // adds the item to chosen closet (donate or giveaway)
+                let addItemUrl;
+                if(currentId === 'cl-donate-btn'){
+                        STORE.selCloset='donation';
+                        STORE.giveawayOrDonate='donate';
+                        addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
+                    } else {
+                        STORE.selCloset='giveaway';
+                        STORE.giveawayOrDonate='giveaway';
+                        addItemUrl = `/api/groupclosets/giveawaycloset`;
+                    }
+                    const addItemSettings = {
+                        "method": "POST",
+                        "headers": {
+                        'Accept': 'application/json, text/plain, *',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`
+                        },
+                        "body": JSON.stringify(STORE.currentEditItem)
+                    };
 
-       // adds the item to chosen closet (donate or giveaway)
-       let addItemUrl;
-       if(currentId === 'cl-donate-btn'){
-            STORE.selCloset='donation';
-            STORE.giveawayOrDonate='donate';
-            addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
+                    fetchForData(addItemUrl, addItemSettings, (data) => {
+                            if (data.length !== 0){
+                                console.log('fetch worked');
+                                STORE.selCloset = 'my';
+                                getCloset();
+                                if (STORE.giveawayOrDonate ==='giveaway') {
+                                    $('#user-info').html(`You have just given away one item.  You may see it in the public Giveaway Closet.`);
+                                } else {
+                                    $('#user-info').html(`You have just donated one item.  You may see it in the your personal Donation Closet.`);
+                                }
+                            } else {
+                                console.log('dta length is 0 check things out.');
+                            }
+                        });
         } else {
-            STORE.selCloset='giveaway';
-            STORE.giveawayOrDonate='giveaway';
-            addItemUrl = `/api/groupclosets/giveawaycloset`;
+            console.log('problem with fetch response in delete portion of move ', fetchResponse);
         }
-        const addItemSettings = {
-            "method": "POST",
-            "headers": {
-               'Accept': 'application/json, text/plain, *',
-               'Content-Type': 'application/json',
-               'Authorization': `Bearer ${jwtToken}`
-            },
-            "body": JSON.stringify(STORE.currentEditItem)
-        };
 
-        genericFetch(addItemUrl, addItemSettings, getCloset);
-        STORE.selCloset = 'my';
-        getCloset(addTheMsg => {
-            addTheMsg();
-        });
+            
     }));
 }
 
-function addTheMsg() {
-
-    if (STORE.giveawayOrDonate ==='giveaway') {
-        $('#user-info').html(`You have just given away one item.  You may see it in the public Giveaway Closet.`);
-    } else {
-        $('#user-info').html(`You have just donated one item.  You may see it in the your personal Donation Closet.`);
-    }
-}
 
 // returns item from donation closet to my closet
 function onReturnItemClick() {
@@ -605,22 +536,29 @@ function onReturnItemClick() {
                 'Authorization': `Bearer ${jwtToken}`
             }
         };
-        genericFetch(deleteItemUrl, deleteItemSettings);
+        let fetchResponse = fetchForResponse(deleteItemUrl, deleteItemSettings);
+        if (fetchResponse) {
+            //  add item to my closet
+            let addItemUrl = `/api/userclosets/mycloset/${STORE.authUser}`;
+            const addItemSettings = {
+                    "method": "POST",
+                    "headers": {
+                        'Accept': 'application/json, text/plain, *',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`
+                    },
+                    "body": JSON.stringify(STORE.currentEditItem)
+            };
 
-        //  add item to my closet
-        let addItemUrl = `/api/userclosets/mycloset/${STORE.authUser}`;
-        const addItemSettings = {
-            "method": "POST",
-            "headers": {
-                'Accept': 'application/json, text/plain, *',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`
-            },
-            "body": JSON.stringify(STORE.currentEditItem)
-        };
-
-        genericFetch(addItemUrl, addItemSettings);
-        getCloset();
+            fetchForData(addItemUrl, addItemSettings, (data)=>{
+                if (data.length !== 0) {
+                    console.log('return to closet worked!');
+                    getCloset();
+                }
+            });
+        } else {
+            console.log('fetch response failed.  here is the fetchResponse', fetchResponse);
+        } 
         
     }));
     
@@ -666,7 +604,6 @@ function getCloset() {
                 
         }
     }
-    console.log('get closetURL is ', getClosetUrl);
     
     let getClosetSettings = {
         "method": "GET",
@@ -676,8 +613,7 @@ function getCloset() {
             'Authorization': `Bearer ${jwtToken}`
         }
     }
-    console.log('getting closet it next');
-    genericFetch(getClosetUrl, getClosetSettings, cbGetCloset);
+    fetchForData(getClosetUrl, getClosetSettings, cbGetCloset);
 }
 
 
