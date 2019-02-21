@@ -1,79 +1,63 @@
 window.ETC_MODULE = {
     organizeData,
-    validateForm
+    getSeasonCount,
+    getApparelTypeCount
 };
 
 function organizeData(data) {
 
      // First, collect data length for the selected closet
-     if (STORE.functionChoice === 'closet') {
-            switch(STORE.selCloset) {
-                case 'ideal':
-                    STORE.closetLength.ideal = data.length;
-                    for (let i = 0; i < STORE.seasonAry.length; i++) {
-                        getSeasonCount(STORE.seasonAry[i], data);
-                    }
-                    for (let i=0; i < STORE.appareltypeAry.length; i++) {
-                        getApparelTypeCount(STORE.appareltypeAry[i], data);
-                    }
-                    renderCloset(data);
-                    break;
-                case 'my':
-                    STORE.closetLength.my = data.length;
-                    for (let i = 0; i < STORE.seasonAry.length; i++) {
-                        getSeasonCount(STORE.seasonAry[i], data);
-                    }
-                    for (let i=0; i < STORE.appareltypeAry.length; i++) {
-                        getApparelTypeCount(STORE.appareltypeAry[i], data);
-                    }
-                    renderCloset(data);
-                    break;
-                case 'giveaway':
-                    STORE.closetLength.giveaway = data.length;
-                    for (let i = 0; i < STORE.seasonAry.length; i++) {
-                        getSeasonCount(STORE.seasonAry[i], data);
-                    }
-                    for (let i=0; i < STORE.appareltypeAry.length; i++) {
-                        getApparelTypeCount(STORE.appareltypeAry[i], data);
-                    }
-                    renderCloset(data);
-                    break;
-                case 'donation':
-                    STORE.closetLength.donation = data.length;
-                    for (let i = 0; i < STORE.seasonAry.length; i++) {
-                        getSeasonCount(STORE.seasonAry[i], data);
-                    }
-                    for (let i=0; i < STORE.appareltypeAry.length; i++) {
-                        getApparelTypeCount(STORE.appareltypeAry[i], data);
-                    }
-                    renderCloset(data);
-                    break;
-                default:
-                    console.log('there is an issue:  etc. module case statemtn');
-                    break;
-            }
-        } else {
-            console.log('functin choice is ' + STORE.functionChoice + ' closet choice is ' + STORE.selCloset);
-            console.log(data);
-            STORE.closetLength.my = data.length;
-            for (let i = 0; i < STORE.seasonAry.length; i++) {
-                getSeasonCount(STORE.seasonAry[i], data);
-            }
-            for (let i=0; i < STORE.appareltypeAry.length; i++) {
-                getApparelTypeCount(STORE.appareltypeAry[i], data);
-            }
-            STORE.closetLength.ideal = data.length;
-            for (let i = 0; i < STORE.seasonAry.length; i++) {
-                getSeasonCount(STORE.seasonAry[i], data);
-            }
-            for (let i=0; i < STORE.appareltypeAry.length; i++) {
-                getApparelTypeCount(STORE.appareltypeAry[i], data);
-            }
-
-            renderNavMenu();
-            //RENDER.renderAnalysis();
-            console.log('this is the analyze closet.  Not ready to render findings, yet.');
+        switch(STORE.selCloset) {
+            case 'ideal':
+                STORE.closetLength.ideal = data.length;
+                for (let i = 0; i < STORE.seasonAry.length; i++) {
+                    getSeasonCount(STORE.seasonAry[i], data);
+                }
+                for (let i=0; i < STORE.appareltypeAry.length; i++) {
+                    getApparelTypeCount(STORE.appareltypeAry[i], data);
+                }
+                console.log('after ideal ', STORE.selCloset);
+                break;
+            case 'my':
+                STORE.closetLength.my = data.length;
+                for (let i = 0; i < STORE.seasonAry.length; i++) {
+                    getSeasonCount(STORE.seasonAry[i], data);
+                }
+                for (let i=0; i < STORE.appareltypeAry.length; i++) {
+                    getApparelTypeCount(STORE.appareltypeAry[i], data);
+                }
+                console.log('after my ', STORE.selCloset);
+                break;
+                
+            case 'giveaway':
+                STORE.closetLength.giveaway = data.length;
+                for (let i = 0; i < STORE.seasonAry.length; i++) {
+                    getSeasonCount(STORE.seasonAry[i], data);
+                }
+                for (let i=0; i < STORE.appareltypeAry.length; i++) {
+                    getApparelTypeCount(STORE.appareltypeAry[i], data);
+                }
+                break;
+            case 'donation':
+                STORE.closetLength.donation = data.length;
+                for (let i = 0; i < STORE.seasonAry.length; i++) {
+                    getSeasonCount(STORE.seasonAry[i], data);
+                }
+                for (let i=0; i < STORE.appareltypeAry.length; i++) {
+                    getApparelTypeCount(STORE.appareltypeAry[i], data);
+                }
+                break;
+            default:
+                console.log('there is an issue:  etc. module case statemtn');
+                break;
         }
+
+        if (STORE.functionChoice === 'closet') {
+            renderCloset(data);
+        } else if (STORE.functionChoice === 'analysis'){
+            renderAnalysis();
+        }
+
 }
 
 function getSeasonCount(season, items) {
@@ -180,47 +164,4 @@ function getApparelTypeCount(appareltype, items) {
         }
     }
 
-}
-
-
-function validateForm(item) {
-    console.log(item);
-
-    // clear out all previous error messages
-    $('#error-new-name').html('');
-    $('#error-new-email').html('');
-    $('#error-new-username').html('');
-    $('#error-new-pass').html('');
-    $('#error-confirmpass').html('');
-
-
-    console.log('made it to validateForm');
-    let re = /[0-9]/;
-    console.log(re);
-    if (item.newName.value === "") {
-        $('#error-new-name').html(`<i class="fas fa-exclamation"></i>username cannot be blank.`)
-        $('#new-name').focus();
-        return false;
-
-    } else if (item.newEmail.value === "") {
-        $('#error-new-email').html(`<i class="fas fa-exclamation"></i>email cannot be blank.`)
-        $('#new-email').focus();
-        return false;
-    } else if (item.newUsername.value === "" || item.newUsername.value.length < 5) {
-        $('#error-new-username').html(`<i class="fas fa-exclamation"></i>username cannot be blank and must be at least 5 characters.`)
-        $('#new-username').focus();
-        return false;
-   // } else if (checkPass.value == "" || checkPass.value.length < 5 || !re.test(checkPass)) {
-    } else if (item.newPass.value === "" || item.newPass.value.length < 5) {
-        $('#error-new-pass').html(`<i class="fas fa-exclamation"></i>password required with at least 5 characters and 1 number`);
-        $('#new-pass').focus();
-        return false;
-    } else if (item.newConfirm.value === "" || item.newConfirm.value !== checkPass.value) {
-        $('#error-confirmpass').html(`<i class="fas fa-exclamation"></i>confirmation password must match password.`)
-        $('#new-confirm').focus();
-        return false;
-    } else {
-        alert("You entered a valid password: ");
-        return true;
-    }
 }

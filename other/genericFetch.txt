@@ -1,47 +1,9 @@
-oneUrl = "someUrl/one";
-oneSettings = {
-    "Headers" : {
-        "Authorization" : "Bearer token"
-    },
-    "method" : "PUT"
-}
+- 1 - Create a new endpoint for my-ideal-data - that gets both the users data, and the ideal data]
+- 2 - in index.page.js create a new function called getMyIdealData() that calls said endpoint, but besides that is modeled after getIdealData() and getMyData()
+- 3 - set STORE.selCloset = ‘my-ideal’
 
-function callBackForOne(data){
-    // Some logic here
-}
-
-genericFetch(oneUrl, oneSettings, callBackForOne);
-
-
-function genericFetch(url, settings, callback){
-    fetch(url, settings)
-        .then(response => response.json())
-        .then(responseJson => callback(responseJson))
-        .catch(err => console.log("Error"))
-}
-
-
-twoUrl = "someUrl/two";
-twoSettings = {
-    "Headers" : {
-        "Authorization" : "Bearer token"
-    },
-    "method" : "DELETE"
-}
-
-function callBackForTwo(data){
-    // Some logic here
-}
-
-genericFetch(twoUrl, twoSettings, callBackForTwo);
-
-
-http://localhost:8080/api/userclosets/mycloset/5c5763445a482076bdc37b97/5c6aea31470ad89e12ec0cb3
-Request Method: POST
-
-http://localhost:8080/api/userclosets/mycloset/5c5763445a482076bdc37b97/5c6aea31470ad89e12ec0cb3
-
-
- <i class="far fa-eye-slash password-icon"></i>
-
-<i class="far fa-eye-slash password-confirm-icon"></i></div>
+- 4 - add another switch case to organizeData inside of etc.module.js for ‘my-ideal’
+- 5 - said switch case would use data.ideal.length and data.my.length
+in the past your routes were sending back [{},{},{}]
+this new route would send back an object of arrays of objects
+{my:[{},{},{}], ideal:[{},{},{}]}

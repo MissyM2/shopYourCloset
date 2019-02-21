@@ -4,7 +4,6 @@ let STATE = {
 
 
 // all these modules are defined in /public/utilities
-const HTTP = window.HTTP_MODULE;
 const RENDER = window.RENDER_MODULE;
 const CACHE = window.CACHE_MODULE;
 const ETC = window.ETC_MODULE;
@@ -23,6 +22,33 @@ function updateAuthenticatedUI() {
         RENDER.renderLoginForm();
     }
 }
+
+
+//  most functions package their settings and call this generic fetch to connect to db
+function genericFetch(url, settings, callback) {
+    fetch(url, settings)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                if (response.status == 400 || response.status == 204) {
+                    console.log('respons status is bad! ' + response.status);
+                    throw new Error(response.status);
+                } else if (response.status == 401) {
+                    console.log('what the heck?');
+                    throw new Error(response.status);
+                }
+            }
+        })
+        .then(responseJson => callback(responseJson))
+        .catch(err => console.log("Error", err));
+}
+
+
+// fetch all items from the db to show in closets
+
+
+
 
 
 // ***** LISTENERS FOR REGISTRATION AND LOGIN
@@ -56,9 +82,9 @@ function onRegisterNewUserClick() {
             "body": JSON.stringify(userData)
         };
         if (genericFetch(newUserUrl, newUserSettings, renderLoginForm)){
-            console.log('generic fetch worked!');
+            console.log('got new user data!');
         } else {
-            console.log('generic fetch failed.');
+            console.log('did not get new user data.');
             $('#error-failure').html('<div id="error-icon" class="error-format"><i class="fas fa-exclamation-circle"></i></div><div id="error-verbage" class="error-format">Try again. Either your passwords didn"t match or you have already been registered.</div>');
             $('#error-failure').css("display", "block");
             $("#new-pass").focus();
@@ -70,8 +96,6 @@ function onRegisterNewUserClick() {
 function onSigninClick() {
     $(document).on('click', '#signin-btn', function(event) {
         event.preventDefault();
-        //$('#error-msg').html();
-
         if ($("#GET-username").val() == '') {
 
             $('#error-username').html('<div class="error-format"><i class="fas fa-exclamation-circle"></i></div><div class="error-format">please fill in username</div>');
@@ -95,9 +119,9 @@ function onSigninClick() {
                 "body": JSON.stringify(userData)
             };
             if (genericFetch(newUserUrl, newUserSettings, cbLogin)){
-                console.log('generic fetch worked!');
+                console.log('login worked!');
             } else {
-                console.log('generic fetch failed.');
+                console.log('login failed.');
                 $('#error-username').css("display", "none");
                 $('#error-password').css("display", "none");
                 $('#error-failure').html('<div id="error-icon" class="error-format"><i class="fas fa-exclamation-circle"></i></div><div id="error-verbage" class="error-format">either your name/password are incorrect or you have not registered, yet.</div>');
@@ -108,38 +132,53 @@ function onSigninClick() {
     });
 }
 
+function cbLogin(data) {
+    const userData = {
+        jwtToken: data.jwtToken,
+        id: data.user.id,
+        name: data.user.name,
+        username: data.user.username,
+        email: data.user.email
+    };
+    saveAuthenticatedUserIntoCache(userData);
+    STORE.authUser = localStorage.getItem("userid");
+    STORE.authUserName = localStorage.getItem("username");
+    renderNavLoggedIn();
+    renderOptionsPage();
+}
+
+
 // logout
 function onLogoutClick() {
     $(document).on('click', '#header-logout', function(event) {
         event.preventDefault();
-        STORE.idealAppareltypeLength = {
-            bottom:0,
-            coat:0,
-            dress:0,
-            shoes:0,
-            top:0
-        };
-        STORE.myAppareltypeLength = {
-            bottom:0,
-            coat:0,
-            dress:0,
-            shoes:0,
-            top:0
-        };
-        STORE.idealSeasonLength = {
-            "Always in Season": 0,
-            "Fall Basics": 0,
-            "Spring Basics": 0,
-            "Summer Basics": 0,
-            "Winter Basics": 0
-        };
-        STORE.mySeasonLength = {
-            "Always in Season": 0,
-            "Fall Basics": 0,
-            "Spring Basics": 0,
-            "Summer Basics": 0,
-            "Winter Basics": 0
-        };
+        /*
+        STORE.idealAppareltypeLength.bottom = 0;
+        STORE.idealAppareltypeLength.coat= 0;
+        STORE.idealAppareltypeLength.dress = 0;
+        STORE.idealAppareltypeLength.shoes = 0;
+        STORE.idealAppareltypeLength.top = 0;
+            
+        STORE.myAppareltypeLength.bottom = 0;
+        STORE.myAppareltypeLength.coat= 0;
+        STORE.myAppareltypeLength.dress = 0;
+        STORE.myAppareltypeLength.shoes = 0;
+        STORE.myAppareltypeLength.top = 0;
+
+        STORE.idealSeasonLength["Always in Season"] = 0;
+        STORE.idealSeasonLength["Fall Basics"] = 0;
+        STORE.idealSeasonLength["Always in Season"] = 0;
+        STORE.idealSeasonLength["Spring Basics"] = 0;
+        STORE.idealSeasonLength["Summer Basics"] = 0;
+        STORE.idealSeasonLength["Winter Basics"] = 0;
+    
+        STORE.mySeasonLength["Always in Season"] = 0;
+        STORE.mySeasonLength["Fall Basics"] = 0;
+        STORE.mySeasonLength["Always in Season"] = 0;
+        STORE.mySeasonLength["Spring Basics"] = 0;
+        STORE.mySeasonLength["Summer Basics"] = 0;
+        STORE.mySeasonLength["Winter Basics"] = 0;
+*/
         let userName = localStorage.getItem('username');
         if (userName === null) {
             renderLoginForm();
@@ -205,34 +244,142 @@ function closetClick(closetElement) {
     switch (closetElement) {
         case `ideal-closet-btn`:
         case `ideal-closet-btn-min`:
+                            STORE.functionChoice = 'closet';
                             STORE.selCloset = 'ideal';
+                            getCloset(); 
                             break;
         case `my-closet-btn`:
         case `my-closet-btn-min`:
+                            STORE.functionChoice = 'closet';
                             STORE.selCloset = 'my';
+                            getCloset(); 
                             break;
         case `donation-closet-btn`:
         case `donation-closet-btn-min`:
+                            STORE.functionChoice = 'closet';
                             STORE.selCloset = 'donation';
+                            getCloset(); 
                             break;
         case `giveaway-closet-btn`:
         case `giveaway-closet-btn-min`:
+                            STORE.functionChoice = 'closet';
                             STORE.selCloset = 'giveaway';
+                            getCloset(); 
                             break;
         case `analyze-closet-btn`:
         case `analyze-closet-btn-min`:
-                            STORE.selCloset = 'analyze';
+                           $('.options-container').html('').css('display','none');
+                            $('.addnewitem-container').html('');
+                            $('.closet-container').css('display','block');
+                            $('.closet-container').html('');
+                            getAnalysis();
+                            //$('.closet-container').append(`<div class="analysis-header>ANalysis</div>`); 
+                           // $('.closet-container').append(`<div class="analysis-body">prep for analysis</div>
+                            //                                <button id="get-ideal-btn">get ideal data</div>
+                            //                                <button id="get-my-btn">get my data</div>
+                            //                                <button id="get-analysis">give me my analysis</div>`);
+
+
                             break;
     }
+}
 
-    if (STORE.selCloset === 'analyze') {
-        STORE.functionChoice = 'analysis';
-        getAnalysis();
+function cbGetCloset(data) {
+    let selMenu = '';
+    if (data.length !== 0) {
+        if (STORE.authUserName !== 'admin') {
+            selMenu='users'
+        } else {
+            selMenu='admin';
+        }
+        renderNavMenu(selMenu);
+        organizeData(data);
     } else {
-        STORE.functionChoice = 'closet';
-        getCloset(); 
+        if (STORE.authUserName !== 'admin') {
+            selMenu='users'
+        } else {
+            selMenu='admin';
+        }
+        renderNavMenu(selMenu);
+
+        if (STORE.selCloset === 'my') {
+            dataMsg = "Add your first item here.";
+            renderAddItemForm(dataMsg);
+        } else {
+            renderInformationPage();
+        }
     }
 }
+
+function getAnalysis() {
+
+    // first, get and organize data from ideal closet
+    STORE.selCloset = 'ideal';
+    const jwtToken = localStorage.getItem("jwtToken");
+    const authUser = localStorage.getItem('userid');
+    if (STORE.authUserName === 'admin') {
+       console.log('this is admin.  no analysis');
+    } else {
+        let getIdealDataSettings = {
+            "method": "GET",
+            "headers": {
+                'Accept': 'application/json, text/plain, *',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+            }
+        };
+        fetch('/api/idealcloset/', getIdealDataSettings)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                if (response.status == 400 || response.status == 204) {
+                    console.log('respons status is bad! ' + response.status);
+                    throw new Error(response.status);
+                } else if (response.status == 401) {
+                    console.log('what the heck?');
+                    throw new Error(response.status);
+                }
+            }
+        })
+        .then(responseJson => organizeData(responseJson))
+        .catch(err => console.log("Error", err));
+        console.log('data from ideal closet should be there now');
+        
+        // next, get and organize data from my closet
+        STORE.selCloset = 'my';
+        let getMyDataSettings = {
+            "method": "GET",
+            "headers": {
+                'Accept': 'application/json, text/plain, *',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+            }
+        };
+        fetch(`/api/userclosets/mycloset/${authUser}`, getMyDataSettings)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                if (response.status == 400 || response.status == 204) {
+                    console.log('respons status is bad! ' + response.status);
+                    throw new Error(response.status);
+                } else if (response.status == 401) {
+                    console.log('what the heck?');
+                    throw new Error(response.status);
+                }
+            }
+        })
+        .then(responseJson => organizeData(responseJson))
+        .catch(err => console.log("Error", err)
+        );
+    }
+    renderNavMenu('users');
+    renderAnalysis();
+}
+
+
+
 
 // request to dd a new item to a selected closet
 function onAddItemToClosetClick() {
@@ -406,9 +553,11 @@ function onMoveItemClick() {
        let addItemUrl;
        if(currentId === 'cl-donate-btn'){
             STORE.selCloset='donation';
+            STORE.giveawayOrDonate='donate';
             addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
         } else {
             STORE.selCloset='giveaway';
+            STORE.giveawayOrDonate='giveaway';
             addItemUrl = `/api/groupclosets/giveawaycloset`;
         }
         const addItemSettings = {
@@ -421,10 +570,21 @@ function onMoveItemClick() {
             "body": JSON.stringify(STORE.currentEditItem)
         };
 
-        HTTP.genericFetch(addItemUrl, addItemSettings, getCloset);
+        genericFetch(addItemUrl, addItemSettings, getCloset);
         STORE.selCloset = 'my';
-        getCloset();
+        getCloset(addTheMsg => {
+            addTheMsg();
+        });
     }));
+}
+
+function addTheMsg() {
+
+    if (STORE.giveawayOrDonate ==='giveaway') {
+        $('#user-info').html(`You have just given away one item.  You may see it in the public Giveaway Closet.`);
+    } else {
+        $('#user-info').html(`You have just donated one item.  You may see it in the your personal Donation Closet.`);
+    }
 }
 
 // returns item from donation closet to my closet
@@ -445,7 +605,7 @@ function onReturnItemClick() {
                 'Authorization': `Bearer ${jwtToken}`
             }
         };
-        HTTP.genericFetch(deleteItemUrl, deleteItemSettings);
+        genericFetch(deleteItemUrl, deleteItemSettings);
 
         //  add item to my closet
         let addItemUrl = `/api/userclosets/mycloset/${STORE.authUser}`;
@@ -459,40 +619,11 @@ function onReturnItemClick() {
             "body": JSON.stringify(STORE.currentEditItem)
         };
 
-        HTTP.genericFetch(addItemUrl, addItemSettings);
+        genericFetch(addItemUrl, addItemSettings);
         getCloset();
         
     }));
     
-}
-
-
-// analyzes closet data and produces report to screen
-function getAnalysis() {
-    const jwtToken = localStorage.getItem("jwtToken");
-    const authUser = localStorage.getItem('userid');
-    
-    let getAnalysisUrl = '/api/idealcloset/';
-    let getAnalysisSettings = {
-        "method": "GET",
-        "headers": {
-            'Accept': 'application/json, text/plain, *',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`
-        }
-    };
-   HTTP.genericFetch(getAnalysisUrl, getAnalysisSettings, organizeData);
-   
-   getAnalysisUrl = `/api/userclosets/mycloset/${authUser}`;
-   getAnalysisSettings = {
-        "method": "GET",
-        "headers": {
-            'Accept': 'application/json, text/plain, *',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`
-        }
-    };
-    HTTP.genericFetch(getAnalysisUrl, getAnalysisSettings, organizeData);
 }
 
 function getCloset() {
@@ -510,7 +641,7 @@ function getCloset() {
                     getClosetUrl = `/api/groupclosets/giveawaycloset/`;
                     break;
             default:
-                    console.log('error coming from fetch module! ', STORE.selCloset);
+                    console.log('did not get Closet! ', STORE.selCloset);
                 
         }
     } else {
@@ -528,10 +659,10 @@ function getCloset() {
                     getClosetUrl = `/api/userclosets/donationcloset/${authUser}`;
                     break;
             case 'analyze':
-                    fetchForAnalysis();
+                    renderAnalysis();
                     break;
             default:
-                    console.log('error coming from fetch module ', STORE.selCloset);
+                    console.log('problem obtaining url ', STORE.selCloset);
                 
         }
     }
@@ -545,9 +676,10 @@ function getCloset() {
             'Authorization': `Bearer ${jwtToken}`
         }
     }
-    console.log('fetch is next');
+    console.log('getting closet it next');
     genericFetch(getClosetUrl, getClosetSettings, cbGetCloset);
 }
+
 
 
 

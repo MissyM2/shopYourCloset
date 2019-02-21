@@ -20,9 +20,7 @@ window.RENDER_MODULE = {
     renderWholeClosetAnalysis,
     renderSeasonAnalysis,
     renderAppareltypeAnalysis,
-    renderInformationPage,
-    renderErrorMessage,
-    renderSignUpError
+    renderInformationPage
 };
 
 // *****  REGISTRATION AND LOGIN RENDER FUNCTIONS
@@ -304,12 +302,11 @@ function renderCloset(closetItems) {
     $('.closet-container').css('display','block');
     $('.closet-container').html('');
 
-    $('.closet-container').append(`<div class="closet-header"></div>`); 
+    $('.closet-container').append(`<div class="user-msg error-msg" id="user-info"></div><div class="closet-header"></div>`); 
     $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
     
     // render the header
     renderClosetHeader(closetItems);
-    $('.closet-header').append(`<div class="user-msg" style="display:none"><i class="fas fa-thumbs-up"></i></div>`);
 
     //  organize items into seasons and render season headers
     let result = [];
@@ -364,7 +361,7 @@ function renderClosetHeader(closetItems) {
                     ${headerHtml}
                     ${itemCountHtml}
                     ${editButtonHtml}
-                    `);
+                   `);
 }
 
 function renderSeasonHeaders() {
@@ -979,34 +976,4 @@ function renderUpdateForm() {
     $(`.${STORE.currentEditItem.id}-class`).css("border", "5px solid #C98573");
 }
 
-
-
-// ***** RENDER ERROR MESSAGES
-
-function renderErrorMessage() {
-    //reset error messages
-    renderLoginForm();
-    
-   $('.error-msg').html('Make sure you fill out both username and password correctly.  Try again.');
-        
-    //window.location.href = "/";
-    
-    //$('#btn-signin').before('<p class="error-msg" id="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i> Incorrect username and/or password</p>');
-    //$('#GET-username').addClass('error-field').attr('aria-invalid', false);
-    //$('#GET-password').addClass('error-field').attr('aria-invalid', false);
-}
-
-function renderSignUpError(errMessage) {
-    /*
-    //reset previous errors
-    $('.error-msg').remove();
-    if (errLocation === 'username'){
-        $('.new-username').addClass('error-field').attr('aria-invalid', false);
-    } else {
-        $('.new-password').val('').addClass('error-field').attr('aria-invalid', false);
-        $('.confirm-password').val('').addClass('error-field').attr('aria-invalid', false);
-    };
-    $('#btn-register').before(`<p class="error-msg" aria-live="assertive"><i class="fas fa-exclamation-circle"></i>${errMessage}</p>`);
-    */
-}
 
