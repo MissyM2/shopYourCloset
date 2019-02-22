@@ -261,7 +261,7 @@ function renderNavMenu(menu) {
                         <p id="ideal-closet-btn-min">ideal</p>
                     </div>
                     <div class="options-btns-min" >
-                        <p id="my-closet-btn-min">yours</p>
+                        <p id="my-closet-btn-min">my</p>
                     </div>
                     <div class="options-btns-min" >
                         <p id="giveaway-closet-btn-min">giveaway</p>
@@ -277,6 +277,9 @@ function renderNavMenu(menu) {
 
      switch(STORE.selCloset) {
         case 'ideal':
+          $('#ideal-closet-btn-min').css('background-color', '#A8D2CB');
+          break;
+        case 'my':
           $('#ideal-closet-btn-min').css('background-color', '#A8D2CB');
           break;
         case 'giveaway':
@@ -318,12 +321,34 @@ function renderCloset(closetItems) {
             } 
         } 
     }
-    RENDER.renderSeasonHeaders();
+    renderSeasonHeaders();
 
     //  with data now in its proper categories, render the data
-    RENDER.renderClBody(result);
+    renderClBody(result);
 
-}
+    switch (STORE.subFeature) {
+        case ('giveaway'):
+            $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage">You have just moved one item to the public Giveaway Closet.</div>`);
+            break;
+        case ('donate'):
+            $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just moved one item to your personal Donation Closet.</div>`); 
+            break;
+        case ('deleteitem'):
+            $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just deleted one item from your personal My Closet.</div>`); 
+            break;
+        case ('returnitem'):
+            $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just returned an item to your personal My Closet.</div>`); 
+            break;
+        case (''):
+            $('.user-msg').html('');
+            break;
+        default:
+            console.log('ugh, problems');
+            break;
+        }
+
+    }
+
 
 function renderClHeader(closetItems) { 
     let closetHtml = '';
@@ -335,10 +360,11 @@ function renderClHeader(closetItems) {
     //  Create Header for one of the User Selected Options
     // header title:  For all 'closets', use the stored closet name for the header. 
     if (STORE.selCloset === 'analyze') {
-        headerHtml = `<div class="item" id="closet-title"><h2>Analyze It!</h2></div>`;
-    } else {
-        headerHtml = `<div class="item" id="closet-title"><h2>${STORE.selCloset} Closet</h2></div>
-                        <div class="user-msg error-msg" id="user-info"></div>`;
+        headerHtml = `<div class="item title-container"><div class="title-icon"><i class="fas fa-atom"></i></div><div class="cl-title"><h2>Analyze It!</h2></div>`;
+    } else if (STORE.selCloset === 'my' || STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway'){
+        headerHtml = `<div class="item title-container"><div class="title-icon"><i class="fas fa-tshirt"></i></div><div class="cl-title"><h2>${STORE.selCloset} Closet</h2></div>`;
+    } else if (STORE.selCloset === 'ideal'){
+        headerHtml = `<div class="item title-container"><div class="title-icon"><i class="fas fa-door-open"></i></div><div class="cl-title"><h2>${STORE.selCloset} Closet</h2></div>`;
     }
     
     //  add new button: if the user is other than the ADMIN and the selected closet is 'ideal', 'donation or 'giveaway, then do not render the add new item button.
@@ -362,7 +388,7 @@ function renderClHeader(closetItems) {
                     ${headerHtml}
                     ${itemCountHtml}
                     ${editButtonHtml}
-                   `);
+                    <div class="user-msg"></div>`);
 }
 
 function renderSeasonHeaders() {
@@ -408,9 +434,10 @@ function renderClItemBody(data) {
     if (STORE.selCloset === 'giveaway') {
         item =`<div class="closet-item ${data.id}-class">
                             <div class="item-body">
-                                <div class="cl-items cl-username" id="cl-username"><div class="item itemlabel"><label>Who gave it away: </label></div><div class="item itembody"><p id="username">Name</p></div></div>
-                                <div class="cl-items cl-useremail" id="cl-useremail"><div class="item itemlabel"><label>Email: </label></div><div class="item itembody"><p id="useremail">Email Address</p></div></div>
-
+                                <div class="giveaway-person">
+                                    <div class="cl-items cl-username" id="cl-username"><div class="item itemlabel"><label>Who gave it away: </label></div><div class="item itembody"><p id="username">${data.user.username}</p></div></div>
+                                    <div class="cl-items cl-useremail" id="cl-useremail"><div class="item itemlabel"><label>Email: </label></div><div class="item itembody"><p id="useremail">${data.user.email}</p></div></div>
+                                </div>
                                 <div class="cl-items cl-season" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p id="season">${data.season}</p></div></div>
                                 <div class="cl-items-short">
                                     <div class="cl-items cl-appareltype cl-items-sh" id="cl-appareltype"><p class="cl-items-label">item</p><div class="item itembody"><p id="appareltype">${data.appareltype}</p></div></div>

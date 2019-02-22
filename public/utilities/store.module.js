@@ -4,7 +4,7 @@ let STORE = {
     isAnalyze:false,
     authUser:'',
     authUserName:'',
-    giveawayOrDonate:'',
+    subFeature:'',
     closetLength: {
         ideal:0,
         my:0,

@@ -29,7 +29,6 @@ function fetchForData(url, settings, callback) {
 function fetchForResponse(url, settings) {
     return fetch(url, settings)
         .then(response => {
-            console.log('made it to the response ', response);
            return response;
         })
         .catch(error => {
@@ -69,40 +68,44 @@ function fetchAnalysis() {
                 }
             }
         })
-        .then(responseJson => organizeData(responseJson))
-        .catch(err => console.log("Error", err));
-        console.log('data from ideal closet should be there now');
-        alert('data has been retrieved and organized for ideal closet');
-        // next, get and organize data from my closet
-        STORE.selCloset = 'my';
-        let getMyDataSettings = {
-            "method": "GET",
-            "headers": {
-                'Accept': 'application/json, text/plain, *',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`
-            }
-        };
-        fetch(`/api/userclosets/mycloset/${authUser}`, getMyDataSettings)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                if (response.status == 400 || response.status == 204) {
-                    console.log('respons status is bad! ' + response.status);
-                    throw new Error(response.status);
-                } else if (response.status == 401) {
-                    console.log('what the heck?');
-                    throw new Error(response.status);
-                }
-            }
+        .then(responseJson => {
+                organizeData(responseJson);
+                console.log('data from ideal closet should be there now');
+                // next, get and organize data from my closet
+                STORE.selCloset = 'my';
+                let getMyDataSettings = {
+                    "method": "GET",
+                    "headers": {
+                        'Accept': 'application/json, text/plain, *',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`
+                    }
+                };
+                fetch(`/api/userclosets/mycloset/${authUser}`, getMyDataSettings)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        if (response.status == 400 || response.status == 204) {
+                            console.log('respons status is bad! ' + response.status);
+                            throw new Error(response.status);
+                        } else if (response.status == 401) {
+                            console.log('what the heck?');
+                            throw new Error(response.status);
+                        }
+                    }
+                })
+                .then(responseJson => {
+                    organizeData(responseJson)
+                    renderNavMenu('users');
+                    STORE.selCloset = 'analyze';
+                    renderAnalysis();
+                })
+                .catch(err => console.log("Error", err)
+                );
         })
-        .then(responseJson => organizeData(responseJson))
-        .catch(err => console.log("Error", err)
-        );
+        .catch(err => console.log("Error", err));
+        
     }
-    alert('data has been retrieved and organized for my closet');
-    renderNavMenu('users');
-    STORE.selCloset = 'analyze';
-    renderAnalysis();
+    
 }

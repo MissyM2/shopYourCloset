@@ -73,7 +73,7 @@ h5 {
 }
 
 p {
-    font-size: 1.2em;
+    font-size: 1em;
     padding: 3px 0;
 }
 
@@ -401,6 +401,11 @@ button:hover {
     margin-bottom: 10px;
 }
 
+.title-icon {
+    display: inline-block;
+    margin-right: 10px;
+}
+
 .season-header,
 .analysis-subhead {
     padding: 10px 5px 10px 0;
@@ -412,6 +417,10 @@ button:hover {
     border-radius: 3px;
     font-family: 'The Girl Next Door', cursive;
     text-align:center;
+}
+
+.cl-title {
+    display:inline-block;
 }
 
 .cl-subhead {
@@ -427,17 +436,18 @@ button:hover {
 
 .cl-shortdesc {
     padding: 3px 0 3px 0;
-    font-weight: bold;
 }
 
 .cl-items-short {
     text-align:center;
 }
 .cl-items-sh {
+    width:32%;
     text-align:center;
     border: 1px solid #874C62;
-    width:32%;
+    border-radius: 3px;
 }
+
 .cl-items {
     display:inline-block;
 }
@@ -447,10 +457,6 @@ button:hover {
 }
 .cl-season {
     display:none;
-}
-
-#cl-appareltype, #cl-color, #cl-size, #cl-shortdesc, #cl-longdesc {
-    font-size: .9em;
 }
 
 .item {
@@ -488,7 +494,18 @@ button:hover {
     margin: 5px 0 0 0;
 }
 
+.giveaway-person {
+    background-color:#ECECEB;
+    padding: 0 25px 0 25px;
+    margin-bottom: 8px;
+    border-radius:3px;
+}
 
+.cl-username,
+.cl-useremail {
+    font-size: .8rem;
+    color: #874C62;
+}
 
 .updatefields {
     width: 100%;
@@ -577,7 +594,52 @@ button:hover {
 
 /** **** USER COMMUNICATION STYLES:  error messages and user instructions */
 
+/*  one line user information messages */
+.user-msg { 
+    display:inline-block;
+    color: #EC130E;
+    margin-bottom: 10px 0 15px 0;
+    padding:7px 0 7px 0;
+    font-size: .8em;
+    text-align:center;
+}
 
+.user-info-icon {
+    display:inline-block;
+    padding-right: .3rem;
+    font-size: 1.2rem;
+}
+
+.user-info-verbage {
+    display: inline-block;
+    width: 75%;
+    text-align: left;
+}
+
+
+
+.fa-exclamation-circle {
+    color:red;
+    padding-right:2px;
+}
+
+.error-format {
+    display:inline-block;
+    color: #EC130E;
+    margin-bottom: 15px;
+    padding:7px 0 7px 0;
+    font-size: .8em;
+    text-align:left
+}
+
+#error-icon {
+    width: 10%;
+    vertical-align:top;
+}
+
+#error-verbage {
+    width:85%;
+}
 .instruction-list {
     margin: 10px 5px 0 55px;
 }
@@ -588,6 +650,8 @@ button:hover {
     padding: 6px 3px 0;
     margin: 10px 0 5px 0;
 }
+
+
 
 .instruction-items {
     margin: 5px 0 5px 3px;
@@ -641,36 +705,8 @@ button:hover {
     font-family:'Raleway', sans-serif;
 }
 
-.fa-exclamation-circle {
-    color:red;
-    padding-right:2px;
-}
-
-.error-format {
-    display:inline-block;
-    color: #EC130E;
-    margin-bottom: 15px;
-    padding:7px 0 7px 0;
-    font-size: .8em;
-    text-align:left
-}
-
-#error-icon {
-    width: 10%;
-    vertical-align:top;
-}
-
-#error-verbage {
-    width:85%;
-}
-
 .info-msg {
     padding:15px 7px;
-}
-
-.user-msg {
-    color: red;
-    font-size: 14px;
 }
 
 .error-field {

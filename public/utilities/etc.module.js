@@ -26,7 +26,6 @@ function organizeData(data) {
                 for (let i=0; i < STORE.appareltypeAry.length; i++) {
                     getApparelTypeCount(STORE.appareltypeAry[i], data);
                 }
-                console.log('after my ', STORE.selCloset);
                 break;
                 
             case 'giveaway':
@@ -37,6 +36,7 @@ function organizeData(data) {
                 for (let i=0; i < STORE.appareltypeAry.length; i++) {
                     getApparelTypeCount(STORE.appareltypeAry[i], data);
                 }
+                                       
                 break;
             case 'donation':
                 STORE.closetLength.donation = data.length;
