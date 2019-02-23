@@ -143,6 +143,7 @@ function onGoHome() {
     $(document).on('click', '#header-title', function(event) {
         event.preventDefault();
         $('.section-options').html('').css('display', 'block');
+        $('.section-options').html('');
         $('.closet-container').html('');
         $('.addnewitem-container').html('');
         $('.menu-container').html('');
@@ -198,7 +199,8 @@ function closetClick(closetElement) {
     } else {
         selMenu='admin';
     }
-    $('.section-options').html('').css('display', 'none');
+    //$('.section-options').html('').css('display', 'none');
+    $('.section-options').html('');
     switch (closetElement) {
         case `ideal-closet-btn`:
         case `ideal-closet-btn-min`: 
@@ -503,7 +505,7 @@ function getCloset() {
 
     let getClosetUrl = '';
     if (STORE.authUserName === 'admin') {
-        switch(closet) {
+        switch(STORE.selCloset) {
             case 'ideal':
                     getClosetUrl = '/api/idealcloset/';
                     break;
