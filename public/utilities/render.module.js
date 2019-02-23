@@ -655,11 +655,11 @@ function renderWholeClosetAnalysis() {
     const closetDiff = STORE.closetLength.ideal - STORE.closetLength.my;
     if (Math.sign(closetDiff) === 1) {
             $('.analyze-whole-ds').append(`
-            <p class="final-thought">The ideal closet has ${closetDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
+            <p class="final-thought">The ideal closet has ${closetDiff} LESS items in its closet than you do in yours.  What can you GIVEAWAY or DONATE?</p>
             </div>`);
     } else if (Math.sign(closetDiff) === -1) {
             $('.analyze-whole-ds').append(`
-            <p class="final-thought">The ideal closet has ${closetDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>
+            <p class="final-thought">The ideal closet has ${closetDiff} MORE items in its closet than you do in yours.  Go shopping!!!!  Get some new things!</p>
             </div>`);
     } else if (Math.sign(seasonDiff) === 0){
             $('analyze-whole-ds').append(`
@@ -708,9 +708,9 @@ function renderSeasonAnalysis() {
     const seasonDiff = STORE.mySeasonLength[seasonText] - STORE.idealSeasonLength[seasonText];
     let analyzeNote = '';
     if (Math.sign(seasonDiff) === 1) {
-        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>`;
+        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiff} LESS items in its closet than you do in yours.  What can you GIVEAWAY or DONATE?</p>`;
     } else if (Math.sign(seasonDiff) === -1) {
-        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>`;
+        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiff} MORE items in its closet than you do in yours.  Go shopping and get some new things!.</p>`;
     } else if (Math.sign(seasonDiff) === 0){
         analyzeNote = `<div class="final-thought-correct">
                             <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
