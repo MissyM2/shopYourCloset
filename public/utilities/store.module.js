@@ -1,7 +1,6 @@
 let STORE = {
     functionChoice:'',
     selCloset:'',
-    isAnalyze:false,
     authUser:'',
     authUserName:'',
     subFeature:'',

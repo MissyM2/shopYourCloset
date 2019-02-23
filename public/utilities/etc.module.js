@@ -47,14 +47,11 @@ function organizeData(data) {
                     getApparelTypeCount(STORE.appareltypeAry[i], data);
                 }
                 break;
-            default:
-                console.log('there is an issue:  etc. module case statemtn');
-                break;
         }
 
         if (STORE.functionChoice === 'closet') {
             renderCloset(data);
-        } else if (STORE.functionChoice === 'analysis'){
+        } else if (STORE.functionChoice === 'analyze'){
             renderAnalysis();
         }
 
@@ -105,13 +102,10 @@ function getSeasonCount(season, items) {
                 seasonCountCollector['Always in Season'] = 0;
             }
             break;
-        default:
-            console.log('there is a problem with this switch statement'); 
       }
 }
 
 function getApparelTypeCount(appareltype, items) {
-    //console.log('appareltype is ', appareltype);
     let result = [];
     for(let i = 0; i < items.length; i++) {
         if (items[i].appareltype === appareltype) {
@@ -119,7 +113,6 @@ function getApparelTypeCount(appareltype, items) {
         }
     }
     if (STORE.selCloset === 'ideal') {
-      //console.log( 'result set is for ideal closet/appareltypes is  ', result);
       switch(appareltype) {
         case "top":
             if (result.length > 0) STORE.idealAppareltypeLength.top = result.length;
@@ -141,7 +134,6 @@ function getApparelTypeCount(appareltype, items) {
         
       }
     } else {
-        //console.log( 'result set for my closet/appareltypes is ', result);
         switch(appareltype) {
           case "top":
               if (result.length > 0) STORE.myAppareltypeLength.top = result.length;
@@ -158,9 +150,6 @@ function getApparelTypeCount(appareltype, items) {
           case 'shoes':
           if (result.length > 0) STORE.myAppareltypeLength.shoes = result.length;
               break;
-          default:
-              console.log('there is a problem with this switch statement');
-          
         }
     }
 

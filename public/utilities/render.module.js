@@ -29,7 +29,7 @@ function renderRegistrationForm() {
     $('.registration-container').html('');
     $('.login-container').html('').css('display','none');
     $('.closet-container').html('');
-    $('.options-container').html('').css('display', 'none');
+    //$('.options-container').html('');
     $('.registration-container').html(`
                 <form id="registration-form" name="form-reg-login">
                     <div id="div-reg">
@@ -90,10 +90,13 @@ function renderRegistrationForm() {
 }
 
 function renderLoginForm() {
-    $('.registration-container').html('');
-    $('section-nav').html('').css('display','none');
+    $('.loggedin-container').html('');
+    $('.menu-container').html('');
     $('.login-container').html('');
-    $('.login-container').css('display', 'block');
+    $('.registration-container').html('');
+    $('.section-options').html('');
+    $('.addnewitem-container').html('');
+    $('.closet-container').html('');
     $('.login-container').html(`
                     <div id="title-verbage">
                         <h2>love clothes and love to be organized?</h2>
@@ -145,11 +148,14 @@ function renderLoginForm() {
 }
 
 function renderLogout(user) {
-    $('.options-container').html('').css('display','none');
-    $('.closet-container').html('').css('display', 'none');
+
+    $('.loggedin-container').html('');
     $('.menu-container').html('');
-    $('.registration-container').html('');
     $('.login-container').html('');
+    $('.registration-container').html('');
+    $('.section-options').html('');
+    $('.addnewitem-container').html('');
+    $('.closet-container').html('');
     $('#header-greeting').html(`<p>Goodbye, ${user}</p>`);
     renderLoginForm();
 }    
@@ -175,11 +181,9 @@ function renderTopNav() {
 function renderOptionsPage() {
     $('.registration-container').html('');
     $('.login-container').html('');
-    $('.closet-container').html('');
-    $('.options-container').html('').css('display','none');
-    $('.options-container').html('').css('display', 'block');
     if (STORE.authUserName == 'admin') {
-        $('.options-container').html(`
+        $('.section-options').html(`
+            <div class="options-container">
                 <div class="user-instruction">
                     <div id="instruction-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
                     <div class="helper-verbage">
@@ -196,9 +200,11 @@ function renderOptionsPage() {
                         <h4 class="closet-functions">giveaway closet</h4>
                         <div class="comments">view/add to/delete from/edit</div>
                 </div>
+            </div>
      `);
     } else {
-        $('.options-container').html(`
+        $('.section-options').html(`
+            <div class="options-container">
                 <div class="options-header">
                     <h3>Which closet would you like to work with?</h3>
                 </div>
@@ -227,6 +233,7 @@ function renderOptionsPage() {
                     <i class="fas fa-atom" id="analyze-closet-btn" data-closet="analyze"></i>
                     <h4 class="closet-functions">Analyze!</h4>
                 <div>
+            </div>
         `);
     };
 }
@@ -234,11 +241,13 @@ function renderOptionsPage() {
 function renderNavLoggedIn() {
     $('.loggedin-container').html('').css('display','block');
     $('.loggedin-container').html(`
-            <div id="header-greeting">
-                <p>Welcome, ${STORE.authUserName}!</p>
-            </div>
-            <div id="header-logout">
-                <p>Logout</p>
+            <div class="nav-admin">
+                <div id="header-greeting">
+                    <p>Welcome, ${STORE.authUserName}!</p>
+                </div>
+                <div id="header-logout">
+                    <p>Logout</p>
+                </div>
             </div>`);
     $('.loggedin-container').css('border-bottom','1px solid lightgrey');
 }
@@ -280,7 +289,7 @@ function renderNavMenu(menu) {
           $('#ideal-closet-btn-min').css('background-color', '#A8D2CB');
           break;
         case 'my':
-          $('#ideal-closet-btn-min').css('background-color', '#A8D2CB');
+          $('#my-closet-btn-min').css('background-color', '#A8D2CB');
           break;
         case 'giveaway':
             $('#giveaway-closet-btn-min').css('background-color', '#A8D2CB');
@@ -292,19 +301,16 @@ function renderNavMenu(menu) {
             $('#analyze-closet-btn-min').css('background-color', '#A8D2CB');
           break;
         default:
-            $('#my-closet-btn-min').css('background-color', '#A8D2CB');
+            console.log('there is a problem with highlighting the background color of the menu item on selection.  It should be blue when clicked.');
     }
 }
 
 
-//  ***** RENDER CLOSETS (my, ideal, donate and giveaway) (analysis selection is below this block)
+//  ***** RENDER CLOSETS (my, ideal, donate and giveaway) (analyze selection is below this block)
 
 function renderCloset(closetItems) {
-    $('.options-container').html('').css('display','none');
-    $('.addnewitem-container').html('');
-    $('.closet-container').css('display','block');
+    $('.section-options').html('');
     $('.closet-container').html('');
-
     $('.closet-container').append(`<div class="closet-header"></div>`); 
     $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
     
@@ -358,10 +364,8 @@ function renderClHeader(closetItems) {
     let editBtnsHtml = '';
     
     //  Create Header for one of the User Selected Options
-    // header title:  For all 'closets', use the stored closet name for the header. 
-    if (STORE.selCloset === 'analyze') {
-        headerHtml = `<div class="item title-container"><div class="title-icon"><i class="fas fa-atom"></i></div><div class="cl-title"><h2>Analyze It!</h2></div>`;
-    } else if (STORE.selCloset === 'my' || STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway'){
+    // header title:  For all 'closets', use the stored closet name and the appropriate icon should display in  for the header. 
+    if (STORE.selCloset === 'my' || STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway'){
         headerHtml = `<div class="item title-container"><div class="title-icon"><i class="fas fa-tshirt"></i></div><div class="cl-title"><h2>${STORE.selCloset} Closet</h2></div>`;
     } else if (STORE.selCloset === 'ideal'){
         headerHtml = `<div class="item title-container"><div class="title-icon"><i class="fas fa-door-open"></i></div><div class="cl-title"><h2>${STORE.selCloset} Closet</h2></div>`;
@@ -374,6 +378,9 @@ function renderClHeader(closetItems) {
             editButtonHtml = ``;
         } else {
             editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add" data-closet="${STORE.selCloset}"><i class="fas fa-plus"></i></div>`;
+
+
+
         }
 
             //  if the user is the ADMIN, and the closet selected is ideal, render the add new item button
@@ -386,8 +393,10 @@ function renderClHeader(closetItems) {
     // the custom header is rendered here
     $('.closet-header').html(`
                     ${headerHtml}
+                    <div class="my-closet-subhead">
                     ${itemCountHtml}
                     ${editButtonHtml}
+                    </div>
                     <div class="user-msg"></div>`);
 }
 
@@ -591,14 +600,14 @@ function renderAnalysis() {
     // the custom header is created
     $('.closet-container').append(`
                 <div class="closet-header">
-                    <div class="item" id="closet-title"><h2>Analyze It!</h2></div>
+                    <div class="item title-container"><div class="title-icon"><i class="fas fa-atom"></i></div><div class="cl-title"><h2>Analyze It!</h2></div>
                 </div>`);
     
     $('.closet-container').append(`
                 <div class="cl-subhead">
                     <p>Here is your analysis</p>
                 </div>
-                <div class="analysis-body"></div>`);
+                <div class="analyze-body"></div>`);
 
     if (STORE.closetLength.my !== 0) {
         renderWholeClosetAnalysis();
@@ -616,27 +625,27 @@ function renderAnalysis() {
 
 function renderWholeClosetAnalysis() {
     // append whole closet analysis
-    $('.analysis-body').append(`
-    <div class="analysis-subhead">
+    $('.analyze-body').append(`
+    <div class="analyze-subhead">
         <h3>Here is some notes of the whole closet</h3>
         <div class="comments">This item compares the total number of items in your closet to the number of items in the ideal closet.</div>
     </div>
-    <div class="analysis-whole-ds">
+    <div class="analyze-whole-ds">
         <p>the ideal closet has ${STORE.closetLength.ideal} items in its closet.</p>
         <p>Your closet has ${STORE.closetLength.my} items in its closet.</p>
         </div>`);
     
     const closetDiff = STORE.closetLength.ideal - STORE.closetLength.my;
     if (Math.sign(closetDiff) === 1) {
-            $('.analysis-whole-ds').append(`
+            $('.analyze-whole-ds').append(`
             <p class="final-thought">The ideal closet has ${closetDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>
             </div>`);
     } else if (Math.sign(closetDiff) === -1) {
-            $('.analysis-whole-ds').append(`
+            $('.analyze-whole-ds').append(`
             <p class="final-thought">The ideal closet has ${closetDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>
             </div>`);
     } else if (Math.sign(seasonDiff) === 0){
-            $('analysis-whole-ds').append(`
+            $('analyze-whole-ds').append(`
                     <div class="final-thought-correct">
                         <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
                         <div class="correct-verbage"><p>Success!  You have the exact right number of items in your closet!</p></div>
@@ -649,8 +658,8 @@ function renderWholeClosetAnalysis() {
 function renderSeasonAnalysis() {
      
     // append header for season analysis
-     $('.analysis-body').append(`
-     <div class="analysis-subhead">
+     $('.analyze-body').append(`
+     <div class="analyze-subhead">
          <h3>Seasons dataset item</h3>
          <div class="comments">Each item in this section compares the total number of items in your closet for the each season to the number of items in the ideal closet.</div>
      </div>`);
@@ -680,13 +689,13 @@ function renderSeasonAnalysis() {
 
     // create html for analysis note 
     const seasonDiff = STORE.mySeasonLength[seasonText] - STORE.idealSeasonLength[seasonText];
-    let analysisNote = '';
+    let analyzeNote = '';
     if (Math.sign(seasonDiff) === 1) {
-        analysisNote = `<p class="final-thought">The ideal closet has ${seasonDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>`;
+        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>`;
     } else if (Math.sign(seasonDiff) === -1) {
-        analysisNote = `<p class="final-thought">The ideal closet has ${seasonDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>`;
+        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>`;
     } else if (Math.sign(seasonDiff) === 0){
-        analysisNote = `<div class="final-thought-correct">
+        analyzeNote = `<div class="final-thought-correct">
                             <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
                             <div class="correct-verbage"><p>Success!  You have the exact right number of items in your closet!</p></div>
                         </div>`;
@@ -694,23 +703,23 @@ function renderSeasonAnalysis() {
         console.log('there is something wrong with the season analysis section');
     }
 
-    // append season analysis to analysis-body
-    $('.analysis-body').append(`
-            <div class="analysis-season-ds">
+    // append season analysis to analyze-body
+    $('.analyze-body').append(`
+            <div class="analyze-season-ds">
                 <p class="subhead">${STORE.seasonAry[i]}</p>
-                <div class="analysis-subset">
+                <div class="analyze-subset">
                     <p>You have ${STORE.mySeasonLength[seasonText]} ${STORE.seasonAry[i]} items in your closet.</p>
                     <p>There are ${STORE.idealSeasonLength[seasonText]} ${STORE.seasonAry[i]} items the ideal closet.</p>
-                    ${analysisNote}
+                    ${analyzeNote}
                 </div>
             </div>`);
     }
 }
 
 function renderAppareltypeAnalysis() {
-    // append header for appareltype analysis
-    $('.analysis-body').append(`
-    <div class="analysis-subhead">
+    // append header for appareltype analyze
+    $('.analyze-body').append(`
+    <div class="analyze-subhead">
         <h3>Appareltype dataset item</h3>
         Each item in this section compares the total number of items in your closet for the each season to the number of items in the ideal closet.
     </div>`);
@@ -739,15 +748,15 @@ function renderAppareltypeAnalysis() {
             console.log('there is a problem with the appareltype text');
     }
 
-   // create html for analysis note 
+   // create html for analyze note 
    const appareltypeDiff = STORE.myAppareltypeLength[appareltypeText] - STORE.idealAppareltypeLength[appareltypeText];
-   let analysisNote = '';
+   let analyzeNote = '';
    if (Math.sign(appareltypeDiff) === 1) {
-       analysisNote = `<p class="final-thought">The ideal closet has ${appareltypeDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>`;
+       analyzeNote = `<p class="final-thought">The ideal closet has ${appareltypeDiff} more items in its closet than you do in yours.  Acquire the proper number of items.</p>`;
    } else if (Math.sign(appareltypeDiff) === -1) {
-       analysisNote = `<p class="final-thought">The ideal closet has ${appareltypeDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>`;
+       analyzeNote = `<p class="final-thought">The ideal closet has ${appareltypeDiff} LESS items in its closet than you do in yours.  Take a look at what your can get rid of.</p>`;
    } else if (Math.sign(appareltypeDiff) === 0){
-       analysisNote = `<div class="final-thought-correct">
+       analyzeNote = `<div class="final-thought-correct">
                             <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
                             <div class="correct-verbage"><p>Success!  You have the exact right number of items in your closet!</p></div>
                     </div>`;
@@ -755,14 +764,14 @@ function renderAppareltypeAnalysis() {
        console.log('what is the situation?');
    }
 
-   // append season analysis to analysis-body
-   $('.analysis-body').append(`
-           <div class="analysis-appareltype-ds">
+   // append season analyze to analyze-body
+   $('.analyze-body').append(`
+           <div class="analyze-appareltype-ds">
                 <p class="subhead">${STORE.appareltypeAry[i]}</p>
-                <div class="analysis-subset">
+                <div class="analyze-subset">
                     <p>You have ${STORE.myAppareltypeLength[appareltypeText]} ${STORE.appareltypeAry[i]} items in your closet.</p>
                     <p>There are ${STORE.idealAppareltypeLength[appareltypeText]} ${STORE.appareltypeAry[i]} items the ideal closet.</p>
-                    ${analysisNote}
+                    ${analyzeNote}
                 </div>
             </div>`);
    }
@@ -774,10 +783,7 @@ function renderAppareltypeAnalysis() {
 //  *****  RENDER ADD AND UPDATE FORMS
 
 function renderAddItemForm(msg) {
-    $('.registration-container').html('');
-    $('.login-container').html('');
-    $('.closet-container').html('');
-    $('.options-container').html('').css('display', 'none');
+    $('.closet-container').hide();
     $('.addnewitem-container').html('').css('display', 'none');
     const addItemFormBody = `
             <div class="cl-header">
@@ -789,7 +795,7 @@ function renderAddItemForm(msg) {
                 <form id="additem-form" name="additem-form">
                             <div class="additem-edit-btns">
                                 <button class="action-btns small-btn" id="js-save-btn" data-closet="${STORE.selCloset}" data-user="${STORE.authUser}">save</button>
-                                <button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>
+                                <button class="action-btns small-btn" id="cl-cancel-add-btn">cancel</button>
                             </div>
                             <div class="itemrow cl-whichseason">
                                 <div class="newitem itemlabel"><label>which season</label></div>
@@ -997,7 +1003,7 @@ function renderUpdateForm() {
         <div class="update-edit-btns">
             <button class="action-btns small-btn" id="cl-updatebtn-final"data-id="${STORE.currentEditItem.id}">save</i>
             </button>
-            <button class="action-btns small-btn" id="cl-cancel-btn">cancel</button>
+            <button class="action-btns small-btn" id="cl-cancel-update-btn">cancel</button>
         </div>`; 
 
     $(`.${STORE.currentEditItem.id}-class`).html(updateFormBody);

@@ -6,6 +6,7 @@ window.HTTP_MODULE = {
 
 //  most functions package their settings and call this generic fetch to connect to db
 
+// the return for this function is actual data that is, then, manipulated
 function fetchForData(url, settings, callback) {
     fetch(url, settings)
         .then(response => {
@@ -26,17 +27,19 @@ function fetchForData(url, settings, callback) {
         })
         .catch(err => console.log("Error", err));
 }
+
+// the return function here is true or false
 function fetchForResponse(url, settings) {
     return fetch(url, settings)
         .then(response => {
            return response;
         })
         .catch(error => {
-            console.log('what the heck?');
             throw error;
         })
 }
 
+// this function executes two GET calls to obtain data from the IDEAL closet and then the MY closet to obtain data to manipulate
 function fetchAnalysis() {
 
     // first, get and organize data from ideal closet
@@ -44,7 +47,6 @@ function fetchAnalysis() {
     const jwtToken = localStorage.getItem("jwtToken");
     const authUser = localStorage.getItem('userid');
     if (STORE.authUserName === 'admin') {
-       console.log('this is admin.  no analysis');
     } else {
         let getIdealDataSettings = {
             "method": "GET",
@@ -60,17 +62,15 @@ function fetchAnalysis() {
                 return response.json();
             } else {
                 if (response.status == 400 || response.status == 204) {
-                    console.log('respons status is bad! ' + response.status);
                     throw new Error(response.status);
                 } else if (response.status == 401) {
-                    console.log('what the heck?');
                     throw new Error(response.status);
                 }
             }
         })
         .then(responseJson => {
                 organizeData(responseJson);
-                console.log('data from ideal closet should be there now');
+
                 // next, get and organize data from my closet
                 STORE.selCloset = 'my';
                 let getMyDataSettings = {
@@ -87,17 +87,14 @@ function fetchAnalysis() {
                         return response.json();
                     } else {
                         if (response.status == 400 || response.status == 204) {
-                            console.log('respons status is bad! ' + response.status);
                             throw new Error(response.status);
                         } else if (response.status == 401) {
-                            console.log('what the heck?');
                             throw new Error(response.status);
                         }
                     }
                 })
                 .then(responseJson => {
                     organizeData(responseJson)
-                    renderNavMenu('users');
                     STORE.selCloset = 'analyze';
                     renderAnalysis();
                 })

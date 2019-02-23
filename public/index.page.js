@@ -1,7 +1,4 @@
 'use strict';
-let STATE = {
-};
-
 
 // all these modules are defined in /public/utilities
 const RENDER = window.RENDER_MODULE;
@@ -10,24 +7,20 @@ const ETC = window.ETC_MODULE;
 const HTTP = window.HTTP_MODULE;
 
 function onPageLoad() {
-    updateAuthenticatedUI();
+    updateAuthenticatedUser();
 }
 
-function updateAuthenticatedUI() {
-    const authUser = CACHE.getAuthenticatedUserFromCache();
+function updateAuthenticatedUser() {
+    const authUser = getAuthenticatedUserFromCache();
     if (authUser) {
-        STATE.authUser = authUser;
-        $('#nav-greeting').html(`Welcome, ${authUser.name}`);
-        $('#auth-menu').removeAttr('hidden');
+        STORE.authUser = authUser.userid;
+        STORE.authUserName = authUser.username;
+        renderNavLoggedIn();
+        renderOptionsPage();
     } else {
-        RENDER.renderLoginForm();
+        renderLoginForm();
     }
 }
-
-
-
-
-
 
 
 // ***** LISTENERS FOR REGISTRATION AND LOGIN
@@ -133,35 +126,9 @@ function cbLogin(data) {
 function onLogoutClick() {
     $(document).on('click', '#header-logout', function(event) {
         event.preventDefault();
-        /*
-        STORE.idealAppareltypeLength.bottom = 0;
-        STORE.idealAppareltypeLength.coat= 0;
-        STORE.idealAppareltypeLength.dress = 0;
-        STORE.idealAppareltypeLength.shoes = 0;
-        STORE.idealAppareltypeLength.top = 0;
-            
-        STORE.myAppareltypeLength.bottom = 0;
-        STORE.myAppareltypeLength.coat= 0;
-        STORE.myAppareltypeLength.dress = 0;
-        STORE.myAppareltypeLength.shoes = 0;
-        STORE.myAppareltypeLength.top = 0;
-
-        STORE.idealSeasonLength["Always in Season"] = 0;
-        STORE.idealSeasonLength["Fall Basics"] = 0;
-        STORE.idealSeasonLength["Always in Season"] = 0;
-        STORE.idealSeasonLength["Spring Basics"] = 0;
-        STORE.idealSeasonLength["Summer Basics"] = 0;
-        STORE.idealSeasonLength["Winter Basics"] = 0;
-    
-        STORE.mySeasonLength["Always in Season"] = 0;
-        STORE.mySeasonLength["Fall Basics"] = 0;
-        STORE.mySeasonLength["Always in Season"] = 0;
-        STORE.mySeasonLength["Spring Basics"] = 0;
-        STORE.mySeasonLength["Summer Basics"] = 0;
-        STORE.mySeasonLength["Winter Basics"] = 0;
-*/
         let userName = localStorage.getItem('username');
         if (userName === null) {
+            $('.loggedin-container').html('');
             renderLoginForm();
         } else {
             deleteAuthenticatedUserFromCache();
@@ -175,10 +142,10 @@ function onLogoutClick() {
 function onGoHome() {
     $(document).on('click', '#header-title', function(event) {
         event.preventDefault();
-        $('.options-container').css('display', 'block');
-        $('.addnewitem-container').html('');
+        $('.section-options').html('').css('display', 'block');
         $('.closet-container').html('');
-        $('.menu-container').html(''); 
+        $('.addnewitem-container').html('');
+        $('.menu-container').html('');
         renderNavLoggedIn();
         renderOptionsPage();
     });
@@ -202,8 +169,10 @@ function updateStoreItem(currentBtn) {
 
 // view selected closet from options page
 function onViewClosetClick() {
-    $('.options-container').on('click',(function(event) {
+    $('.section-options').on('click','.options-btns',(function(event) {
         event.preventDefault();
+
+    console.log('target id ' + event.target.id);
         let closetElement;
         closetElement = event.target.id;
         closetClick(closetElement);
@@ -222,66 +191,57 @@ function onViewClosetFromNavMenuClick() {
 
 // determines which closet has been selected
 function closetClick(closetElement) {
+    STORE.subFeature = '';
+    let selMenu = '';
+    if (STORE.authUserName !== 'admin') {
+        selMenu='users';
+    } else {
+        selMenu='admin';
+    }
+    $('.section-options').html('').css('display', 'none');
     switch (closetElement) {
         case `ideal-closet-btn`:
-        case `ideal-closet-btn-min`:
-                            STORE.subFeature = '';
+        case `ideal-closet-btn-min`: 
                             STORE.functionChoice = 'closet';
                             STORE.selCloset = 'ideal';
+                            renderNavMenu(selMenu);
                             getCloset(); 
                             break;
         case `my-closet-btn`:
         case `my-closet-btn-min`:
-                            STORE.subFeature = '';
                             STORE.functionChoice = 'closet';
                             STORE.selCloset = 'my';
+                            renderNavMenu(selMenu);
                             getCloset(); 
                             break;
         case `donation-closet-btn`:
         case `donation-closet-btn-min`:
-                            STORE.subFeature = '';
                             STORE.functionChoice = 'closet';
                             STORE.selCloset = 'donation';
+                            renderNavMenu(selMenu);
                             getCloset(); 
                             break;
         case `giveaway-closet-btn`:
         case `giveaway-closet-btn-min`:
-                            STORE.subFeature = '';
                             STORE.functionChoice = 'closet';
                             STORE.selCloset = 'giveaway';
+                            renderNavMenu(selMenu);
                             getCloset(); 
                             break;
         case `analyze-closet-btn`:
         case `analyze-closet-btn-min`:
-                            STORE.subFeature = '';
+                            STORE.functionChoice = 'analyze';
                             STORE.selCloset = 'analyze';
-                            $('.options-container').html('').css('display','none');
-                            $('.addnewitem-container').html('');
-                            $('.closet-container').css('display','block');
-                            $('.closet-container').html('');
+                            renderNavMenu(selMenu);
                             fetchAnalysis();
                             break;
     }
 }
 
 function cbGetCloset(data) {
-    let selMenu = '';
     if (data.length !== 0) {
-        if (STORE.authUserName !== 'admin') {
-            selMenu='users'
-        } else {
-            selMenu='admin';
-        }
-        renderNavMenu(selMenu);
         organizeData(data);
     } else {
-        if (STORE.authUserName !== 'admin') {
-            selMenu='users'
-        } else {
-            selMenu='admin';
-        }
-        renderNavMenu(selMenu);
-
         if (STORE.selCloset === 'my') {
             renderAddItemForm("Add your first item here.");
         } else {
@@ -290,17 +250,10 @@ function cbGetCloset(data) {
     }
 }
 
-
-
-
-
-
 // request to dd a new item to a selected closet
 function onAddItemToClosetClick() {
     $('.closet-container').on('click', '#cl-add-btn', (function(event){
         event.preventDefault();
-        $('.options-container').html('');
-        $('.closet-container').html('');
         let addMsg = "add your next item here"
         renderAddItemForm(addMsg);
     }));
@@ -308,10 +261,9 @@ function onAddItemToClosetClick() {
 
 // commit new item to db
 function onSaveItemToClosetClick() {
-    $('.section-closet').on('click', '#js-save-btn', function(event){
+    $('.addnewitem-container').on('click', '#js-save-btn', function(event){
         event.preventDefault();
-        console.log('made it to save item to closet');
-      
+        console.log('target it for save item is ' + event.target.it);
         const jwtToken = localStorage.getItem("jwtToken");
         const authUser = localStorage.getItem("userid");
         STORE.currentEditItem = {
@@ -353,12 +305,21 @@ function onSaveItemToClosetClick() {
 
 
 // cancels update item request
-function onCancelAddItemClick() {
-    $('.closet-container').on('click', '#cl-cancel-btn', (function(event) {
+function onCancelUpdateItemClick() {
+    $('.closet-container').on('click', '#cl-cancel-update-btn', (function(event) {
         event.preventDefault();
-        console.log('cancel add');
         STORE.selCloset="my";
         getCloset();
+    }))
+}
+
+// cancels add item request
+function onCancelAddItemClick() {
+    $('.addnewitem-container').on('click', '#cl-cancel-add-btn', (function(event) {
+        event.preventDefault();
+        STORE.selCloset="my";
+        $('.addnewitem-container').html('');
+        $('.closet-container').show();
     }))
 }
 
@@ -387,8 +348,6 @@ function onSaveUpdatedItemToClosetClick() {
             longdesc: $('#js-updatelongdesc').val(),
             size: $('#js-updatesize').val()
         };
-
-       // STORE.selCloset = $(this).attr('data-closet');
         let updateItemUrl = '';
         if (STORE.authUserName === 'admin') {
             updateItemUrl = '/api/idealcloset/';
@@ -409,13 +368,7 @@ function onSaveUpdatedItemToClosetClick() {
             body: JSON.stringify(STORE.currentEditItem)
         };
        let fetchResponse = fetchForResponse(updateItemUrl, updateItemSettings);
-       if (fetchResponse) {
-            getCloset();
-       } else {
-           console.log('problem with fetchResponse ', fetchResponse);
-       }
-       
-    
+       if (fetchResponse) getCloset();
     });
 }
 
@@ -443,11 +396,7 @@ function onDeleteItemInClosetClick() {
 
         STORE.subFeature='deleteitem';
         let fetchResponse = fetchForResponse(deleteItemUrl, deleteItemSettings);
-        if (fetchResponse) {
-            getCloset();
-       } else {
-           console.log('problem with fetchResponse ', fetchResponse);
-       }
+        if (fetchResponse) getCloset();
     }));
 }
 
@@ -499,15 +448,9 @@ function onMoveItemClick() {
                             if (data.length !== 0){
                                 STORE.selCloset = 'my';
                                 getCloset();
-                            } else {
-                                console.log('dta length is 0 check things out.');
-                            }
+                            } 
                         });
-        } else {
-            console.log('problem with fetch response in delete portion of move ', fetchResponse);
-        }
-
-            
+        }     
     }));
 }
 
@@ -549,10 +492,7 @@ function onReturnItemClick() {
                     getCloset();
                 }
             });
-        } else {
-            console.log('fetch response failed.  here is the fetchResponse', fetchResponse);
-        } 
-        
+        }  
     }));
     
 }
@@ -563,16 +503,13 @@ function getCloset() {
 
     let getClosetUrl = '';
     if (STORE.authUserName === 'admin') {
-        switch(STORE.selCloset) {
+        switch(closet) {
             case 'ideal':
                     getClosetUrl = '/api/idealcloset/';
                     break;
             case 'giveaway':
                     getClosetUrl = `/api/groupclosets/giveawaycloset/`;
                     break;
-            default:
-                    console.log('did not get Closet! ', STORE.selCloset);
-                
         }
     } else {
         switch(STORE.selCloset) {
@@ -591,9 +528,6 @@ function getCloset() {
             case 'analyze':
                     renderAnalysis();
                     break;
-            default:
-                    console.log('problem obtaining url ', STORE.selCloset);
-                
         }
     }
     
@@ -626,7 +560,8 @@ $(document).ready(function () {
     onSaveItemToClosetClick();
     onDeleteItemInClosetClick();
     onUpdateItemInClosetClick();
-    onSaveUpdatedItemToClosetClick()
+    onSaveUpdatedItemToClosetClick();
+    onCancelUpdateItemClick();
     onCancelAddItemClick();
     onMoveItemClick();
     onReturnItemClick();
