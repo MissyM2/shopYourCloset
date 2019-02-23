@@ -30,7 +30,7 @@ function onSignupRequestClick() {
     $(document).on('click', '#signup-btn', function(event) {
         event.preventDefault();
         $('#error-msg').remove();
-        RENDER.renderRegistrationForm();
+        renderRegistrationForm();
     });
 }
 
@@ -53,10 +53,15 @@ function onRegisterNewUserClick() {
             },
             "body": JSON.stringify(userData)
         };
-        if (fetchForData(newUserUrl, newUserSettings, renderLoginForm)){
-            console.log('got new user data!');
+
+        if (genericFetch(newUserUrl, newUserSettings, (data)=>{
+            if (data.length !== 0) {
+                renderLoginForm();
+            }
+        })) {
+            console.log('we are back at onRegisterNewUserClick - success!');
         } else {
-            console.log('did not get new user data.');
+            console.log('user is not registered.  highlight errors and have them try again.');
             $('#error-failure').html('<div id="error-icon" class="error-format"><i class="fas fa-exclamation-circle"></i></div><div id="error-verbage" class="error-format">Try again. Either your passwords didn"t match or you have already been registered.</div>');
             $('#error-failure').css("display", "block");
             $("#new-pass").focus();
@@ -90,19 +95,20 @@ function onSigninClick() {
                 },
                 "body": JSON.stringify(userData)
             };
-
-            fetchForData(newUserUrl, newUserSettings, (data)=>{
+            genericFetch(newUserUrl, newUserSettings, (data)=>{
                 if (data.hasOwnProperty("jwtToken")){
                     cbLogin(data);
-            } else {
-                $('#error-username').css("display", "none");
-                $('#error-password').css("display", "none");
-                $('#error-failure').html('<div id="error-icon" class="error-format"><i class="fas fa-exclamation-circle"></i></div><div id="error-verbage" class="error-format">either your name/password are incorrect or you have not registered, yet.</div>');
-                $('#error-failure').css("display", "block");
-                $("#GET-username").focus();
-            }
-        });
-        }     
+                    console.log('user should be logged in');
+                } else {
+                    $('#error-username').css("display", "none");
+                    $('#error-password').css("display", "none");
+                    $('#error-failure').html('<div id="error-icon" class="error-format"><i class="fas fa-exclamation-circle"></i></div><div id="error-verbage" class="error-format">either your name/password are incorrect or you have not registered, yet.</div>');
+                    $('#error-failure').css("display", "block");
+                    $("#GET-username").focus();
+                }   
+            });
+
+        }
     });
 }
 
@@ -117,6 +123,7 @@ function cbLogin(data) {
     saveAuthenticatedUserIntoCache(userData);
     STORE.authUser = localStorage.getItem("userid");
     STORE.authUserName = localStorage.getItem("username");
+    STORE.failedFetch = false;
     renderNavLoggedIn();
     renderOptionsPage();
 }
@@ -132,7 +139,7 @@ function onLogoutClick() {
             renderLoginForm();
         } else {
             deleteAuthenticatedUserFromCache();
-            renderLogout(userName);
+            $('#header-greeting').html(`<p>Goodbye, ${userName}</p>`);
             renderLoginForm();
         }
     });
@@ -172,8 +179,6 @@ function updateStoreItem(currentBtn) {
 function onViewClosetClick() {
     $('.section-options').on('click','.options-btns',(function(event) {
         event.preventDefault();
-
-    console.log('target id ' + event.target.id);
         let closetElement;
         closetElement = event.target.id;
         closetClick(closetElement);
@@ -193,6 +198,7 @@ function onViewClosetFromNavMenuClick() {
 // determines which closet has been selected
 function closetClick(closetElement) {
     STORE.subFeature = '';
+    STORE.failedFetch = false;
     let selMenu = '';
     if (STORE.authUserName !== 'admin') {
         selMenu='users';
@@ -256,6 +262,7 @@ function cbGetCloset(data) {
 function onAddItemToClosetClick() {
     $('.closet-container').on('click', '#cl-add-btn', (function(event){
         event.preventDefault();
+        STORE.failedFetch = false;
         let addMsg = "add your next item here"
         renderAddItemForm(addMsg);
     }));
@@ -265,6 +272,7 @@ function onAddItemToClosetClick() {
 function onSaveItemToClosetClick() {
     $('.addnewitem-container').on('click', '#js-save-btn', function(event){
         event.preventDefault();
+        STORE.failedFetch = false;
         console.log('target it for save item is ' + event.target.it);
         const jwtToken = localStorage.getItem("jwtToken");
         const authUser = localStorage.getItem("userid");
@@ -297,11 +305,12 @@ function onSaveItemToClosetClick() {
             },
             body: JSON.stringify(STORE.currentEditItem)
         };
-        let fetchResponse = fetchForResponse(addItemUrl, addItemSettings);
-        if (fetchResponse) {
-            getCloset();
-        }
-       
+        genericFetch(addItemUrl, addItemSettings, (data) => {
+            if (data.length !== 0) {
+                console.log('getting closet');
+                getCloset();
+            }
+            });
     });
 }
 
@@ -310,7 +319,11 @@ function onSaveItemToClosetClick() {
 function onCancelUpdateItemClick() {
     $('.closet-container').on('click', '#cl-cancel-update-btn', (function(event) {
         event.preventDefault();
-        STORE.selCloset="my";
+        if (STORE.authUserName == 'admin') {
+            STORE.selCloset = 'ideal';
+        } else {
+            STORE.selCloset="my";
+        }
         getCloset();
     }))
 }
@@ -329,6 +342,7 @@ function onCancelAddItemClick() {
 // requests to update an existing item
 function onUpdateItemInClosetClick() {
     $('.section-closet').on('click', '#cl-edit-btn', (function(event) {
+        $('.user-msg').html('');
         event.preventDefault();
         updateStoreItem(this);
         renderUpdateForm();
@@ -339,6 +353,8 @@ function onUpdateItemInClosetClick() {
 function onSaveUpdatedItemToClosetClick() {
     $('.closet-container').on('click','#cl-updatebtn-final', function(event) {
         event.preventDefault();
+        STORE.failedFetch = false;
+        STORE.subFeature = 'updateditem';
         const jwtToken = localStorage.getItem("jwtToken");
         const authUser = localStorage.getItem("userid");
         STORE.currentEditItem = {
@@ -369,8 +385,24 @@ function onSaveUpdatedItemToClosetClick() {
             },
             body: JSON.stringify(STORE.currentEditItem)
         };
-       let fetchResponse = fetchForResponse(updateItemUrl, updateItemSettings);
-       if (fetchResponse) getCloset();
+        if (genericFetch(updateItemUrl, updateItemSettings, (data) => {
+            //if (data.hasOwnProperty("jwtToken")){
+            if (data.message === '404') {
+                    STORE.failedFetch = true;
+                    alert('url not found');
+                    getCloset();
+            } else {
+                    //if (data.length !== 0) {
+                        if (STORE.authUserName === 'admin') {
+                            STORE.selCloset = 'ideal';
+                        } else {
+                            STORE.selCloset = 'my';
+                        }
+                        STORE.subFeature = 'updateditem';
+                        getCloset(data);
+                    }
+            //}
+            }));
     });
 }
 
@@ -397,8 +429,16 @@ function onDeleteItemInClosetClick() {
         };
 
         STORE.subFeature='deleteitem';
-        let fetchResponse = fetchForResponse(deleteItemUrl, deleteItemSettings);
-        if (fetchResponse) getCloset();
+        if (genericFetch(deleteItemUrl, deleteItemSettings, (data) => {
+            if(data.length != 0) {
+                STORE.selCloset = 'my';
+                getCloset(data);
+            } else {
+                let msg = "You have deleted the last item in your closet.  Add a new item!";
+                renderAddItemForm(msg);
+            }
+
+        }));
     }));
 }
 
@@ -423,36 +463,36 @@ function onMoveItemClick() {
                 'Authorization': `Bearer ${jwtToken}`
             }
         };
-       let fetchResponse = fetchForResponse(deleteItemUrl, deleteItemSettings);
-       if (fetchResponse) {
-                // adds the item to chosen closet (donate or giveaway)
-                let addItemUrl;
-                if(currentId === 'cl-donate-btn'){
-                        STORE.selCloset='donation';
-                        STORE.subFeature='donate';
-                        addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
-                    } else {
-                        STORE.selCloset='giveaway';
-                        STORE.subFeature='giveaway';
-                        addItemUrl = `/api/groupclosets/giveawaycloset`;
-                    }
-                    const addItemSettings = {
-                        "method": "POST",
-                        "headers": {
-                        'Accept': 'application/json, text/plain, *',
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${jwtToken}`
-                        },
-                        "body": JSON.stringify(STORE.currentEditItem)
-                    };
-
-                    fetchForData(addItemUrl, addItemSettings, (data) => {
-                            if (data.length !== 0){
-                                STORE.selCloset = 'my';
-                                getCloset();
-                            } 
-                        });
-        }     
+        genericFetch(deleteItemUrl, deleteItemSettings, (data) => {
+            if(data.length != 0) {
+                 let addItemUrl;
+                 if(currentId === 'cl-donate-btn'){
+                         STORE.selCloset='donation';
+                         STORE.subFeature='donate';
+                         addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
+                     } else {
+                         STORE.selCloset='giveaway';
+                         STORE.subFeature='giveaway';
+                         addItemUrl = `/api/groupclosets/giveawaycloset`;
+                     }
+                     const addItemSettings = {
+                         "method": "POST",
+                         "headers": {
+                         'Accept': 'application/json, text/plain, *',
+                         'Content-Type': 'application/json',
+                         'Authorization': `Bearer ${jwtToken}`
+                         },
+                         "body": JSON.stringify(STORE.currentEditItem)
+                     };
+ 
+                     genericFetch(addItemUrl, addItemSettings, (data) => {
+                             if (data.length !== 0){
+                                 STORE.selCloset = 'my';
+                                 getCloset(data);
+                             } 
+                         });
+                        }
+                    });
     }));
 }
 
@@ -475,7 +515,7 @@ function onReturnItemClick() {
                 'Authorization': `Bearer ${jwtToken}`
             }
         };
-        let fetchResponse = fetchForResponse(deleteItemUrl, deleteItemSettings);
+        let fetchResponse = genericFetch(deleteItemUrl, deleteItemSettings);
         if (fetchResponse) {
             //  add item to my closet
             let addItemUrl = `/api/userclosets/mycloset/${STORE.authUser}`;
@@ -489,7 +529,7 @@ function onReturnItemClick() {
                     "body": JSON.stringify(STORE.currentEditItem)
             };
             STORE.subFeature='returnitem';
-            fetchForData(addItemUrl, addItemSettings, (data)=>{
+            genericFetch(addItemUrl, addItemSettings, (data)=>{
                 if (data.length !== 0) {
                     getCloset();
                 }
@@ -541,7 +581,7 @@ function getCloset() {
             'Authorization': `Bearer ${jwtToken}`
         }
     }
-    fetchForData(getClosetUrl, getClosetSettings, cbGetCloset);
+    genericFetch(getClosetUrl, getClosetSettings, cbGetCloset);
 }
 
 

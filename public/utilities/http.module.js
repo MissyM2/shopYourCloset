@@ -1,13 +1,13 @@
 window.HTTP_MODULE = {
     fetchAnalysis,
-    fetchForData,
-    fetchForResponse
+    genericFetch
+    //fetchForResponse
 };
 
 //  most functions package their settings and call this generic fetch to connect to db
 
 // the return for this function is actual data that is, then, manipulated
-function fetchForData(url, settings, callback) {
+/*function fetchForData(url, settings, callback) {
     fetch(url, settings)
         .then(response => {
             if (response.ok) {
@@ -27,17 +27,35 @@ function fetchForData(url, settings, callback) {
         })
         .catch(err => console.log("Error", err));
 }
+*/
 
-// the return function here is true or false
-function fetchForResponse(url, settings) {
-    return fetch(url, settings)
+
+
+function genericFetch(url, settings, callback) {
+    fetch(url, settings)
         .then(response => {
-           return response;
+                if (response.ok) {
+                    if (response.status == 200) {
+                        return response.json();
+                    } else if (response.status == 201) {
+                        return response.json();
+                    } else if (response.status == 204) {
+                            return response;
+                        }
+                    } else if (response.status === 400 || response.status === 401 || response.status === 404) {
+                        throw new Error (response.status);
+                    } else {
+                        return response.json();
+                    }
         })
-        .catch(error => {
-            throw error;
+        .then(responseJson => {
+                callback(responseJson);
         })
-}
+        .catch(err => {
+            console.log("Error", err);
+            callback(err);
+        });
+    }
 
 // this function executes two GET calls to obtain data from the IDEAL closet and then the MY closet to obtain data to manipulate
 function fetchAnalysis() {

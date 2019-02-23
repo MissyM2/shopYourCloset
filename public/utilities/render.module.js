@@ -4,7 +4,6 @@ window.RENDER_MODULE = {
     renderRegistrationForm,
     renderLoginForm,
     renderNavLoggedIn,
-    renderLogout,
     renderOptionsPage,
     renderTopNav,
     renderNavMenu,
@@ -86,15 +85,16 @@ function renderRegistrationForm() {
                     </div>
                 </form>
     `);
+    $('#new-name').focus();
 
 }
 
 function renderLoginForm() {
-    $('.loggedin-container').html('');
+    $('.section-options').html('');
+    //$('.loggedin-container').html('');
     $('.menu-container').html('');
     $('.login-container').html('');
     $('.registration-container').html('');
-    $('.section-options').html('');
     $('.addnewitem-container').html('');
     $('.closet-container').html('');
     $('.login-container').html(`
@@ -142,24 +142,10 @@ function renderLoginForm() {
                         </form>
                     </div> 
                 </div>
-    `);
+    `).css('display', 'block');
     $('#GET-username').focus();
 
 }
-
-function renderLogout(user) {
-
-    $('.loggedin-container').html('');
-    $('.menu-container').html('');
-    $('.login-container').html('');
-    $('.registration-container').html('');
-    $('.section-options').html('');
-    $('.addnewitem-container').html('');
-    $('.closet-container').html('');
-    $('#header-greeting').html(`<p>Goodbye, ${user}</p>`);
-    renderLoginForm();
-}    
-
 
 // *****  RENDER NAVIGATION FUNCTIONS
 function renderTopNav() {
@@ -310,7 +296,7 @@ function renderNavMenu(menu) {
 
 function renderCloset(closetItems) {
     $('.section-options').html('');
-    $('.closet-container').html('');
+    $('.closet-container').html('').css('display', 'block');
     $('.closet-container').append(`<div class="closet-header"></div>`); 
     $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
     
@@ -331,29 +317,47 @@ function renderCloset(closetItems) {
 
     //  with data now in its proper categories, render the data
     renderClBody(result);
-
-    switch (STORE.subFeature) {
-        case ('giveaway'):
-            $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage">You have just moved one item to the public Giveaway Closet.</div>`);
-            break;
-        case ('donate'):
-            $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just moved one item to your personal Donation Closet.</div>`); 
-            break;
-        case ('deleteitem'):
-            $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just deleted one item from your personal My Closet.</div>`); 
-            break;
-        case ('returnitem'):
-            $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just returned an item to your personal My Closet.</div>`); 
-            break;
-        case (''):
-            $('.user-msg').html('');
-            break;
-        default:
-            console.log('ugh, problems');
-            break;
+    if (STORE.authUserName === 'admin') {
+        if (STORE.failedFetch == true && STORE.subFeature === 'updateditem') {
+                        $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You were not able up update your item.  See the ADMINISTRATOR.</div>`); 
+        } else {
+                switch (STORE.subFeature) {
+                    case ('updateditem'):
+                                $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just updated an item in the IDEAL CLOSET.</div>`); 
+                                break;
+                    case ('other'):
+                                $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just updated an item in the GIVEAWAY CLOSET.</div>`); 
+                                break;
+                }
         }
+    } else {
+        if (STORE.failedFetch == true) {
+            $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You were not able up update your item.  See the ADMINISTRATOR.</div>`); 
+        } else {
 
+                switch (STORE.subFeature) {
+                    case ('giveaway'):
+                                    $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage">You have just moved one item to the public Giveaway Closet.</div>`);
+                                    break;
+                    case ('donate'):
+                                    $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just moved one item to your personal Donation Closet.</div>`); 
+                                    break;
+                    case ('deleteitem'):
+                                    $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just deleted one item from your personal My Closet.</div>`); 
+                                    break;
+                    case ('returnitem'):
+                                    $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just returned an item to your personal My Closet.</div>`); 
+                                    break;
+                    case ('updateditem'):
+                                    $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just updated an item in your personal My Closet.</div>`); 
+                                    break;
+                    default:
+                                    $('.user-msg').html('');
+                                    break;
+                }
+        }
     }
+}
 
 
 function renderClHeader(closetItems) { 
@@ -362,6 +366,7 @@ function renderClHeader(closetItems) {
     let itemCountHmtl = '';
     let editButtonHtml = '';
     let editBtnsHtml = '';
+    $('.user-msg').html('');
     
     //  Create Header for one of the User Selected Options
     // header title:  For all 'closets', use the stored closet name and the appropriate icon should display in  for the header. 

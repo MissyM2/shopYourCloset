@@ -4,6 +4,7 @@ let STORE = {
     authUser:'',
     authUserName:'',
     subFeature:'',
+    failedFetch:false,
     closetLength: {
         ideal:0,
         my:0,
