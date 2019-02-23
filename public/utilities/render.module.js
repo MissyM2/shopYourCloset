@@ -298,7 +298,7 @@ function renderNavMenu(menu) {
 }
 
 
-//  ***** RENDER CLOSETS (my, ideal, donate and giveaway) (analyze selection is below this block)
+//  ***** RENDER CLOSETS (my, ideal, donation and giveaway) (analyze selection is below this block)
 
 function renderCloset(closetItems) {
     $('.section-options').html('');
@@ -517,12 +517,12 @@ function renderClItemActionBtns(bodyHtml, data) {
             bodyHtml += `<div class="item-edit-btns">
                             <button class="action-btns small-btn" id="cl-edit-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">edit</button>
                             <button class="action-btns small-btn" id="cl-delete-btn" data-id="${data.id}">delete</button>
-                            <button class="js-move action-btns small-btn" id="cl-donate-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">donate</button>
+                            <button class="js-move action-btns small-btn" id="cl-donation-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">donation</button>
                             <button class="js-move action-btns small-btn" id="cl-giveaway-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">giveaway</button>
                         </div>`;
         } else if (STORE.selCloset === 'donation') {
             bodyHtml += `<div class="item-edit-btns">
-                            <button class="action-btns med-btn" id="cl-return-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">return to your closet</button>
+                            <button class="js-move action-btns med-btn" id="cl-return-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">return to your closet</button>
                         </div>`;
         }
 
@@ -554,7 +554,7 @@ function renderClBody(closetItems) {
     } 
 }
 
-//  this page is rendered if before there are items in a closet
+//  this page is rendered before there are items in a closet
 function renderInformationPage() { 
     $('.closet-container').html(`
                 <div class="cl-header">
@@ -562,26 +562,30 @@ function renderInformationPage() {
                 </div>`);
 
     $('.closet-container').append(`
-                <div class="closet-body">closet body</div>`
+                <div class="closet-body"></div>`
                 );
     
     let infoPageMsg;
-    if(STORE.selCloset === 'donation') {
-        infoPageMsg = `<div class="user-instruction">
-                            <div class="helper-icon"><i class="fas fa-atom instruction"></i></div>
-                            <div class="helper-verbage">
-                            <p>To offer an item for donation:</p>
-                            <br>
-                                <ul class="instruction-list">
-                                    <li class="instruction-items">Click into your own closet.</li>
-                                    <li class="instruction-items">Find the item you wish to giveaway.</li>
-                                    <li class="instruction-items">Click the 'donate' button.  </li>
-                                    <li class="instruction-items">Your item will be deleted from your personal closet and added to your personal donation closet.</li>
-                                    <li class="instruction-items">Take the physical item out of your wardrobe and place it in a donation bag until you are ready to make the donation.</li>
-                                </ul>
-                            </div>
-                        </div>`;
-    } else if (STORE.selCloset === 'giveaway') {
+    
+    switch (STORE.selCloset) {
+        case 'donation':
+                infoPageMsg = `<div class="user-instruction">
+                                    <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
+                                    <div class="helper-verbage">
+                                        <p>Instruction for Donating an Item</p>
+                                    </div>
+                                </div>
+                                <div class="instruction-list">
+                                        <ul>
+                                            <li class="instruction-items">Click into your own closet.</li>
+                                            <li class="instruction-items">Find the item you wish to giveaway.</li>
+                                            <li class="instruction-items">Click the 'donation' button.  </li>
+                                            <li class="instruction-items">Your item will be deleted from your personal closet and added to your personal donation closet.</li>
+                                            <li class="instruction-items">Take the physical item out of your wardrobe and place it in a donation bag until you are ready to make the donation.</li>
+                                        </ul>
+                                </div>`;
+                break;
+    case 'giveaway':
         infoPageMsg = `<div class="user-instruction">
                             <div class="helper-icon"><i class="fas fa-atom instruction"></i></div>
                             <div class="helper-verbage">
@@ -596,7 +600,7 @@ function renderInformationPage() {
                                 </ul>
                             </div>
                         </div>`;
-
+        break;
     }
     $('.closet-body').html(infoPageMsg);
 }

@@ -631,6 +631,7 @@ button:hover {
 }
 .instruction-list {
     margin: 10px 5px 0 55px;
+    text-align:left;
 }
 
 .user-instruction {
@@ -658,7 +659,6 @@ button:hover {
 .helper-icon {
     display:inline-block;
     font-size:.5rem;
-   
 }
 
 .helper-verbage {

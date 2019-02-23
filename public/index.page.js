@@ -250,7 +250,7 @@ function cbGetCloset(data) {
     if (data.length !== 0) {
         organizeData(data);
     } else {
-        if (STORE.selCloset === 'my') {
+        if (STORE.selCloset === 'ideal' || STORE.selCloset === 'my') {
             renderAddItemForm("Add your first item here.");
         } else {
             renderInformationPage();
@@ -435,11 +435,11 @@ function watchDeleteItem() {
 
         STORE.subFeature='deleteitem';
         if (genericFetch(deleteItemUrl, deleteItemSettings, (data) => {
-            if(data.length != 0) {
+            if(data.length === 0) {
                 if (data.message === '404') {
                         STORE.failedFetch = true;
                 } else {
-                getCloset(data);
+                getCloset();
                 }
             } else {
                 let msg = "You have deleted the last item in your closet.  Add a new item!";
@@ -460,9 +460,23 @@ function watchMoveItem() {
         const authUser = localStorage.getItem('userid');
         let selectedItemId = STORE.currentEditItem.id;
         let currentId = $(this).attr("id");
-        
-        // deletes item from selected closet
-        let deleteItemUrl = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
+        let deleteItemUrl = '';
+        if(currentId === 'cl-donation-btn') {
+            STORE.selCloset='donation';
+            STORE.subFeature='donate';
+            deleteItemUrl = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
+        } else if(currentId === 'cl-giveaway-btn'){
+            STORE.selCloset='giveaway';
+            STORE.subFeature='giveaway';
+            deleteItemUrl = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
+        } else if (currentId === 'cl-return-btn'){
+            STORE.selCloset='donation';
+            STORE.subFeature='returnitem';
+            deleteItemUrl = `/api/userclosets/donationcloset/${STORE.authUser}/${selectedItemId}`;
+        } else {
+            console.log('other closet issue');  
+        }
+
         const deleteItemSettings = {
             "method": "DELETE",
             "headers": {
@@ -472,16 +486,14 @@ function watchMoveItem() {
             }
         };
         genericFetch(deleteItemUrl, deleteItemSettings, (data) => {
-            if(data.length != 0) {
+            if(data.length === 0) {
                  let addItemUrl;
-                 if(currentId === 'cl-donate-btn'){
-                         STORE.selCloset='donation';
-                         STORE.subFeature='donate';
+                 if(currentId === 'cl-donation-btn'){
                          addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
-                     } else {
-                         STORE.selCloset='giveaway';
-                         STORE.subFeature='giveaway';
+                    } else if (currentId === 'cl-giveaway-btn') {
                          addItemUrl = `/api/groupclosets/giveawaycloset`;
+                     } else if (currentId === 'cl-return-btn') {
+                        addItemUrl = `/api/userclosets/mycloset/${STORE.authUser}`;
                      }
                      const addItemSettings = {
                          "method": "POST",
@@ -494,57 +506,18 @@ function watchMoveItem() {
                      };
  
                      genericFetch(addItemUrl, addItemSettings, (data) => {
-                             if (data.length !== 0){
-                                 STORE.selCloset = 'my';
+                        if (data.id !== null){
+                                    if (currentId === 'cl-return-btn') {
+                                        STORE.selCloset='donation';
+                                    } else {
+                                        STORE.selCloset = 'my';
+                                    }
                                  getCloset(data);
                              } 
                          });
                         }
                     });
     }));
-}
-
-
-// returns item from donation closet to my closet
-function watchReturnItem() {
-    $('.section-closet').on('click', '#cl-return-btn', (function(event) {
-        event.preventDefault();
-        updateStoreItem(this);
-        const jwtToken = localStorage.getItem("jwtToken");
-        let selectedItemId = STORE.currentEditItem.id;
-
-        // delete item from donation closet
-        let deleteItemUrl = `/api/userclosets/donationcloset/${STORE.authUser}/${selectedItemId}`;
-        const deleteItemSettings = {
-            "method": "DELETE",
-            "headers": {
-                'Accept': 'application/json, text/plain, *',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`
-            }
-        };
-        let fetchResponse = genericFetch(deleteItemUrl, deleteItemSettings);
-        if (fetchResponse) {
-            //  add item to my closet
-            let addItemUrl = `/api/userclosets/mycloset/${STORE.authUser}`;
-            const addItemSettings = {
-                    "method": "POST",
-                    "headers": {
-                        'Accept': 'application/json, text/plain, *',
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${jwtToken}`
-                    },
-                    "body": JSON.stringify(STORE.currentEditItem)
-            };
-            STORE.subFeature='returnitem';
-            genericFetch(addItemUrl, addItemSettings, (data)=>{
-                if (data.length !== 0) {
-                    getCloset();
-                }
-            });
-        }  
-    }));
-    
 }
 
 function getCloset() {
@@ -612,7 +585,7 @@ $(document).ready(function () {
     watchDeleteItem();
     watchUpdateItem();
     watchSaveUpdatedItem();
-    watchReturnItem();
+    //watchReturnItem();
     watchMoveItem();
 });
 

@@ -1,58 +1,36 @@
 window.HTTP_MODULE = {
     fetchAnalysis,
     genericFetch
-    //fetchForResponse
 };
-
-//  most functions package their settings and call this generic fetch to connect to db
-
-// the return for this function is actual data that is, then, manipulated
-/*function fetchForData(url, settings, callback) {
-    fetch(url, settings)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                if (response.status == 400 || response.status == 204) {
-                    console.log('respons status is bad! ' + response.status);
-                    throw new Error(response.status);
-                } else if (response.status == 401) {
-                    console.log('what the heck?');
-                    throw new Error(response.status);
-                }
-            }
-        })
-        .then(responseJson => {
-            callback(responseJson)
-        })
-        .catch(err => console.log("Error", err));
-}
-*/
-
-
 
 function genericFetch(url, settings, callback) {
     fetch(url, settings)
         .then(response => {
                 if (response.ok) {
                     if (response.status == 200) {
+                        //return response.text();
                         return response.json();
                     } else if (response.status == 201) {
                         return response.json();
+                        //return response.text();
                     } else if (response.status == 204) {
-                            return response;
+                        return response.text();
+                            //return response;
                         }
                     } else if (response.status === 400 || response.status === 401 || response.status === 404) {
                         throw new Error (response.status);
                     } else {
-                        return response.json();
+                        return response.text();
+                        //return response.json();
                     }
         })
-        .then(responseJson => {
-                callback(responseJson);
+
+       .then(responseJson => {
+            console.log(responseJson);
+          callback(responseJson);
         })
         .catch(err => {
-            console.log("Error", err);
+            //console.log("Error", err);
             callback(err);
         });
     }
