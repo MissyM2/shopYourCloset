@@ -572,7 +572,7 @@ function renderInformationPage() {
                 infoPageMsg = `<div class="user-instruction">
                                     <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
                                     <div class="helper-verbage">
-                                        <p>Instruction for Donating an Item</p>
+                                        <p>Instructions for Donating an Item</p>
                                     </div>
                                 </div>
                                 <div class="instruction-list">
@@ -587,9 +587,11 @@ function renderInformationPage() {
                 break;
     case 'giveaway':
         infoPageMsg = `<div class="user-instruction">
-                            <div class="helper-icon"><i class="fas fa-atom instruction"></i></div>
-                            <div class="helper-verbage">
-                            <p>To offer an item for giveaway:</p>
+                                <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
+                                <div class="helper-verbage">
+                                    <p>Instructions for Giving An Item Away</p>
+                                </div>
+                            </div>
                             <br>
                                 <ul class="instruction-list">
                                     <li class="instruction-items">Click into your own closet.</li>
