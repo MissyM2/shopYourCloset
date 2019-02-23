@@ -35,7 +35,7 @@ function renderRegistrationForm() {
                         <div id="reg-title"><p>Register</p></div>
                         <div class="user-instruction">
                             <div id="instruction-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
-                            <div class="helper-verbage">
+                            <div class="instruction-verbage">
                                 <p>*  all inputs are required.</p>
                             </div>
                         </div>
@@ -56,7 +56,7 @@ function renderRegistrationForm() {
                             <div class="input-container">
                                 <input type="text" class="reg-input" name="new-username" id="new-username" class="js-new-username" tabindex="3" placeholder="tester1" required>
                             </div>
-                            <div class="helper-verbage">
+                            <div class="instruction-verbage">
                                 <p>minimum of 5 characters and 1 number</p>
                             </div>
                         </div>                      
@@ -65,7 +65,7 @@ function renderRegistrationForm() {
                             <div class="input-container">
                                 <input type="password" class="reg-input" name="new-password" id="new-pass" class="js-new-password" tabindex="4" placeholder="password" required>
                             </div>
-                            <div class="helper-verbage">
+                            <div class="instruction-verbage">
                                 <p>minimum of 5 characters and 1 number</p>
                             </div>
                         </div>
@@ -74,7 +74,7 @@ function renderRegistrationForm() {
                             <div class="input-container">
                                 <input type="password" class="reg-input" name="confirm-password" id="new-confirm" class="js-confirm-password" tabindex="5" placeholder="password" required>
                             </div>
-                            <div class="helper-verbage">
+                            <div class="instruction-verbage">
                                 <p>passwords must match</p>
                             </div>
                         </div>
@@ -171,10 +171,10 @@ function renderOptionsPage() {
         $('.section-options').html(`
             <div class="options-container">
                 <div class="user-instruction">
-                    <div id="instruction-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
-                    <div class="helper-verbage">
-                        <p>Which closet would you like to work with, Admin?</p>
-                    </div>
+                        <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
+                        <div class="helper-verbage">
+                            <p>Which closet would you like to work with, ${STORE.authUserName}?</p>
+                        </div>
                 </div>
                 <div class="options-btns" >
                         <i class="fas fa-door-open" id="ideal-closet-btn" data-closet="ideal"></i>
@@ -191,8 +191,11 @@ function renderOptionsPage() {
     } else {
         $('.section-options').html(`
             <div class="options-container">
-                <div class="options-header">
-                    <h3>Which closet would you like to work with?</h3>
+                <div class="user-instruction">
+                        <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
+                        <div class="helper-verbage">
+                            <p>Which closet would you like to work with, ${STORE.authUserName}?</p>
+                        </div>
                 </div>
                 <div class="options-btns" >
                     <i class="fas fa-door-open" id="ideal-closet-btn" data-closet="ideal"></i>
@@ -212,8 +215,11 @@ function renderOptionsPage() {
                         <h4 class="closet-functions">donation</h4>
                     </div>
                 </div>
-                <div class="options-header">
-                    <h3>Would you like some recommendations?</h3>
+                <div class="user-instruction">
+                        <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
+                        <div class="helper-verbage">
+                            <p>Would you like some recommendations?</p>
+                        </div>
                 </div>
                 <div class="options-btns">
                     <i class="fas fa-atom" id="analyze-closet-btn" data-closet="analyze"></i>
@@ -296,6 +302,7 @@ function renderNavMenu(menu) {
 
 function renderCloset(closetItems) {
     $('.section-options').html('');
+    $('.addnewitem-container').html('');
     $('.closet-container').html('').css('display', 'block');
     $('.closet-container').append(`<div class="closet-header"></div>`); 
     $('.closet-container').append(`<div class="closet-body"><div id="always-in-season"></div><div id="other-seasons"></div></div>`);
@@ -350,6 +357,9 @@ function renderCloset(closetItems) {
                                     break;
                     case ('updateditem'):
                                     $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just updated an item in your personal My Closet.</div>`); 
+                                    break;
+                    case ('addnewitem'):
+                                    $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just added an item in your personal My Closet.</div>`); 
                                     break;
                     default:
                                     $('.user-msg').html('');
@@ -518,21 +528,19 @@ function renderClItemActionBtns(bodyHtml, data) {
 
      // if the ADMIN is logged in, get these buttons   
     } else  {
-            if (STORE.selCloset === 'my') {
-                bodyHtml += `<div> no buttons here
-                                    </div>`;
-            } else if (STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway'  || STORE.selCloset === 'ideal') {
-                // if isAdmin and the closet is one of the above, then the user may edit or delete
-                bodyHtml += `
-                            <div class="item-edit-btns">
-                            <button class="action-btns small-btn" id="cl-edit-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">edit</button>
-                            <button class="action-btns small-btn" id="cl-delete-btn" data-id="${data.id}">delete</button>
-                            </div>`;
-            
-            } else {
-                alert('there is a problem with the closet format!');
-               
-            }       
+        if (STORE.selCloset === 'ideal') {
+            // if isAdmin and the closet is one of the above, then the user may edit or delete
+            bodyHtml += `
+                        <div class="item-edit-btns">
+                        <button class="action-btns small-btn" id="cl-edit-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">edit</button>
+                        <button class="action-btns small-btn" id="cl-delete-btn" data-id="${data.id}">delete</button>
+                        </div>`;
+        } else {
+            bodyHtml += `
+                        <div class="item-edit-btns">
+                        <button class="action-btns small-btn" id="cl-delete-btn" data-id="${data.id}">delete</button>
+                        </div>`;
+        }       
     } 
 return bodyHtml;
 }
@@ -560,7 +568,7 @@ function renderInformationPage() {
     let infoPageMsg;
     if(STORE.selCloset === 'donation') {
         infoPageMsg = `<div class="user-instruction">
-                            <div id="instruction-icon"><i class="fas fa-atom instruction"></i></div>
+                            <div class="helper-icon"><i class="fas fa-atom instruction"></i></div>
                             <div class="helper-verbage">
                             <p>To offer an item for donation:</p>
                             <br>
@@ -575,7 +583,7 @@ function renderInformationPage() {
                         </div>`;
     } else if (STORE.selCloset === 'giveaway') {
         infoPageMsg = `<div class="user-instruction">
-                            <div id="instruction-icon"><i class="fas fa-atom instruction"></i></div>
+                            <div class="helper-icon"><i class="fas fa-atom instruction"></i></div>
                             <div class="helper-verbage">
                             <p>To offer an item for giveaway:</p>
                             <br>

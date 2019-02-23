@@ -26,7 +26,7 @@ function updateAuthenticatedUser() {
 // ***** LISTENERS FOR REGISTRATION AND LOGIN
 
 // request to register a new user
-function onSignupRequestClick() {
+function watchSignupRequest() {
     $(document).on('click', '#signup-btn', function(event) {
         event.preventDefault();
         $('#error-msg').remove();
@@ -35,7 +35,7 @@ function onSignupRequestClick() {
 }
 
 // commit to register a new user
-function onRegisterNewUserClick() {
+function watchRegisterNewUser() {
     $(document).on('submit', '#registration-form', function(event){
         event.preventDefault();
         const userData = {
@@ -59,7 +59,7 @@ function onRegisterNewUserClick() {
                 renderLoginForm();
             }
         })) {
-            console.log('we are back at onRegisterNewUserClick - success!');
+            console.log('we are back at watchRegisterNewUser - success!');
         } else {
             console.log('user is not registered.  highlight errors and have them try again.');
             $('#error-failure').html('<div id="error-icon" class="error-format"><i class="fas fa-exclamation-circle"></i></div><div id="error-verbage" class="error-format">Try again. Either your passwords didn"t match or you have already been registered.</div>');
@@ -70,7 +70,7 @@ function onRegisterNewUserClick() {
 }
 
 // login for existing user
-function onSigninClick() {
+function watchSignin() {
     $(document).on('click', '#signin-btn', function(event) {
         event.preventDefault();
         if ($("#GET-username").val() == '') {
@@ -130,7 +130,7 @@ function cbLogin(data) {
 
 
 // logout
-function onLogoutClick() {
+function watchLogout() {
     $(document).on('click', '#header-logout', function(event) {
         event.preventDefault();
         let userName = localStorage.getItem('username');
@@ -146,7 +146,7 @@ function onLogoutClick() {
 }
 
 // click on logo at top of the page
-function onGoHome() {
+function watchGoHome() {
     $(document).on('click', '#header-title', function(event) {
         event.preventDefault();
         $('.section-options').html('').css('display', 'block');
@@ -176,7 +176,7 @@ function updateStoreItem(currentBtn) {
 }
 
 // view selected closet from options page
-function onViewClosetClick() {
+function watchViewCloset() {
     $('.section-options').on('click','.options-btns',(function(event) {
         event.preventDefault();
         let closetElement;
@@ -186,7 +186,7 @@ function onViewClosetClick() {
 }
 
 // view selected closet from nav menu
-function onViewClosetFromNavMenuClick() {
+function watchViewClosetFromNavMenu() {
     $('.section-nav').on('click','.options-btns-min',(function(event) {
         event.preventDefault();
         let closetElement;
@@ -259,7 +259,7 @@ function cbGetCloset(data) {
 }
 
 // request to dd a new item to a selected closet
-function onAddItemToClosetClick() {
+function watchAddItem() {
     $('.closet-container').on('click', '#cl-add-btn', (function(event){
         event.preventDefault();
         STORE.failedFetch = false;
@@ -269,11 +269,11 @@ function onAddItemToClosetClick() {
 }
 
 // commit new item to db
-function onSaveItemToClosetClick() {
+function watchSaveItem() {
     $('.addnewitem-container').on('click', '#js-save-btn', function(event){
         event.preventDefault();
         STORE.failedFetch = false;
-        console.log('target it for save item is ' + event.target.it);
+        STORE.subFeature = 'addnewitem';
         const jwtToken = localStorage.getItem("jwtToken");
         const authUser = localStorage.getItem("userid");
         STORE.currentEditItem = {
@@ -316,7 +316,7 @@ function onSaveItemToClosetClick() {
 
 
 // cancels update item request
-function onCancelUpdateItemClick() {
+function watchCancelUpdateItem() {
     $('.closet-container').on('click', '#cl-cancel-update-btn', (function(event) {
         event.preventDefault();
         if (STORE.authUserName == 'admin') {
@@ -329,7 +329,7 @@ function onCancelUpdateItemClick() {
 }
 
 // cancels add item request
-function onCancelAddItemClick() {
+function watchCancelAddItem() {
     $('.addnewitem-container').on('click', '#cl-cancel-add-btn', (function(event) {
         event.preventDefault();
         STORE.selCloset="my";
@@ -340,7 +340,7 @@ function onCancelAddItemClick() {
 
 
 // requests to update an existing item
-function onUpdateItemInClosetClick() {
+function watchUpdateItem() {
     $('.section-closet').on('click', '#cl-edit-btn', (function(event) {
         $('.user-msg').html('');
         event.preventDefault();
@@ -350,7 +350,7 @@ function onUpdateItemInClosetClick() {
 }
 
 // commits the update to db
-function onSaveUpdatedItemToClosetClick() {
+function watchSaveUpdatedItem() {
     $('.closet-container').on('click','#cl-updatebtn-final', function(event) {
         event.preventDefault();
         STORE.failedFetch = false;
@@ -366,9 +366,10 @@ function onSaveUpdatedItemToClosetClick() {
             longdesc: $('#js-updatelongdesc').val(),
             size: $('#js-updatesize').val()
         };
+        let selectedItemId = STORE.currentEditItem.id;
         let updateItemUrl = '';
-        if (STORE.authUserName === 'admin') {
-            updateItemUrl = '/api/idealcloset/';
+        if (localStorage.getItem("name") === 'Admin ID' && STORE.selCloset === 'ideal') {
+                    updateItemUrl = `/api/idealcloset/${selectedItemId}`;
         } else {
             if (STORE.selCloset === 'giveaway') {
                 updateItemUrl = `/api/groupclosets/giveawaycloset`;
@@ -389,7 +390,6 @@ function onSaveUpdatedItemToClosetClick() {
             //if (data.hasOwnProperty("jwtToken")){
             if (data.message === '404') {
                     STORE.failedFetch = true;
-                    alert('url not found');
                     getCloset();
             } else {
                     //if (data.length !== 0) {
@@ -407,15 +407,20 @@ function onSaveUpdatedItemToClosetClick() {
 }
 
 // deletes selected item from closet
-function onDeleteItemInClosetClick() {
-    $(document).on('click', '#cl-delete-btn', (function(event){
+function watchDeleteItem() {
+    $('.closet-container').on('click', '#cl-delete-btn', (function(event){
         event.preventDefault();
+        STORE.failedFetch = false;
         updateStoreItem(this);
         const jwtToken = localStorage.getItem("jwtToken");
         let selectedItemId = STORE.currentEditItem.id;
         let deleteItemUrl = '';
         if (localStorage.getItem("name") === 'Admin ID') {
-            deleteItemUrl = `/api/idealcloset/${selectedId}`;
+                if (STORE.selCloset === 'ideal') {
+                    deleteItemUrl = `/api/idealcloset/${selectedItemId}`;
+                } else {
+                    deleteItemUrl = `/api/groupclosets/giveawaycloset/${STORE.currentEditItem.id}`;
+                }
         } else {
             deleteItemUrl = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
         };
@@ -431,8 +436,11 @@ function onDeleteItemInClosetClick() {
         STORE.subFeature='deleteitem';
         if (genericFetch(deleteItemUrl, deleteItemSettings, (data) => {
             if(data.length != 0) {
-                STORE.selCloset = 'my';
+                if (data.message === '404') {
+                        STORE.failedFetch = true;
+                } else {
                 getCloset(data);
+                }
             } else {
                 let msg = "You have deleted the last item in your closet.  Add a new item!";
                 renderAddItemForm(msg);
@@ -443,7 +451,7 @@ function onDeleteItemInClosetClick() {
 }
 
 // moves item from my closet to either donation or giveaway closet
-function onMoveItemClick() {
+function watchMoveItem() {
     $('.section-closet').on('click', '.js-move', (function(event) {
         event.preventDefault();
         updateStoreItem(this);
@@ -498,7 +506,7 @@ function onMoveItemClick() {
 
 
 // returns item from donation closet to my closet
-function onReturnItemClick() {
+function watchReturnItem() {
     $('.section-closet').on('click', '#cl-return-btn', (function(event) {
         event.preventDefault();
         updateStoreItem(this);
@@ -591,22 +599,21 @@ function getCloset() {
 
 $(document).ready(function () {
     onPageLoad();
-    onSignupRequestClick();
-    onRegisterNewUserClick();
-    onSigninClick();
-    onLogoutClick();
-    onGoHome();
-    onViewClosetClick();
-    onViewClosetFromNavMenuClick();
-    onAddItemToClosetClick();
-    onSaveItemToClosetClick();
-    onDeleteItemInClosetClick();
-    onUpdateItemInClosetClick();
-    onSaveUpdatedItemToClosetClick();
-    onCancelUpdateItemClick();
-    onCancelAddItemClick();
-    onMoveItemClick();
-    onReturnItemClick();
+    watchSignupRequest();
+    watchRegisterNewUser();
+    watchSignin();
+    watchLogout();
+    watchGoHome();
+    watchViewCloset();
+    watchViewClosetFromNavMenu();
+    watchAddItem();
+    watchSaveItem();
+    watchCancelAddItem();
+    watchDeleteItem();
+    watchUpdateItem();
+    watchSaveUpdatedItem();
+    watchReturnItem();
+    watchMoveItem();
 });
 
 
