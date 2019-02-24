@@ -126,12 +126,17 @@ button:hover {
     margin:0 auto;
     max-width:500px;
 }
+
 .section-options,
 .section-login {
     text-align:center;
-    padding-top:30px;
     margin-left:5px;
     margin-right:5px;
+    max-width:500px;
+    margin: 0 auto;
+}
+.section-login {
+    padding-top:30px;
 }
 
 /*  *****  HEADER and LOGO styles */
@@ -612,6 +617,7 @@ button:hover {
     padding-right:2px;
 }
 
+/* one line error messages */
 .error-format {
     display:inline-block;
     color: #EC130E;
@@ -629,6 +635,9 @@ button:hover {
 #error-verbage {
     width:85%;
 }
+
+/* user instructions: icon plus a little larger type */
+
 .instruction-list {
     margin: 10px 5px 0 55px;
     text-align:left;
@@ -652,19 +661,9 @@ button:hover {
 
 .instruction-verbage {
     display:inline-block;
-    text-align:left;
-    font-size: .7rem;
-}
-
-.helper-icon {
-    display:inline-block;
-    font-size:.5rem;
-}
-
-.helper-verbage {
-    display:inline-block;
-    color: #C98573;
-    margin-bottom: 4px;
+    font-size: 1.2rem;
+    text-align:center;
+    padding:10px;
 }
 
 #correct-icon {
@@ -757,11 +756,7 @@ button:hover {
         max-width:900px;
     }
     
-    .section-login,
-    .section-options {
-        max-width:350px;
-        margin: 0 auto;
-    }
+    
 
     .addnewitem-container {
         max-width:500px;

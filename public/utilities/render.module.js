@@ -136,8 +136,6 @@ function renderLoginForm() {
                                 </div>
                                 <div class="demo-item">
                                     <div id="demo-existing-user"><p>Demo User:  tester1/tester1</p></div>
-                                    <div id="demo-admin"><p>Demo Admin:  admin/admin1</p></div>
- 
                             </div>
                         </form>
                     </div> 
@@ -171,8 +169,7 @@ function renderOptionsPage() {
         $('.section-options').html(`
             <div class="options-container">
                 <div class="user-instruction">
-                        <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
-                        <div class="helper-verbage">
+                        <div class="instruction-verbage">
                             <p>Which closet would you like to work with, ${STORE.authUserName}?</p>
                         </div>
                 </div>
@@ -192,16 +189,14 @@ function renderOptionsPage() {
         $('.section-options').html(`
             <div class="options-container">
                 <div class="user-instruction">
-                        <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
-                        <div class="helper-verbage">
-                            <p>Which closet would you like to work with, ${STORE.authUserName}?</p>
+                        <div class="instruction-verbage">
+                            <p>Which closet would you like to work with?</p>
                         </div>
                 </div>
                 <div class="options-btns" >
                     <i class="fas fa-door-open" id="ideal-closet-btn" data-closet="ideal"></i>
                     <h4 class="closet-functions">the ideal</h4>
                 </div>
-                <div class="options-btns-container">
                     <div class="options-btns">
                         <i class="fas fa-tshirt" id="my-closet-btn" data-closet="my"></i>
                         <h4 class="closet-functions">your own</h4>
@@ -214,10 +209,8 @@ function renderOptionsPage() {
                         <i class="fas fa-tshirt" id="donation-closet-btn" data-closet="donation"></i>
                         <h4 class="closet-functions">donation</h4>
                     </div>
-                </div>
                 <div class="user-instruction">
-                        <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
-                        <div class="helper-verbage">
+                        <div class="instruction-verbage">
                             <p>Would you like some recommendations?</p>
                         </div>
                 </div>
@@ -570,8 +563,8 @@ function renderInformationPage() {
     switch (STORE.selCloset) {
         case 'donation':
                 infoPageMsg = `<div class="user-instruction">
-                                    <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
-                                    <div class="helper-verbage">
+                                    <div class="instruction-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
+                                    <div class="instruction-verbage">
                                         <p>Instructions for Donating an Item</p>
                                     </div>
                                 </div>
@@ -587,8 +580,8 @@ function renderInformationPage() {
                 break;
     case 'giveaway':
         infoPageMsg = `<div class="user-instruction">
-                                <div class="helper-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
-                                <div class="helper-verbage">
+                                <div class="instruction-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
+                                <div class="instruction-verbage">
                                     <p>Instructions for Giving An Item Away</p>
                                 </div>
                             </div>
