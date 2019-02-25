@@ -338,7 +338,7 @@ button:hover {
 
 #ideal-closet-btn-min,
 #my-closet-btn-min, 
-#giveaway-closet-btn-min,
+#share-closet-btn-min,
 #donation-closet-btn-min {
     border-right: 1px solid #EBEBEB;
     padding-left:5px;
@@ -388,6 +388,17 @@ button:hover {
 .fa-tshirt {
     color:#F2D387;
     border: 1px solid #F2D387;  
+}
+
+.fa-asterisk {
+    color:red;
+    font-size:.5rem;  
+    padding-left:3px;
+    vertical-align:top;
+}
+
+.reg-label {
+    display:inline-block;
 }
 
 
@@ -494,7 +505,7 @@ button:hover {
     margin: 5px 0 0 0;
 }
 
-.giveaway-person {
+.share-person {
     background-color:#ECECEB;
     padding: 0 25px 0 25px;
     margin-bottom: 8px;
@@ -558,7 +569,6 @@ button:hover {
 .analyze-body {
     padding:8px;
     margin:8px;
-    max-width: 500px;
     margin:0 auto;
 }
 
@@ -570,8 +580,6 @@ button:hover {
     text-align: left;
     font-size: .8rem;
     border-bottom: 1px solid #E0D5C9;
-    padding:8px;
-    margin: 0 30px 0 30px;
 }
 
 .analyze-appareltype-header,
@@ -585,6 +593,34 @@ button:hover {
 
 .analyze-subset {
     padding-left:25px;
+}
+
+.an-items-label {
+    border-bottom: 1px solid #874C62;
+    background-color: #ECECEB;
+    font-weight: bold;
+}
+
+.an-items-short {
+    text-align:center;
+}
+.an-items-sh,
+.an-items-long {
+    text-align:center;
+    border: 1px solid #874C62;
+    border-radius: 3px;
+}
+.an-items-sh {
+    width:15%;
+}
+.an-items-long {
+    width:58%;
+
+}
+
+
+.an-items {
+    display:inline-block;
 }
 
 
@@ -665,6 +701,19 @@ button:hover {
     text-align:center;
     padding:10px;
 }
+
+.mini-instruction-verbage {
+    font-size: .7rem;
+    text-align:left;
+
+}
+
+.first-page {
+    color:red;
+    text-align:center;
+    padding:10px;
+}
+
 
 #correct-icon {
     vertical-align:top;

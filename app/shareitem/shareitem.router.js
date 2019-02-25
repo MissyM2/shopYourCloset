@@ -5,18 +5,18 @@ const Joi = require('joi');
 
 const { HTTP_STATUS_CODES} = require('../config');
 const { jwtPassportMiddleware } = require('../auth/auth.strategy');
-const {Giveawayitem, GiveawayitemJoiSchema} = require('./giveawayitem.model');
+const {Shareitem, ShareitemJoiSchema} = require('./shareitem.model');
 
-const giveawayitemRouter = express.Router();
+const shareitemRouter = express.Router();
 
-//  POST route handler for /giveawayitem
+//  POST route handler for /shareitem
 //  * validate request body
 //  * check to see if item already exists
 // *  create item in mycloset and send JSON response
 
-giveawayitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
+shareitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
     // Remember, We can access the request body payload thanks to the express.json() middleware we used in server.js
-    const newGiveawayitem = {
+    const newShareitem = {
         user: request.user.id,
         season: request.body.season,
         color: request.body.color,
@@ -29,14 +29,14 @@ giveawayitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
 
     // Step 1: Validate new user information is correct.
     // Here, we use the Joi NPM library for easy validation
-    const validation = Joi.validate(newGiveawayitem, GiveawayitemJoiSchema);
+    const validation = Joi.validate(newShareitem, ShareitemJoiSchema);
     if(validation.error) {
         // Step 2A: If validation error is found, end the the request with a server error and error message.
         return response.status(HTTP_STATUS_CODES.BAD_REQUEST).json({error:validation.error});
     }
-    // Step 2B: Attempt to create a new giveawayitem using Mongoose.Model.create
-    Giveawayitem
-        .create(newGiveawayitem)
+    // Step 2B: Attempt to create a new shareitem using Mongoose.Model.create
+    Shareitem
+        .create(newShareitem)
         .then(createdItem => {
             // Step 3A: Return the correct HTTP status code, and the note correctly formatted via serialization.
             return response.status(HTTP_STATUS_CODES.CREATED).json(createdItem.serialize());
@@ -47,10 +47,10 @@ giveawayitemRouter.post('/', jwtPassportMiddleware, (request, response) => {
         });
 });
 
-//  retrieve all giveawayItems for logged-in user
-giveawayitemRouter.get('/', jwtPassportMiddleware, (request, response) => {
+//  retrieve all shareItems for logged-in user
+shareitemRouter.get('/', jwtPassportMiddleware, (request, response) => {
     // Step 1: Attempt to retrieve all notes using Mongoose.Model.find()
-    Giveawayitem
+    Shareitem
         .find()
         .sort({ adddate: -1} )
         .populate('user')
@@ -67,9 +67,9 @@ giveawayitemRouter.get('/', jwtPassportMiddleware, (request, response) => {
 });
 
 // retrieve one note by id
-giveawayitemRouter.get('/:itemid', jwtPassportMiddleware, (request, response) => {
+shareitemRouter.get('/:itemid', jwtPassportMiddleware, (request, response) => {
      // Step 1: Attempt to retrieve the note using Mongoose.Model.findById()
-    Giveawayitem
+    Shareitem
         .findById(request.params.itemid)
         .populate('user')
         .then(item => {
@@ -83,9 +83,9 @@ giveawayitemRouter.get('/:itemid', jwtPassportMiddleware, (request, response) =>
 });
 
 
-// update giveawayitem by id
-giveawayitemRouter.put('/:itemid', jwtPassportMiddleware, (request, response) => {
-    const giveawayitemUpdate = {
+// update shareitem by id
+shareitemRouter.put('/:itemid', jwtPassportMiddleware, (request, response) => {
+    const shareitemUpdate = {
         season: request.body.season,
         color: request.body.color,
         appareltype: request.body.appareltype,
@@ -95,13 +95,13 @@ giveawayitemRouter.put('/:itemid', jwtPassportMiddleware, (request, response) =>
     };
 
     // Step 1: Validate new user information is correct.
-    const validation = Joi.validate(giveawayitemUpdate, GiveawayitemJoiSchema);
+    const validation = Joi.validate(shareitemUpdate, ShareitemJoiSchema);
     if (validation.error) {
         // Step 2A: If validation error is found, end the the request with a server error and error message.
         return response.status(HTTP_STATUS_CODES.BAD_REQUEST).json({error: validation.error});
     }
     // Step 2B: Attempt to find the note, and update it using Mongoose.Model.findByIdAndUpdate()
-    Giveawayitem.findByIdAndUpdate(request.params.itemid,giveawayitemUpdate)
+    Shareitem.findByIdAndUpdate(request.params.itemid,shareitemUpdate)
         .then(() => {
            // Step 3A: Since the update was performed but no further data provided,
             return response.status(HTTP_STATUS_CODES.NO_CONTENT).end();
@@ -112,10 +112,10 @@ giveawayitemRouter.put('/:itemid', jwtPassportMiddleware, (request, response) =>
         });
 });
 
-//  remove giveawayitem by id
-giveawayitemRouter.delete('/:itemid', jwtPassportMiddleware, (request, response) => {
+//  remove shareitem by id
+shareitemRouter.delete('/:itemid', jwtPassportMiddleware, (request, response) => {
      // Step 1: Attempt to find the note by ID and delete it using Mongoose.Model.findByIdAndDelete()
-    Giveawayitem.findByIdAndRemove(request.params.itemid)
+    Shareitem.findByIdAndRemove(request.params.itemid)
         .then(() => {
             // Step 2A: Since the deletion was performed but no further data provided,
             // we just end the request with NO_CONTENT status code.=
@@ -127,6 +127,6 @@ giveawayitemRouter.delete('/:itemid', jwtPassportMiddleware, (request, response)
         });
 });
 
-module.exports = {giveawayitemRouter};
+module.exports = {shareitemRouter};
 
 

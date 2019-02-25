@@ -28,8 +28,8 @@ function organizeData(data) {
                 }
                 break;
                 
-            case 'giveaway':
-                STORE.closetLength.giveaway = data.length;
+            case 'share':
+                STORE.closetLength.share = data.length;
                 for (let i = 0; i < STORE.seasonAry.length; i++) {
                     getSeasonCount(STORE.seasonAry[i], data);
                 }

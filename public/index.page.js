@@ -56,16 +56,28 @@ function watchRegisterNewUser() {
 
         if (genericFetch(newUserUrl, newUserSettings, (data)=>{
             if (data.length !== 0) {
-                renderLoginForm();
-            }
-        })) {
-            console.log('we are back at watchRegisterNewUser - success!');
-        } else {
-            console.log('user is not registered.  highlight errors and have them try again.');
-            $('#error-failure').html('<div id="error-icon" class="error-format"><i class="fas fa-exclamation-circle"></i></div><div id="error-verbage" class="error-format">Try again. Either your passwords didn"t match or you have already been registered.</div>');
-            $('#error-failure').css("display", "block");
-            $("#new-pass").focus();
-        }   
+                const loginData = {
+                    username: userData.username,
+                    password: userData.password
+                };
+                const loginUrl = '/api/auth/login/';
+                const loginSettings = {
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json; charset=utf-8",
+                    },
+                    "body": JSON.stringify(loginData)
+                };
+                genericFetch(loginUrl, loginSettings, (data)=>{
+                    if (data.hasOwnProperty("jwtToken")){
+                        cbLogin(data);
+                        console.log('user should be logged in');
+                    }
+                });
+            } else {
+                console.log('There was a problem with registration and login.');
+            }   
+        }));
     });
 }
 
@@ -205,8 +217,11 @@ function closetClick(closetElement) {
     } else {
         selMenu='admin';
     }
-    //$('.section-options').html('').css('display', 'none');
     $('.section-options').html('');
+    $('.addnewitem-container').html('');
+    $('.closet-container').html('').css('display', 'block');
+    //$('.closet-header').html('');
+    //$('.closet-body').html('');
     switch (closetElement) {
         case `ideal-closet-btn`:
         case `ideal-closet-btn-min`: 
@@ -229,10 +244,10 @@ function closetClick(closetElement) {
                             renderNavMenu(selMenu);
                             getCloset(); 
                             break;
-        case `giveaway-closet-btn`:
-        case `giveaway-closet-btn-min`:
+        case `share-closet-btn`:
+        case `share-closet-btn-min`:
                             STORE.functionChoice = 'closet';
-                            STORE.selCloset = 'giveaway';
+                            STORE.selCloset = 'share';
                             renderNavMenu(selMenu);
                             getCloset(); 
                             break;
@@ -252,7 +267,7 @@ function cbGetCloset(data) {
     } else {
         if (STORE.selCloset === 'ideal' || STORE.selCloset === 'my') {
             renderAddItemForm("Add your first item here.");
-        } else {
+        } else if (STORE.selCloset === 'share' || STORE.selCloset === 'donation') {
             renderInformationPage();
         }
     }
@@ -290,8 +305,8 @@ function watchSaveItem() {
         if (STORE.authUserName === 'admin') {
             addItemUrl = '/api/idealcloset/';
         } else {
-            if (STORE.selCloset === 'giveaway') {
-                addItemUrl = `/api/groupclosets/giveawaycloset`;
+            if (STORE.selCloset === 'share') {
+                addItemUrl = `/api/groupclosets/sharecloset`;
             } else {
                 addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
             }
@@ -371,8 +386,8 @@ function watchSaveUpdatedItem() {
         if (localStorage.getItem("name") === 'Admin ID' && STORE.selCloset === 'ideal') {
                     updateItemUrl = `/api/idealcloset/${selectedItemId}`;
         } else {
-            if (STORE.selCloset === 'giveaway') {
-                updateItemUrl = `/api/groupclosets/giveawaycloset`;
+            if (STORE.selCloset === 'share') {
+                updateItemUrl = `/api/groupclosets/sharecloset`;
             } else {
                 updateItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}/${STORE.currentEditItem.id}`;
             }
@@ -419,7 +434,7 @@ function watchDeleteItem() {
                 if (STORE.selCloset === 'ideal') {
                     deleteItemUrl = `/api/idealcloset/${selectedItemId}`;
                 } else {
-                    deleteItemUrl = `/api/groupclosets/giveawaycloset/${STORE.currentEditItem.id}`;
+                    deleteItemUrl = `/api/groupclosets/sharecloset/${STORE.currentEditItem.id}`;
                 }
         } else {
             deleteItemUrl = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
@@ -450,7 +465,7 @@ function watchDeleteItem() {
     }));
 }
 
-// moves item from my closet to either donation or giveaway closet
+// moves item from my closet to either donation or share closet
 function watchMoveItem() {
     $('.section-closet').on('click', '.js-move', (function(event) {
         event.preventDefault();
@@ -465,9 +480,9 @@ function watchMoveItem() {
             STORE.selCloset='donation';
             STORE.subFeature='donate';
             deleteItemUrl = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
-        } else if(currentId === 'cl-giveaway-btn'){
-            STORE.selCloset='giveaway';
-            STORE.subFeature='giveaway';
+        } else if(currentId === 'cl-share-btn'){
+            STORE.selCloset='share';
+            STORE.subFeature='share';
             deleteItemUrl = `/api/userclosets/mycloset/${STORE.authUser}/${selectedItemId}`;
         } else if (currentId === 'cl-return-btn'){
             STORE.selCloset='donation';
@@ -490,8 +505,8 @@ function watchMoveItem() {
                  let addItemUrl;
                  if(currentId === 'cl-donation-btn'){
                          addItemUrl = `/api/userclosets/${STORE.selCloset}closet/${authUser}`;
-                    } else if (currentId === 'cl-giveaway-btn') {
-                         addItemUrl = `/api/groupclosets/giveawaycloset`;
+                    } else if (currentId === 'cl-share-btn') {
+                         addItemUrl = `/api/groupclosets/sharecloset`;
                      } else if (currentId === 'cl-return-btn') {
                         addItemUrl = `/api/userclosets/mycloset/${STORE.authUser}`;
                      }
@@ -530,8 +545,8 @@ function getCloset() {
             case 'ideal':
                     getClosetUrl = '/api/idealcloset/';
                     break;
-            case 'giveaway':
-                    getClosetUrl = `/api/groupclosets/giveawaycloset/`;
+            case 'share':
+                    getClosetUrl = `/api/groupclosets/sharecloset/`;
                     break;
         }
     } else {
@@ -542,8 +557,8 @@ function getCloset() {
             case 'my':
                     getClosetUrl = `/api/userclosets/mycloset/${authUser}`;
                     break;
-            case 'giveaway':
-                    getClosetUrl = `/api/groupclosets/giveawaycloset/`;
+            case 'share':
+                    getClosetUrl = `/api/groupclosets/sharecloset/`;
                     break;
             case 'donation':
                     getClosetUrl = `/api/userclosets/donationcloset/${authUser}`;

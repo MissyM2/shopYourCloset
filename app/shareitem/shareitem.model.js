@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 
 // Each Mongoose schema maps to a MongoDB collection and defines the shape of the documents within that collection.
-const giveawayitemSchema = new mongoose.Schema({
+const shareitemSchema = new mongoose.Schema({
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
     season:{type: String, required: true},
     color: {type:String},
@@ -17,7 +17,7 @@ const giveawayitemSchema = new mongoose.Schema({
 });
 
 // serialize methods to control data that is shown to the client
-giveawayitemSchema.methods.serialize = function() {
+shareitemSchema.methods.serialize = function() {
     let user;
     // We serialize the user if it's populated to avoid returning any sensitive information, like the password hash.
     if (typeof this.user.serialize === 'function') {
@@ -41,7 +41,7 @@ giveawayitemSchema.methods.serialize = function() {
 };
 
 // To validate that data used to create a new user is valid, we will use "Joi"
-const GiveawayitemJoiSchema = Joi.object().keys({
+const ShareitemJoiSchema = Joi.object().keys({
     user: Joi.string().optional(),
     season: Joi.string().min(1).required(),
     color: Joi.string().optional(),
@@ -53,6 +53,6 @@ const GiveawayitemJoiSchema = Joi.object().keys({
 });
 
 //  create the models
-const Giveawayitem =  mongoose.model('giveawayitem', giveawayitemSchema);
+const Shareitem =  mongoose.model('shareitem', shareitemSchema);
 
-module.exports = {Giveawayitem, GiveawayitemJoiSchema};
+module.exports = {Shareitem, ShareitemJoiSchema};

@@ -13,7 +13,7 @@ const { localStrategy, jwtStrategy } = require('./auth/auth.strategy');
 const { userRouter } = require('./user/user.router');
 const { idealitemRouter } = require('./idealitem/idealitem.router');
 const { myitemRouter } = require('./myitem/myitem.router');
-const { giveawayitemRouter } = require('./giveawayitem/giveawayitem.router');
+const { shareitemRouter } = require('./shareitem/shareitem.router');
 const { donationitemRouter } = require('./donationitem/donationitem.router');
 
 
@@ -40,7 +40,7 @@ app.use('/api/auth', authRouter);  // redirects all calls to /api/user to userRo
 app.use('/api/idealcloset', idealitemRouter);  // redirects all calls to /api/idealcloset to idealclosetRouter
 app.use('/api/userclosets/mycloset', myitemRouter);  //redirects all calls to /api/userclosets to userclosetRouter
 app.use('/api/userclosets/donationcloset', donationitemRouter);  //redirects all calls to /api/donationclosets to donationitemRouter
-app.use('/api/groupclosets/giveawaycloset', giveawayitemRouter);  //redirects all calls to /api/giveawaycloset to giveawayitemRouter
+app.use('/api/groupclosets/sharecloset', shareitemRouter);  //redirects all calls to /api/sharecloset to shareitemRouter
 
 
 // in case we make an HTTP request that is unhandles by our Express server, we return a 404 status code and the message "Not Found."

@@ -33,48 +33,43 @@ function renderRegistrationForm() {
                 <form id="registration-form" name="form-reg-login">
                     <div id="div-reg">
                         <div id="reg-title"><p>Register</p></div>
-                        <div class="user-instruction">
-                            <div id="instruction-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
-                            <div class="instruction-verbage">
-                                <p>*  all inputs are required.</p>
-                            </div>
                         </div>
                         <div class="reg-item new-name">
-                            <p>name</p><span class="error-msg" id="error-new-name" style="display:none;"></span>
+                            <p class="reg-label">name</p><i class="fas fa-asterisk"></i><span class="error-msg" id="error-new-name" style="display:none;"></span>
                             <div class="input-container">
                                 <input type="text" class="reg-input" name="new-name" id="new-name" class="js-new-name" tabindex="1" placeholder="First Last" required>
                             </div>
                         </div> 
                         <div class="reg-item new-email">
-                            <p>email</p><span class="error-msg" id="error-new-email" style="display:none;"></span>
+                            <p class="reg-label">email</p><i class="fas fa-asterisk"></i><span class="error-msg" id="error-new-email" style="display:none;"></span>
                             <div class="input-container">
                                 <input type="email" class="reg-input" name="new-email" id="new-email" class="js-new-email" tabindex="2" placeholder="enter a valid email address" required>
                             </div>
                         </div> 
                         <div class="reg-item new-username">
-                            <p>username</p><span class="error-msg" id="error-new-username" style="display:none;"></span>
+                            <p class="reg-label">username</p><i class="fas fa-asterisk"></i><span class="error-msg" id="error-new-username" style="display:none;"></span>
                             <div class="input-container">
                                 <input type="text" class="reg-input" name="new-username" id="new-username" class="js-new-username" tabindex="3" placeholder="tester1" required>
                             </div>
-                            <div class="instruction-verbage">
+                            <div class="mini-instruction-verbage">
                                 <p>minimum of 5 characters and 1 number</p>
                             </div>
                         </div>                      
                         <div class="reg-item">
-                            <p>password:</p><span class="error-msg" id="error-new-pass" style="display:none;"></span>
+                            <p class="reg-label">password</p><i class="fas fa-asterisk"></i><span class="error-msg" id="error-new-pass" style="display:none;"></span>
                             <div class="input-container">
                                 <input type="password" class="reg-input" name="new-password" id="new-pass" class="js-new-password" tabindex="4" placeholder="password" required>
                             </div>
-                            <div class="instruction-verbage">
+                            <div class="mini-instruction-verbage">
                                 <p>minimum of 5 characters and 1 number</p>
                             </div>
                         </div>
                         <div class="reg-item">
-                            <p>retype password:</p><span class="error-msg" id="error-confirm-pass" style="display:none;"></span>
+                            <p class="reg-label">retype password</p><i class="fas fa-asterisk"></i><span class="error-msg" id="error-confirm-pass" style="display:none;"></span>
                             <div class="input-container">
                                 <input type="password" class="reg-input" name="confirm-password" id="new-confirm" class="js-confirm-password" tabindex="5" placeholder="password" required>
                             </div>
-                            <div class="instruction-verbage">
+                            <div class="mini-instruction-verbage">
                                 <p>passwords must match</p>
                             </div>
                         </div>
@@ -135,7 +130,7 @@ function renderLoginForm() {
                                     </div>
                                 </div>
                                 <div class="demo-item">
-                                    <div id="demo-existing-user"><p>Demo User:  tester1/tester1</p></div>
+                                    <div id="demo-existing-user"><p>Demo:  userid: testuser1/ password: testuser1</p></div>
                             </div>
                         </form>
                     </div> 
@@ -179,8 +174,8 @@ function renderOptionsPage() {
                         <div class="comments">view/add to/delete from/edit</div>
                 </div>
                 <div class="options-btns">
-                        <i class="fas fa-tshirt" id="giveaway-closet-btn" data-closet="giveaway"></i>
-                        <h4 class="closet-functions">giveaway closet</h4>
+                        <i class="fas fa-tshirt" id="share-closet-btn" data-closet="share"></i>
+                        <h4 class="closet-functions">share closet</h4>
                         <div class="comments">view/add to/delete from/edit</div>
                 </div>
             </div>
@@ -202,8 +197,8 @@ function renderOptionsPage() {
                         <h4 class="closet-functions">your own</h4>
                     </div>
                     <div class="options-btns">
-                        <i class="fas fa-tshirt" id="giveaway-closet-btn" data-closet="giveaway"></i>
-                        <h4 class="closet-functions">giveaway</h4>
+                        <i class="fas fa-tshirt" id="share-closet-btn" data-closet="share"></i>
+                        <h4 class="closet-functions">share</h4>
                     </div>
                     <div class="options-btns">
                         <i class="fas fa-tshirt" id="donation-closet-btn" data-closet="donation"></i>
@@ -245,7 +240,7 @@ function renderNavMenu(menu) {
                     <p id="ideal-closet-btn-min">ideal</p>
                 </div>
                 <div class="options-btns-min">
-                    <p id="giveaway-closet-btn-min">giveaway</p>
+                    <p id="share-closet-btn-min">share</p>
                 </div>
             </div>`);
     } else {
@@ -258,7 +253,7 @@ function renderNavMenu(menu) {
                         <p id="my-closet-btn-min">my</p>
                     </div>
                     <div class="options-btns-min" >
-                        <p id="giveaway-closet-btn-min">giveaway</p>
+                        <p id="share-closet-btn-min">share</p>
                     </div>
                     <div class="options-btns-min" >
                         <p id="donation-closet-btn-min">donation</p>
@@ -276,8 +271,8 @@ function renderNavMenu(menu) {
         case 'my':
           $('#my-closet-btn-min').css('background-color', '#A8D2CB');
           break;
-        case 'giveaway':
-            $('#giveaway-closet-btn-min').css('background-color', '#A8D2CB');
+        case 'share':
+            $('#share-closet-btn-min').css('background-color', '#A8D2CB');
           break;
         case 'donation':
             $('#donation-closet-btn-min').css('background-color', '#A8D2CB');
@@ -291,7 +286,7 @@ function renderNavMenu(menu) {
 }
 
 
-//  ***** RENDER CLOSETS (my, ideal, donation and giveaway) (analyze selection is below this block)
+//  ***** RENDER CLOSETS (my, ideal, donation and share) (analyze selection is below this block)
 
 function renderCloset(closetItems) {
     $('.section-options').html('');
@@ -326,7 +321,7 @@ function renderCloset(closetItems) {
                                 $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just updated an item in the IDEAL CLOSET.</div>`); 
                                 break;
                     case ('other'):
-                                $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just updated an item in the GIVEAWAY CLOSET.</div>`); 
+                                $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just updated an item in the SHARE CLOSET.</div>`); 
                                 break;
                 }
         }
@@ -336,7 +331,7 @@ function renderCloset(closetItems) {
         } else {
 
                 switch (STORE.subFeature) {
-                    case ('giveaway'):
+                    case ('share'):
                                     $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage">You have just moved one item to the public Giveaway Closet.</div>`);
                                     break;
                     case ('donate'):
@@ -373,16 +368,16 @@ function renderClHeader(closetItems) {
     
     //  Create Header for one of the User Selected Options
     // header title:  For all 'closets', use the stored closet name and the appropriate icon should display in  for the header. 
-    if (STORE.selCloset === 'my' || STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway'){
+    if (STORE.selCloset === 'my' || STORE.selCloset === 'donation' || STORE.selCloset === 'share'){
         headerHtml = `<div class="item title-container"><div class="title-icon"><i class="fas fa-tshirt"></i></div><div class="cl-title"><h2>${STORE.selCloset} Closet</h2></div>`;
     } else if (STORE.selCloset === 'ideal'){
         headerHtml = `<div class="item title-container"><div class="title-icon"><i class="fas fa-door-open"></i></div><div class="cl-title"><h2>${STORE.selCloset} Closet</h2></div>`;
     }
     
-    //  add new button: if the user is other than the ADMIN and the selected closet is 'ideal', 'donation or 'giveaway, then do not render the add new item button.
+    //  add new button: if the user is other than the ADMIN and the selected closet is 'ideal', 'donation or 'share, then do not render the add new item button.
     //  user may only view data
     if (STORE.authUserName !== 'admin') {
-        if (STORE.selCloset === 'ideal' || STORE.selCloset === 'donation' || STORE.selCloset === 'giveaway') {
+        if (STORE.selCloset === 'ideal' || STORE.selCloset === 'donation' || STORE.selCloset === 'share') {
             editButtonHtml = ``;
         } else {
             editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add" data-closet="${STORE.selCloset}"><i class="fas fa-plus"></i></div>`;
@@ -448,10 +443,10 @@ function renderSeasonHeaders() {
 function renderClItemBody(data) {
     let item = '';
 
-    if (STORE.selCloset === 'giveaway') {
+    if (STORE.selCloset === 'share') {
         item =`<div class="closet-item ${data.id}-class">
                             <div class="item-body">
-                                <div class="giveaway-person">
+                                <div class="share-person">
                                     <div class="cl-items cl-username" id="cl-username"><div class="item itemlabel"><label>Who gave it away: </label></div><div class="item itembody"><p id="username">${data.user.username}</p></div></div>
                                     <div class="cl-items cl-useremail" id="cl-useremail"><div class="item itemlabel"><label>Email: </label></div><div class="item itembody"><p id="useremail">${data.user.email}</p></div></div>
                                 </div>
@@ -506,12 +501,12 @@ function renderClItemActionBtns(bodyHtml, data) {
     // if someone other than the ADMIN is logged in, get these buttons
     if (STORE.authUserName !== 'admin') {
         if (STORE.selCloset === 'my') {
-            // edit buttons for edit, delete, donate or giveaway if NOT admin and closet it MY
+            // edit buttons for edit, delete, donate or share if NOT admin and closet it MY
             bodyHtml += `<div class="item-edit-btns">
                             <button class="action-btns small-btn" id="cl-edit-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">edit</button>
                             <button class="action-btns small-btn" id="cl-delete-btn" data-id="${data.id}">delete</button>
                             <button class="js-move action-btns small-btn" id="cl-donation-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">donation</button>
-                            <button class="js-move action-btns small-btn" id="cl-giveaway-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">giveaway</button>
+                            <button class="js-move action-btns small-btn" id="cl-share-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">share</button>
                         </div>`;
         } else if (STORE.selCloset === 'donation') {
             bodyHtml += `<div class="item-edit-btns">
@@ -548,50 +543,47 @@ function renderClBody(closetItems) {
 }
 
 //  this page is rendered before there are items in a closet
-function renderInformationPage() { 
-    $('.closet-container').html(`
-                <div class="cl-header">
-                    <div class="item" id="closet-title"><h2>${STORE.selCloset} Closet</h2></div>
-                </div>`);
-
+function renderInformationPage() {  
     $('.closet-container').append(`
-                <div class="closet-body"></div>`
-                );
+                        <div class="closet-header>
+                            <div class="item title-container"><div class="title-icon"><i class="fas fa-tshirt"></i></div><div class="cl-title"><h2>${STORE.selCloset} Closet</h2></div>
+                        </div>
+                        <div class="closet-body"></div>`);
     
     let infoPageMsg;
     
     switch (STORE.selCloset) {
         case 'donation':
                 infoPageMsg = `<div class="user-instruction">
-                                    <div class="instruction-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
-                                    <div class="instruction-verbage">
-                                        <p>Instructions for Donating an Item</p>
+                                    <div class="first-page">
+                                        <p>You have not marked any items for DONATION, yet.  </p>
+                                        <p>Follow these instructions.</p>
                                     </div>
                                 </div>
                                 <div class="instruction-list">
                                         <ul>
                                             <li class="instruction-items">Click into your own closet.</li>
-                                            <li class="instruction-items">Find the item you wish to giveaway.</li>
+                                            <li class="instruction-items">Find the item you wish to share.</li>
                                             <li class="instruction-items">Click the 'donation' button.  </li>
                                             <li class="instruction-items">Your item will be deleted from your personal closet and added to your personal donation closet.</li>
                                             <li class="instruction-items">Take the physical item out of your wardrobe and place it in a donation bag until you are ready to make the donation.</li>
                                         </ul>
                                 </div>`;
                 break;
-    case 'giveaway':
+    case 'share':
         infoPageMsg = `<div class="user-instruction">
-                                <div class="instruction-icon"><i class="fas fa-atom instr-atom instruction"></i></div>
-                                <div class="instruction-verbage">
-                                    <p>Instructions for Giving An Item Away</p>
+                                <div class="first-page">
+                                    <p>You have not marked any items to SHARE, yet.</p>
+                                    <p>Follow these instructions to SHARE an item from your MY CLOSET.</p>
                                 </div>
                             </div>
                             <br>
                                 <ul class="instruction-list">
                                     <li class="instruction-items">Click into your own closet.</li>
-                                    <li class="instruction-items">Find the item you wish to giveaway.</li>
-                                    <li class="instruction-items">Click the 'giveaway' button.  </li>
-                                    <li class="instruction-items">Your item will be deleted from your personal closet and added to the group giveaway closet.</li>
-                                    <li class="instruction-items">Take the physical item out of your wardrobe and place it in a giveaway bag until someone wishes to claim it.</li>
+                                    <li class="instruction-items">Find the item you wish to share.</li>
+                                    <li class="instruction-items">Click the 'share' button.  </li>
+                                    <li class="instruction-items">Your item will be deleted from your personal closet and added to the group share closet.</li>
+                                    <li class="instruction-items">If someone would like to use your item, they will email you to make the connection.</li>
                                 </ul>
                             </div>
                         </div>`;
@@ -607,8 +599,6 @@ function renderAnalysis() {
     $('.registration-container').html('');
     $('.login-container').html('');
     $('.closet-container').html('');
-     headerHtml = `<div class="item" id="closet-title"><h2>Analyze It!</h2></div>`
-    
     // the custom header is created
     $('.closet-container').append(`
                 <div class="closet-header">
@@ -617,7 +607,13 @@ function renderAnalysis() {
     
     $('.closet-container').append(`
                 <div class="cl-subhead">
-                    <p>Here is your analysis</p>
+                    <p>The analysis currently includes the following:</P>
+                    <ul class='instruction-list'>
+                        <li>a comparison of the total number of items in your MY closet vs the IDEAL closet</li>
+                        <li>a comparison of the total number of items in your MY closet vs the IDEAL closet for each season.</li>
+                        <li>a comparison of the total number of items in your MY closet vs the IDEAL closet for each apparel type.</li>
+                    </ul>
+
                 </div>
                 <div class="analyze-body"></div>`);
 
@@ -628,8 +624,7 @@ function renderAnalysis() {
     } else {
         $('.closet-container').append(`
             <div class="user-instruction">
-                <div id="instruction-icon"><i class="fas fa-atom instruction"></i></div>
-                <div class="instruction-verbage"><p>Add some items to your closet and we can analyze it!</p></div>
+                <div class="first-page"><p>Once you add an item to your MY closet, you will see an analysis here.</p></div>
             </div>`);
     }
 }
@@ -637,43 +632,45 @@ function renderAnalysis() {
 
 function renderWholeClosetAnalysis() {
     // append whole closet analysis
+
+    // find the difference between the number of items in the IDEAL closet vs. the number of items in MY closet
+    const closetDiff = STORE.closetLength.ideal - STORE.closetLength.my;
+    const closetDiffDisplay = Math.abs(closetDiff);
+    let closetComment = '';
+    if (Math.sign(closetDiff) === 1) {
+            closetComment = `The ideal closet has ${closetDiffDisplay} MORE items in its closet than you do in yours. Go shopping!!!!  Get some new things!`;
+    } else if (Math.sign(closetDiff) === -1) {
+            closetComment = `The ideal closet has ${closetDiffDisplay} LESS items in its closet than you do in yours.  What can you SHARE or DONATE?`;
+    } else if (Math.sign(seasonDiff) === 0){
+            closetComment =`Success!  You have the exact right number of items in your closet!`;
+    } else {
+        closetComment = `ummm, there is something wrong with the whole closet analysis. `;
+    }
+
     $('.analyze-body').append(`
     <div class="analyze-subhead">
         <h3>Here is some notes of the whole closet</h3>
-        <div class="comments">This item compares the total number of items in your closet to the number of items in the ideal closet.</div>
     </div>
     <div class="analyze-whole-ds">
-        <p>the ideal closet has ${STORE.closetLength.ideal} items in its closet.</p>
-        <p>Your closet has ${STORE.closetLength.my} items in its closet.</p>
-        </div>`);
+        <div class="an-items-short">
+            <div class="an-items an-items-sh"><p class="an-items-label">ideal closet</p><div class="item itembody"><p class="ideal-length">${STORE.closetLength.ideal}</p></div></div>
+            <div class="an-items an-items-sh"><p class="an-items-label">my closet</p><div class="item itembody"><p class="my-length">${STORE.closetLength.my}</p></div></div>
+            <div class="an-items an-items-long"><p class="an-items-label">size</p><div class="item itembody"><p id="size">${closetComment}</p></div></div>
+        </div>
+    </div>`);
     
-    const closetDiff = STORE.closetLength.ideal - STORE.closetLength.my;
-    if (Math.sign(closetDiff) === 1) {
-            $('.analyze-whole-ds').append(`
-            <p class="final-thought">The ideal closet has ${closetDiff} MORE items in its closet than you do in yours. Go shopping!!!!  Get some new things! </p>
-            </div>`);
-    } else if (Math.sign(closetDiff) === -1) {
-            $('.analyze-whole-ds').append(`
-            <p class="final-thought">The ideal closet has ${closetDiff} LESS items in its closet than you do in yours.  What can you GIVEAWAY or DONATE?</p>
-            </div>`);
-    } else if (Math.sign(seasonDiff) === 0){
-            $('analyze-whole-ds').append(`
-                    <div class="final-thought-correct">
-                        <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
-                        <div class="correct-verbage"><p>Success!  You have the exact right number of items in your closet!</p></div>
-                    </div>`);
-    } else {
-        alert('ummm, there is something wrong with the whole closet analysis. ');
-    }
 }
 
+
+
+
+
+
 function renderSeasonAnalysis() {
-     
-    // append header for season analysis
-     $('.analyze-body').append(`
+
+    $('.analyze-body').append(`
      <div class="analyze-subhead">
-         <h3>Seasons dataset item</h3>
-         <div class="comments">Each item in this section compares the total number of items in your closet for the each season to the number of items in the ideal closet.</div>
+         <h3>Let's take a look at your closet by SEASONS</h3>
      </div>`);
 
      //  find text equivalent of document number
@@ -701,30 +698,35 @@ function renderSeasonAnalysis() {
 
     // create html for analysis note 
     const seasonDiff = STORE.mySeasonLength[seasonText] - STORE.idealSeasonLength[seasonText];
+    const seasonDiffDisplay = Math.abs(seasonDiff);
     let analyzeNote = '';
     if (Math.sign(seasonDiff) === 1) {
-        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiff} LESS items in its closet than you do in yours.  What can you GIVEAWAY or DONATE?</p>`;
+        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiffDisplay} LESS items in its closet than you do in yours.  What can you SHARE or DONATE?</p>`;
     } else if (Math.sign(seasonDiff) === -1) {
-        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiff} MORE items in its closet than you do in yours.  Go shopping and get some new things!.</p>`;
+        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiffDisplay} MORE items in its closet than you do in yours.  Go shopping and get some new things!.</p>`;
     } else if (Math.sign(seasonDiff) === 0){
         analyzeNote = `<div class="final-thought-correct">
                             <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
                             <div class="correct-verbage"><p>Success!  You have the exact right number of items in your closet!</p></div>
                         </div>`;
     } else {
-        console.log('there is something wrong with the season analysis section');
+        analyzeNote = `there is something wrong with the season analysis section`;
     }
 
-    // append season analysis to analyze-body
+    
+
     $('.analyze-body').append(`
-            <div class="analyze-season-ds">
-                <p class="subhead">${STORE.seasonAry[i]}</p>
-                <div class="analyze-subset">
-                    <p>You have ${STORE.mySeasonLength[seasonText]} ${STORE.seasonAry[i]} items in your closet.</p>
-                    <p>There are ${STORE.idealSeasonLength[seasonText]} ${STORE.seasonAry[i]} items the ideal closet.</p>
-                    ${analyzeNote}
+    <div class="analyze-whole-ds">
+        <p class="subhead">${STORE.seasonAry[i]}</p>
+        <div class="analyze-subset">
+                <div class="an-items-short">
+                    <div class="an-items an-items-sh"><p class="an-items-label">ideal closet</p><div class="item itembody"><p class="ideal-length">${STORE.idealSeasonLength[seasonText]} ${STORE.seasonAry[i]}</p></div></div>
+                    <div class="an-items an-items-sh"><p class="an-items-label">my closet</p><div class="item itembody"><p class="my-length">${STORE.mySeasonLength[seasonText]} ${STORE.seasonAry[i]}</p></div></div>
+                    <div class="an-items an-items-long"><p class="an-items-label">size</p><div class="item itembody"><p id="note">${analyzeNote}</p></div></div>
                 </div>
-            </div>`);
+        </div>
+    </div>`);
+
     }
 }
 
@@ -732,8 +734,7 @@ function renderAppareltypeAnalysis() {
     // append header for appareltype analyze
     $('.analyze-body').append(`
     <div class="analyze-subhead">
-        <h3>Appareltype dataset item</h3>
-        Each item in this section compares the total number of items in your closet for the each season to the number of items in the ideal closet.
+        <h3 class="comments">Let's take a look at the apparel types in your closet.</h3>
     </div>`);
 
     //  find text equivalent of document number
@@ -762,11 +763,12 @@ function renderAppareltypeAnalysis() {
 
    // create html for analyze note 
    const appareltypeDiff = STORE.myAppareltypeLength[appareltypeText] - STORE.idealAppareltypeLength[appareltypeText];
+   const appareltypeDiffDisplay = Math.abs(appareltypeDiff);
    let analyzeNote = '';
    if (Math.sign(appareltypeDiff) === 1) {
-       analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiff} LESS items in its closet than you do in yours.  What can you GIVEAWAY or DONATE?</p>`;
+       analyzeNote = `<p class="final-thought">The ideal closet has ${appareltypeDiffDisplay} LESS items in its closet than you do in yours.  What can you SHARE or DONATE?</p>`;
    } else if (Math.sign(appareltypeDiff) === -1) {
-       analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiff} MORE items in its closet than you do in yours.  Go shopping and get some new things!.</p>`;
+       analyzeNote = `<p class="final-thought">The ideal closet has ${appareltypeDiffDisplay} MORE items in its closet than you do in yours.  Go shopping and get some new things!.</p>`;
    } else if (Math.sign(appareltypeDiff) === 0){
        analyzeNote = `<div class="final-thought-correct">
                             <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
@@ -781,9 +783,11 @@ function renderAppareltypeAnalysis() {
            <div class="analyze-appareltype-ds">
                 <p class="subhead">${STORE.appareltypeAry[i]}</p>
                 <div class="analyze-subset">
-                    <p>You have ${STORE.myAppareltypeLength[appareltypeText]} ${STORE.appareltypeAry[i]} items in your closet.</p>
-                    <p>There are ${STORE.idealAppareltypeLength[appareltypeText]} ${STORE.appareltypeAry[i]} items the ideal closet.</p>
-                    ${analyzeNote}
+                    <div class="an-items-short">
+                        <div class="an-items an-items-sh"><p class="an-items-label">ideal closet</p><div class="item itembody"><p class="ideal-length">${STORE.idealAppareltypeLength[appareltypeText]} ${STORE.appareltypeAry[i]}}</p></div></div>
+                        <div class="an-items an-items-sh"><p class="an-items-label">my closet</p><div class="item itembody"><p class="my-length">${STORE.myAppareltypeLength[appareltypeText]} ${STORE.appareltypeAry[i]}</p></div></div>
+                        <div class="an-items an-items-long"><p class="an-items-label">size</p><div class="item itembody"><p id="note">${analyzeNote}</p></div></div>
+                    </div>
                 </div>
             </div>`);
    }
@@ -925,15 +929,14 @@ function renderAddItemForm(msg) {
                             <div class="itemrow cl-shortdesc">
                                 <div class="newitem itemlabel"><label>short description</label></div>
                                 <div class="newitem itembody">
-                                    <input class="updatefields" id="js-additem-shortdesc" type="text" name="shortdesc" value="short-sleeved t-shirt" placeholder="short description" />
+                                    <input class="updatefields" id="js-additem-shortdesc" type="text" name="shortdesc" value=" " placeholder="short description" />
                                 </div>
                             </div>
 
                             <div class="itemrow cl-longdesc">
                                 <div class="newitem itemlabel"><label>long description </label></div>
                                 <div class="newitem itembody">
-                                    <input class="updatefields" id="js-additem-longdesc" type="text" name="longdesc" value="The best short-sleeve length is about 1/2 to 1 inch longer than a typical cap sleeve-
-                                    it shows just eh right amount of arm" placeholder="long description" />
+                                    <input class="updatefields" id="js-additem-longdesc" type="text" name="longdesc" value=" " placeholder="additional description" />
                                 </div>
                             </div>
                     </form>
