@@ -332,7 +332,7 @@ function renderCloset(closetItems) {
 
                 switch (STORE.subFeature) {
                     case ('share'):
-                                    $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage">You have just moved one item to the public Giveaway Closet.</div>`);
+                                    $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage">You have just moved one item to the public Share Closet.</div>`);
                                     break;
                     case ('donate'):
                                     $('.user-msg').html(`<div class="user-info-icon"><i class="fas fa-comment user-info-icon"></i></div><div class="user-info-verbage" >You have just moved one item to your personal Donation Closet.</div>`); 
@@ -651,12 +651,10 @@ function renderWholeClosetAnalysis() {
     <div class="analyze-subhead">
         <h3>Here is some notes of the whole closet</h3>
     </div>
-    <div class="analyze-whole-ds">
-        <div class="an-items-short">
-            <div class="an-items an-items-sh"><p class="an-items-label">ideal closet</p><div class="item itembody"><p class="ideal-length">${STORE.closetLength.ideal}</p></div></div>
-            <div class="an-items an-items-sh"><p class="an-items-label">my closet</p><div class="item itembody"><p class="my-length">${STORE.closetLength.my}</p></div></div>
-            <div class="an-items an-items-long"><p class="an-items-label">size</p><div class="item itembody"><p id="size">${closetComment}</p></div></div>
-        </div>
+    <div class="an-section-header">
+            <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">ideal</p><div class="item itembody-middle an-items-body-short"><p class="ideal-length">${STORE.closetLength.ideal}</p></div></div>
+            <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">my</p><div class="item itembody-middle an-items-body-short"><p class="my-length">${STORE.closetLength.my}</p></div></div>
+            <div class="an-items an-items-label-long"><p class="an-items-label an-items-label-right">comment</p><div class="item itembody-right an-items-body-long"><p id="note">${closetComment}</p></div></div>
     </div>`);
     
 }
@@ -671,7 +669,13 @@ function renderSeasonAnalysis() {
     $('.analyze-body').append(`
      <div class="analyze-subhead">
          <h3>Let's take a look at your closet by SEASONS</h3>
-     </div>`);
+     </div>
+     <div class="an-section-header">
+                    <div class="an-items an-items-label-med"><p class="an-items-label an-items-label-left">season</p></div>
+                    <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">ideal</p></div>
+                    <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">my</p></div>
+                    <div class="an-items an-items-label-long"><p class="an-items-label an-items-label-right">comment</p></div>
+    </div>`);
 
      //  find text equivalent of document number
     for (let i = 0; i < STORE.seasonAry.length; i++) {
@@ -716,15 +720,13 @@ function renderSeasonAnalysis() {
     
 
     $('.analyze-body').append(`
-    <div class="analyze-whole-ds">
-        <p class="subhead">${STORE.seasonAry[i]}</p>
-        <div class="analyze-subset">
-                <div class="an-items-short">
-                    <div class="an-items an-items-sh"><p class="an-items-label">ideal closet</p><div class="item itembody"><p class="ideal-length">${STORE.idealSeasonLength[seasonText]} ${STORE.seasonAry[i]}</p></div></div>
-                    <div class="an-items an-items-sh"><p class="an-items-label">my closet</p><div class="item itembody"><p class="my-length">${STORE.mySeasonLength[seasonText]} ${STORE.seasonAry[i]}</p></div></div>
-                    <div class="an-items an-items-long"><p class="an-items-label">size</p><div class="item itembody"><p id="note">${analyzeNote}</p></div></div>
-                </div>
-        </div>
+    
+    <div class="an-section-body">
+                    <div class="an-items itembody-left an-items-body-med"><p class="season">${STORE.seasonAry[i]}</p></div>
+                    <div class="an-items itembody-middle an-items-body-short"><p class="ideal-length">${STORE.idealSeasonLength[seasonText]}</p></div>
+                    <div class="an-items itembody-middle an-items-body-short"><p class="my-length">${STORE.mySeasonLength[seasonText]}</p></div>
+                    <div class="an-items itembody-right an-items-body-long"><p class="note">${analyzeNote}</p></div>
+    </div>
     </div>`);
 
     }
@@ -735,7 +737,12 @@ function renderAppareltypeAnalysis() {
     $('.analyze-body').append(`
     <div class="analyze-subhead">
         <h3 class="comments">Let's take a look at the apparel types in your closet.</h3>
-    </div>`);
+    </div>
+                        <div class="an-items an-items-label-med"><p class="an-items-label an-items-label-left">season</p></div>
+                        <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">ideal</p></div>
+                        <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">my</p></div>
+                        <div class="an-items an-items-label-long"><p class="an-items-label an-items-label-right">note</p></div>
+</div>`);
 
     //  find text equivalent of document number
    for (let i = 0; i < STORE.appareltypeAry.length; i++) {
@@ -780,15 +787,12 @@ function renderAppareltypeAnalysis() {
 
    // append season analyze to analyze-body
    $('.analyze-body').append(`
-           <div class="analyze-appareltype-ds">
-                <p class="subhead">${STORE.appareltypeAry[i]}</p>
-                <div class="analyze-subset">
-                    <div class="an-items-short">
-                        <div class="an-items an-items-sh"><p class="an-items-label">ideal closet</p><div class="item itembody"><p class="ideal-length">${STORE.idealAppareltypeLength[appareltypeText]} ${STORE.appareltypeAry[i]}}</p></div></div>
-                        <div class="an-items an-items-sh"><p class="an-items-label">my closet</p><div class="item itembody"><p class="my-length">${STORE.myAppareltypeLength[appareltypeText]} ${STORE.appareltypeAry[i]}</p></div></div>
-                        <div class="an-items an-items-long"><p class="an-items-label">size</p><div class="item itembody"><p id="note">${analyzeNote}</p></div></div>
-                    </div>
-                </div>
+            <div class="an-section-body">
+                        <div class="item itembody-left an-items-body-med"><p class="season">${STORE.appareltypeAry[i]}</p></div>
+                        <div class="item itembody-middle an-items-body-short"><p class="ideal-length">${STORE.idealAppareltypeLength[appareltypeText]}</p></div>
+                        <div class="item itembody-middle an-items-body-short"><p class="my-length">${STORE.myAppareltypeLength[appareltypeText]}</p></div></div>
+                        <div class="item itembody-right an-items-body-long"><p class="note">${analyzeNote}</p></div>
+            </div>
             </div>`);
    }
 

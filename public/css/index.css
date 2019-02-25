@@ -417,17 +417,14 @@ button:hover {
     margin-right: 10px;
 }
 
-.season-header,
 .analyze-subhead {
     padding: 10px 5px 10px 0;
-    margin-bottom: 8px;
-    margin-top: 8px;
     font-weight:bold;
     background-color: #DEB5AB;
     font-size:14px;
-    border-radius: 3px;
-    font-family: 'The Girl Next Door', cursive;
-    text-align:center;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
 }
 
 .cl-title {
@@ -572,16 +569,6 @@ button:hover {
     margin:0 auto;
 }
 
-
-.analyze-body-ds,
-.analyze-whole-ds, 
-.analyze-season-ds,
-.analyze-appareltype-ds {
-    text-align: left;
-    font-size: .8rem;
-    border-bottom: 1px solid #E0D5C9;
-}
-
 .analyze-appareltype-header,
 .analyze-season-header {
     color: #874C62;
@@ -595,33 +582,106 @@ button:hover {
     padding-left:25px;
 }
 
-.an-items-label {
-    border-bottom: 1px solid #874C62;
-    background-color: #ECECEB;
-    font-weight: bold;
-}
-
-.an-items-short {
+.an-section-header,
+.an-section-body {
+    font-size:0;
     text-align:center;
-}
-.an-items-sh,
-.an-items-long {
-    text-align:center;
-    border: 1px solid #874C62;
-    border-radius: 3px;
-}
-.an-items-sh {
-    width:15%;
-}
-.an-items-long {
-    width:58%;
-
 }
 
 
 .an-items {
     display:inline-block;
+    font-size:.8rem;
+    vertical-align:top;
+    border-style:solid;
+    border-color: #874C62;
 }
+
+.an-items-label-short {
+    background-color: #ECECEB;
+    font-weight: bold;
+    width:10%
+}
+
+.an-items-body-short {
+    font-weight: bold;
+    background-color: #FBF9EC;
+    width:10%;
+    height: 2.2rem;
+}
+
+.an-items-label-med {
+    background-color: #ECECEB;
+    font-weight: bold;
+    width:15%
+}
+
+.an-items-body-med {
+    font-weight: bold;
+    background-color: #FBF9EC;
+    width:15%;
+    height: 2.2rem;
+}
+
+.an-items-label-long {
+    background-color: #ECECEB;
+    font-weight: bold;
+    width:58%
+}
+
+.an-items-body-long {
+    width:58%;
+    background-color: #FBF9EC;
+    height: 2.2rem;
+    overflow:auto;
+}
+
+.an-items-label-left {
+    border-top:1px solid #874C62;
+    border-left:1px solid #874C62;
+    border-right:1px solid #874C62;
+    border-bottom:1px solid #874C62;
+    background-color: #ECECEB;
+    font-weight: bold;
+}
+
+.an-items-label-middle {
+    border-top:1px solid #874C62;
+    border-bottom:1px solid #874C62;
+    border-right:1px solid #874C62;
+}
+
+.an-items-label-right {
+    border-top:1px solid #874C62;
+    border-right:1px solid #874C62;
+    border-bottom:1px solid #874C62;
+}
+
+.itembody-left {
+    border-left:1px solid #874C62;
+    border-right:1px solid #874C62;
+    border-bottom:1px solid #874C62;
+    display:inline-block;
+}
+
+.itembody-middle {
+    border-right:1px solid #874C62;
+    border-bottom:1px solid #874C62;
+    display:inline-block;
+    
+}
+
+.itembody-right {
+    border-right:1px solid #874C62;
+    border-bottom:1px solid #874C62;
+    display:inline-block;
+}
+
+.an-items-short {
+    text-align:center;
+}
+
+
 
 
 /** **** USER COMMUNICATION STYLES:  error messages and user instructions */
