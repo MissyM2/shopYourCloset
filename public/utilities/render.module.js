@@ -477,8 +477,7 @@ function renderClItemBody(data) {
                            </div>
                     </div>`;
     }
-    item +=`<div class="closet-item ${data.id}-class">
-                        <div class="item-body">
+    item +=`       <div class="item-body">
                             <div class="an-section-header">
                                 <div class="an-items-label an-items-label-med" id="cl-appareltype"><p class="an-items-label-left">item</p></div>
                                 <div class="an-items-label an-items-label-med" id="cl-color"><p class="an-items-label-middle">color</p></div>
@@ -492,7 +491,8 @@ function renderClItemBody(data) {
                                 <div class="cl-items itembody-right an-items-body-med-plus"><button class="action-btns small-btn" id="cl-more-btn" data-id="${data.id}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">details</button></div>
                             </div>
                         </div>`;
-    const body = renderClItemActionBtns(item, data);
+    let body = renderClItemActionBtns(item, data);
+    body +=`</div>`;
     switch (data.season) {
         case 'Always in Season':
             $(`#season-Always-in-Season`).append(body);

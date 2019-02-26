@@ -184,7 +184,7 @@ button:hover {
 .item-body {
     text-align:left;
     padding:2px;
-    width: 85%;
+    width: 100%;
     display:inline-block;
     font-size:0;
 }
@@ -652,20 +652,20 @@ button:hover {
 }
 
 .an-items-label-med {
-    width:22%;
+    width:23%;
 }
 
 .an-items-label-med-plus {
-    width:30%;
+    width:31%;
 }
 
 .an-items-body-med {
-    width:22%;
+    width:23%;
     text-align:center;
 }
 
 .an-items-body-med-plus {
-    width:30%;
+    width:31%;
     text-align:center;
 }
 
@@ -676,7 +676,6 @@ button:hover {
 .an-items-body-long {
     width:50%;
     text-align: left;
-    padding-left:3px;
     overflow:auto;
 }
 
@@ -723,8 +722,12 @@ button:hover {
     text-align:center;
 }
 
+.final-thought {
+    padding-left:2px;
+}
 .final-thought-correct {
     color:red;
+    padding-left:2px;
 }
 
 
