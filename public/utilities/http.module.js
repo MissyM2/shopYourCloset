@@ -26,7 +26,6 @@ function genericFetch(url, settings, callback) {
         })
 
        .then(responseJson => {
-            console.log(responseJson);
           callback(responseJson);
         })
         .catch(err => {

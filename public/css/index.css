@@ -8,6 +8,7 @@ body {
 
 header {
     background-color: #A7D2CB;
+    background-image: linear-gradient(45deg, #b2d8d2 0%,#A7D2CB 100%);
     height: 100px;
     position: fixed;
     top: 0;
@@ -98,12 +99,11 @@ button {
     text-align: center;
     cursor:pointer;
     border: 1px solid #874C62;
-    background-color: #DEB5AB;
+    background-image: linear-gradient(45deg, #deb5ab 0%,#d9aa9f 100%);
     margin:2px;
     padding:2px;
     border-radius:3px;
     display:inline-block; 
-    margin-top:8px;
 }
 
 button:hover {
@@ -118,23 +118,28 @@ button:hover {
     width:120px;
     padding: 3px;
 }
+
+.lg-btn {
+    width:150px;
+    padding: 3px;
+}
  
 
 /*  ***** SECTION styles:  there are four sections:  nav, login, options, closet */
 
 .section {
+    max-width:900px;
+    text-align:center;
     margin:0 auto;
-    max-width:500px;
 }
 
-.section-options,
+.options-container,
 .section-login {
-    text-align:center;
-    margin-left:5px;
-    margin-right:5px;
-    max-width:500px;
-    margin: 0 auto;
+    max-width:450px;
+    margin:0 auto;
+
 }
+
 .section-login {
     padding-top:30px;
 }
@@ -149,7 +154,7 @@ button:hover {
     display:inline-block;
 }
 #header-title {
-    /*border:1px solid green;*/
+
     max-height: 75px;
     padding:10px 20px 10px 20px;
 }
@@ -159,7 +164,6 @@ button:hover {
 }
 
 #logo-img {
-    /*border:1px solid red;*/
     display:inline-block;
 }
 
@@ -169,8 +173,7 @@ button:hover {
 
 #logo-verbage {
     font-family: 'The Girl Next Door', cursive;
-    font-size: 20px;
-    /*border:1px solid red;*/
+    font-size: 24px;
     display:inline-block;
     vertical-align: top;
     margin-top:20px;
@@ -182,7 +185,8 @@ button:hover {
     text-align:left;
     padding:2px;
     width: 85%;
-    display:inline-block
+    display:inline-block;
+    font-size:0;
 }
 
 
@@ -375,10 +379,7 @@ button:hover {
 	font-size: 2rem;
 	border-radius: 50%;
 }
-.fa-door-open:hover, .fa-tshirt:hover, .fa-atom:hover {
-    background-color:#ECECEB;
-    cursor:pointer;
-}
+
 
 .fa-door-open {
     color: #C98573;
@@ -417,16 +418,6 @@ button:hover {
     margin-right: 10px;
 }
 
-.analyze-subhead {
-    padding: 10px 5px 10px 0;
-    font-weight:bold;
-    background-color: #DEB5AB;
-    font-size:14px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-}
-}
-
 .cl-title {
     display:inline-block;
 }
@@ -434,8 +425,28 @@ button:hover {
 .cl-subhead {
     text-align:center;
     display:inline-block;
+    border: 1px solid #874C62;
+    background-image: linear-gradient(45deg, #deb5ab 0%,#d9aa9f 100%);
+    padding:3px 20px 3px 20px;
+    border-radius: 5px;
+    width:100%;
+    margin: 0 auto;
+    
 }
 
+.cl-subhead1 {
+    text-align:center;
+    display:inline-block;
+}
+
+.cl-subhead2 {
+    text-align:left;
+    font-size:.8rem;
+    max-width:450px;
+    padding: 0 20px 5px 20px;
+    margin:0 auto;
+}
+/*
 .cl-items-label {
     border-bottom: 1px solid #874C62;
     background-color: #ECECEB;
@@ -467,6 +478,7 @@ button:hover {
     display:none;
 }
 
+*/
 .item {
     display:inline-block;
 }
@@ -483,7 +495,7 @@ button:hover {
 .closet-item {
     text-align:center;
     border-radius: 3px;
-    padding: 10px;
+    padding: 0 0 5px 0;
     margin: 5px 0 0 0;
     border-bottom:1px solid #F2D387;
     font-size:12px;
@@ -520,6 +532,65 @@ button:hover {
     background-color:white;
 }
 
+.more-details {
+    padding-top: 5px 0 5px 0;
+}
+
+
+.viewitem-label {
+    width:85%;
+    text-align:left;
+    margin: 0 auto;
+    text-align:left;
+    background-color: #ECECEB;
+    padding: 5px 8px;
+}
+
+.viewitem-body {
+    width:85%;
+    text-align:left;
+    margin: 0 auto;
+    text-align:left;
+    padding: 5px 8px;
+}
+
+#view-label-shortdesc {
+    border-top:1px solid #874C62;
+    border-left:1px solid #874C62;
+    border-right:1px solid #874C62;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    margin-top:10px;
+}
+
+#view-longdesc {
+    border-top:1px solid #874C62;
+    border-left:1px solid #874C62;
+    border-right:1px solid #874C62;
+    border-bottom:1px solid #874C62;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    margin-bottom:8px;
+}
+
+#view-label-longdesc,
+#view-shortdesc {
+    border-top:1px solid #874C62;
+    border-left:1px solid #874C62;
+    border-right:1px solid #874C62;
+}
+
+#view-shortdesc {
+    border-bottom:1px solid #874C62;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    margin-bottom: 8px;
+}
+#view-label-longdesc {
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
 .update-season > .itembody,
 .update-appareltype > .itembody {
     width:50%;
@@ -527,6 +598,7 @@ button:hover {
 
 #cl-add-btn {
     text-align:right;
+    display:inline-block;
 }
 
 
@@ -569,18 +641,6 @@ button:hover {
     margin:0 auto;
 }
 
-.analyze-appareltype-header,
-.analyze-season-header {
-    color: #874C62;
-}
-
-.subhead {
-    color: #874C62;
-}
-
-.analyze-subset {
-    padding-left:25px;
-}
 
 .an-section-header,
 .an-section-body {
@@ -588,51 +648,69 @@ button:hover {
     text-align:center;
 }
 
+.an-section-header {
+    margin-top: 3px;
+}
 
-.an-items {
+.an-subsection-whole,
+.an-subsection-se,
+.an-subsection-at {
     display:inline-block;
+    width:32%;
+    padding:3px;
+}
+
+.an-subsection-whole {
+    vertical-align:top;
+}
+.an-items,
+.cl-items {
+    display:inline-block;
+    background-color: #FBF9EC;
     font-size:.8rem;
     vertical-align:top;
-    border-style:solid;
-    border-color: #874C62;
+}
+
+.an-items {
+    height: 3rem;
+}
+
+.cl-items {
+    height: 1.6rem;
+}
+
+.an-items-label {
+    display:inline-block;
+    font-size:.8rem;
+    background-color: #ECECEB;
+    font-weight: bold;
 }
 
 .an-items-label-short {
-    background-color: #ECECEB;
-    font-weight: bold;
-    width:10%
+    width:13%
 }
 
 .an-items-body-short {
-    font-weight: bold;
-    background-color: #FBF9EC;
-    width:10%;
-    height: 2.2rem;
+    width:13%;
 }
 
 .an-items-label-med {
-    background-color: #ECECEB;
-    font-weight: bold;
-    width:15%
+    width:22%
 }
 
 .an-items-body-med {
-    font-weight: bold;
-    background-color: #FBF9EC;
-    width:15%;
-    height: 2.2rem;
+    width:22%;
+    text-align:center;
 }
 
 .an-items-label-long {
-    background-color: #ECECEB;
-    font-weight: bold;
-    width:58%
+    width:50%
 }
 
 .an-items-body-long {
-    width:58%;
-    background-color: #FBF9EC;
-    height: 2.2rem;
+    width:50%;
+    text-align: left;
+    padding-left:3px;
     overflow:auto;
 }
 
@@ -641,8 +719,6 @@ button:hover {
     border-left:1px solid #874C62;
     border-right:1px solid #874C62;
     border-bottom:1px solid #874C62;
-    background-color: #ECECEB;
-    font-weight: bold;
 }
 
 .an-items-label-middle {
@@ -679,6 +755,10 @@ button:hover {
 
 .an-items-short {
     text-align:center;
+}
+
+.final-thought-correct {
+    color:red;
 }
 
 
@@ -855,36 +935,49 @@ button:hover {
 }
 
 
-/** DESKTOP & FORWARD **/
-@media only screen and (min-width: 600px) {
+.addnewitem-container {
+    max-width:500px;
+    margin:0 auto;
+}
 
-    /*  **** styles for sections that change for desktop */
+#always-in-season,
+#other-seasons,
+#analysis-season {
+    display:inline-block;
+    width:45%;
+    margin:3px;
+}
 
-    .section-closet ,
-    .section-nav {
-        max-width:900px;
-    }
-    
-    
+#always-in-season {
+    vertical-align:top;
+}
 
-    .addnewitem-container {
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 599px) {
+
+    .section {
         max-width:500px;
-        margin:0 auto;
+        text-align:center;
+        margin-left:5px;
+        margin-right:5px;
+        margin: 0 auto;
     }
 
-    .closet-body {
-        margin-top: 25px;
+    .an-subsection-whole, .an-subsection-se, .an-subsection-at {
+        display: block;
+        width: 100%;
     }
 
-    #always-in-season,
-    #other-seasons {
-        display:inline-block;
-        width:45%;
-        margin:3px;
-    }
+    #always-in-season, #other-seasons, #analysis-season {
+        display: block;
+        width: 100%;
 
-    #always-in-season {
-        vertical-align:top;
-    }
 
 }
+    
+    
+    
+
+    

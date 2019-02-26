@@ -110,7 +110,6 @@ function watchSignin() {
             genericFetch(newUserUrl, newUserSettings, (data)=>{
                 if (data.hasOwnProperty("jwtToken")){
                     cbLogin(data);
-                    console.log('user should be logged in');
                 } else {
                     $('#error-username').css("display", "none");
                     $('#error-password').css("display", "none");
@@ -364,6 +363,25 @@ function watchUpdateItem() {
     }));
 }
 
+// requests to update an existing item
+function watchMoreDetails() {
+    $('.section-closet').on('click', '#cl-more-btn', (function(event) {
+        event.preventDefault();
+        updateStoreItem(this);
+        renderMoreDetailsForm();
+    }));
+}
+
+// returns to overview screen
+function watchMoreReturn() {
+    $('.section-closet').on('click', '#cl-more-return-btn', (function(event) {
+        event.preventDefault();
+        console.log('should have made it to watchmorereturn');
+        //STORE.selCloset="my";
+        getCloset();
+    }));
+}
+
 // commits the update to db
 function watchSaveUpdatedItem() {
     $('.closet-container').on('click','#cl-updatebtn-final', function(event) {
@@ -602,6 +620,8 @@ $(document).ready(function () {
     watchSaveUpdatedItem();
     //watchReturnItem();
     watchMoveItem();
+    watchMoreDetails();
+    watchMoreReturn();
 });
 
 

@@ -10,6 +10,7 @@ window.RENDER_MODULE = {
     renderCloset,
     renderClHeader,
     renderClBody,
+    renderMoreDetailsForm,
     renderSeasonHeaders,
     renderClItemBody,
     renderClItemActionBtns,
@@ -19,6 +20,7 @@ window.RENDER_MODULE = {
     renderWholeClosetAnalysis,
     renderSeasonAnalysis,
     renderAppareltypeAnalysis,
+    determineDifference,
     renderInformationPage
 };
 
@@ -105,14 +107,14 @@ function renderLoginForm() {
                                     <div class="login-item">
                                         <div class="input-container">
                                             <i class="fas fa-user user-icon"></i>
-                                            <input type="text" name="GET-username" id="GET-username" class="login-input" tabindex="1" autocomplete="on" required>
+                                            <input type="text" name="GET-username" id="GET-username" class="login-input" tabindex="1" value="testuser1" autocomplete="on" required>
                                         </div>
                                         <div class="error-msg" id="error-username" style="display:none;"></div>
                                     </div>
                                     <div class="login-item">
                                         <div class="input-container">
                                             <i class="fas fa-key user-icon"></i>
-                                            <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" autocomplete="off" required>
+                                            <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" value="testuser1" autocomplete="off" required>
                                         </div>
                                         <div class="error-msg" id="error-password" style="display:none;"></div>
                                     </div>
@@ -380,7 +382,7 @@ function renderClHeader(closetItems) {
         if (STORE.selCloset === 'ideal' || STORE.selCloset === 'donation' || STORE.selCloset === 'share') {
             editButtonHtml = ``;
         } else {
-            editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add" data-closet="${STORE.selCloset}"><i class="fas fa-plus"></i></div>`;
+            editButtonHtml = `<div id="cl-add-btn" data-btntype="add" data-closet="${STORE.selCloset}"><i class="fas fa-plus"></i></div>`;
 
 
 
@@ -391,7 +393,7 @@ function renderClHeader(closetItems) {
         editButtonHtml = `<div class="item" id="cl-add-btn" data-btntype="add"><i class="fas fa-plus"></i></div>`;
     }
     //  itemcount:  Itemcount is only needed on closet pages.  It is not needed on 'analyze' page.
-    itemCountHtml = `<div class="cl-subhead">There are ${STORE.closetLength[STORE.selCloset]} items in this closet.</div>`;
+    itemCountHtml = `<div class="cl-subhead1">There are ${STORE.closetLength[STORE.selCloset]} items in this closet.</div>`;
 
     // the custom header is rendered here
     $('.closet-header').html(`
@@ -410,27 +412,27 @@ function renderSeasonHeaders() {
             switch (STORE.seasonAry[i]) {
                 case 'Always in Season':  
                     $('#always-in-season').append(`<div class="season-container" id="season-Always-in-Season">
-                                                        <div class="season-header">${STORE.seasonAry[i]} ${closetSeasonLength[STORE.seasonAry[i]]} items
+                                                        <div class="cl-subhead">${STORE.seasonAry[i]} ${closetSeasonLength[STORE.seasonAry[i]]} items
                                                     </div>`);
                     break;
                 case ('Spring Basics'):
                     $('#other-seasons').append(`<div class="season-container" id="season-Spring-Basics">
-                                                    <div class="season-header">${STORE.seasonAry[i]} ${closetSeasonLength[STORE.seasonAry[i]]} items
+                                                    <div class="cl-subhead">${STORE.seasonAry[i]} ${closetSeasonLength[STORE.seasonAry[i]]} items
                                                 </div>`);
                     break;
                 case ('Summer Basics'):
                     $('#other-seasons').append(`<div class="season-container" id="season-Summer-Basics">
-                                                    <div class="season-header">${STORE.seasonAry[i]} ${closetSeasonLength[STORE.seasonAry[i]]} items
+                                                    <div class="cl-subhead">${STORE.seasonAry[i]} ${closetSeasonLength[STORE.seasonAry[i]]} items
                                                 </div>`);
                     break;
                 case ('Fall Basics'):
                     $('#other-seasons').append(`<div class="season-container" id="season-Fall-Basics">
-                                                    <div class="season-header">${STORE.seasonAry[i]} ${closetSeasonLength[STORE.seasonAry[i]]} items
+                                                    <div class="cl-subhead">${STORE.seasonAry[i]} ${closetSeasonLength[STORE.seasonAry[i]]} items
                                                 </div>`);
                     break;
                 case ('Winter Basics'):
                     $('#other-seasons').append(`<div class="season-container" id="season-Winter-Basics">
-                                                    <div class="season-header">${STORE.seasonAry[i]} ${closetSeasonLength[STORE.seasonAry[i]]} items
+                                                    <div class="cl-subhead">${STORE.seasonAry[i]} ${closetSeasonLength[STORE.seasonAry[i]]} items
                                                 </div>`);
                     break;
                 default:
@@ -455,22 +457,26 @@ function renderClItemBody(data) {
                                     <div class="cl-items cl-appareltype cl-items-sh" id="cl-appareltype"><p class="cl-items-label">item</p><div class="item itembody"><p id="appareltype">${data.appareltype}</p></div></div>
                                     <div class="cl-items cl-color cl-items-sh" id="cl-color"><p class="cl-items-label">color</p><div class="item itembody"><p id="color">${data.color}</p></div></div>
                                     <div class="cl-items cl-size cl-items-sh" id="cl-size"><p class="cl-items-label">size</p><div class="item itembody"><p id="size">${data.size}</p></div></div>
+                                    <div class="cl-items cl-shortdesc" id="cl-shortdesc"><div class="item itembody"><p id="shortdesc">${data.shortdesc}</p></div></div>
+                                    <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p id="longdesc">${data.longdesc}</p></div></div>
                                 </div>
-                                <div class="cl-items cl-shortdesc" id="cl-shortdesc"><div class="item itembody"><p id="shortdesc">${data.shortdesc}</p></div></div>
-                                <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p id="longdesc">${data.longdesc}</p></div></div>
                             </div>`;
 
     } else {
         item =`<div class="closet-item ${data.id}-class">
                             <div class="item-body">
-                                <div class="cl-items cl-season" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p id="season">${data.season}</p></div></div>
-                                <div class="cl-items-short">
-                                    <div class="cl-items cl-appareltype cl-items-sh" id="cl-appareltype"><p class="cl-items-label">item</p><div class="item itembody"><p id="appareltype">${data.appareltype}</p></div></div>
-                                    <div class="cl-items cl-color cl-items-sh" id="cl-color"><p class="cl-items-label">color</p><div class="item itembody"><p id="color">${data.color}</p></div></div>
-                                    <div class="cl-items cl-size cl-items-sh" id="cl-size"><p class="cl-items-label">size</p><div class="item itembody"><p id="size">${data.size}</p></div></div>
+                                <div class="an-section-header">
+                                    <div class="an-items-label an-items-label-med" id="cl-appareltype"><p class="an-items-label-left">item</p></div>
+                                    <div class="an-items-label an-items-label-med" id="cl-color"><p class="an-items-label-middle">color</p></div>
+                                    <div class="an-items-label an-items-label-med" id="cl-size"><p class="an-items-label-middle">size</p></div>
+                                    <div class="an-items-label an-items-label-med" id="cl-size"><p class="an-items-label-right">click</p></div>
                                 </div>
-                                <div class="cl-items cl-shortdesc" id="cl-shortdesc"><div class="item itembody"><p id="shortdesc">${data.shortdesc}</p></div></div>
-                                <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p id="longdesc">${data.longdesc}</p></div></div>
+                                <div class="an-section-body">
+                                    <div class="cl-items itembody-left an-items-body-med"><p id="appareltype">${data.appareltype}</p></div>
+                                    <div class="cl-items itembody-middle an-items-body-med"><p id="color">${data.color}</p></div>
+                                    <div class="cl-items itembody-middle an-items-body-med"><p id="size">${data.size}</p></div>
+                                    <div class="cl-items itembody-right an-items-body-med"><button class="action-btns small-btn" id="cl-more-btn" data-id="${data.id}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">details</button></div>
+                                </div>
                             </div>`;
     }
     const body = renderClItemActionBtns(item, data);
@@ -510,7 +516,7 @@ function renderClItemActionBtns(bodyHtml, data) {
                         </div>`;
         } else if (STORE.selCloset === 'donation') {
             bodyHtml += `<div class="item-edit-btns">
-                            <button class="js-move action-btns med-btn" id="cl-return-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">return to your closet</button>
+                            <button class="js-move action-btns lg-btn" id="cl-return-btn" data-id="${data.id}" data-season="${data.season}" data-appareltype="${data.appareltype}" data-color="${data.color}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">return to your closet</button>
                         </div>`;
         }
 
@@ -606,14 +612,10 @@ function renderAnalysis() {
                 </div>`);
     
     $('.closet-container').append(`
-                <div class="cl-subhead">
-                    <p>The analysis currently includes the following:</P>
-                    <ul class='instruction-list'>
-                        <li>a comparison of the total number of items in your MY closet vs the IDEAL closet</li>
-                        <li>a comparison of the total number of items in your MY closet vs the IDEAL closet for each season.</li>
-                        <li>a comparison of the total number of items in your MY closet vs the IDEAL closet for each apparel type.</li>
-                    </ul>
-
+                <div class="cl-subhead2">
+                    You may be missing a few basic items that keep you from using your wardrobe to its fullest potential.  
+                    You may have some items that are not “ideal”, but which help you to express your personal style.  
+                    You may want to think about whether you still wear those items.  If not, share them!
                 </div>
                 <div class="analyze-body"></div>`);
 
@@ -628,34 +630,53 @@ function renderAnalysis() {
             </div>`);
     }
 }
-               
+ 
+function determineDifference(diff) {
+
+    let note;
+    if (diff < 0) {
+        note = `<p class="final-thought">Consider purchasing.</p>`;
+    } else if (diff > 0) {
+        note = `<p class="final-thought">Do you still wear these items?</p>`;
+    } else if (diff = 0){
+        note = `<div class="final-thought-correct">
+                            <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
+                            <div class="correct-verbage"><p>Success!</p></div>
+                        </div>`;
+    } else {
+        note = `there is something wrong with the season analysis section`;
+    }
+    return note;
+
+
+}
 
 function renderWholeClosetAnalysis() {
     // append whole closet analysis
+    $('.analyze-body').append(`<div class="an-subsection-whole"></div>`);
+
+    $('.an-subsection-whole').append(`
+            <div class="cl-subhead">
+                    Whole Closet
+            </div>
+            <div class="an-section-header">
+                    <div class="an-items-label an-items-body-med"><p class=" an-items-label-left">closet</p></div>
+                    <div class="an-items-label an-items-body-short"><p class=" an-items-label-middle">ideal</p></div>
+                    <div class="an-items-label an-items-body-short"><p class=" an-items-label-middle">my</p></div>
+                    <div class="an-items-label an-items-body-long"><p class=" an-items-label-right">comment</p></div>
+            </div>`);
 
     // find the difference between the number of items in the IDEAL closet vs. the number of items in MY closet
-    const closetDiff = STORE.closetLength.ideal - STORE.closetLength.my;
-    const closetDiffDisplay = Math.abs(closetDiff);
-    let closetComment = '';
-    if (Math.sign(closetDiff) === 1) {
-            closetComment = `The ideal closet has ${closetDiffDisplay} MORE items in its closet than you do in yours. Go shopping!!!!  Get some new things!`;
-    } else if (Math.sign(closetDiff) === -1) {
-            closetComment = `The ideal closet has ${closetDiffDisplay} LESS items in its closet than you do in yours.  What can you SHARE or DONATE?`;
-    } else if (Math.sign(seasonDiff) === 0){
-            closetComment =`Success!  You have the exact right number of items in your closet!`;
-    } else {
-        closetComment = `ummm, there is something wrong with the whole closet analysis. `;
-    }
+    const clDiff = STORE.closetLength.ideal - STORE.closetLength.my;
+    let analyzeNote = determineDifference(clDiff);
 
-    $('.analyze-body').append(`
-    <div class="analyze-subhead">
-        <h3>Here is some notes of the whole closet</h3>
-    </div>
-    <div class="an-section-header">
-            <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">ideal</p><div class="item itembody-middle an-items-body-short"><p class="ideal-length">${STORE.closetLength.ideal}</p></div></div>
-            <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">my</p><div class="item itembody-middle an-items-body-short"><p class="my-length">${STORE.closetLength.my}</p></div></div>
-            <div class="an-items an-items-label-long"><p class="an-items-label an-items-label-right">comment</p><div class="item itembody-right an-items-body-long"><p id="note">${closetComment}</p></div></div>
-    </div>`);
+    $('.an-subsection-whole').append(`
+            <div class="an-section-body">
+                    <div class="an-items itembody-left an-items-body-med"><p class="season">whole closet</p></div>
+                    <div class="an-items itembody-middle an-items-body-short"><p class="ideal-length">${STORE.closetLength.ideal}</p></div>
+                    <div class="an-items itembody-middle an-items-body-short"><p class="my-length">${STORE.closetLength.my}</p></div>
+                    <div class="an-items itembody-right an-items-body-long">${analyzeNote}</div>
+            </div>`);
     
 }
 
@@ -665,17 +686,19 @@ function renderWholeClosetAnalysis() {
 
 
 function renderSeasonAnalysis() {
+    $('.analyze-body').append(`<div class="an-subsection-se"></div>`);
 
-    $('.analyze-body').append(`
-     <div class="analyze-subhead">
-         <h3>Let's take a look at your closet by SEASONS</h3>
+    $('.an-subsection-se').append(`
+     <div class="cl-subhead">
+         By Season
      </div>
      <div class="an-section-header">
-                    <div class="an-items an-items-label-med"><p class="an-items-label an-items-label-left">season</p></div>
-                    <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">ideal</p></div>
-                    <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">my</p></div>
-                    <div class="an-items an-items-label-long"><p class="an-items-label an-items-label-right">comment</p></div>
+                    <div class="an-items-label an-items-label-med"><p class="an-items-label-left">season</p></div>
+                    <div class="an-items-label an-items-label-short"><p class="an-items-label-middle">ideal</p></div>
+                    <div class="an-items-label an-items-label-short"><p class="an-items-label-middle">my</p></div>
+                    <div class="an-items-label an-items-label-long"><p class="an-items-label-right">comment</p></div>
     </div>`);
+
 
      //  find text equivalent of document number
     for (let i = 0; i < STORE.seasonAry.length; i++) {
@@ -701,52 +724,39 @@ function renderSeasonAnalysis() {
     }
 
     // create html for analysis note 
-    const seasonDiff = STORE.mySeasonLength[seasonText] - STORE.idealSeasonLength[seasonText];
-    const seasonDiffDisplay = Math.abs(seasonDiff);
-    let analyzeNote = '';
-    if (Math.sign(seasonDiff) === 1) {
-        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiffDisplay} LESS items in its closet than you do in yours.  What can you SHARE or DONATE?</p>`;
-    } else if (Math.sign(seasonDiff) === -1) {
-        analyzeNote = `<p class="final-thought">The ideal closet has ${seasonDiffDisplay} MORE items in its closet than you do in yours.  Go shopping and get some new things!.</p>`;
-    } else if (Math.sign(seasonDiff) === 0){
-        analyzeNote = `<div class="final-thought-correct">
-                            <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
-                            <div class="correct-verbage"><p>Success!  You have the exact right number of items in your closet!</p></div>
-                        </div>`;
-    } else {
-        analyzeNote = `there is something wrong with the season analysis section`;
-    }
+    const clDiff = STORE.mySeasonLength[seasonText] - STORE.idealSeasonLength[seasonText];
 
+    let analyzeNote = determineDifference(clDiff);
+    console.log('seasons ', analyzeNote);
     
-
-    $('.analyze-body').append(`
-    
-    <div class="an-section-body">
+    $('.an-subsection-se').append(`
+            <div class="an-section-body">
                     <div class="an-items itembody-left an-items-body-med"><p class="season">${STORE.seasonAry[i]}</p></div>
                     <div class="an-items itembody-middle an-items-body-short"><p class="ideal-length">${STORE.idealSeasonLength[seasonText]}</p></div>
                     <div class="an-items itembody-middle an-items-body-short"><p class="my-length">${STORE.mySeasonLength[seasonText]}</p></div>
-                    <div class="an-items itembody-right an-items-body-long"><p class="note">${analyzeNote}</p></div>
-    </div>
-    </div>`);
+                    <div class="an-items itembody-right an-items-body-long">${analyzeNote}</div>
+            </div>
+            </div>`);
 
     }
 }
 
 function renderAppareltypeAnalysis() {
     // append header for appareltype analyze
-    $('.analyze-body').append(`
-    <div class="analyze-subhead">
-        <h3 class="comments">Let's take a look at the apparel types in your closet.</h3>
+    $('.analyze-body').append(`<div class="an-subsection-at"></div>`);
+    $('.an-subsection-at').append(`
+    <div class="cl-subhead">
+        By Apparel Type
     </div>
-                        <div class="an-items an-items-label-med"><p class="an-items-label an-items-label-left">season</p></div>
-                        <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">ideal</p></div>
-                        <div class="an-items an-items-label-short"><p class="an-items-label an-items-label-middle">my</p></div>
-                        <div class="an-items an-items-label-long"><p class="an-items-label an-items-label-right">note</p></div>
-</div>`);
+    <div class="an-section-header">
+                        <div class="an-items-label an-items-label-med"><p class="an-items-label-left">season</p></div>
+                        <div class="an-items-label an-items-label-short"><p class="an-items-label-middle">ideal</p></div>
+                        <div class="an-items-label an-items-label-short"><p class="an-items-label-middle">my</p></div>
+                        <div class="an-items-label an-items-label-long"><p class="an-items-label-right">comment</p></div>
+    </div>`);
 
     //  find text equivalent of document number
    for (let i = 0; i < STORE.appareltypeAry.length; i++) {
-   console.log[i];
    let appareltypeText = '';
     switch(i) {
         case 0:
@@ -769,35 +779,20 @@ function renderAppareltypeAnalysis() {
     }
 
    // create html for analyze note 
-   const appareltypeDiff = STORE.myAppareltypeLength[appareltypeText] - STORE.idealAppareltypeLength[appareltypeText];
-   const appareltypeDiffDisplay = Math.abs(appareltypeDiff);
-   let analyzeNote = '';
-   if (Math.sign(appareltypeDiff) === 1) {
-       analyzeNote = `<p class="final-thought">The ideal closet has ${appareltypeDiffDisplay} LESS items in its closet than you do in yours.  What can you SHARE or DONATE?</p>`;
-   } else if (Math.sign(appareltypeDiff) === -1) {
-       analyzeNote = `<p class="final-thought">The ideal closet has ${appareltypeDiffDisplay} MORE items in its closet than you do in yours.  Go shopping and get some new things!.</p>`;
-   } else if (Math.sign(appareltypeDiff) === 0){
-       analyzeNote = `<div class="final-thought-correct">
-                            <div id="correct-icon"><i class="fas fa-atom highlight"></i></div>
-                            <div class="correct-verbage"><p>Success!  You have the exact right number of items in your closet!</p></div>
-                    </div>`;
-   } else {
-       console.log('what is the situation?');
-   }
+   const clDiff = STORE.myAppareltypeLength[appareltypeText] - STORE.idealAppareltypeLength[appareltypeText];
+   let analyzeNote = determineDifference(clDiff);
+   console.log('from appareltype', analyzeNote);
 
    // append season analyze to analyze-body
-   $('.analyze-body').append(`
+   $('.an-subsection-at').append(`
             <div class="an-section-body">
-                        <div class="item itembody-left an-items-body-med"><p class="season">${STORE.appareltypeAry[i]}</p></div>
-                        <div class="item itembody-middle an-items-body-short"><p class="ideal-length">${STORE.idealAppareltypeLength[appareltypeText]}</p></div>
-                        <div class="item itembody-middle an-items-body-short"><p class="my-length">${STORE.myAppareltypeLength[appareltypeText]}</p></div></div>
-                        <div class="item itembody-right an-items-body-long"><p class="note">${analyzeNote}</p></div>
+                        <div class="an-items itembody-left an-items-body-med"><p class="season">${STORE.appareltypeAry[i]}</p></div>
+                        <div class="an-items itembody-middle an-items-body-short"><p class="ideal-length">${STORE.idealAppareltypeLength[appareltypeText]}</p></div>
+                        <div class="an-items itembody-middle an-items-body-short"><p class="my-length">${STORE.myAppareltypeLength[appareltypeText]}</p></div>
+                        <div class="an-items itembody-right an-items-body-long">${analyzeNote}</div>
             </div>
             </div>`);
    }
-
-
-
 }
 
 //  *****  RENDER ADD AND UPDATE FORMS
@@ -1027,6 +1022,36 @@ function renderUpdateForm() {
 
     $(`.${STORE.currentEditItem.id}-class`).html(updateFormBody);
     $(`.${STORE.currentEditItem.id}-class`).css("border", "5px solid #C98573");
+}
+
+function renderMoreDetailsForm() {
+
+        // change closet cell to updateable form
+        const updateFormBody = `<div class="cl-resultbody">
+                <div class="more-details">
+                    <div>
+                        <div class="viewitem-label" id="view-label-shortdesc">
+                            <p>short description</p>
+                        </div>
+                        <div class="viewitem-body" id="view-shortdesc">
+                            <p>${STORE.currentEditItem.shortdesc}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="viewitem-label" id="view-label-longdesc">
+                            <p>long description</p>
+                        </div>
+                        <div class="viewitem-body" id="view-longdesc">
+                            <p>${STORE.currentEditItem.longdesc}</p>
+                        </div>
+                    </div>
+                </div> 
+            <div class="more-return-btn">
+                <button class="action-btns med-btn" id="cl-more-return-btn">return to overview</button>
+            </div>`; 
+    
+        $(`.${STORE.currentEditItem.id}-class`).html(updateFormBody);
+        $(`.${STORE.currentEditItem.id}-class`).css("border", "5px solid #C98573");
 }
 
 
