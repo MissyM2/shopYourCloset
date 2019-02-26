@@ -331,8 +331,9 @@ function watchSaveItem() {
 
 // cancels update item request
 function watchCancelUpdateItem() {
-    $('.closet-container').on('click', '#cl-cancel-update-btn', (function(event) {
+    $('.section-closet').on('click', '#cl-cancel-update-btn', (function(event) {
         event.preventDefault();
+        console.log(event.target.id);
         if (STORE.authUserName == 'admin') {
             STORE.selCloset = 'ideal';
         } else {
@@ -615,6 +616,7 @@ $(document).ready(function () {
     watchAddItem();
     watchSaveItem();
     watchCancelAddItem();
+    watchCancelUpdateItem();
     watchDeleteItem();
     watchUpdateItem();
     watchSaveUpdatedItem();

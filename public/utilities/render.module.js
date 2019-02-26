@@ -92,7 +92,6 @@ function renderRegistrationForm() {
 
 function renderLoginForm() {
     $('.section-options').html('');
-    //$('.loggedin-container').html('');
     $('.menu-container').html('');
     $('.login-container').html('');
     $('.registration-container').html('');
@@ -111,14 +110,14 @@ function renderLoginForm() {
                                     <div class="login-item">
                                         <div class="input-container">
                                             <i class="fas fa-user user-icon"></i>
-                                            <input type="text" name="GET-username" id="GET-username" class="login-input" tabindex="1" value="testuser1" autocomplete="on" required>
+                                            <input type="text" name="GET-username" id="GET-username" class="login-input" tabindex="1" autocomplete="on" required>
                                         </div>
                                         <div class="error-msg" id="error-username" style="display:none;"></div>
                                     </div>
                                     <div class="login-item">
                                         <div class="input-container">
                                             <i class="fas fa-key user-icon"></i>
-                                            <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" value="testuser1" autocomplete="off" required>
+                                            <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" autocomplete="off" required>
                                         </div>
                                         <div class="error-msg" id="error-password" style="display:none;"></div>
                                     </div>

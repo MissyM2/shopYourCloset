@@ -38,7 +38,7 @@ function organizeData(data) {
                 }
                                        
                 break;
-            case 'donate':
+            case 'donation':
                 STORE.closetLength.donation = data.length;
                 for (let i = 0; i < STORE.seasonAry.length; i++) {
                     getSeasonCount(STORE.seasonAry[i], data);
