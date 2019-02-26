@@ -443,44 +443,8 @@ button:hover {
     text-align:left;
     font-size:.8rem;
     max-width:450px;
-    padding: 0 20px 5px 20px;
+    padding: 10px 20px 10px 20px;
     margin:0 auto;
-}
-/*
-.cl-items-label {
-    border-bottom: 1px solid #874C62;
-    background-color: #ECECEB;
-    font-weight: bold;
-}
-
-.cl-shortdesc {
-    padding: 3px 0 3px 0;
-}
-
-.cl-items-short {
-    text-align:center;
-}
-.cl-items-sh {
-    width:32%;
-    text-align:center;
-    border: 1px solid #874C62;
-    border-radius: 3px;
-}
-
-.cl-items {
-    display:inline-block;
-}
-
-#cl-shortdesc, #cl-longdesc{
-    display:block;
-}
-.cl-season {
-    display:none;
-}
-
-*/
-.item {
-    display:inline-block;
 }
 
 .item#closet-title {
@@ -512,13 +476,6 @@ button:hover {
     border-radius: 3px;
     padding: 3px;
     margin: 5px 0 0 0;
-}
-
-.share-person {
-    background-color:#ECECEB;
-    padding: 0 25px 0 25px;
-    margin-bottom: 8px;
-    border-radius:3px;
 }
 
 .cl-username,
@@ -695,11 +652,20 @@ button:hover {
 }
 
 .an-items-label-med {
-    width:22%
+    width:22%;
+}
+
+.an-items-label-med-plus {
+    width:30%;
 }
 
 .an-items-body-med {
     width:22%;
+    text-align:center;
+}
+
+.an-items-body-med-plus {
+    width:30%;
     text-align:center;
 }
 

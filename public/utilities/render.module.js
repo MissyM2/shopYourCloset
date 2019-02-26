@@ -107,14 +107,14 @@ function renderLoginForm() {
                                     <div class="login-item">
                                         <div class="input-container">
                                             <i class="fas fa-user user-icon"></i>
-                                            <input type="text" name="GET-username" id="GET-username" class="login-input" tabindex="1" value="testuser1" autocomplete="on" required>
+                                            <input type="text" name="GET-username" id="GET-username" class="login-input" tabindex="1" autocomplete="on" required>
                                         </div>
                                         <div class="error-msg" id="error-username" style="display:none;"></div>
                                     </div>
                                     <div class="login-item">
                                         <div class="input-container">
                                             <i class="fas fa-key user-icon"></i>
-                                            <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" value="testuser1" autocomplete="off" required>
+                                            <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" autocomplete="off" required>
                                         </div>
                                         <div class="error-msg" id="error-password" style="display:none;"></div>
                                     </div>
@@ -370,12 +370,27 @@ function renderClHeader(closetItems) {
     
     //  Create Header for one of the User Selected Options
     // header title:  For all 'closets', use the stored closet name and the appropriate icon should display in  for the header. 
-    if (STORE.selCloset === 'my' || STORE.selCloset === 'donation' || STORE.selCloset === 'share'){
-        headerHtml = `<div class="item title-container"><div class="title-icon"><i class="fas fa-tshirt"></i></div><div class="cl-title"><h2>${STORE.selCloset} Closet</h2></div>`;
-    } else if (STORE.selCloset === 'ideal'){
-        headerHtml = `<div class="item title-container"><div class="title-icon"><i class="fas fa-door-open"></i></div><div class="cl-title"><h2>${STORE.selCloset} Closet</h2></div>`;
-    }
+
+    headerHtml = `<div class="title-container"><div class="title-icon"><i class="fas fa-tshirt"></i></div><div class="cl-title"><h2>${STORE.selCloset} Closet</h2></div>`;
     
+    switch (STORE.selCloset) {
+        case 'my':
+            headerHtml += `<div class="cl-subhead2"><p>This is your personal closet.  Add, review and make decisions on items here.</p></div>`;
+            break;
+        case 'ideal':
+            headerHtml += `<div class="cl-subhead2"><p>The items included in this list are from a list published by <a href="https://www.realsimple.com/">Real Simple Magazine</a></p></div>`;
+            break;
+        case 'donation':
+            headerHtml += `<div class="cl-subhead2"><p>Take the physical item out of your wardrobe and place it in a donation bag until you are ready to make the donation.</p></div>`;
+            break;
+        case 'share':
+            headerHtml += `<div class="cl-subhead2"><p>Here is a description and contact information for items that users have shared.  You may borrow them by emailing the 'sharer'.</p></div>`;
+            break;
+        default:
+            headerHtml += ``;
+            break;
+    }
+
     //  add new button: if the user is other than the ADMIN and the selected closet is 'ideal', 'donation or 'share, then do not render the add new item button.
     //  user may only view data
     if (STORE.authUserName !== 'admin') {
@@ -444,41 +459,36 @@ function renderSeasonHeaders() {
 
 function renderClItemBody(data) {
     let item = '';
+    item =`<div class="closet-item ${data.id}-class">`;
 
     if (STORE.selCloset === 'share') {
-        item =`<div class="closet-item ${data.id}-class">
-                            <div class="item-body">
-                                <div class="share-person">
-                                    <div class="cl-items cl-username" id="cl-username"><div class="item itemlabel"><label>Who gave it away: </label></div><div class="item itembody"><p id="username">${data.user.username}</p></div></div>
-                                    <div class="cl-items cl-useremail" id="cl-useremail"><div class="item itemlabel"><label>Email: </label></div><div class="item itembody"><p id="useremail">${data.user.email}</p></div></div>
-                                </div>
-                                <div class="cl-items cl-season" id="cl-season"><div class="item itemlabel"><label>season: </label></div><div class="item itembody"><p id="season">${data.season}</p></div></div>
-                                <div class="cl-items-short">
-                                    <div class="cl-items cl-appareltype cl-items-sh" id="cl-appareltype"><p class="cl-items-label">item</p><div class="item itembody"><p id="appareltype">${data.appareltype}</p></div></div>
-                                    <div class="cl-items cl-color cl-items-sh" id="cl-color"><p class="cl-items-label">color</p><div class="item itembody"><p id="color">${data.color}</p></div></div>
-                                    <div class="cl-items cl-size cl-items-sh" id="cl-size"><p class="cl-items-label">size</p><div class="item itembody"><p id="size">${data.size}</p></div></div>
-                                    <div class="cl-items cl-shortdesc" id="cl-shortdesc"><div class="item itembody"><p id="shortdesc">${data.shortdesc}</p></div></div>
-                                    <div class="cl-items cl-longdesc" id="cl-longdesc"><div class="item itembody"><p id="longdesc">${data.longdesc}</p></div></div>
-                                </div>
-                            </div>`;
-
-    } else {
-        item =`<div class="closet-item ${data.id}-class">
-                            <div class="item-body">
-                                <div class="an-section-header">
-                                    <div class="an-items-label an-items-label-med" id="cl-appareltype"><p class="an-items-label-left">item</p></div>
-                                    <div class="an-items-label an-items-label-med" id="cl-color"><p class="an-items-label-middle">color</p></div>
-                                    <div class="an-items-label an-items-label-med" id="cl-size"><p class="an-items-label-middle">size</p></div>
-                                    <div class="an-items-label an-items-label-med" id="cl-size"><p class="an-items-label-right">click</p></div>
-                                </div>
-                                <div class="an-section-body">
-                                    <div class="cl-items itembody-left an-items-body-med"><p id="appareltype">${data.appareltype}</p></div>
-                                    <div class="cl-items itembody-middle an-items-body-med"><p id="color">${data.color}</p></div>
-                                    <div class="cl-items itembody-middle an-items-body-med"><p id="size">${data.size}</p></div>
-                                    <div class="cl-items itembody-right an-items-body-med"><button class="action-btns small-btn" id="cl-more-btn" data-id="${data.id}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">details</button></div>
-                                </div>
-                            </div>`;
+        item +=`<div class="item-body">
+                    <div class="share-person">
+                            <div class="an-section-header">
+                                <div class="an-items-label an-items-label-long" id="sharer-label"><p class="an-items-label-left">sharer</p></div>
+                                <div class="an-items-label an-items-label-long" id="sharer-email-label"><p class="an-items-label-right">email</p></div>
+                            </div>
+                            <div class="an-section-body">
+                                <div class="cl-items itembody-left an-items-body-long"><p id="sharer">${data.user.username}</p></div>
+                                <div class="cl-items itembody-middle an-items-body-long"><p id="sharer-email">${data.user.email}</p></div>
+                           </div>
+                    </div>`;
     }
+    item +=`<div class="closet-item ${data.id}-class">
+                        <div class="item-body">
+                            <div class="an-section-header">
+                                <div class="an-items-label an-items-label-med" id="cl-appareltype"><p class="an-items-label-left">item</p></div>
+                                <div class="an-items-label an-items-label-med" id="cl-color"><p class="an-items-label-middle">color</p></div>
+                                <div class="an-items-label an-items-label-med" id="cl-size"><p class="an-items-label-middle">size</p></div>
+                                <div class="an-items-label an-items-label-med-plus" id="cl-click"><p class="an-items-label-right">click</p></div>
+                            </div>
+                            <div class="an-section-body">
+                                <div class="cl-items itembody-left an-items-body-med"><p id="appareltype">${data.appareltype}</p></div>
+                                <div class="cl-items itembody-middle an-items-body-med"><p id="color">${data.color}</p></div>
+                                <div class="cl-items itembody-middle an-items-body-med"><p id="size">${data.size}</p></div>
+                                <div class="cl-items itembody-right an-items-body-med-plus"><button class="action-btns small-btn" id="cl-more-btn" data-id="${data.id}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">details</button></div>
+                            </div>
+                        </div>`;
     const body = renderClItemActionBtns(item, data);
     switch (data.season) {
         case 'Always in Season':
