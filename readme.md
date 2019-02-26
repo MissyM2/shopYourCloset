@@ -10,6 +10,7 @@
  -  [Summary](#Summary)
  -  [Screenshots](#screenshots)
  -  [Functions and Features](#functions-and-features)
+ -  [Future Functions and Features](#functions-and-features)
  -  [Technologies Used](#technologies-used)
        -  [Tech Stack Overview](#tech-stack-overview)
        -  [Tech Stack Details](#tech-stack-details)
@@ -23,7 +24,7 @@
 ## Summary
  -  [Home](#shopYourCloset)
 
-This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  All persistent data are stored in MongoDB, and users can view or edit data based upon whether they are a normal user or admin.
+This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  Most of the work is done in My Closet.  The user can add items to her closet, edit them, delete, move them to the Donation Closet or move them to her Share Closet.  She can see an analysis of her closet based on number of items in the closet, number of items by season and number of items by apparel type.  All persistent data are stored in MongoDB.
 
 
 
@@ -50,6 +51,15 @@ This app is a allows a user to log the items in their personal closet, compare i
 
 
 
+
+## Future Functions and Features
+ -  [Home](#shopYourCloset)
+
+1.  Ability to take pictures of items in their private wardrobe and update her My Closet dynamically.
+2.  Print closets and analysis.
+3.  Expand the analysis section to include more specific comparisons between My Closet and the Ideal Closet.
+4.  Make suggestions of outfits.
+5.  Offer different options of "Ideal Closets" such as a "Kardashian Ideal Kloset" or a closet suggested by a sorority, University, favorite store (Target) or clothing designer.
 
 
 
