@@ -21,7 +21,11 @@ window.RENDER_MODULE = {
     renderSeasonAnalysis,
     renderAppareltypeAnalysis,
     determineDifference,
-    renderInformationPage
+    renderInformationPage,
+    getColorRadios,
+    getSizeRadios,
+    getColorOptions,
+    getSizeOptions
 };
 
 // *****  REGISTRATION AND LOGIN RENDER FUNCTIONS
@@ -107,14 +111,14 @@ function renderLoginForm() {
                                     <div class="login-item">
                                         <div class="input-container">
                                             <i class="fas fa-user user-icon"></i>
-                                            <input type="text" name="GET-username" id="GET-username" class="login-input" tabindex="1" autocomplete="on" required>
+                                            <input type="text" name="GET-username" id="GET-username" class="login-input" tabindex="1" value="testuser1" autocomplete="on" required>
                                         </div>
                                         <div class="error-msg" id="error-username" style="display:none;"></div>
                                     </div>
                                     <div class="login-item">
                                         <div class="input-container">
                                             <i class="fas fa-key user-icon"></i>
-                                            <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" autocomplete="off" required>
+                                            <input type="password" name="GET-password" id="GET-password" class="login-input" tabindex="2" value="testuser1" autocomplete="off" required>
                                         </div>
                                         <div class="error-msg" id="error-password" style="display:none;"></div>
                                     </div>
@@ -810,7 +814,12 @@ function renderAppareltypeAnalysis() {
 function renderAddItemForm(msg) {
     $('.closet-container').hide();
     $('.addnewitem-container').html('').css('display', 'none');
-    const addItemFormBody = `
+
+    let sizeRadiosHtml = getSizeRadios();
+    let colorRadiosHtml = getColorRadios();
+
+    let addItemFormBody = '';
+    addItemFormBody += `
             <div class="cl-header">
                 <h2>Add New Item</h2>
                 <span class="error-msg" id="error-add-new-item">${msg}</span>
@@ -882,23 +891,9 @@ function renderAddItemForm(msg) {
                             <div class="itemrow cl-color">
                                 <div class="newitem itemlabel"><label>color </label></div>
                                 <div class="newitem itembody">
-                                    <div class="additems-container" id="js-additem-color">
-                                        <div class="radiogroup">
-                                            <label for="color-icon-selector">black
-                                            <input type="radio" name="color" value="black"></label>
-                                        </div>
-                                        <div class="radiogroup">
-                                            <label for="color-icon-selector">white
-                                            <input type="radio" name="color" value="white"></label>
-                                        </div> 
-                                        <div class="radiogroup">
-                                            <label for="color-icon-selector">neutral
-                                            <input type="radio" name="color" value="neutral" checked></label>
-                                        </div> 
-                                        <div class="radiogroup">
-                                            <label for="color-icon-selector">choice
-                                            <input type="radio" name="color" value="choice"></label>
-                                        </div> 
+                                    <div class="additems-container" id="js-additem-color">`;
+    addItemFormBody += colorRadiosHtml;
+    addItemFormBody +=`
                                     </div>
                                 </div>
                             </div>
@@ -906,31 +901,9 @@ function renderAddItemForm(msg) {
                             <div class="itemrow cl-size">
                                 <div class="newitem itemlabel"><label>size: </label></div> 
                                 <div class="newitem itembody">
-                                    <div class="additems-container" id="js-additem-size">
-                                            <div class="radiogroup">
-                                                <label for="size-selector">x-small
-                                                <input type="radio" name="size" value="x-small"></label>
-                                            </div>
-                                            <div class="radiogroup">
-                                                <label for="size-selector">small
-                                                <input type="radio" name="size" value="small"></label>
-                                            </div> 
-                                            <div class="radiogroup">
-                                                <label for="size-selector">medium
-                                                <input type="radio" name="size" value="medium"></label>
-                                            </div> 
-                                            <div class="radiogroup">
-                                                <label for="size-selector">large
-                                                <input type="radio" name="size" value="dress"></label>
-                                            </div> 
-                                            <div class="radiogroup">
-                                                <label for="size-selector">x-large
-                                                <input type="radio" name="size" value="x-large"></label>
-                                            </div> 
-                                            <div class="radiogroup">
-                                                <label for="size-selector">n/a
-                                                <input type="radio" name="size" value="n/a" checked></label>
-                                            </div> 
+                                    <div class="additems-container" id="js-additem-size">`;
+    addItemFormBody += sizeRadiosHtml;
+    addItemFormBody +=`
                                     </div>
                                 </div>
                             </div>
@@ -956,7 +929,11 @@ function renderAddItemForm(msg) {
 
 function renderUpdateForm() {
     // change closet cell to updateable form
-    const updateFormBody = `<div class="cl-resultbody">
+    let sizeOptionsHtml = getSizeOptions();
+    let colorOptionsHtml = getColorOptions();
+
+    let updateFormBody = '';
+    updateFormBody += `<div class="cl-resultbody">
             <form id='form-update-closet'>
                 <div class="itemrow update-season">
                     <div class="newitem itemlabel"><label>which season</label></div>
@@ -988,12 +965,9 @@ function renderUpdateForm() {
                     <div class="newitem itemlabel">color: </div>
                     <div class="newitem itembody">
                         <select class="updatefields" id="js-updatecolor" type="text" name="color" value="${STORE.currentEditItem.color}">
-                            <option value = "${STORE.currentEditItem.color}">${STORE.currentEditItem.color}</option>
-                            <option value = "black">black</option>
-                            <option value = "white">white</option>
-                            <option value = "neutral">neutral</option>
-                            <option value = "choice">choice</option>
-                            <option value = "n/a">n/a</option>
+                            <option value = "${STORE.currentEditItem.color}">${STORE.currentEditItem.color}</option>`;
+    updateFormBody += colorOptionsHtml;
+    updateFormBody +=`
                         </select>
                     </div>
                 </div>
@@ -1012,13 +986,9 @@ function renderUpdateForm() {
                 <div class="itemrow update-size">
                     <div class="newitem itemlabel">size </div>
                     <div class="newitem itembody">
-                        <select class="updatefields" id="js-updatesize" type="text" name="size">
-                            <option value = "${STORE.currentEditItem.size}">${STORE.currentEditItem.size}</option>
-                            <option value = "X-Small">X-Small</option>
-                            <option value = "Small">Small</option>
-                            <option value = "Medium">Medium</option>
-                            <option value = "Large">Large</option>
-                            <option value = "X-Large">X-Large</option>
+                        <select class="updatefields" id="js-updatesize" type="text" name="size">`;
+    updateFormBody += sizeOptionsHtml;
+    updateFormBody +=`
                         </select>
                     </div>
                 </div>
@@ -1062,6 +1032,45 @@ function renderMoreDetailsForm() {
     
         $(`.${STORE.currentEditItem.id}-class`).html(updateFormBody);
         $(`.${STORE.currentEditItem.id}-class`).css("border", "5px solid #C98573");
+}
+
+function getColorRadios () {
+    let colorRadios = '';
+    for (let i=0; i < STORE.colorAry.length; i++) {
+        colorRadios += `<div class="radiogroup">
+                            <label for="color-icon-selector">${STORE.colorAry[i]}
+                            <input type="radio" name="color" value="${STORE.colorAry[i]}"></label>
+                        </div>`;
+    }
+    return colorRadios;
+}
+
+function getSizeRadios() {
+    let sizeRadios='';
+    for (let i=0; i < STORE.colorAry.length; i++) {
+        sizeRadios +=`<div class="radiogroup">
+                        <label for="size-selector">${STORE.sizeAry[i]}
+                        <input type="radio" name="size" value="${STORE.sizeAry[i]}"></label>
+                      </div>`;
+    }
+    return sizeRadios;
+}
+
+function getColorOptions() {
+    let colorOptions = '';
+    for (let i=0; i < STORE.colorAry.length; i++) {
+        colorOptions += `<option value = "${STORE.colorAry[i]}">${STORE.colorAry[i]}</option>`;
+    }
+    return colorOptions;
+
+}
+
+function getSizeOptions() {
+    let sizeOptions = '';
+    for (let i=0; i < STORE.colorAry.length; i++) {
+        sizeOptions += `<option value = "${STORE.sizeAry[i]}">${STORE.sizeAry[i]}</option>`;
+    }
+    return sizeOptions;
 }
 
 
