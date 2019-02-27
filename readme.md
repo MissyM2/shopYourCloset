@@ -72,6 +72,10 @@ This app is a allows a user to log the items in their personal closet, compare i
      
 ![Mobile - Login/Home Page](/docimages/m1.png "Mobile-Login/Home Page")
 
+     Registration Page
+    
+![Mobile - Registration Page](/docimages/reg.png "Mobile-Registration Page")
+
     Main Options Page
     
 ![Mobile - Main Options Page](/docimages/m2.png "Mobile-Main Options Page")
@@ -91,14 +95,6 @@ This app is a allows a user to log the items in their personal closet, compare i
     My closet: Add New Item
     
 ![Mobile - My Closet:  Add Item](/docimages/m6.png "Mobile-My Closet:  Add Item")
-
-    Share Closet
-    
-![Mobile - Share Closet](/docimages/m11.png "Mobile-Share Closet")
-
-    Donation Closet
-    
-![Mobile - Donation Closet](/docimages/m6-desktop.png "Mobile-Donation Closet")
 
     Analyze It!
     
