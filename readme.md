@@ -118,11 +118,11 @@ This app is a allows a user to log the items in their personal closet, compare i
 
      Desktop-Donation Closet  
     
-![Desktop - Donation Closet](/docimages/dMy.png "Desktop-Donation Closet")
+![Desktop - Donation Closet](/docimages/dDonation.png "Desktop-Donation Closet")
 
      Desktop-Analyze It!  
     
-![Desktop - Analyze It!](/docimages/dMy.png "Desktop-Analyze It!")
+![Desktop - Analyze It!](/docimages/dAnalyze.png "Desktop-Analyze It!")
 
 
 
