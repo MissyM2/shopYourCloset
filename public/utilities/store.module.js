@@ -15,7 +15,7 @@ let STORE = {
     seasonAry:['Always in Season','Spring Basics', 'Summer Basics', 'Fall Basics', 'Winter Basics'],
     appareltypeAry: ['top', 'bottom', 'dress', 'coat', 'shoes'],
     sizeAry: ['x-small','small', 'medium', 'large', 'x-large','4','4.5','5','5.5','6','6.5','7','7.5','8','8.5','9','9.5','10','10.5','11','12','14'],
-    colorAry: ['black','white', 'neutral', 'choice', 'n/a','multi','brown', 'gray','blue', 'yellow'],
+    colorAry: ['black','white', 'neutral', 'choice', 'n/a','denim','multi','brown', 'gray','blue', 'yellow'],
 
     idealSeasonLength: {
         "Always in Season":0,

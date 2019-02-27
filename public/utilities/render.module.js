@@ -467,28 +467,28 @@ function renderClItemBody(data) {
     if (STORE.selCloset === 'share') {
         item +=`<div class="item-body">
                     <div class="share-person">
-                            <div class="an-section-header">
-                                <div class="an-items-label an-items-label-long" id="sharer-label"><p class="an-items-label-left">sharer</p></div>
-                                <div class="an-items-label an-items-label-long" id="sharer-email-label"><p class="an-items-label-right">email</p></div>
+                            <div class="cl-section-header">
+                                <div class="cl-items-label cl-items-label-long" id="sharer-label"><p class="cl-items-label-left">sharer</p></div>
+                                <div class="cl-items-label cl-items-label-long" id="sharer-email-label"><p class="don-items-label-right">email</p></div>
                             </div>
-                            <div class="an-section-body">
-                                <div class="cl-items itembody-left an-items-body-long"><p id="sharer">${data.user.username}</p></div>
-                                <div class="cl-items itembody-middle an-items-body-long"><p id="sharer-email">${data.user.email}</p></div>
+                            <div class="cl-section-body">
+                                <div class="cl-items itembody-left cl-items-body-long"><p id="sharer">${data.user.username}</p></div>
+                                <div class="cl-items itembody-middle cl-items-body-long"><p id="sharer-email">${data.user.email}</p></div>
                            </div>
                     </div>`;
     }
     item +=`       <div class="item-body">
-                            <div class="an-section-header">
-                                <div class="an-items-label an-items-label-med" id="cl-appareltype"><p class="an-items-label-left">item</p></div>
-                                <div class="an-items-label an-items-label-med" id="cl-color"><p class="an-items-label-middle">color</p></div>
-                                <div class="an-items-label an-items-label-med" id="cl-size"><p class="an-items-label-middle">size</p></div>
-                                <div class="an-items-label an-items-label-med-plus" id="cl-click"><p class="an-items-label-right">click</p></div>
+                            <div class="cl-section-header">
+                                <div class="cl-items-label cl-items-label-med"><p class="cl-items-label-left">item</p></div>
+                                <div class="cl-items-label cl-items-label-med"><p class="cl-items-label-middle">color</p></div>
+                                <div class="cl-items-label cl-items-label-med"><p class="cl-items-label-middle">size</p></div>
+                                <div class="cl-items-label cl-items-label-btn cl-click"></div>
                             </div>
-                            <div class="an-section-body">
-                                <div class="cl-items itembody-left an-items-body-med"><p id="appareltype">${data.appareltype}</p></div>
-                                <div class="cl-items itembody-middle an-items-body-med"><p id="color">${data.color}</p></div>
-                                <div class="cl-items itembody-middle an-items-body-med"><p id="size">${data.size}</p></div>
-                                <div class="cl-items itembody-right an-items-body-med-plus"><button class="action-btns small-btn" id="cl-more-btn" data-id="${data.id}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">details</button></div>
+                            <div class="cl-section-body">
+                                <div class="cl-items itembody-left cl-items-body-med"><p>${data.appareltype}</p></div>
+                                <div class="cl-items itembody-middle cl-items-body-med"><p >${data.color}</p></div>
+                                <div class="cl-items itembody-middle cl-items-body-med"><p>${data.size}</p></div>
+                                <div class="cl-items cl-items-body-btn"><button class="action-btns small-btn cl-details-btn" data-id="${data.id}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">details</button></div>
                             </div>
                         </div>`;
     let body = renderClItemActionBtns(item, data);
@@ -664,31 +664,32 @@ function determineDifference(diff) {
 
 }
 
+
 function renderWholeClosetAnalysis() {
     // append whole closet analysis
-    $('.analyze-body').append(`<div class="an-subsection-whole"></div>`);
+    $('.analyze-body').append(`<div class="cl-subsection-whole"></div>`);
 
-    $('.an-subsection-whole').append(`
+    $('.cl-subsection-whole').append(`
             <div class="cl-subhead">
                     Whole Closet
             </div>
             <div class="an-section-header">
-                    <div class="an-items-label an-items-body-med"><p class=" an-items-label-left">closet</p></div>
-                    <div class="an-items-label an-items-body-short"><p class=" an-items-label-middle">ideal</p></div>
-                    <div class="an-items-label an-items-body-short"><p class=" an-items-label-middle">my</p></div>
-                    <div class="an-items-label an-items-body-long"><p class=" an-items-label-right">comment</p></div>
+                    <div class="cl-items-label cl-items-label-med"><p class="cl-items-label-left">closet</p></div>
+                    <div class="cl-items-label cl-items-label-short"><p class="cl-items-label-middle">ideal</p></div>
+                    <div class="cl-items-label cl-items-label-short"><p class="cl-items-label-middle">my</p></div>
+                    <div class="cl-items-label cl-items-label-long"><p class="cl-items-label-right">comment</p></div>
             </div>`);
 
     // find the difference between the number of items in the IDEAL closet vs. the number of items in MY closet
-    const clDiff = STORE.closetLength.ideal - STORE.closetLength.my;
+    const clDiff = STORE.closetLength.my - STORE.closetLength.ideal;
     let analyzeNote = determineDifference(clDiff);
 
-    $('.an-subsection-whole').append(`
-            <div class="an-section-body">
-                    <div class="an-items itembody-left an-items-body-med"><p class="season">whole closet</p></div>
-                    <div class="an-items itembody-middle an-items-body-short"><p class="ideal-length">${STORE.closetLength.ideal}</p></div>
-                    <div class="an-items itembody-middle an-items-body-short"><p class="my-length">${STORE.closetLength.my}</p></div>
-                    <div class="an-items itembody-right an-items-body-long">${analyzeNote}</div>
+    $('.cl-subsection-whole').append(`
+            <div class="cl-section-body">
+                    <div class="cl-items an-height itembody-left cl-items-body-med"><p class="season">whole closet</p></div>
+                    <div class="cl-items an-height itembody-middle cl-items-body-short"><p class="ideal-length">${STORE.closetLength.ideal}</p></div>
+                    <div class="cl-items an-height itembody-middle cl-items-body-short"><p class="my-length">${STORE.closetLength.my}</p></div>
+                    <div class="cl-items an-height itembody-right cl-items-body-long">${analyzeNote}</div>
             </div>`);
     
 }
@@ -699,17 +700,17 @@ function renderWholeClosetAnalysis() {
 
 
 function renderSeasonAnalysis() {
-    $('.analyze-body').append(`<div class="an-subsection-se"></div>`);
+    $('.analyze-body').append(`<div class="cl-subsection-se"></div>`);
 
-    $('.an-subsection-se').append(`
+    $('.cl-subsection-se').append(`
      <div class="cl-subhead">
          By Season
      </div>
      <div class="an-section-header">
-                    <div class="an-items-label an-items-label-med"><p class="an-items-label-left">season</p></div>
-                    <div class="an-items-label an-items-label-short"><p class="an-items-label-middle">ideal</p></div>
-                    <div class="an-items-label an-items-label-short"><p class="an-items-label-middle">my</p></div>
-                    <div class="an-items-label an-items-label-long"><p class="an-items-label-right">comment</p></div>
+                    <div class="cl-items-label cl-items-label-med"><p class="cl-items-label-left">season</p></div>
+                    <div class="cl-items-label cl-items-label-short"><p class="cl-items-label-middle">ideal</p></div>
+                    <div class="cl-items-label cl-items-label-short"><p class="cl-items-label-middle">my</p></div>
+                    <div class="cl-items-label cl-items-label-long"><p class="cl-items-label-right">comment</p></div>
     </div>`);
 
 
@@ -742,12 +743,12 @@ function renderSeasonAnalysis() {
     let analyzeNote = determineDifference(clDiff);
     console.log('seasons ', analyzeNote);
     
-    $('.an-subsection-se').append(`
-            <div class="an-section-body">
-                    <div class="an-items itembody-left an-items-body-med"><p class="season">${STORE.seasonAry[i]}</p></div>
-                    <div class="an-items itembody-middle an-items-body-short"><p class="ideal-length">${STORE.idealSeasonLength[seasonText]}</p></div>
-                    <div class="an-items itembody-middle an-items-body-short"><p class="my-length">${STORE.mySeasonLength[seasonText]}</p></div>
-                    <div class="an-items itembody-right an-items-body-long">${analyzeNote}</div>
+    $('.cl-subsection-se').append(`
+            <div class="cl-section-body">
+                    <div class="cl-items an-height itembody-left cl-items-body-med"><p class="season">${STORE.seasonAry[i]}</p></div>
+                    <div class="cl-items an-height itembody-middle cl-items-body-short"><p class="ideal-length">${STORE.idealSeasonLength[seasonText]}</p></div>
+                    <div class="cl-items an-height itembody-middle cl-items-body-short"><p class="my-length">${STORE.mySeasonLength[seasonText]}</p></div>
+                    <div class="cl-items an-height itembody-right cl-items-body-long">${analyzeNote}</div>
             </div>
             </div>`);
 
@@ -756,16 +757,16 @@ function renderSeasonAnalysis() {
 
 function renderAppareltypeAnalysis() {
     // append header for appareltype analyze
-    $('.analyze-body').append(`<div class="an-subsection-at"></div>`);
-    $('.an-subsection-at').append(`
+    $('.analyze-body').append(`<div class="cl-subsection-at"></div>`);
+    $('.cl-subsection-at').append(`
     <div class="cl-subhead">
         By Apparel Type
     </div>
     <div class="an-section-header">
-                        <div class="an-items-label an-items-label-med"><p class="an-items-label-left">season</p></div>
-                        <div class="an-items-label an-items-label-short"><p class="an-items-label-middle">ideal</p></div>
-                        <div class="an-items-label an-items-label-short"><p class="an-items-label-middle">my</p></div>
-                        <div class="an-items-label an-items-label-long"><p class="an-items-label-right">comment</p></div>
+                        <div class="cl-items-label cl-items-label-med"><p class="cl-items-label-left">season</p></div>
+                        <div class="cl-items-label cl-items-label-short"><p class="cl-items-label-middle">ideal</p></div>
+                        <div class="cl-items-label cl-items-label-short"><p class="cl-items-label-middle">my</p></div>
+                        <div class="cl-items-label cl-items-label-long"><p class="cl-items-label-right">comment</p></div>
     </div>`);
 
     //  find text equivalent of document number
@@ -797,12 +798,12 @@ function renderAppareltypeAnalysis() {
    console.log('from appareltype', analyzeNote);
 
    // append season analyze to analyze-body
-   $('.an-subsection-at').append(`
-            <div class="an-section-body">
-                        <div class="an-items itembody-left an-items-body-med"><p class="season">${STORE.appareltypeAry[i]}</p></div>
-                        <div class="an-items itembody-middle an-items-body-short"><p class="ideal-length">${STORE.idealAppareltypeLength[appareltypeText]}</p></div>
-                        <div class="an-items itembody-middle an-items-body-short"><p class="my-length">${STORE.myAppareltypeLength[appareltypeText]}</p></div>
-                        <div class="an-items itembody-right an-items-body-long">${analyzeNote}</div>
+   $('.cl-subsection-at').append(`
+            <div class="cl-section-body">
+                        <div class="cl-items an-height itembody-left cl-items-body-med"><p class="season">${STORE.appareltypeAry[i]}</p></div>
+                        <div class="cl-items an-height itembody-middle cl-items-body-short"><p class="ideal-length">${STORE.idealAppareltypeLength[appareltypeText]}</p></div>
+                        <div class="cl-items an-height itembody-middle cl-items-body-short"><p class="my-length">${STORE.myAppareltypeLength[appareltypeText]}</p></div>
+                        <div class="cl-items an-height itembody-right cl-items-body-long">${analyzeNote}</div>
             </div>
             </div>`);
    }
@@ -1046,7 +1047,7 @@ function getColorRadios () {
 
 function getSizeRadios() {
     let sizeRadios='';
-    for (let i=0; i < STORE.colorAry.length; i++) {
+    for (let i=0; i < STORE.sizeAry.length; i++) {
         sizeRadios +=`<div class="radiogroup">
                         <label for="size-selector">${STORE.sizeAry[i]}
                         <input type="radio" name="size" value="${STORE.sizeAry[i]}"></label>
@@ -1066,7 +1067,7 @@ function getColorOptions() {
 
 function getSizeOptions() {
     let sizeOptions = '';
-    for (let i=0; i < STORE.colorAry.length; i++) {
+    for (let i=0; i < STORE.sizeAry.length; i++) {
         sizeOptions += `<option value = "${STORE.sizeAry[i]}">${STORE.sizeAry[i]}</option>`;
     }
     return sizeOptions;

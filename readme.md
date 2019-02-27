@@ -74,23 +74,23 @@ This app is a allows a user to log the items in their personal closet, compare i
 
     Registration Page
     
-![Mobile - registration page](/docimages/m2.png "Mobile-Registration Page")
+![Mobile - registration page](/docimages/reg.png "Mobile-Registration Page")
 
     Options Page
     
-![Mobile - options page](/docimages/m3.png "Mobile-Options Page")
+![Mobile - options page](/docimages/m2.png "Mobile-Options Page")
 
     Ideal Closet
     
-![Mobile - ideal closet](/docimages/m4.png "Mobile-Ideal Closet")
+![Mobile - ideal closet](/docimages/m3.png "Mobile-Ideal Closet")
 
     My Closet:   add new item screen
     
-![Mobile - my closet (add new item)](/docimages/m5.png "Mobile-My Closet: add an item")
+![Mobile - my closet (add new item)](/docimages/m4.png "Mobile-My Closet: add an item")
 
     My closet: viewing items (by season)
     
-![Mobile - my closet (viewing items)](/docimages/m6.png "Mobile-My Closet")
+![Mobile - my closet (viewing items)](/docimages/m4.png "Mobile-My Closet")
 
     My closet: editing an existing item
     
