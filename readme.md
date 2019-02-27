@@ -168,8 +168,8 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
       *  passport: 0.4.0:  an authentication middleware
       
           +  passport-http: 0.3.0:  allows the authentication of HTTP requests
-          +  passport-jwt: 4.0.0
-   > passport-local: 1.0.0
+          +  passport-jwt: 4.0.0:  allows authentication of endpoints using a JSON web token.  Intended to be used to secure RESTful endpoints without sessions.
+          +  passport-local: 1.0.0:  allows authentication using a username and password
    2.  Express:  the webserver - a framework that allows development of node-based web apps
    3.  MongoDB:  the database
    
@@ -184,10 +184,11 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
 -  [Home](#shopYourCloset)
 
 
-   > chai: 4.2.0
-   > chai-http: 4.2.1
-   > faker: 4.1.0
-   > mocha: 5.2.0
+   > mocha: 5.2.0:  javascript testing framework that runs on Node.js and in the browser.
+   > chai: 4.2.0:  an assertion library for node.js and can be used with a variety of javascript testing frameworks
+   > chai-http: 4.2.1: provides an interface for live integration testing.
+   > faker: 4.1.0: generates fake data in a variety of formats for use with testing
+  
    
    
    
