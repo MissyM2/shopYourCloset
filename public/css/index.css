@@ -89,7 +89,7 @@ ol, ul {
 input, textarea {
     display:block;
     border: none;
-    padding:5px;
+    padding:3px;
     margin:0 auto;
     border-radius:3px;
 }
@@ -281,7 +281,6 @@ button:hover {
     border-top: 1px solid #E0D5C9;
     border-left: 1px solid #E0D5C9;
     border-bottom: 1px solid #E0D5C9;
-    width:10%;
     border-radius: 3px 0 0 3px;
 }
 
@@ -294,14 +293,13 @@ button:hover {
 #GET-username,
 #GET-password {
     border:none;
-    width:88%;
+    width:92%;
     display:inline-block;
 }
 
 .input-container {
     border: 1px solid #E0D5C9;
     border-radius:3px;
-    background:#E0D5C9;
 }
 
 .form-reg-login {
