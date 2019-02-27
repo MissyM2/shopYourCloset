@@ -70,51 +70,43 @@ This app is a allows a user to log the items in their personal closet, compare i
 
      Home page
      
-![Mobile - login/home page](/docimages/m1.png "Mobile-Login/Home Page")
+![Mobile - Login/Home Page](/docimages/m1.png "Mobile-Login/Home Page")
 
-    Registration Page
+    Main Options Page
     
-![Mobile - registration page](/docimages/m2.png "Mobile-Registration Page")
-
-    Options Page
-    
-![Mobile - options page](/docimages/m3.png "Mobile-Options Page")
+![Mobile - Main Options Page](/docimages/m2.png "Mobile-Main Options Page")
 
     Ideal Closet
     
-![Mobile - ideal closet](/docimages/m4.png "Mobile-Ideal Closet")
+![Mobile - Ideal Closet](/docimages/m3.png "Mobile-Ideal Closet")
 
-    My Closet:   add new item screen
+    Ideal Closet - look at details
     
-![Mobile - my closet (add new item)](/docimages/m5.png "Mobile-My Closet: add an item")
+![Mobile - Ideal Closet: look at details](/docimages/m4.png "Mobile-Ideal Closet: look at details")
 
-    My closet: viewing items (by season)
+    My Closet
     
-![Mobile - my closet (viewing items)](/docimages/m6.png "Mobile-My Closet")
+![Mobile - My Closet](/docimages/m5.png "Mobile-My Closet")
 
-    My closet: editing an existing item
+    My closet: Add New Item
     
-![Mobile - my closet](/docimages/m11.png "Mobile-My Closet: edit an item")
+![Mobile - My Closet:  Add Item](/docimages/m6.png "Mobile-My Closet:  Add Item")
 
-    My closet: viewing My Closetitems on the desktop
+    Share Closet
     
-![Desktop - my closet](/docimages/m6-desktop.png "Desktop-My Closet")
+![Mobile - Share Closet](/docimages/m11.png "Mobile-Share Closet")
 
-    Donation closet
+    Donation Closet
     
-![Mobile - donation closet](/docimages/m7.png "Mobile-Donation Closet")
+![Mobile - Donation Closet](/docimages/m6-desktop.png "Mobile-Donation Closet")
 
-    Giveaway closet
+    Analyze It!
     
-![Mobile Version Pic 8](/docimages/m8.png "Mobile-Giveaway Closet")
+![Mobile - Analyze It](/docimages/m7.png "Mobile-Analyze It")
 
-    Analyze It
+ Desktop version of closet!
     
-![Mobile - analysis of my closet](/docimages/m9.png "Mobile-Analyze It")
-
-    Analyze It: desktop version
-    
-![Desktop - analysis of my closet](/docimages/m9-desktop.png "Desktop-Analyze It")
+![Desktop - closet](/docimages/d1.png "Desktop Version of Closet")
 
     Logout
     
