@@ -101,7 +101,11 @@ function renderLoginForm() {
                     <div id="title-verbage">
                         <h2>love clothes and love to be organized?</h2>
                         <h4>keep track of your wardrobe</h4>
-                        <div id="msgs-reg"></div>
+                        <p id="homepage-subhead">In shopYourCloset, you can see an <em>Ideal Closet</em> as suggested by <a href="https://www.realsimple.com/"><em>Real Simple Magazine</em></a>.  You can enter your items from 
+                        your own closet in the <em>My Closet</em> section and see a comparison between the <em>Ideal Closet</em> and <em>My Closet</em> with some suggestions.  If you find that you 
+                        need to discard an item, you may move it to either your private <em>Donation Closet</em> or to the public <em>Share Closet</em>, where users may
+                        contact you to borrow your item.</h4>
+                        <div id="msgs-reg"></p>
                     </div>
                     <div class="reg-login">
                         <form id="form-login" class="form-reg-login">
