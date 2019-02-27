@@ -96,6 +96,18 @@ This app is a allows a user to log the items in their personal closet, compare i
     
 ![Mobile - My Closet:  Add Item](/docimages/m6.png "Mobile-My Closet:  Add Item")
 
+    Mobile-My closet: Edit/Update Item
+     
+![Mobile - Edit/Update Item](/docimages/mEdit.png "Mobile-Edit/Update Item")
+
+    Mobile-Donation Closet
+    
+![Mobile - Donation Closet](/docimages/m8.png "Mobile-Donation Closet")
+
+     Mobile-Share Closet
+    
+![Mobile - Share Closet](/docimages/mShare.png "Mobile-Share Closet")
+
     Mobile-Analyze It!
     
 ![Mobile - Analyze It](/docimages/m7.png "Mobile-Analyze It")
