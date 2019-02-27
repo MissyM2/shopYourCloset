@@ -68,45 +68,62 @@ This app is a allows a user to log the items in their personal closet, compare i
  -  [Home](#shopYourCloset)
 
 
-     Home page
+     Mobile-Home page
      
 ![Mobile - Login/Home Page](/docimages/m1.png "Mobile-Login/Home Page")
 
-     Registration Page
+     Mobile-Registration Page
     
 ![Mobile - Registration Page](/docimages/reg.png "Mobile-Registration Page")
 
-    Main Options Page
+    Mobile-Main Options Page
     
 ![Mobile - Main Options Page](/docimages/m2.png "Mobile-Main Options Page")
 
-    Ideal Closet
+    Mobile-Ideal Closet
     
 ![Mobile - Ideal Closet](/docimages/m3.png "Mobile-Ideal Closet")
 
-    Ideal Closet - look at details
+    Mobile-Ideal Closet - look at details
     
 ![Mobile - Ideal Closet: look at details](/docimages/m4.png "Mobile-Ideal Closet: look at details")
 
-    My Closet
+    Mobile-My Closet
     
 ![Mobile - My Closet](/docimages/m5.png "Mobile-My Closet")
 
-    My closet: Add New Item
+    Mobile-My closet: Add New Item
     
 ![Mobile - My Closet:  Add Item](/docimages/m6.png "Mobile-My Closet:  Add Item")
 
-    Analyze It!
+    Mobile-Analyze It!
     
 ![Mobile - Analyze It](/docimages/m7.png "Mobile-Analyze It")
 
- Desktop version of closet!
-    
-![Desktop - closet](/docimages/d1.png "Desktop Version of Closet")
-
     Logout
     
-![Mobile - logout](/docimages/m10.png "Mobile-Logout")
+![Mobile - Logout](/docimages/m10.png "Mobile-Logout")
+
+     Desktop-My Closet  
+    
+![Desktop - My Closet](/docimages/dMy.png "Desktop-My Closet")
+
+     Desktop-Ideal Closet  
+    
+![Desktop - Ideal Closet](/docimages/dIdeal.png "Desktop-Ideal Closet")
+
+     Desktop-Share Closet  
+    
+![Desktop - Share Closet](/docimages/dShare.png "Desktop-Share Closet")
+
+     Desktop-Donation Closet  
+    
+![Desktop - Donation Closet](/docimages/dMy.png "Desktop-Donation Closet")
+
+     Desktop-Analyze It!  
+    
+![Desktop - Analyze It!](/docimages/dMy.png "Desktop-Analyze It!")
+
 
 
 
