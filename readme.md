@@ -24,7 +24,7 @@
 ## Summary
  -  [Home](#shopYourCloset)
 
-This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  Most of the work is done in My Closet.  The user can add items to her closet, edit them, delete, move them to the Donation Closet or move them to her Share Closet.  She can see an analysis of her closet based on number of items in the closet, number of items by season and number of items by apparel type.  All persistent data are stored in MongoDB.
+This app is a allows a user to log the items in their personal closet, compare it to an ideal closet as specified by Real Simple and make changes based on the analysis.  Most of the work is done in My Closet.  The user can add items to her MyCloset, edit or delete and item or move an item.  The user may move an item to her personal Donation Closet in preparation for donating items to charity.  Alternately, she may move an item to her Share Closet, where other users have access and may contact her by email to borrow an item.  Finally, she can see an analysis of her closet based on number of items in the closet, number of items by season and number of items by apparel type.  All persistent data are stored in MongoDB.
 
 
 
@@ -60,6 +60,7 @@ This app is a allows a user to log the items in their personal closet, compare i
 3.  Expand the analysis section to include more specific comparisons between My Closet and the Ideal Closet.
 4.  Make suggestions of outfits.
 5.  Offer different options of "Ideal Closets" such as a "Kardashian Ideal Kloset" or a closet suggested by a sorority, University, favorite store (Target) or clothing designer.
+
 
 
 
@@ -145,6 +146,8 @@ This app is a allows a user to log the items in their personal closet, compare i
 
 
 
+
+
 ## Technologies Used
  -  [Home](#shopYourCloset)
  
@@ -173,7 +176,7 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
    2.  CSS: used to describe the presentation of HTML pages
    3.  JavaScript: an interpreted language that can create and dynamically change web pages
    
-       *  jQuery: a JS library developed simplify HTML DOM tree traversal and manipulation, event handling, CSS animation, and Ajax
+       +  jQuery: a JS library developed simplify HTML DOM tree traversal and manipulation, event handling, CSS animation, and Ajax
   
   
   
@@ -203,7 +206,7 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
    3.  MongoDB:  the database
    
    
-       *  mongoose: 5.4.1:  manages the relationships between data, provides schema validation and translation between objects in code and representation of those objects in MongoDB.
+       +  mongoose: 5.4.1:  manages the relationships between data, provides schema validation and translation between objects in code and representation of those objects in MongoDB.
        
    
    
@@ -213,10 +216,10 @@ The backend for this app uses NodeJS with express. Authentication is handled usi
 -  [Home](#shopYourCloset)
 
 
-   > mocha: 5.2.0:  javascript testing framework that runs on Node.js and in the browser.
-   > chai: 4.2.0:  an assertion library for node.js and can be used with a variety of javascript testing frameworks
-   > chai-http: 4.2.1: provides an interface for live integration testing.
-   > faker: 4.1.0: generates fake data in a variety of formats for use with testing
+   1. mocha: 5.2.0:  javascript testing framework that runs on Node.js and in the browser.
+   2. chai: 4.2.0:  an assertion library for node.js and can be used with a variety of javascript testing frameworks
+   3. chai-http: 4.2.1: provides an interface for live integration testing.
+   4. faker: 4.1.0: generates fake data in a variety of formats for use with testing
   
    
    
