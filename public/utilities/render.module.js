@@ -492,7 +492,7 @@ function renderClItemBody(data) {
                                 <div class="cl-items itembody-left cl-items-body-med"><p>${data.appareltype}</p></div>
                                 <div class="cl-items itembody-middle cl-items-body-med"><p >${data.color}</p></div>
                                 <div class="cl-items itembody-middle cl-items-body-med"><p>${data.size}</p></div>
-                                <div class="cl-items cl-items-body-btn"><button class="action-btns small-btn cl-details-btn" data-id="${data.id}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">details</button></div>
+                                <div class="cl-items cl-items-body-btn"><button class="action-btns small-btn cl-details-btn" id="cl-details-btn" data-id="${data.id}" data-shortdesc="${data.shortdesc}" data-longdesc="${data.longdesc}" data-size="${data.size}">details</button></div>
                             </div>
                         </div>`;
     let body = renderClItemActionBtns(item, data);

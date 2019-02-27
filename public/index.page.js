@@ -366,7 +366,7 @@ function watchUpdateItem() {
 
 // requests to update an existing item
 function watchMoreDetails() {
-    $('.section-closet').on('click', '#cl-more-btn', (function(event) {
+    $('.section-closet').on('click', '#cl-details-btn', (function(event) {
         event.preventDefault();
         updateStoreItem(this);
         renderMoreDetailsForm();
